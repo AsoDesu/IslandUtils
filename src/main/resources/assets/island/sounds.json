@@ -1,0 +1,22 @@
+{
+  "island.music.hitw": {
+    "sounds": [
+      "island:hitw"
+    ]
+  },
+  "island.music.tgttos": {
+    "sounds": [
+      "island:tgttos"
+    ]
+  },
+  "island.music.battle_box": {
+    "sounds": [
+      "island:battle_box"
+    ]
+  },
+  "island.music.sky_battle": {
+    "sounds": [
+      "island:sky_battle"
+    ]
+  }
+}
