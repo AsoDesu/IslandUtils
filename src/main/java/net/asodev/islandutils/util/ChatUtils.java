@@ -12,7 +12,11 @@ public class ChatUtils {
     }
 
     public static void dev(String s) {
-        Minecraft.getInstance().getChatListener().handleSystemMessage(Component.literal(translate(prefix + " " + s)), false);
+        send(Component.literal(translate(prefix + " " + s)));
+    }
+
+    public static void send(Component component) {
+        Minecraft.getInstance().getChatListener().handleSystemMessage(component, false);
     }
 
 }

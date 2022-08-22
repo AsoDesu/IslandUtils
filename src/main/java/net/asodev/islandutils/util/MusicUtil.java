@@ -5,6 +5,7 @@ import net.asodev.islandutils.state.STATE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
+import net.minecraft.client.sounds.WeighedSoundEvents;
 import net.minecraft.network.protocol.game.ClientboundCustomSoundPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
@@ -16,7 +17,7 @@ public class MusicUtil {
         ResourceLocation location = MccIslandState.getGame().getLocation();
         if (location == null) return;
 
-        Minecraft.getInstance().getSoundManager().play(new SimpleSoundInstance(
+        SoundInstance instance = new SimpleSoundInstance(
                 location,
                 SoundSource.RECORDS,
                 clientboundCustomSoundPacket.getVolume(),
@@ -28,8 +29,9 @@ public class MusicUtil {
                 clientboundCustomSoundPacket.getX(),
                 clientboundCustomSoundPacket.getY(),
                 clientboundCustomSoundPacket.getZ(),
-                false)
-        );
+                false);
+
+        Minecraft.getInstance().getSoundManager().play(instance);
     }
 
     public static void stopMusic() {

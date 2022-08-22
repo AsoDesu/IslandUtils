@@ -14,7 +14,7 @@
       "net.asodev.islandutils.client.IslandutilsClient"
     ],
     "main": [
-      "net.asodev.islandutils.Islandutils"
+      "net.asodev.islandutils.IslandUtils"
     ]
   },
   "mixins": [
