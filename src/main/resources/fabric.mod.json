@@ -23,6 +23,11 @@
   "depends": {
     "fabricloader": ">=0.14.8",
     "fabric": "*",
-    "minecraft": "1.19.x"
-  }
+    "minecraft": ">=1.19.1"
+  },
+  "jars": [
+    {
+      "file": "cloth-config-8.0.75-fabric.jar"
+    }
+  ]
 }

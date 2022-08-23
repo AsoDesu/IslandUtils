@@ -7,7 +7,9 @@
   "client": [
     "JoinMCCIMixin",
     "MainScreenMixin",
-    "MusicGameMixin"
+    "MusicGameMixin",
+    "OptionsMixin",
+    "SoundOptionsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

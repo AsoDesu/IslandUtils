@@ -1,20 +1,29 @@
 package net.asodev.islandutils.util;
 
+import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.MccIslandState;
-import net.asodev.islandutils.state.STATE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
-import net.minecraft.client.sounds.WeighedSoundEvents;
 import net.minecraft.network.protocol.game.ClientboundCustomSoundPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 
+import static net.asodev.islandutils.options.IslandOptions.getOptions;
+
 public class MusicUtil {
 
     public static void startMusic(ClientboundCustomSoundPacket clientboundCustomSoundPacket) {
-        ResourceLocation location = MccIslandState.getGame().getLocation();
+        IslandOptions options = getOptions();
+        switch (MccIslandState.getGame()) {
+            case HITW -> { if (!options.isHitwMusic()) return; }
+            case TGTTOS -> { if (!options.isTgttosMusic()) return; }
+            case BATTLE_BOX -> { if (!options.isBbMusic()) return; }
+            case SKY_BATTLE -> { if (!options.isSbMusic()) return; }
+        }
+
+        ResourceLocation location = MccIslandState.getGame().getMusicLocation();
         if (location == null) return;
 
         SoundInstance instance = new SimpleSoundInstance(
@@ -35,7 +44,7 @@ public class MusicUtil {
     }
 
     public static void stopMusic() {
-        ResourceLocation location = MccIslandState.getGame().getLocation();
+        ResourceLocation location = MccIslandState.getGame().getMusicLocation();
         if (location == null) return;
 
         Minecraft.getInstance().getSoundManager().stop(location, SoundSource.RECORDS);

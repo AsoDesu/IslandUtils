@@ -1,5 +1,8 @@
 package net.asodev.islandutils;
 
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
+import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.updator.Updater;
 import net.asodev.islandutils.updator.schema.AvailableUpdate;
 import net.asodev.islandutils.updator.schema.GithubRelease;
@@ -19,6 +22,8 @@ public class IslandUtils implements ModInitializer {
     public static AvailableUpdate availableUpdate;
     @Override
     public void onInitialize() {
+        AutoConfig.register(IslandOptions.class, GsonConfigSerializer::new);
+
         updater = new Updater();
 
         Optional<ModContainer> container = FabricLoader.getInstance().getModContainer("islandutils");

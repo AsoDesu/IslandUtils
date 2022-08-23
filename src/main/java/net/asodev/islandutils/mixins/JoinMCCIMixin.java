@@ -3,7 +3,7 @@ package net.asodev.islandutils.mixins;
 import net.asodev.islandutils.IslandUtils;
 import net.asodev.islandutils.util.ChatUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.gui.screens.SoundOptionsScreen;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;

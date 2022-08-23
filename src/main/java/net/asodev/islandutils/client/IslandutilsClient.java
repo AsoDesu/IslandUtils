@@ -8,6 +8,5 @@ import net.fabricmc.api.Environment;
 public class IslandutilsClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-
     }
 }
