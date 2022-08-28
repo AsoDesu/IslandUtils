@@ -1,37 +1,42 @@
 package net.asodev.islandutils.mixins;
 
-import com.google.common.util.concurrent.Runnables;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.realmsclient.gui.screens.RealmsCreateRealmScreen;
-import com.mojang.realmsclient.gui.screens.RealmsSubscriptionInfoScreen;
 import net.asodev.islandutils.IslandUtils;
+import net.asodev.islandutils.util.ChatUtils;
+import net.asodev.islandutils.util.Maths;
 import net.minecraft.Util;
-import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
-import net.minecraft.client.gui.screens.WinScreen;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
-import net.minecraft.realms.RealmsScreen;
-import org.spongepowered.asm.mixin.Final;
+import net.minecraft.sounds.SoundEvents;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.function.Consumer;
-
 @Mixin(TitleScreen.class)
 public class MainScreenMixin extends Screen {
+
+    @Shadow @Nullable private String splash;
 
     protected MainScreenMixin(Component component) { super(component); }
 
     @Inject(method = "init", at = @At("TAIL"))
     public void init(CallbackInfo ci) {
         if (IslandUtils.availableUpdate == null) return;
-        Component text = Component.literal("Island Utils Update Available!");
+
+        int chance = Maths.getRandomInteger(1, 1000);
+        this.splash = "Update Island Utils NOW!!!";
+        if (chance == 1) {
+            this.splash = ChatUtils.translate("Update Island Utils or I eat you &e&o*nom*");
+        }
+        Component text = Component.literal(ChatUtils.translate("&6⚠ &eIsland Utils Update Available! &n&lClick to Update!&e &6⚠"));
+
+        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.NOTE_BLOCK_PLING, 1f, 1f));
 
         this.addRenderableWidget(new PlainTextButton(
                 (this.width / 2 - 100) + ((200 - this.font.width(text)) / 2),
@@ -42,5 +47,4 @@ public class MainScreenMixin extends Screen {
                 (button) -> Util.getPlatform().openUri(IslandUtils.availableUpdate.releaseUrl()),
                 this.font));
     }
-
 }
