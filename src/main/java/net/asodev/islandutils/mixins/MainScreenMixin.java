@@ -2,7 +2,6 @@ package net.asodev.islandutils.mixins;
 
 import net.asodev.islandutils.IslandUtils;
 import net.asodev.islandutils.util.ChatUtils;
-import net.asodev.islandutils.util.Maths;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.PlainTextButton;
@@ -28,7 +27,7 @@ public class MainScreenMixin extends Screen {
     @Inject(method = "init", at = @At("TAIL"))
     public void init(CallbackInfo ci) {
         if (IslandUtils.availableUpdate == null) return;
-        
+
         Component text = Component.literal(ChatUtils.translate("&6⚠ &eIsland Utils Update Available! &n&lClick to Update!&e &6⚠"));
 
         Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.NOTE_BLOCK_PLING, 1f, 1f));
