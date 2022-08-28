@@ -28,12 +28,7 @@ public class MainScreenMixin extends Screen {
     @Inject(method = "init", at = @At("TAIL"))
     public void init(CallbackInfo ci) {
         if (IslandUtils.availableUpdate == null) return;
-
-        int chance = Maths.getRandomInteger(1, 1000);
-        this.splash = "Update Island Utils NOW!!!";
-        if (chance == 1) {
-            this.splash = ChatUtils.translate("Update Island Utils or I eat you &e&o*nom*");
-        }
+        
         Component text = Component.literal(ChatUtils.translate("&6⚠ &eIsland Utils Update Available! &n&lClick to Update!&e &6⚠"));
 
         Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.NOTE_BLOCK_PLING, 1f, 1f));
