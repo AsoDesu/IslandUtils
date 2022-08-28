@@ -1,8 +1,8 @@
-package net.asodev.islandutils.updator;
+package net.asodev.islandutils.updater;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import net.asodev.islandutils.updator.schema.GithubRelease;
+import net.asodev.islandutils.updater.schema.GithubRelease;
 
 import java.lang.reflect.Type;
 import java.net.URI;
@@ -13,13 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class Updater {
+public class UpdateManager {
 
     HttpClient client;
     Gson gson;
 
     boolean updateAvalible = false;
-    public Updater() {
+    public UpdateManager() {
         client = HttpClient.newBuilder().build();
         gson = new Gson();
     }
