@@ -1,5 +1,5 @@
 
-package net.asodev.islandutils.updator.schema;
+package net.asodev.islandutils.updater.schema;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
