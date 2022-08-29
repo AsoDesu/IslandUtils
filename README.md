@@ -26,5 +26,4 @@ A Utility mod for MCC Island.
 - Hub Music
 - Custom Volume slider for music
 - Command Aliases for `/chat local` and `/chat party`
-- Remove the "Chat messages can't be verified" toast whenever changing servers
 - Looping Music
