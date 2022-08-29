@@ -22,7 +22,6 @@ A Utility mod for MCC Island.
 - Add confirmation screen when clicking "Disconnect" during games
 - Add a preivew of your character when in the wardrobe or shops
 - Change Battle Box music to start during Pre-Game instead of round start
-- Auto GG and Auto GL
 - Hub Music
 - Custom Volume slider for music
 - Command Aliases for `/chat local` and `/chat party`
