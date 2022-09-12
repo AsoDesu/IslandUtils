@@ -3,13 +3,17 @@
   "minVersion": "0.8",
   "package": "net.asodev.islandutils.mixins",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [],
+  "mixins": [
+    "ChestScreenMixin"
+  ],
   "client": [
+    "ComponentTranslateMixin",
     "JoinMCCIMixin",
     "MainScreenMixin",
-    "MusicGameMixin",
     "OptionsMixin",
-    "SoundOptionsMixin"
+    "PacketListenerMixin",
+    "PauseScreenMixin",
+    "UIMixin"
   ],
   "injectors": {
     "defaultRequire": 1

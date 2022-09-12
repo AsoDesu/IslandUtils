@@ -1,10 +1,22 @@
 {
-  "key.cache.tokens": "Get Game Tokens",
+  "key.islandutils.preview": "Preview Cosmetic",
+  "category.islandutils.keys": "IslandUtils",
   "category.islandutils": "Island Utils",
 
+  "text.autoconfig.islandutils.title": "Island Utils Options",
+  "text.autoconfig.islandutils.category.music": "Music",
   "text.autoconfig.islandutils.option.tgttosMusic": "TGTTOS Music",
   "text.autoconfig.islandutils.option.hitwMusic": "HITW Music",
   "text.autoconfig.islandutils.option.bbMusic": "Battle Box Music",
   "text.autoconfig.islandutils.option.sbMusic": "Sky Battle Music",
-  "text.autoconfig.islandutils.title": "Island Utils Options"
+
+  "text.autoconfig.islandutils.category.cosmetics": "Cosmetic Previews",
+  "text.autoconfig.islandutils.option.showPlayerPreview": "Show Cosmetic Previews",
+  "text.autoconfig.islandutils.option.showOnHover": "Show Preview On Hover",
+
+  "text.autoconfig.islandutils.category.misc": "Miscellaneous",
+  "text.autoconfig.islandutils.option.pauseConfirm": "Confirm Before Disconnect",
+
+  "modmenu.descriptionTranslation.islandutils": "A Utility Mod for MCC Island!",
+  "modmenu.summaryTranslation.islandutils": "A Utility Mod for MCC Island!"
 }

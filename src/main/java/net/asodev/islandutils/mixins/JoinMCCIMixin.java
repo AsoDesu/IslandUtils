@@ -19,6 +19,9 @@ public class JoinMCCIMixin {
 
     @Inject(method = "setCurrentServer(Lnet/minecraft/client/multiplayer/ServerData;)V", at = @At("TAIL"))
     public void handleServerData(ServerData serverData, CallbackInfo ci) {
+        if (serverData == null) return;
+        if (serverData.ip == null) return;
+
         if (serverData.ip.contains("mccisland")) {
             if (IslandUtils.availableUpdate != null) {
                 ChatUtils.dev("Hey! Update " + IslandUtils.availableUpdate.title() + " is available for Island Utils!");

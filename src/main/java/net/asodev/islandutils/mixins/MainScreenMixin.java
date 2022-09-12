@@ -30,8 +30,6 @@ public class MainScreenMixin extends Screen {
 
         Component text = Component.literal(ChatUtils.translate("&6⚠ &eIsland Utils Update Available! &n&lClick to Update!&e &6⚠"));
 
-        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.NOTE_BLOCK_PLING, 1f, 1f));
-
         this.addRenderableWidget(new PlainTextButton(
                 (this.width / 2 - 100) + ((200 - this.font.width(text)) / 2),
                 (this.height / 4 + 48 + 24 * 2) + 24,

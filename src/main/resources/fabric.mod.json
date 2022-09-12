@@ -10,16 +10,20 @@
   "icon": "assets/island/icon.png",
   "environment": "client",
   "entrypoints": {
-    "client": [
-      "net.asodev.islandutils.client.IslandutilsClient"
-    ],
-    "main": [
-      "net.asodev.islandutils.IslandUtils"
-    ]
+    "client": [ "net.asodev.islandutils.client.IslandutilsClient" ],
+    "main": [ "net.asodev.islandutils.IslandUtils" ],
+    "modmenu": [ "net.asodev.islandutils.options.ModMenuIntegration" ]
   },
   "mixins": [
     "islandutils.mixins.json"
   ],
+  "custom": {
+    "modmenu": {
+      "links": {
+        "islandutils.website": "https://modrinth.com/mod/island-utils"
+      }
+    }
+  },
   "depends": {
     "fabricloader": ">=0.14.8",
     "fabric": "*",

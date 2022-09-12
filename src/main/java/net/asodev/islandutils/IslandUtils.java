@@ -32,7 +32,8 @@ public class IslandUtils implements ModInitializer {
                 GithubRelease release = res.get(0);
                 if (release == null) return;
                 if (!version.equals(release.getTagName())) {
-                    availableUpdate = new AvailableUpdate(release.getName(), release.getTagName(), release.getHtmlUrl());
+                    availableUpdate = new AvailableUpdate(release.getName(), release.getTagName(),
+                            "https://modrinth.com/mod/island-utils/version/" + release.getTagName());
                 }
             });
         } catch (Exception e) {}

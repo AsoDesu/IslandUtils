@@ -14,14 +14,12 @@ A Utility mod for MCC Island.
 ---
 
 ### Utilities
-- Add event music to the games on Island
-
+- Event music to the games on Island
+- A confirmation screen when clicking "Disconnect" during games
+- A preivew of your character when in the wardrobe or shops
 ---
 
 ### Planned
-- Add confirmation screen when clicking "Disconnect" during games
-- Add a preivew of your character when in the wardrobe or shops
-- Change Battle Box music to start during Pre-Game instead of round start
 - Hub Music
 - Custom Volume slider for music
 - Command Aliases for `/chat local` and `/chat party`

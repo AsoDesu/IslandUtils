@@ -40,6 +40,7 @@ public class MusicUtil {
                 clientboundCustomSoundPacket.getZ(),
                 false);
 
+        Minecraft.getInstance().getSoundManager();
         Minecraft.getInstance().getSoundManager().play(instance);
     }
 
