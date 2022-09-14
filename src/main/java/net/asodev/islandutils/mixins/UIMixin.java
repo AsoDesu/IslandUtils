@@ -10,6 +10,7 @@ import net.asodev.islandutils.state.COSMETIC_TYPE;
 import net.asodev.islandutils.state.CosmeticState;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
+import net.fabricmc.fabric.mixin.client.rendering.InGameHudMixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.ChatScreen;
@@ -26,12 +27,16 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Mixin(ContainerScreen.class)
 public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
@@ -45,6 +50,7 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
 
         IslandOptions options = IslandOptions.getOptions();
         if (!options.isShowPlayerPreview()) return;
+        if (IslandOptions.getOptions().isShowOnOnlyCosmeticMenus() && !CosmeticState.isCosmeticMenu(this.menu)) return;
 
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return;
@@ -69,9 +75,9 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         player.getInventory().armor.set(3, hatSlot);
         player.getInventory().offhand.set(0, accSlot);
 
-        int size = this.imageHeight / 2;
+        int size = Double.valueOf(Math.ceil(this.imageHeight / 2.5)).intValue();
         int x = (this.width - this.imageWidth) / 4;
-        int y = (this.height / 2) + size - 5;
+        int y = (this.height / 2) + size;
 
         this.renderPlayerInInventory(
                 x, // x

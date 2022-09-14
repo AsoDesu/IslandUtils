@@ -13,6 +13,7 @@ import net.minecraft.util.RandomSource;
 import static net.asodev.islandutils.options.IslandOptions.getOptions;
 
 public class MusicUtil {
+    public static ResourceLocation lastPlayed;
 
     public static void startMusic(ClientboundCustomSoundPacket clientboundCustomSoundPacket) {
         IslandOptions options = getOptions();
@@ -25,6 +26,10 @@ public class MusicUtil {
 
         ResourceLocation location = MccIslandState.getGame().getMusicLocation();
         if (location == null) return;
+
+        if (lastPlayed != null) {
+            Minecraft.getInstance().getSoundManager().stop(lastPlayed, SoundSource.RECORDS);
+        }
 
         SoundInstance instance = new SimpleSoundInstance(
                 location,
@@ -40,7 +45,6 @@ public class MusicUtil {
                 clientboundCustomSoundPacket.getZ(),
                 false);
 
-        Minecraft.getInstance().getSoundManager();
         Minecraft.getInstance().getSoundManager().play(instance);
     }
 

@@ -4,25 +4,27 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.asodev.islandutils.client.IslandutilsClient;
+import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.COSMETIC_TYPE;
 import net.asodev.islandutils.state.CosmeticState;
+import net.asodev.islandutils.state.MccIslandState;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static net.minecraft.client.gui.GuiComponent.blit;
 
 @Mixin(AbstractContainerScreen.class)
 public abstract class ChestScreenMixin extends Screen {
@@ -34,6 +36,8 @@ public abstract class ChestScreenMixin extends Screen {
 
     @Inject(method = "renderSlot", at = @At("TAIL"))
     private void renderSlot(PoseStack poseStack, Slot slot, CallbackInfo ci) {
+        if (!MccIslandState.isOnline()) return;
+
         if (slot.getItem() == null) return;
         ItemStack slotItem = slot.getItem();
 
@@ -63,11 +67,15 @@ public abstract class ChestScreenMixin extends Screen {
 
     @Inject(method = "mouseDragged", at = @At("HEAD"))
     private void mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY, CallbackInfoReturnable<Boolean> cir) {
+        if (!MccIslandState.isOnline()) return;
+
         CosmeticState.yRot = CosmeticState.yRot - Double.valueOf(deltaX).floatValue();
     }
 
     @Inject(method = "keyPressed", at = @At("HEAD"))
     private void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+        if (!MccIslandState.isOnline()) return;
+
         ItemStack item = CosmeticState.getLastHoveredItem();
         COSMETIC_TYPE type = CosmeticState.getLastHoveredItemType();
         if (item == null || type == null) return;
@@ -97,19 +105,12 @@ public abstract class ChestScreenMixin extends Screen {
 
     @Inject(method = "onClose", at = @At("TAIL"))
     private void onClose(CallbackInfo ci) {
-        LocalPlayer player = Minecraft.getInstance().player;
-        if (CosmeticState.prevHatSlot != null) {
-            if (player != null) Minecraft.getInstance().player.getInventory().armor.set(3, CosmeticState.prevHatSlot);
-        }
-        if (CosmeticState.prevAccSlot != null) {
-            if (player != null) Minecraft.getInstance().player.getInventory().offhand.set(0, CosmeticState.prevAccSlot);
-        }
-
         CosmeticState.setLastHoveredItem(null);
         CosmeticState.hatSlot = null;
         CosmeticState.accSlot = null;
 
-        CosmeticState.yRot = 180;
+        if (!IslandOptions.getOptions().isSaveRotation())
+            CosmeticState.yRot = 155;
     }
 
 }

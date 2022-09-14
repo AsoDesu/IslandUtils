@@ -13,9 +13,12 @@
   "text.autoconfig.islandutils.category.cosmetics": "Cosmetic Previews",
   "text.autoconfig.islandutils.option.showPlayerPreview": "Show Cosmetic Previews",
   "text.autoconfig.islandutils.option.showOnHover": "Show Preview On Hover",
+  "text.autoconfig.islandutils.option.saveRotation": "Save character rotation when a GUI closes",
+  "text.autoconfig.islandutils.option.showOnOnlyCosmeticMenus": "Show cosmetic preview only in Cosmetic Menus",
 
   "text.autoconfig.islandutils.category.misc": "Miscellaneous",
   "text.autoconfig.islandutils.option.pauseConfirm": "Confirm Before Disconnect",
+  "text.autoconfig.islandutils.option.debugMode": "Debug Mode",
 
   "modmenu.descriptionTranslation.islandutils": "A Utility Mod for MCC Island!",
   "modmenu.summaryTranslation.islandutils": "A Utility Mod for MCC Island!"
