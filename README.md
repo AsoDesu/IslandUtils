@@ -22,5 +22,4 @@ A Utility mod for MCC Island.
 ### Planned
 - Hub Music
 - Custom Volume slider for music
-- Command Aliases for `/chat local` and `/chat party`
 - Looping Music
