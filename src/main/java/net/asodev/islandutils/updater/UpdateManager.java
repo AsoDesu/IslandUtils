@@ -18,21 +18,19 @@ public class UpdateManager {
     HttpClient client;
     Gson gson;
 
-    boolean updateAvalible = false;
     public UpdateManager() {
         client = HttpClient.newBuilder().build();
         gson = new Gson();
     }
 
-    public CompletableFuture<List<GithubRelease>> checkForUpdates() throws Exception {
-        CompletableFuture<List<GithubRelease>> f = new CompletableFuture<>();
+    public CompletableFuture<GithubRelease> checkForUpdates() throws Exception {
+        CompletableFuture<GithubRelease> f = new CompletableFuture<>();
 
-        URI updatorURI = new URI("https://api.github.com/repos/AsoDesu/IslandUtils/releases");
+        URI updatorURI = new URI("https://api.github.com/repos/AsoDesu/IslandUtils/releases/latest");
         HttpRequest req = HttpRequest.newBuilder(updatorURI).GET().build();
 
-        Type listType = new TypeToken<ArrayList<GithubRelease>>(){}.getType();
         client.sendAsync(req, HttpResponse.BodyHandlers.ofString()).thenAccept(res -> {
-            f.complete(gson.fromJson(res.body(), listType));
+            f.complete(gson.fromJson(res.body(), GithubRelease.class));
         });
 
         return f;

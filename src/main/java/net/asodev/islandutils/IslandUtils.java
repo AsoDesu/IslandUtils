@@ -29,11 +29,10 @@ public class IslandUtils implements ModInitializer {
 
         try {
             updater.checkForUpdates().thenAccept(res -> {
-                GithubRelease release = res.get(0);
-                if (release == null) return;
-                if (!version.equals(release.getTagName())) {
-                    availableUpdate = new AvailableUpdate(release.getName(), release.getTagName(),
-                            "https://modrinth.com/mod/island-utils/version/" + release.getTagName());
+                if (res == null) return;
+                if (!version.equals(res.getTagName())) {
+                    availableUpdate = new AvailableUpdate(res.getName(), res.getTagName(),
+                            "https://modrinth.com/mod/island-utils/version/" + res.getTagName());
                 }
             });
         } catch (Exception e) {}
