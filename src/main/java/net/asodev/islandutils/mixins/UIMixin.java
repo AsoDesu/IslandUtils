@@ -17,6 +17,7 @@ import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
@@ -26,7 +27,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -37,6 +40,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Mixin(ContainerScreen.class)
 public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
@@ -52,28 +56,62 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         if (!options.isShowPlayerPreview()) return;
         if (IslandOptions.getOptions().isShowOnOnlyCosmeticMenus() && !CosmeticState.isCosmeticMenu(this.menu)) return;
 
-        LocalPlayer player = Minecraft.getInstance().player;
+        Player player = Minecraft.getInstance().player;
         if (player == null) return;
 
         ItemStack hatSlot = CosmeticState.hatSlot;
         ItemStack accSlot = CosmeticState.accSlot;
 
-        ItemStack hover = CosmeticState.getLastHoveredItem();
-        COSMETIC_TYPE type = CosmeticState.getLastHoveredItemType();
+        // 11 - Head
+        // 9 - Hat
+        // 18 - Accessory
+        Slot inspectHeadSlot = this.menu.getSlot(11);
+        Slot inspectHatSlot = this.menu.getSlot(9);
+        Slot inspectAccSlot = this.menu.getSlot(18);
+        boolean isInspectHead = inspectHeadSlot.hasItem() && inspectHeadSlot.getItem().is(Items.PLAYER_HEAD);
+        boolean isInspectHat = inspectHeadSlot.hasItem() &&
+                (CosmeticState.getType(inspectHatSlot.getItem()) != null) || (inspectHatSlot.getItem().getDisplayName().getString().contains("Hat"));
+        if (isInspectHead && isInspectHat) {
+            try {
+                if (CosmeticState.inspectingPlayer == null) {
+                    UUID uuid = inspectHeadSlot.getItem().getTag().getCompound("SkullOwner").getUUID("Id");
+                    player = Minecraft.getInstance().level.getPlayerByUUID(uuid);
+                    CosmeticState.inspectingPlayer = player;
+                } else {
+                    player = CosmeticState.inspectingPlayer;
+                }
+                if (player == null) return;
 
-        if (hatSlot == null || hatSlot.is(Items.AIR)) {
-            if (type == COSMETIC_TYPE.HAT && options.isShowOnHover()) hatSlot = hover;
-            else hatSlot = CosmeticState.prevHatSlot != null ? CosmeticState.prevHatSlot : ItemStack.EMPTY;
-        }
-        if (accSlot == null || accSlot.is(Items.AIR)) {
-            if (type == COSMETIC_TYPE.ACCESSORY && options.isShowOnHover()) accSlot = hover;
-            else accSlot = CosmeticState.prevAccSlot != null ? CosmeticState.prevAccSlot : ItemStack.EMPTY;
-        }
-        if (hatSlot == null) hatSlot = ItemStack.EMPTY;
-        if (accSlot == null) accSlot = ItemStack.EMPTY;
+                player.getInventory().selected = 8;
 
-        player.getInventory().armor.set(3, hatSlot);
-        player.getInventory().offhand.set(0, accSlot);
+                hatSlot = inspectHatSlot.getItem();
+                accSlot = inspectAccSlot.getItem();
+            } catch (Exception e) { return; }
+        } else {
+            ItemStack hover = CosmeticState.getLastHoveredItem();
+            COSMETIC_TYPE type = CosmeticState.getLastHoveredItemType();
+
+            if (hatSlot == null || hatSlot.is(Items.AIR)) {
+                if (type == COSMETIC_TYPE.HAT && options.isShowOnHover()) hatSlot = hover;
+                else hatSlot = CosmeticState.prevHatSlot != null ? CosmeticState.prevHatSlot : ItemStack.EMPTY;
+            }
+            if (accSlot == null || accSlot.is(Items.AIR)) {
+                if (type == COSMETIC_TYPE.ACCESSORY && options.isShowOnHover()) accSlot = hover;
+                else accSlot = CosmeticState.prevAccSlot != null ? CosmeticState.prevAccSlot : ItemStack.EMPTY;
+            }
+            if (hatSlot == null) hatSlot = ItemStack.EMPTY;
+            if (accSlot == null) accSlot = ItemStack.EMPTY;
+
+            player.getInventory().armor.set(3, hatSlot);
+            player.getInventory().offhand.set(0, accSlot);
+        }
+
+        float animPos = player.animationPosition;
+        float animSpeed = player.animationSpeed;
+        float attackAnim = player.attackAnim;
+        player.animationPosition = 0;
+        player.animationSpeed = 0;
+        player.attackAnim = 0;
 
         int size = Double.valueOf(Math.ceil(this.imageHeight / 2.5)).intValue();
         int x = (this.width - this.imageWidth) / 4;
@@ -84,6 +122,10 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
                 y,  // y
                 size , // size
                 player); // Entity
+
+        player.animationPosition = animPos;
+        player.animationSpeed = animSpeed;
+        player.attackAnim = attackAnim;
 
         // this code is so ugly omfg
         int itemPos = x+(size / 2) - 18;
@@ -108,7 +150,8 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
     }
 
     private void renderPlayerInInventory(int x, int y, int size, LivingEntity livingEntity) {
-        float rot = CosmeticState.yRot;
+        float yRot = CosmeticState.yRot;
+        float xRot = (float)Math.atan(CosmeticState.xRot / 40.0f);;
 
         PoseStack poseStack = RenderSystem.getModelViewStack();
         poseStack.pushPose();
@@ -119,17 +162,21 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         poseStack2.translate(0.0, 0.0, 1000.0);
         poseStack2.scale((float)size, (float)size, (float)size);
         Quaternion quaternion = Vector3f.ZP.rotationDegrees(180.0F);
+        Quaternion quaternion2 = Vector3f.XP.rotationDegrees(xRot * 20F);
+        quaternion.mul(quaternion2);
         poseStack2.mulPose(quaternion);
         float m = livingEntity.yBodyRot;
         float n = livingEntity.getYRot();
         float o = livingEntity.getXRot();
         float p = livingEntity.yHeadRotO;
         float q = livingEntity.yHeadRot;
-        livingEntity.yBodyRot = rot;
-        livingEntity.setYRot(rot);
-        livingEntity.setXRot(0);
+        livingEntity.yBodyRot = yRot;
+        livingEntity.setYRot(yRot);
         livingEntity.yHeadRot = livingEntity.yBodyRot;
         livingEntity.yHeadRotO = livingEntity.yBodyRot;
+
+        livingEntity.setXRot(-xRot * 20F);
+
         Lighting.setupForEntityInInventory();
         EntityRenderDispatcher entityRenderDispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
         entityRenderDispatcher.setRenderShadow(false);

@@ -10,9 +10,12 @@
   "icon": "assets/island/icon.png",
   "environment": "client",
   "entrypoints": {
-    "client": [ "net.asodev.islandutils.client.IslandutilsClient" ],
+    "client": [ "net.asodev.islandutils.IslandutilsClient" ],
     "main": [ "net.asodev.islandutils.IslandUtils" ],
-    "modmenu": [ "net.asodev.islandutils.options.ModMenuIntegration" ]
+    "modmenu": [ "net.asodev.islandutils.options.ModMenuIntegration" ],
+    "sound-categories": [
+      "net.asodev.islandutils.options.IslandSoundCategories"
+    ]
   },
   "mixins": [
     "islandutils.mixins.json"

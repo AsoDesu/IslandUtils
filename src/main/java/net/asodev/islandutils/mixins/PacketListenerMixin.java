@@ -8,19 +8,20 @@ import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.WeighedSoundEvents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.protocol.game.ClientboundContainerSetContentPacket;
-import net.minecraft.network.protocol.game.ClientboundCustomSoundPacket;
-import net.minecraft.network.protocol.game.ClientboundSetObjectivePacket;
-import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
+import net.minecraft.network.protocol.game.*;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -31,6 +32,8 @@ import java.util.Objects;
 
 @Mixin(ClientPacketListener.class)
 public abstract class PacketListenerMixin {
+
+    @Shadow @Final private Minecraft minecraft;
 
     @Inject(method = "handleAddObjective", at = @At("TAIL"))
     public void handleAddObjective(ClientboundSetObjectivePacket clientboundSetObjectivePacket, CallbackInfo ci) {
@@ -127,6 +130,15 @@ public abstract class PacketListenerMixin {
             COSMETIC_TYPE type = CosmeticState.getType(item);
             if (type == COSMETIC_TYPE.ACCESSORY) CosmeticState.prevAccSlot = item;
             else if (type == COSMETIC_TYPE.HAT) CosmeticState.prevHatSlot = item;
+        }
+    }
+
+    @Inject(method = "handleRespawn", at = @At("HEAD"))
+    private void handleRespawn(ClientboundRespawnPacket clientboundRespawnPacket, CallbackInfo ci) {
+        LocalPlayer localPlayer = this.minecraft.player;
+        ResourceKey<Level> resourceKey = clientboundRespawnPacket.getDimension();
+        if (resourceKey != localPlayer.level.dimension()) {
+            MusicUtil.stopMusic();
         }
     }
 

@@ -5,6 +5,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -22,6 +23,8 @@ public class CosmeticState {
     public static final Component HAT_COMP = Component.literal("\uE0E8").setStyle(Style.EMPTY.withFont(MCC_ICONS));
     public static final Component ACCESSORY_COMP = Component.literal("\uE0DA").setStyle(Style.EMPTY.withFont(MCC_ICONS));
 
+    @Nullable public static Player inspectingPlayer;
+
     private static ItemStack lastHoveredItem;
     private static COSMETIC_TYPE lastHoveredItemType;
 
@@ -32,6 +35,7 @@ public class CosmeticState {
     @Nullable public static ItemStack accSlot;
 
     public static float yRot = 155;
+    public static float xRot = -5;
 
     public static COSMETIC_TYPE getLastHoveredItemType() {
         return lastHoveredItemType;

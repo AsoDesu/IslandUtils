@@ -1,4 +1,4 @@
-package net.asodev.islandutils.client;
+package net.asodev.islandutils;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.api.ClientModInitializer;

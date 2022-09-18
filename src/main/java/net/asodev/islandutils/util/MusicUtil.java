@@ -1,13 +1,13 @@
 package net.asodev.islandutils.util;
 
 import net.asodev.islandutils.options.IslandOptions;
+import net.asodev.islandutils.options.IslandSoundCategories;
 import net.asodev.islandutils.state.MccIslandState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.network.protocol.game.ClientboundCustomSoundPacket;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 
 import static net.asodev.islandutils.options.IslandOptions.getOptions;
@@ -30,9 +30,9 @@ public class MusicUtil {
 
         SoundInstance instance = new SimpleSoundInstance(
                 location,
-                SoundSource.RECORDS,
-                clientboundCustomSoundPacket.getVolume(),
-                clientboundCustomSoundPacket.getPitch(),
+                IslandSoundCategories.MUSIC,
+                1,
+                1,
                 RandomSource.create(clientboundCustomSoundPacket.getSeed()),
                 false,
                 0,
@@ -49,7 +49,7 @@ public class MusicUtil {
         ResourceLocation location = MccIslandState.getGame().getMusicLocation();
         if (location == null) return;
 
-        Minecraft.getInstance().getSoundManager().stop(location, SoundSource.RECORDS);
+        Minecraft.getInstance().getSoundManager().stop(location, IslandSoundCategories.MUSIC);
     }
 
 }

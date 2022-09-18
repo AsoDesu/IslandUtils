@@ -14,6 +14,7 @@ repositories {
     // for more information about repositories.
     maven { url "https://maven.shedaniel.me/" }
     maven { url "https://maven.terraformersmc.com/releases/" }
+    maven { url = "https://repo.stashy.dev/releases/" }
 }
 
 dependencies {
@@ -29,6 +30,7 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
     modApi("com.terraformersmc:modmenu:4.0.6")
+    modImplementation include("dev.stashy:sound-categories:1.2.4+1.19")
 }
 
 processResources {

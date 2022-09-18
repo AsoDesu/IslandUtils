@@ -3,27 +3,29 @@ package net.asodev.islandutils.mixins;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.asodev.islandutils.client.IslandutilsClient;
+import net.asodev.islandutils.IslandutilsClient;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.COSMETIC_TYPE;
 import net.asodev.islandutils.state.CosmeticState;
 import net.asodev.islandutils.state.MccIslandState;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtIo;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.io.File;
 
 
 @Mixin(AbstractContainerScreen.class)
@@ -70,6 +72,7 @@ public abstract class ChestScreenMixin extends Screen {
         if (!MccIslandState.isOnline()) return;
 
         CosmeticState.yRot = CosmeticState.yRot - Double.valueOf(deltaX).floatValue();
+        CosmeticState.xRot = CosmeticState.xRot - Double.valueOf(deltaY).floatValue();
     }
 
     @Inject(method = "keyPressed", at = @At("HEAD"))
@@ -108,6 +111,7 @@ public abstract class ChestScreenMixin extends Screen {
         CosmeticState.setLastHoveredItem(null);
         CosmeticState.hatSlot = null;
         CosmeticState.accSlot = null;
+        CosmeticState.inspectingPlayer = null;
 
         if (!IslandOptions.getOptions().isSaveRotation())
             CosmeticState.yRot = 155;
