@@ -19,6 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -106,6 +107,21 @@ public abstract class ChestScreenMixin extends Screen {
         }
     }
 
+    @Inject(method = "slotClicked", at = @At("HEAD"))
+    private void slotClicked(Slot slot, int i, int j, ClickType clickType, CallbackInfo ci) {
+        if (slot == null) return;
+        if (!slot.hasItem()) return;
+        if (slot.getItem().is(Items.GHAST_TEAR)) return;
+        COSMETIC_TYPE type = CosmeticState.getType(slot.getItem());
+        if (type == null) return;
+
+        if (type == COSMETIC_TYPE.HAT) {
+            CosmeticState.hatSlot = slot.getItem();
+        } else if (type == COSMETIC_TYPE.ACCESSORY) {
+            CosmeticState.accSlot = slot.getItem();
+        }
+    }
+
     @Inject(method = "onClose", at = @At("TAIL"))
     private void onClose(CallbackInfo ci) {
         CosmeticState.setLastHoveredItem(null);
@@ -113,8 +129,10 @@ public abstract class ChestScreenMixin extends Screen {
         CosmeticState.accSlot = null;
         CosmeticState.inspectingPlayer = null;
 
-        if (!IslandOptions.getOptions().isSaveRotation())
+        if (!IslandOptions.getOptions().isSaveRotation()) {
             CosmeticState.yRot = 155;
+            CosmeticState.xRot = -5;
+        }
     }
 
 }

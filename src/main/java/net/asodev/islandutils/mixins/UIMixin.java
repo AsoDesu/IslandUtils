@@ -54,7 +54,7 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
 
         IslandOptions options = IslandOptions.getOptions();
         if (!options.isShowPlayerPreview()) return;
-        if (IslandOptions.getOptions().isShowOnOnlyCosmeticMenus() && !CosmeticState.isCosmeticMenu(this.menu)) return;
+        if (options.isShowOnOnlyCosmeticMenus() && !CosmeticState.isCosmeticMenu(this.menu)) return;
 
         Player player = Minecraft.getInstance().player;
         if (player == null) return;
@@ -102,8 +102,10 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
             if (hatSlot == null) hatSlot = ItemStack.EMPTY;
             if (accSlot == null) accSlot = ItemStack.EMPTY;
 
-            player.getInventory().armor.set(3, hatSlot);
-            player.getInventory().offhand.set(0, accSlot);
+            if (CosmeticState.isCosmeticMenu(this.menu)) {
+                player.getInventory().armor.set(3, hatSlot);
+                player.getInventory().offhand.set(0, accSlot);
+            }
         }
 
         float animPos = player.animationPosition;
