@@ -7,6 +7,7 @@ import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.COSMETIC_TYPE;
+import net.asodev.islandutils.state.CosmeticSlot;
 import net.asodev.islandutils.state.CosmeticState;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
@@ -42,6 +43,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static net.asodev.islandutils.state.CosmeticState.applyColor;
+
 @Mixin(ContainerScreen.class)
 public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
     public UIMixin(ChestMenu abstractContainerMenu, Inventory inventory, Component component) {
@@ -56,57 +59,21 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         if (!options.isShowPlayerPreview()) return;
         if (options.isShowOnOnlyCosmeticMenus() && !CosmeticState.isCosmeticMenu(this.menu)) return;
 
-        Player player = Minecraft.getInstance().player;
+        Player player = CosmeticState.getInspectingPlayer();
         if (player == null) return;
 
-        ItemStack hatSlot = CosmeticState.hatSlot;
-        ItemStack accSlot = CosmeticState.accSlot;
-
-        // 11 - Head
-        // 9 - Hat
-        // 18 - Accessory
-        Slot inspectHeadSlot = this.menu.getSlot(11);
-        Slot inspectHatSlot = this.menu.getSlot(9);
-        Slot inspectAccSlot = this.menu.getSlot(18);
-        boolean isInspectHead = inspectHeadSlot.hasItem() && inspectHeadSlot.getItem().is(Items.PLAYER_HEAD);
-        boolean isInspectHat = inspectHeadSlot.hasItem() &&
-                (CosmeticState.getType(inspectHatSlot.getItem()) != null) || (inspectHatSlot.getItem().getDisplayName().getString().contains("Hat"));
-        if (isInspectHead && isInspectHat) {
-            try {
-                if (CosmeticState.inspectingPlayer == null) {
-                    UUID uuid = inspectHeadSlot.getItem().getTag().getCompound("SkullOwner").getUUID("Id");
-                    player = Minecraft.getInstance().level.getPlayerByUUID(uuid);
-                    CosmeticState.inspectingPlayer = player;
-                } else {
-                    player = CosmeticState.inspectingPlayer;
-                }
-                if (player == null) return;
-
-                player.getInventory().selected = 8;
-
-                hatSlot = inspectHatSlot.getItem();
-                accSlot = inspectAccSlot.getItem();
-            } catch (Exception e) { return; }
+        ItemStack hatSlot;
+        ItemStack accSlot;
+        if (CosmeticState.inspectingPlayer == null) {
+            hatSlot = CosmeticState.hatSlot.getContent().getItem(this.menu);
+            accSlot = CosmeticState.accessorySlot.getContent().getItem(this.menu);
         } else {
-            ItemStack hover = CosmeticState.getLastHoveredItem();
-            COSMETIC_TYPE type = CosmeticState.getLastHoveredItemType();
-
-            if (hatSlot == null || hatSlot.is(Items.AIR)) {
-                if (type == COSMETIC_TYPE.HAT && options.isShowOnHover()) hatSlot = hover;
-                else hatSlot = CosmeticState.prevHatSlot != null ? CosmeticState.prevHatSlot : ItemStack.EMPTY;
-            }
-            if (accSlot == null || accSlot.is(Items.AIR)) {
-                if (type == COSMETIC_TYPE.ACCESSORY && options.isShowOnHover()) accSlot = hover;
-                else accSlot = CosmeticState.prevAccSlot != null ? CosmeticState.prevAccSlot : ItemStack.EMPTY;
-            }
-            if (hatSlot == null) hatSlot = ItemStack.EMPTY;
-            if (accSlot == null) accSlot = ItemStack.EMPTY;
-
-            if (CosmeticState.isCosmeticMenu(this.menu)) {
-                player.getInventory().armor.set(3, hatSlot);
-                player.getInventory().offhand.set(0, accSlot);
-            }
+            hatSlot = player.getInventory().armor.get(3);
+            accSlot = player.getInventory().offhand.get(0);
         }
+
+        applyColor(hatSlot);
+        applyColor(accSlot);
 
         float animPos = player.animationPosition;
         float animSpeed = player.animationSpeed;
@@ -146,7 +113,7 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         if (this.hoveredSlot != null && this.hoveredSlot.getItem() != null) {
             ItemStack currHover = this.hoveredSlot.getItem();
             if (!currHover.is(Items.GHAST_TEAR) & !currHover.is(Items.AIR)) {
-                CosmeticState.setLastHoveredItem(this.hoveredSlot.getItem());
+                CosmeticState.setHoveredItem(this.hoveredSlot);
             }
         }
     }

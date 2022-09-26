@@ -5,9 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.asodev.islandutils.IslandutilsClient;
 import net.asodev.islandutils.options.IslandOptions;
-import net.asodev.islandutils.state.COSMETIC_TYPE;
-import net.asodev.islandutils.state.CosmeticState;
-import net.asodev.islandutils.state.MccIslandState;
+import net.asodev.islandutils.state.*;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screens.Screen;
@@ -18,9 +16,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.DyeableArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -28,10 +28,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.io.File;
 
+import static net.asodev.islandutils.state.CosmeticState.itemsMatch;
+
 
 @Mixin(AbstractContainerScreen.class)
 public abstract class ChestScreenMixin extends Screen {
     private static final ResourceLocation PREVIEW = new ResourceLocation("island", "textures/preview.png");
+
+    @Shadow protected Slot hoveredSlot;
 
     protected ChestScreenMixin(Component component) {
         super(component);
@@ -47,7 +51,12 @@ public abstract class ChestScreenMixin extends Screen {
         CompoundTag slotTag = slotItem.getTag();
         if (slotTag == null) return;
 
-        if (itemsMatch(slot.getItem(), CosmeticState.hatSlot) || itemsMatch(slot.getItem(), CosmeticState.accSlot)) {
+        boolean shouldRender = false;
+
+        if (CosmeticState.hatSlot.preview != null && itemsMatch(slot.getItem(), CosmeticState.hatSlot.preview.item)) shouldRender = true;
+        else if (CosmeticState.accessorySlot.preview != null && itemsMatch(slot.getItem(), CosmeticState.accessorySlot.preview.item)) shouldRender = true;
+
+        if (shouldRender) {
             this.setBlitOffset(395);
             this.itemRenderer.blitOffset = 105.0F;
             RenderSystem.setShaderTexture(0, PREVIEW);
@@ -55,17 +64,16 @@ public abstract class ChestScreenMixin extends Screen {
         }
     }
 
-    boolean itemsMatch(ItemStack item, ItemStack compare) {
-        ItemStack item1 = item != null ? item : ItemStack.EMPTY;
-        ItemStack item2 = compare != null ? compare : ItemStack.EMPTY;
-
-        CompoundTag item1Tag = item1.getTag();
-        int item1CMD  = item1Tag == null ? -1 : item1Tag.getInt("CustomModelData");
-
-        CompoundTag item2Tag = item2.getTag();
-        int item2CMD  = item2Tag == null ? -1 : item2Tag.getInt("CustomModelData");
-
-        return item1.is(item2.getItem()) && item1CMD == item2CMD;
+    @Inject(method = "render", at = @At("TAIL"))
+    private void render(PoseStack poseStack, int i, int j, float f, CallbackInfo ci) {
+        if (hoveredSlot != null && hoveredSlot.hasItem() && hoveredSlot.getItem().is(Items.LEATHER_HELMET)) {
+            Integer color = CosmeticState.getColor(hoveredSlot.getItem());
+            if (color != null) {
+                CosmeticState.hoveredColor = color;
+                return;
+            }
+        }
+        CosmeticState.hoveredColor = null;
     }
 
     @Inject(method = "mouseDragged", at = @At("HEAD"))
@@ -79,60 +87,26 @@ public abstract class ChestScreenMixin extends Screen {
     @Inject(method = "keyPressed", at = @At("HEAD"))
     private void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
         if (!MccIslandState.isOnline()) return;
-
-        ItemStack item = CosmeticState.getLastHoveredItem();
-        COSMETIC_TYPE type = CosmeticState.getLastHoveredItemType();
-        if (item == null || type == null) return;
-
         InputConstants.Key bound = KeyBindingHelper.getBoundKeyOf(IslandutilsClient.previewKeyBind);
-        if (keyCode == bound.getValue()) {
-            CompoundTag slotTag = item.getTag();
-            if (slotTag == null) return;
+        if (keyCode != bound.getValue()) return;
 
-            CompoundTag hatTag = CosmeticState.hatSlot == null ? null : CosmeticState.hatSlot.getTag();
-            CompoundTag accTag = CosmeticState.accSlot == null ? null : CosmeticState.accSlot.getTag();
+        if (hoveredSlot == null || !hoveredSlot.hasItem()) return;
+        if (hoveredSlot.getItem().is(Items.GHAST_TEAR) || hoveredSlot.getItem().is(Items.AIR)) return;
+        COSMETIC_TYPE type = CosmeticState.getType(hoveredSlot.getItem());
 
-            int hatCMD  = hatTag == null ? -1 : hatTag.getInt("CustomModelData");
-            int accCMD  = accTag == null ? -1 : accTag.getInt("CustomModelData");
-            int slotCMD = slotTag.getInt("CustomModelData");
-
-            if (type == COSMETIC_TYPE.HAT) {
-                if (slotCMD == hatCMD) CosmeticState.hatSlot = null;
-                else CosmeticState.hatSlot = item;
-            }
-            else if (type == COSMETIC_TYPE.ACCESSORY) {
-                if (slotCMD == accCMD) CosmeticState.accSlot = null;
-                else CosmeticState.accSlot = item;
-            }
-        }
-    }
-
-    @Inject(method = "slotClicked", at = @At("HEAD"))
-    private void slotClicked(Slot slot, int i, int j, ClickType clickType, CallbackInfo ci) {
-        if (slot == null) return;
-        if (!slot.hasItem()) return;
-        if (slot.getItem().is(Items.GHAST_TEAR)) return;
-        COSMETIC_TYPE type = CosmeticState.getType(slot.getItem());
-        if (type == null) return;
-
-        if (type == COSMETIC_TYPE.HAT) {
-            CosmeticState.hatSlot = slot.getItem();
-        } else if (type == COSMETIC_TYPE.ACCESSORY) {
-            CosmeticState.accSlot = slot.getItem();
-        }
+        if (type == COSMETIC_TYPE.HAT) CosmeticState.hatSlot.preview = new CosmeticSlot(hoveredSlot);
+        else if (type == COSMETIC_TYPE.ACCESSORY) CosmeticState.accessorySlot.preview = new CosmeticSlot(hoveredSlot);
     }
 
     @Inject(method = "onClose", at = @At("TAIL"))
     private void onClose(CallbackInfo ci) {
-        CosmeticState.setLastHoveredItem(null);
-        CosmeticState.hatSlot = null;
-        CosmeticState.accSlot = null;
+        CosmeticState.hatSlot = new Cosmetic(COSMETIC_TYPE.HAT);
+        CosmeticState.accessorySlot = new Cosmetic(COSMETIC_TYPE.ACCESSORY);
+
         CosmeticState.inspectingPlayer = null;
 
-        if (!IslandOptions.getOptions().isSaveRotation()) {
-            CosmeticState.yRot = 155;
-            CosmeticState.xRot = -5;
-        }
+        CosmeticState.yRot = 155;
+        CosmeticState.xRot = -5;
     }
 
 }

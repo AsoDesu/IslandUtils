@@ -1,9 +1,6 @@
 package net.asodev.islandutils.mixins;
 
-import net.asodev.islandutils.state.COSMETIC_TYPE;
-import net.asodev.islandutils.state.CosmeticState;
-import net.asodev.islandutils.state.MccIslandState;
-import net.asodev.islandutils.state.STATE;
+import net.asodev.islandutils.state.*;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
 import net.minecraft.client.Minecraft;
@@ -130,8 +127,8 @@ public abstract class PacketListenerMixin {
         for (int i = 0; i < clientboundContainerSetContentPacket.getItems().size(); i++) {
             ItemStack item = clientboundContainerSetContentPacket.getItems().get(i);
             COSMETIC_TYPE type = CosmeticState.getType(item);
-            if (type == COSMETIC_TYPE.ACCESSORY) CosmeticState.prevAccSlot = item;
-            else if (type == COSMETIC_TYPE.HAT) CosmeticState.prevHatSlot = item;
+            if (type == COSMETIC_TYPE.ACCESSORY) CosmeticState.hatSlot.set = new CosmeticSlot(item);
+            else if (type == COSMETIC_TYPE.HAT) CosmeticState.accessorySlot.set = new CosmeticSlot(item);
         }
     }
 

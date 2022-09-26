@@ -7,7 +7,6 @@
     "ChestScreenMixin"
   ],
   "client": [
-    "ComponentTranslateMixin",
     "JoinMCCIMixin",
     "MainScreenMixin",
     "OptionsMixin",

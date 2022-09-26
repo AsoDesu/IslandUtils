@@ -23,8 +23,6 @@ public class IslandOptions implements ConfigData {
     @ConfigEntry.Category("cosmetics")
     boolean showOnHover = true;
     @ConfigEntry.Category("cosmetics")
-    boolean saveRotation = false;
-    @ConfigEntry.Category("cosmetics")
     boolean showOnOnlyCosmeticMenus = true;
 
     @ConfigEntry.Category("misc")
@@ -50,9 +48,6 @@ public class IslandOptions implements ConfigData {
     }
     public boolean isShowOnHover() {
         return showOnHover;
-    }
-    public boolean isSaveRotation() {
-        return saveRotation;
     }
     public boolean isShowOnOnlyCosmeticMenus() {
         return showOnOnlyCosmeticMenus;
