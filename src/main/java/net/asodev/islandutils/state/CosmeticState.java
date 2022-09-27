@@ -24,9 +24,9 @@ import static net.minecraft.world.item.DyeableLeatherItem.TAG_DISPLAY;
 public class CosmeticState {
 
     public static final ResourceLocation MCC_ICONS = new ResourceLocation("mcc", "icon");
-    public static final Component HAIR_COMP = Component.literal("\uE0E7").setStyle(Style.EMPTY.withFont(MCC_ICONS));
-    public static final Component HAT_COMP = Component.literal("\uE0E8").setStyle(Style.EMPTY.withFont(MCC_ICONS));
-    public static final Component ACCESSORY_COMP = Component.literal("\uE0DA").setStyle(Style.EMPTY.withFont(MCC_ICONS));
+    public static Component HAIR_COMP = Component.literal("\uE0E7").setStyle(Style.EMPTY.withFont(MCC_ICONS));
+    public static Component HAT_COMP = Component.literal("\uE0E8").setStyle(Style.EMPTY.withFont(MCC_ICONS));
+    public static Component ACCESSORY_COMP = Component.literal("\uE0DA").setStyle(Style.EMPTY.withFont(MCC_ICONS));
 
     @Nullable public static Player inspectingPlayer;
     public static float yRot = 155;

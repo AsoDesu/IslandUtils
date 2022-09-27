@@ -4,7 +4,8 @@
   "package": "net.asodev.islandutils.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "ChestScreenMixin"
+    "ChestScreenMixin",
+    "FontLoaderMixin"
   ],
   "client": [
     "JoinMCCIMixin",

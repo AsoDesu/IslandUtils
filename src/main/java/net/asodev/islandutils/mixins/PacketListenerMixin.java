@@ -1,21 +1,19 @@
 package net.asodev.islandutils.mixins;
 
 import net.asodev.islandutils.state.*;
-import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.font.FontManager;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.WeighedSoundEvents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.FilePackResources;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
@@ -127,8 +125,8 @@ public abstract class PacketListenerMixin {
         for (int i = 0; i < clientboundContainerSetContentPacket.getItems().size(); i++) {
             ItemStack item = clientboundContainerSetContentPacket.getItems().get(i);
             COSMETIC_TYPE type = CosmeticState.getType(item);
-            if (type == COSMETIC_TYPE.ACCESSORY) CosmeticState.hatSlot.set = new CosmeticSlot(item);
-            else if (type == COSMETIC_TYPE.HAT) CosmeticState.accessorySlot.set = new CosmeticSlot(item);
+            if (type == COSMETIC_TYPE.ACCESSORY) CosmeticState.accessorySlot.set = new CosmeticSlot(item);
+            else if (type == COSMETIC_TYPE.HAT) CosmeticState.hatSlot.set = new CosmeticSlot(item);
         }
     }
 

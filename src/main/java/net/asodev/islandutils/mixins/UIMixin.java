@@ -60,20 +60,25 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         if (options.isShowOnOnlyCosmeticMenus() && !CosmeticState.isCosmeticMenu(this.menu)) return;
 
         Player player = CosmeticState.getInspectingPlayer();
+        Player localPlayer = Minecraft.getInstance().player;
         if (player == null) return;
+        if (localPlayer == null) return;
 
         ItemStack hatSlot;
         ItemStack accSlot;
-        if (CosmeticState.inspectingPlayer == null) {
+        if (CosmeticState.inspectingPlayer == null || CosmeticState.inspectingPlayer.getUUID() == Minecraft.getInstance().player.getUUID()) {
             hatSlot = CosmeticState.hatSlot.getContent().getItem(this.menu);
             accSlot = CosmeticState.accessorySlot.getContent().getItem(this.menu);
+
+            applyColor(hatSlot);
+            applyColor(accSlot);
+
+            player.getInventory().armor.set(3, hatSlot);
+            player.getInventory().offhand.set(0, accSlot);
         } else {
             hatSlot = player.getInventory().armor.get(3);
             accSlot = player.getInventory().offhand.get(0);
         }
-
-        applyColor(hatSlot);
-        applyColor(accSlot);
 
         float animPos = player.animationPosition;
         float animSpeed = player.animationSpeed;
