@@ -93,13 +93,15 @@ public class CosmeticState {
         ItemStack item1 = item != null ? item : ItemStack.EMPTY;
         ItemStack item2 = compare != null ? compare : ItemStack.EMPTY;
 
-        CompoundTag item1Tag = item1.getTag();
-        int item1CMD  = item1Tag == null ? -1 : item1Tag.getInt("CustomModelData");
-
-        CompoundTag item2Tag = item2.getTag();
-        int item2CMD  = item2Tag == null ? -1 : item2Tag.getInt("CustomModelData");
+        int item1CMD = customModelData(item1);
+        int item2CMD = customModelData(item2);
 
         return item1.is(item2.getItem()) && item1CMD == item2CMD;
+    }
+
+    public static int customModelData(ItemStack item) {
+        CompoundTag itemTag = item.getTag();
+        return itemTag == null ? -1 : itemTag.getInt("CustomModelData");
     }
 
 }

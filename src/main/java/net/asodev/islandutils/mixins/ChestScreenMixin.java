@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+import static net.asodev.islandutils.state.CosmeticState.customModelData;
 import static net.asodev.islandutils.state.CosmeticState.itemsMatch;
 
 
@@ -78,7 +79,7 @@ public abstract class ChestScreenMixin extends Screen {
 
     @Inject(method = "render", at = @At("TAIL"))
     private void render(PoseStack poseStack, int i, int j, float f, CallbackInfo ci) {
-        if (hoveredSlot != null && hoveredSlot.hasItem() && hoveredSlot.getItem().is(Items.LEATHER_HELMET)) {
+        if (IslandOptions.getOptions().isShowOnHover() && hoveredSlot != null && hoveredSlot.hasItem() && hoveredSlot.getItem().is(Items.LEATHER_HELMET)) {
             Integer color = CosmeticState.getColor(hoveredSlot.getItem());
             if (color != null) {
                 CosmeticState.hoveredColor = color;
@@ -106,9 +107,18 @@ public abstract class ChestScreenMixin extends Screen {
             if (hoveredSlot.getItem().is(Items.GHAST_TEAR) || hoveredSlot.getItem().is(Items.AIR)) return;
             COSMETIC_TYPE type = CosmeticState.getType(hoveredSlot.getItem());
 
-            if (type == COSMETIC_TYPE.HAT) CosmeticState.hatSlot.preview = new CosmeticSlot(hoveredSlot);
-            else if (type == COSMETIC_TYPE.ACCESSORY) CosmeticState.accessorySlot.preview = new CosmeticSlot(hoveredSlot);
+            int hoverCMD = customModelData(hoveredSlot.getItem());
+
+            if (type == COSMETIC_TYPE.HAT) setOrNotSet(CosmeticState.hatSlot, hoverCMD);
+            else if (type == COSMETIC_TYPE.ACCESSORY) setOrNotSet(CosmeticState.accessorySlot, hoverCMD);
         }
+    }
+
+    private void setOrNotSet(Cosmetic cosmetic, int itemCMD) {
+        if (cosmetic.preview == null || itemCMD != customModelData(cosmetic.preview.item))
+            cosmetic.preview = new CosmeticSlot(hoveredSlot);
+        else
+            cosmetic.preview = null;
     }
 
     @Inject(method = "onClose", at = @At("TAIL"))
