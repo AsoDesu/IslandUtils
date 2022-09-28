@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static net.asodev.islandutils.state.CosmeticState.applyColor;
+import static net.asodev.islandutils.state.CosmeticState.isCosmeticMenu;
 
 @Mixin(ContainerScreen.class)
 public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
@@ -59,6 +60,8 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         if (!options.isShowPlayerPreview()) return;
         if (options.isShowOnOnlyCosmeticMenus() && !CosmeticState.isCosmeticMenu(this.menu)) return;
 
+        checkInspect();
+
         Player player = CosmeticState.getInspectingPlayer();
         Player localPlayer = Minecraft.getInstance().player;
         if (player == null) return;
@@ -70,11 +73,13 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
             hatSlot = CosmeticState.hatSlot.getContent().getItem(this.menu);
             accSlot = CosmeticState.accessorySlot.getContent().getItem(this.menu);
 
-            applyColor(hatSlot);
-            applyColor(accSlot);
+            if (isCosmeticMenu(this.menu)) {
+                applyColor(hatSlot);
+                applyColor(accSlot);
 
-            player.getInventory().armor.set(3, hatSlot);
-            player.getInventory().offhand.set(0, accSlot);
+                player.getInventory().armor.set(3, hatSlot);
+                player.getInventory().offhand.set(0, accSlot);
+            }
         } else {
             hatSlot = player.getInventory().armor.get(3);
             accSlot = player.getInventory().offhand.get(0);
@@ -168,5 +173,27 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         poseStack.popPose();
         RenderSystem.applyModelViewMatrix();
         Lighting.setupFor3DItems();
+    }
+
+    private void checkInspect() {
+        // 11 - Head
+        // 9 - Hat
+        // 18 - Accessory
+        Slot inspectHeadSlot = this.menu.getSlot(11);
+        Slot inspectHatSlot = this.menu.getSlot(9);
+        boolean isInspectHead = inspectHeadSlot.hasItem() && inspectHeadSlot.getItem().is(Items.PLAYER_HEAD);
+        boolean isInspectHat = inspectHeadSlot.hasItem() &&
+                (CosmeticState.getType(inspectHatSlot.getItem()) != null) || (inspectHatSlot.getItem().getDisplayName().getString().contains("Hat"));
+        if (isInspectHead && isInspectHat) {
+            try {
+                Player player = null;
+                if (CosmeticState.inspectingPlayer == null) {
+                    UUID uuid = inspectHeadSlot.getItem().getTag().getCompound("SkullOwner").getUUID("Id");
+                    player = Minecraft.getInstance().level.getPlayerByUUID(uuid);
+                    CosmeticState.inspectingPlayer = player;
+                }
+                if (player == null) return;
+            } catch (Exception ignored) {}
+        }
     }
 }

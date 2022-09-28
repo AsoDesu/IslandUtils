@@ -11,6 +11,7 @@ import net.asodev.islandutils.util.Maths;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.nbt.CompoundTag;
@@ -20,12 +21,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.commands.data.BlockDataAccessor;
 import net.minecraft.server.commands.data.DataCommands;
 import net.minecraft.server.commands.data.StorageDataAccessor;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.DyeableArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.lwjgl.glfw.GLFW;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -35,6 +38,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 import static net.asodev.islandutils.state.CosmeticState.itemsMatch;
 
@@ -104,20 +108,6 @@ public abstract class ChestScreenMixin extends Screen {
 
             if (type == COSMETIC_TYPE.HAT) CosmeticState.hatSlot.preview = new CosmeticSlot(hoveredSlot);
             else if (type == COSMETIC_TYPE.ACCESSORY) CosmeticState.accessorySlot.preview = new CosmeticSlot(hoveredSlot);
-        }
-
-        if (keyCode == GLFW.GLFW_KEY_RIGHT_CONTROL && IslandOptions.getOptions().isDebugMode()) {
-            ItemStack item = hoveredSlot.getItem();
-            CompoundTag tag = new CompoundTag(); item.save(tag);
-            String fileName = FabricLoader.getInstance().getConfigDir() + "/island_debug/" + Maths.getRandomInteger(0, 9999) + ".nbt";
-
-            ChatUtils.debug("Slot: " + hoveredSlot.index);
-            try {
-                NbtIo.write(tag, new File(fileName));
-                ChatUtils.debug("Saved NBT to file: " + fileName);
-            } catch (Exception e) {
-                ChatUtils.debug("Failed to save NBT File: " + e.getMessage());
-            }
         }
     }
 

@@ -26,6 +26,7 @@ public class MusicUtil {
         ResourceLocation location = MccIslandState.getGame().getMusicLocation();
         if (location == null) return;
 
+        ChatUtils.debug("[MusicUtil] Starting: " + MccIslandState.getGame().name());
         stopMusic();
 
         SoundInstance instance = new SimpleSoundInstance(
@@ -49,6 +50,7 @@ public class MusicUtil {
         ResourceLocation location = MccIslandState.getGame().getMusicLocation();
         if (location == null) return;
 
+        ChatUtils.debug("[MusicUtil] Stopping: " + location.getPath());
         Minecraft.getInstance().getSoundManager().stop(location, IslandSoundCategories.MUSIC);
     }
 

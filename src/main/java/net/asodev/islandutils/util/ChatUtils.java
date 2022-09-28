@@ -17,6 +17,7 @@ public class ChatUtils {
     }
 
     public static void debug(String s) {
+        if (!IslandOptions.getOptions().isDebugMode()) return;
         send(Component.literal(translate("&7[IslandUtils] " + s)));
     }
 

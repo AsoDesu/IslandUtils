@@ -28,6 +28,9 @@ public class IslandOptions implements ConfigData {
     @ConfigEntry.Category("misc")
     boolean pauseConfirm = true;
 
+    @ConfigEntry.Category("misc")
+    boolean debugMode = false;
+
     public boolean isTgttosMusic() {
         return tgttosMusic;
     }
@@ -51,6 +54,9 @@ public class IslandOptions implements ConfigData {
     }
     public boolean isShowOnOnlyCosmeticMenus() {
         return showOnOnlyCosmeticMenus;
+    }
+    public boolean isDebugMode() {
+        return debugMode;
     }
 
     public static Screen getScreen(Screen parent) {

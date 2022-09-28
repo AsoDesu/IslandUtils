@@ -1,6 +1,7 @@
 package net.asodev.islandutils.mixins;
 
 import net.asodev.islandutils.state.*;
+import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.font.FontManager;
@@ -10,6 +11,7 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.WeighedSoundEvents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.PacketUtils;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -54,6 +56,7 @@ public abstract class PacketListenerMixin {
 
     @Inject(method = "handleCustomSoundEvent", at = @At("HEAD"), cancellable = true)
     public void handleCustomSoundEvent(ClientboundCustomSoundPacket clientboundCustomSoundPacket, CallbackInfo ci) {
+        PacketUtils.ensureRunningOnSameThread(clientboundCustomSoundPacket, (ClientPacketListener)(Object)this, this.minecraft);
         if (!MccIslandState.isOnline()) return;
         // Create a sound instance of the sound that is being played with this packed
         SoundInstance instance = new SimpleSoundInstance(
@@ -84,7 +87,6 @@ public abstract class PacketListenerMixin {
         // games.global.timer.round_end
         // games.global.music.roundendmusic
         // games.global.music.overtime_intro_music
-        // games.global.music.overtime_intro_music
         // games.global.music.gameendmusic
 
         // Start:
@@ -103,6 +105,7 @@ public abstract class PacketListenerMixin {
             } else {
                 if (Objects.equals(soundLoc.getPath(), "games.global.music.gameintro")) {
                     MusicUtil.startMusic(clientboundCustomSoundPacket);
+                    ChatUtils.debug("[PacketListener] Canceling gameintro");
                     ci.cancel();
                     return;
                 }
