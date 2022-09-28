@@ -17,9 +17,9 @@ A Utility mod for MCC Island.
 - Event music to the games on Island
 - A confirmation screen when clicking "Disconnect" during games
 - A preivew of your character when in the wardrobe or shops
+- Custom Volume slider for music
 ---
 
 ### Planned
 - Hub Music
-- Custom Volume slider for music
 - Looping Music
