@@ -22,7 +22,7 @@ public class JoinMCCIMixin {
         if (serverData == null) return;
         if (serverData.ip == null) return;
 
-        if (serverData.ip.contains("mccisland")) {
+        if (serverData.ip.toLowerCase().contains("mccisland")) {
             if (IslandUtils.availableUpdate != null) {
                 ChatUtils.dev("Hey! Update " + IslandUtils.availableUpdate.title() + " is available for Island Utils!");
 
