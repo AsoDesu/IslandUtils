@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "ChestScreenMixin",
-    "FontLoaderMixin"
+    "FontLoaderMixin",
+    "resources.PackRepositoryMixin"
   ],
   "client": [
     "JoinMCCIMixin",
@@ -13,7 +14,9 @@
     "OptionsMixin",
     "PacketListenerMixin",
     "PauseScreenMixin",
-    "UIMixin"
+    "UIMixin",
+    "resources.MultiplayerJoinMixin",
+    "resources.ProgressScreenAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

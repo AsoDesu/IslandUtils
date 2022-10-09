@@ -136,6 +136,7 @@ public abstract class PacketListenerMixin {
     @Inject(method = "handleRespawn", at = @At("HEAD"))
     private void handleRespawn(ClientboundRespawnPacket clientboundRespawnPacket, CallbackInfo ci) {
         LocalPlayer localPlayer = this.minecraft.player;
+        if (localPlayer == null) return;
         ResourceKey<Level> resourceKey = clientboundRespawnPacket.getDimension();
         if (resourceKey != localPlayer.level.dimension()) {
             MusicUtil.stopMusic();
