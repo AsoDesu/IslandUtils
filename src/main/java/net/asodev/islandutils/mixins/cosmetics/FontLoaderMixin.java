@@ -1,4 +1,4 @@
-package net.asodev.islandutils.mixins;
+package net.asodev.islandutils.mixins.cosmetics;
 
 import com.google.gson.JsonObject;
 import net.asodev.islandutils.state.CosmeticState;

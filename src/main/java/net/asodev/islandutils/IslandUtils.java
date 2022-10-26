@@ -6,14 +6,11 @@ import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.resourcepack.ResourcePackUpdater;
 import net.asodev.islandutils.updater.UpdateManager;
 import net.asodev.islandutils.updater.schema.AvailableUpdate;
-import net.asodev.islandutils.updater.schema.GithubRelease;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
-import net.minecraft.client.Minecraft;
 
 import java.util.Optional;
-import java.util.logging.Logger;
 
 public class IslandUtils implements ModInitializer {
 
@@ -31,7 +28,6 @@ public class IslandUtils implements ModInitializer {
 
         updater = new UpdateManager();
         updater.runUpdateCheck();
-
         packUpdater = new ResourcePackUpdater();
         packUpdater.get();
     }

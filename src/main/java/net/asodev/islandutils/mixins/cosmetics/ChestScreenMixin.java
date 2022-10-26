@@ -1,4 +1,4 @@
-package net.asodev.islandutils.mixins;
+package net.asodev.islandutils.mixins.cosmetics;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;

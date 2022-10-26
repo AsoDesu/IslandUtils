@@ -3,7 +3,7 @@
   "id": "islandutils",
   "version": "${version}",
   "name": "IslandUtils",
-  "description": "",
+  "description": "A Utility mod for MCC Island",
   "authors": [],
   "contact": {},
   "license": "MIT",
@@ -13,9 +13,7 @@
     "client": [ "net.asodev.islandutils.IslandutilsClient" ],
     "main": [ "net.asodev.islandutils.IslandUtils" ],
     "modmenu": [ "net.asodev.islandutils.options.ModMenuIntegration" ],
-    "sound-categories": [
-      "net.asodev.islandutils.options.IslandSoundCategories"
-    ]
+    "sound-categories": [ "net.asodev.islandutils.options.IslandSoundCategories" ]
   },
   "mixins": [
     "islandutils.mixins.json"
