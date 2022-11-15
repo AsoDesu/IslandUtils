@@ -16,6 +16,10 @@ public class ChatUtils {
         send(Component.literal(translate(prefix + " " + s)));
     }
 
+    public static void debug(String s, Object... args) {
+        debug(String.format(s, args));
+    }
+
     public static void debug(String s) {
         if (!IslandOptions.getOptions().isDebugMode()) return;
         send(Component.literal(translate("&7[IslandUtils] " + s)));
