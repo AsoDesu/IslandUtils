@@ -33,9 +33,11 @@ public class MusicUtil {
         stopMusic();
 
         float pitch = 1f;
-        if (MccIslandState.getGame() == STATE.TGTTOS && Objects.equals(MccIslandState.getModifier(), "DOUBLE TIME")) {
-            pitch = 1.2f;
-            ChatUtils.debug("[MusicUtil] Double Time active! (Pitch: %s)", pitch);
+        if (options.isTgttosDoubleTime() &&
+            MccIslandState.getGame() == STATE.TGTTOS &&
+            Objects.equals(MccIslandState.getModifier(), "DOUBLE TIME")) {
+                pitch = 1.2f;
+                ChatUtils.debug("[MusicUtil] Double Time on TGTTOS active! (Pitch: %s)", pitch);
         }
 
         SoundInstance instance = new SimpleSoundInstance(
