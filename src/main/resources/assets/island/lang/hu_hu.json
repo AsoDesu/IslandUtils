@@ -1,26 +1,26 @@
 {
-  "soundCategory.mcc_music":  "§bMCCI Music",
-  "key.islandutils.preview": "Preview Cosmetic",
+  "soundCategory.mcc_music":  "§bMCCI Zene",
+  "key.islandutils.preview": "Kozmetikai Előnézet",
   "category.islandutils.keys": "IslandUtils",
   "category.islandutils": "Island Utils",
 
-  "text.autoconfig.islandutils.title": "Island Utils Options",
-  "text.autoconfig.islandutils.category.music": "Music",
-  "text.autoconfig.islandutils.option.tgttosMusic": "TGTTOS Music",
-  "text.autoconfig.islandutils.option.hitwMusic": "HITW Music",
-  "text.autoconfig.islandutils.option.bbMusic": "Battle Box Music",
-  "text.autoconfig.islandutils.option.sbMusic": "Sky Battle Music",
+  "text.autoconfig.islandutils.title": "Island Utils Beállítások",
+  "text.autoconfig.islandutils.category.music": "Zene",
+  "text.autoconfig.islandutils.option.tgttosMusic": "TGTTOS Zene",
+  "text.autoconfig.islandutils.option.hitwMusic": "HITW Zenec",
+  "text.autoconfig.islandutils.option.bbMusic": "Battle Box Zene",
+  "text.autoconfig.islandutils.option.sbMusic": "Sky Battle Zene",
   "text.autoconfig.islandutils.option.tgttosDoubleTime": "TGTTOS Double Time Music",
 
-  "text.autoconfig.islandutils.category.cosmetics": "Cosmetic Previews",
-  "text.autoconfig.islandutils.option.showPlayerPreview": "Show Cosmetic Previews",
-  "text.autoconfig.islandutils.option.showOnHover": "Update Preview On Hover",
-  "text.autoconfig.islandutils.option.showOnOnlyCosmeticMenus": "Show cosmetic preview only in Cosmetic Menus",
+  "text.autoconfig.islandutils.category.cosmetics": "Kozmetikai Előnézetek",
+  "text.autoconfig.islandutils.option.showPlayerPreview": "Kozmetikai Előnézetek Mutatása",
+  "text.autoconfig.islandutils.option.showOnHover": "Előnézet Frissítése Rámutatáskor",
+  "text.autoconfig.islandutils.option.showOnOnlyCosmeticMenus": "A kozmetikai előnézet megjelenítése csak kozmetikai menükben",
 
-  "text.autoconfig.islandutils.category.misc": "Miscellaneous",
-  "text.autoconfig.islandutils.option.pauseConfirm": "Confirm Before Disconnect",
-  "text.autoconfig.islandutils.option.debugMode": "Debug Mode",
+  "text.autoconfig.islandutils.category.misc": "Egyéb",
+  "text.autoconfig.islandutils.option.pauseConfirm": "Kilépés Megerősítése",
+  "text.autoconfig.islandutils.option.debugMode": "Debug Mód",
 
-  "modmenu.descriptionTranslation.islandutils": "A Utility Mod for MCC Island!",
-  "modmenu.summaryTranslation.islandutils": "A Utility Mod for MCC Island!"
+  "modmenu.descriptionTranslation.islandutils": "Egy Utility Mod az MCC Islandhez!",
+  "modmenu.summaryTranslation.islandutils": "Egy Utility Mod az MCC Islandhez!"
 }
