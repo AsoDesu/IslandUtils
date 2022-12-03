@@ -3,12 +3,15 @@ package net.asodev.islandutils.util;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.IslandSoundCategories;
 import net.asodev.islandutils.state.MccIslandState;
+import net.asodev.islandutils.state.STATE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.network.protocol.game.ClientboundCustomSoundPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
+
+import java.util.Objects;
 
 import static net.asodev.islandutils.options.IslandOptions.getOptions;
 
@@ -29,11 +32,19 @@ public class MusicUtil {
         ChatUtils.debug("[MusicUtil] Starting: " + MccIslandState.getGame().name());
         stopMusic();
 
+        float pitch = 1f;
+        if (options.isTgttosDoubleTime() &&
+            MccIslandState.getGame() == STATE.TGTTOS &&
+            Objects.equals(MccIslandState.getModifier(), "DOUBLE TIME")) {
+                pitch = 1.2f;
+                ChatUtils.debug("[MusicUtil] Double Time on TGTTOS active! (Pitch: %s)", pitch);
+        }
+
         SoundInstance instance = new SimpleSoundInstance(
                 location,
                 IslandSoundCategories.MUSIC,
                 1,
-                1,
+                pitch,
                 RandomSource.create(clientboundCustomSoundPacket.getSeed()),
                 false,
                 0,

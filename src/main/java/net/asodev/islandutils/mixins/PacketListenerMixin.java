@@ -11,6 +11,7 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.WeighedSoundEvents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.PacketUtils;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.resources.ResourceKey;
@@ -20,6 +21,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.scores.Scoreboard;
+import net.minecraft.world.scores.Team;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -27,7 +30,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Mixin(ClientPacketListener.class)
 public abstract class PacketListenerMixin {
@@ -54,10 +61,41 @@ public abstract class PacketListenerMixin {
         }
     }
 
+    @Inject(method = "handleSetPlayerTeamPacket", at = @At("TAIL"))
+    public void handleSetPlayerTeamPacket(ClientboundSetPlayerTeamPacket clientboundSetPlayerTeamPacket, CallbackInfo ci) {
+        Optional<ClientboundSetPlayerTeamPacket.Parameters> optional = clientboundSetPlayerTeamPacket.getParameters();
+        optional.ifPresent((parameters) -> {
+            try {
+                Component prefixComponent = parameters.getPlayerPrefix();
+                String playerPrefix = prefixComponent.getString().toUpperCase();
+
+                // FIXME: idk how to properly put it outside of this methos, so yeah, it's here for now
+                final Map<String, Pattern> scoreboardPatterns = Map.of(
+                    "MAP", Pattern.compile("MAP: (?<map>\\w+(?:,? \\w+)*)"),
+                    "MODIFIER", Pattern.compile("MODIFIER: (?<modifier>\\w+(?:,? \\w+)*)")
+                );
+
+                for (Map.Entry<String, Pattern> entry : scoreboardPatterns.entrySet()) {
+                    Matcher matcher = entry.getValue().matcher(playerPrefix);
+                    if (!matcher.find()) continue;
+                    String value = matcher.group(1);
+
+                    switch (entry.getKey()) {
+                        case "MAP" -> MccIslandState.setMap(value);
+                        case "MODIFIER" -> MccIslandState.setModifier(value);
+                    }
+
+                    ChatUtils.debug("ScoreboardUpdate - Current %s: \"%s\"", entry.getKey(), value);
+                }
+            } catch (Exception ignored) {}
+        });
+    }
+
     @Inject(method = "handleCustomSoundEvent", at = @At("HEAD"), cancellable = true)
     public void handleCustomSoundEvent(ClientboundCustomSoundPacket clientboundCustomSoundPacket, CallbackInfo ci) {
-        PacketUtils.ensureRunningOnSameThread(clientboundCustomSoundPacket, (ClientPacketListener)(Object)this, this.minecraft);
+        PacketUtils.ensureRunningOnSameThread(clientboundCustomSoundPacket, (ClientPacketListener) (Object) this, this.minecraft);
         if (!MccIslandState.isOnline()) return;
+
         // Create a sound instance of the sound that is being played with this packed
         SoundInstance instance = new SimpleSoundInstance(
                 clientboundCustomSoundPacket.getName(),

@@ -16,12 +16,31 @@ import java.util.concurrent.atomic.AtomicReference;
 public class MccIslandState {
 
     private static STATE game = STATE.HUB;
+    private static String modifier = "INACTIVE";
+    private static String map = "UNKNOWN";
 
     public static STATE getGame() {
         return game;
     }
+
+    public static String getModifier() {
+        return modifier;
+    }
+
+    public static String getMap() {
+        return map;
+    }
+
     public static void setGame(STATE game) {
         MccIslandState.game = game;
+    }
+
+    public static void setModifier(String modifier) {
+        MccIslandState.modifier = modifier;
+    }
+
+    public static void setMap(String map) {
+        MccIslandState.map = map;
     }
 
     public static boolean isOnline() {

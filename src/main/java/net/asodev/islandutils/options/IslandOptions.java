@@ -17,6 +17,8 @@ public class IslandOptions implements ConfigData {
     boolean bbMusic = true;
     @ConfigEntry.Category("music")
     boolean sbMusic = true;
+    @ConfigEntry.Category("music")
+    boolean tgttosDoubleTime = true;
 
     @ConfigEntry.Category("cosmetics")
     boolean showPlayerPreview = true;
@@ -42,6 +44,9 @@ public class IslandOptions implements ConfigData {
     }
     public boolean isSbMusic() {
         return sbMusic;
+    }
+    public boolean isTgttosDoubleTime() {
+        return tgttosDoubleTime;
     }
     public boolean isShowPlayerPreview() {
         return showPlayerPreview;
