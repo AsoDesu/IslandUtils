@@ -1,28 +1,30 @@
 package net.asodev.islandutils.mixins;
 
+import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.state.*;
+import net.asodev.islandutils.state.cosmetics.CosmeticSlot;
+import net.asodev.islandutils.state.cosmetics.CosmeticState;
+import net.asodev.islandutils.state.faction.FactionComponents;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.font.FontManager;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.WeighedSoundEvents;
+import net.minecraft.nbt.NbtIo;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.PacketUtils;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.FilePackResources;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.scores.Scoreboard;
-import net.minecraft.world.scores.Team;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -30,9 +32,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,22 +43,56 @@ public abstract class PacketListenerMixin {
 
     @Inject(method = "handleAddObjective", at = @At("TAIL"))
     public void handleAddObjective(ClientboundSetObjectivePacket clientboundSetObjectivePacket, CallbackInfo ci) {
+        if (!MccIslandState.isOnline()) return;
         Component displayName = clientboundSetObjectivePacket.getDisplayName();
         if (displayName == null) return;
         String title = displayName.getString();
         if (title == null) return;
 
-        if (title.contains("HOLE IN THE WALL")) {
-            MccIslandState.setGame(STATE.HITW);
-        } else if (title.contains("TGTTOS")) {
-            MccIslandState.setGame(STATE.TGTTOS);
-        } else if (title.contains("SKY BATTLE")) {
-            MccIslandState.setGame(STATE.SKY_BATTLE);
-        } else if (title.contains("BATTLE BOX")) {
-            MccIslandState.setGame(STATE.BATTLE_BOX);
-        } else {
+        if (!isGameDisplayName(displayName)) {
             MccIslandState.setGame(STATE.HUB);
+        } else {
+            if (title.contains("HOLE IN THE WALL")) {
+                MccIslandState.setGame(STATE.HITW);
+            } else if (title.contains("TGTTOS")) {
+                MccIslandState.setGame(STATE.TGTTOS);
+            } else if (title.contains("SKY BATTLE")) {
+                MccIslandState.setGame(STATE.SKY_BATTLE);
+            } else if (title.contains("BATTLE BOX")) {
+                MccIslandState.setGame(STATE.BATTLE_BOX);
+            } else {
+                System.out.println("wat");
+                MccIslandState.setGame(STATE.HUB);
+            }
         }
+        DiscordPresenceUpdator.updatePlace();
+    }
+
+    @Inject(method = "handleSetExperience", at = @At("TAIL"))
+    public void handleSetExperience(ClientboundSetExperiencePacket clientboundSetExperiencePacket, CallbackInfo ci) {
+        if (!MccIslandState.isOnline()) return;
+        DiscordPresenceUpdator.setLevel(clientboundSetExperiencePacket.getExperienceLevel());
+    }
+
+    String lastCheckedActionBar = "";
+    @Inject(method = "setActionBarText", at = @At("TAIL"))
+    public void handleSetExperience(ClientboundSetActionBarTextPacket clientboundSetActionBarTextPacket, CallbackInfo ci) {
+        if (!MccIslandState.isOnline()) return;
+        String text = clientboundSetActionBarTextPacket.getText().getString();
+        if (Objects.equals(lastCheckedActionBar, text)) return;
+        lastCheckedActionBar = text;
+
+        FactionComponents.comps.forEach((faction, component) -> {
+            if (text.contains(component.getString())) MccIslandState.setFaction(faction);
+        });
+    }
+
+    private boolean isGameDisplayName(Component component) {
+        for (Component sibling : component.getSiblings()) {
+            if (sibling.getStyle().getColor() == TextColor.fromLegacyFormat(ChatFormatting.AQUA))
+                return true;
+        }
+        return false;
     }
 
     @Inject(method = "handleSetPlayerTeamPacket", at = @At("TAIL"))
@@ -71,8 +105,8 @@ public abstract class PacketListenerMixin {
 
                 // FIXME: idk how to properly put it outside of this methos, so yeah, it's here for now
                 final Map<String, Pattern> scoreboardPatterns = Map.of(
-                    "MAP", Pattern.compile("MAP: (?<map>\\w+(?:,? \\w+)*)"),
-                    "MODIFIER", Pattern.compile("MODIFIER: (?<modifier>\\w+(?:,? \\w+)*)")
+                        "MAP", Pattern.compile("MAP: (?<map>\\w+(?:,? \\w+)*)"),
+                        "MODIFIER", Pattern.compile("MODIFIER: (?<modifier>\\w+(?:,? \\w+)*)")
                 );
 
                 for (Map.Entry<String, Pattern> entry : scoreboardPatterns.entrySet()) {
@@ -179,6 +213,37 @@ public abstract class PacketListenerMixin {
         if (resourceKey != localPlayer.level.dimension()) {
             MusicUtil.stopMusic();
         }
+    }
+
+    @Inject(method = "handleBossUpdate", at = @At("HEAD"))
+    private void handleBossUpdate(ClientboundBossEventPacket clientboundBossEventPacket, CallbackInfo ci) {
+        ClientboundBossEventPacket.Handler bossbarHandler = new ClientboundBossEventPacket.Handler(){
+            @Override
+            public void updateName(UUID uUID, Component component) {
+                if (!component.getString().contains(":")) return;
+                try {
+                    String[] split = component.getString().split(":");
+                    String minsText = split[0];
+                    String secsText = split[1];
+
+                    int mins = Integer.parseInt( minsText.substring( Math.max(minsText.length() - 2, 0)) );
+                    int secs = Integer.parseInt( secsText.substring(0, 2) );
+
+                    long finalUnix = System.currentTimeMillis() + (((mins * 60L) + secs+1) * 1000);
+
+                    DiscordPresenceUpdator.timeLeftBossbar = uUID;
+                    DiscordPresenceUpdator.updateTimeLeft(finalUnix);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void remove(UUID uUID) {
+                if (DiscordPresenceUpdator.timeLeftBossbar == uUID)
+                    DiscordPresenceUpdator.updateTimeLeft(null);
+            }
+        };
+        clientboundBossEventPacket.dispatch(bossbarHandler);
     }
 
 }

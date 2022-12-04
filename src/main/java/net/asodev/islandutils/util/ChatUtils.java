@@ -25,6 +25,11 @@ public class ChatUtils {
         send(Component.literal(translate("&7[IslandUtils] " + s)));
     }
 
+    public static void debug(Component component) {
+        if (!IslandOptions.getOptions().isDebugMode()) return;
+        send(Component.literal(translate("&7[IslandUtils] ")).append(component));
+    }
+
     public static void send(Component component) {
         Minecraft.getInstance().getChatListener().handleSystemMessage(component, false);
     }

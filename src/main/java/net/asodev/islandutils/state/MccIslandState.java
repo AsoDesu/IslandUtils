@@ -1,23 +1,17 @@
 package net.asodev.islandutils.state;
 
+import net.asodev.islandutils.discord.DiscordPresenceUpdator;
+import net.asodev.islandutils.state.faction.FACTION;
 import net.asodev.islandutils.util.ChatUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-
-import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class MccIslandState {
 
     private static STATE game = STATE.HUB;
     private static String modifier = "INACTIVE";
     private static String map = "UNKNOWN";
+    private static FACTION faction;
 
     public static STATE getGame() {
         return game;
@@ -25,10 +19,6 @@ public class MccIslandState {
 
     public static String getModifier() {
         return modifier;
-    }
-
-    public static String getMap() {
-        return map;
     }
 
     public static void setGame(STATE game) {
@@ -41,6 +31,18 @@ public class MccIslandState {
 
     public static void setMap(String map) {
         MccIslandState.map = map;
+    }
+    public static String getMap() {
+        return map;
+    }
+
+    public static FACTION getFaction() {
+        return faction;
+    }
+    public static void setFaction(FACTION faction) {
+        ChatUtils.debug("Detected Faction: " + faction);
+        DiscordPresenceUpdator.setLevel(DiscordPresenceUpdator.lastLevel);
+        MccIslandState.faction = faction;
     }
 
     public static boolean isOnline() {

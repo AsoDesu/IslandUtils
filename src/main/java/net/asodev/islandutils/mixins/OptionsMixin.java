@@ -23,7 +23,7 @@ public class OptionsMixin extends Screen {
 
     @Inject(method = "init", at = @At("TAIL"))
     public void init(CallbackInfo ci) {
-        this.addRenderableWidget(new Button(this.width / 2 - 155, this.height / 6 + 144 - 6, 150, 20, Component.literal("IslandUtils Options"), (button) -> {
+        this.addRenderableWidget(new Button(this.width / 2 - 155, this.height / 6 + 144 - 6, 150, 20, Component.translatable("menu.island_utils"), (button) -> {
             this.minecraft.setScreen(IslandOptions.getScreen(this));
         }));
     }

@@ -6,10 +6,11 @@
   "mixins": [
     "cosmetics.ChestScreenMixin",
     "cosmetics.FontLoaderMixin",
+    "discord.ConnectionMixin",
+    "discord.PlayerTeamMixin",
     "resources.PackRepositoryMixin"
   ],
   "client": [
-    "JoinMCCIMixin",
     "MainScreenMixin",
     "OptionsMixin",
     "PacketListenerMixin",

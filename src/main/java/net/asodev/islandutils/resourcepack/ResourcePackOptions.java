@@ -17,8 +17,7 @@ public class ResourcePackOptions {
     public static ResourcePack data;
 
     public static void save() throws IOException {
-        File folder = new File(islandFolder);
-        if (!folder.exists()) folder.mkdir();
+        assertIslandFolder();
 
         File packData = new File(packDataFile);
         if (!packData.exists()) packData.createNewFile();
@@ -38,6 +37,11 @@ public class ResourcePackOptions {
 
         data = ResourcePack.fromJson(json);
         return data;
+    }
+
+    public static void assertIslandFolder() {
+        File folder = new File(islandFolder);
+        if (!folder.exists()) folder.mkdir();
     }
 
 }

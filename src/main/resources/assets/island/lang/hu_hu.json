@@ -22,5 +22,19 @@
   "text.autoconfig.islandutils.option.debugMode": "Debug Mód",
 
   "modmenu.descriptionTranslation.islandutils": "Egy Utility Mod az MCC Islandhez!",
-  "modmenu.summaryTranslation.islandutils": "Egy Utility Mod az MCC Islandhez!"
+  "modmenu.summaryTranslation.islandutils": "Egy Utility Mod az MCC Islandhez!",
+
+  "menu.island_utils": "IslandUtils Options",
+  "text.autoconfig.islandutils.category.discord": "Discord Presence",
+  "text.autoconfig.islandutils.option.discordPresence": "Enable Discord Presence",
+  "text.autoconfig.islandutils.option.showGame": "Show Game",
+  "text.autoconfig.islandutils.option.showGame.@Tooltip": "Show the game that you're playing",
+  "text.autoconfig.islandutils.option.showGameInfo": "Show Game Details",
+  "text.autoconfig.islandutils.option.showGameInfo.@Tooltip": "Show the Details of your current game (e.g. Round, Players Remaining)",
+  "text.autoconfig.islandutils.option.showTimeRemaining": "Show Time Remaining",
+  "text.autoconfig.islandutils.option.showTimeRemaining.@Tooltip": "Show how long is left in your current game\n(Disabling will always show time elapsed)",
+  "text.autoconfig.islandutils.option.showTimeElapsed": "Show Time Elapsed",
+  "text.autoconfig.islandutils.option.showTimeElapsed.@Tooltip": "Show how long you've been playing on island!",
+  "text.autoconfig.islandutils.option.showFactionLevel": "Show Faction Level",
+  "text.autoconfig.islandutils.option.showFactionLevel.@Tooltip": "Show your current Faction and Level."
 }

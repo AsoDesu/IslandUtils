@@ -27,6 +27,24 @@ public class IslandOptions implements ConfigData {
     @ConfigEntry.Category("cosmetics")
     boolean showOnOnlyCosmeticMenus = true;
 
+    @ConfigEntry.Category("discord")
+    public boolean discordPresence = true;
+    @ConfigEntry.Category("discord")
+    @ConfigEntry.Gui.Tooltip()
+    public boolean showGame = true;
+    @ConfigEntry.Category("discord")
+    @ConfigEntry.Gui.Tooltip()
+    public boolean showGameInfo = true;
+    @ConfigEntry.Category("discord")
+    @ConfigEntry.Gui.Tooltip()
+    public boolean showTimeRemaining = true;
+    @ConfigEntry.Category("discord")
+    @ConfigEntry.Gui.Tooltip()
+    public boolean showTimeElapsed = true;
+    @ConfigEntry.Category("discord")
+    @ConfigEntry.Gui.Tooltip()
+    public boolean showFactionLevel = true;
+
     @ConfigEntry.Category("misc")
     boolean pauseConfirm = true;
 

@@ -6,31 +6,18 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import net.asodev.islandutils.options.IslandOptions;
-import net.asodev.islandutils.state.COSMETIC_TYPE;
-import net.asodev.islandutils.state.CosmeticSlot;
-import net.asodev.islandutils.state.CosmeticState;
+import net.asodev.islandutils.state.cosmetics.CosmeticState;
 import net.asodev.islandutils.state.MccIslandState;
-import net.asodev.islandutils.util.ChatUtils;
-import net.fabricmc.fabric.mixin.client.rendering.InGameHudMixin;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.screens.ChatScreen;
-import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -39,12 +26,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-import static net.asodev.islandutils.state.CosmeticState.applyColor;
-import static net.asodev.islandutils.state.CosmeticState.isCosmeticMenu;
+import static net.asodev.islandutils.state.cosmetics.CosmeticState.applyColor;
+import static net.asodev.islandutils.state.cosmetics.CosmeticState.isCosmeticMenu;
 
 @Mixin(ContainerScreen.class)
 public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {

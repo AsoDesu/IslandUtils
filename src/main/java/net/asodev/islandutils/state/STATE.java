@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 public enum STATE {
 
-    HUB("Hub", null, true),
+    HUB("Hub", null),
 
     TGTTOS("TGTTOS", new ResourceLocation("island", "island.music.tgttos")),
     HITW("Hole in the Wall", new ResourceLocation("island", "island.music.hitw")),
@@ -14,15 +14,9 @@ public enum STATE {
 
     final private String name;
     final private ResourceLocation musicLocation;
-    final private boolean hub;
-
     STATE(String name, ResourceLocation location) {
-        this(name, location, false);
-    }
-    STATE(String name, ResourceLocation location, boolean hub) {
         this.name = name;
         this.musicLocation = location;
-        this.hub = hub;
     }
 
     public String getName() {
@@ -30,9 +24,6 @@ public enum STATE {
     }
     public ResourceLocation getMusicLocation() {
         return musicLocation;
-    }
-    public boolean isHub() {
-        return hub;
     }
 
     @Nullable

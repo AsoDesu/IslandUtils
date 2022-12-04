@@ -6,29 +6,18 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.asodev.islandutils.IslandutilsClient;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.*;
-import net.asodev.islandutils.util.ChatUtils;
-import net.asodev.islandutils.util.Maths;
+import net.asodev.islandutils.state.cosmetics.Cosmetic;
+import net.asodev.islandutils.state.cosmetics.CosmeticSlot;
+import net.asodev.islandutils.state.cosmetics.CosmeticState;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtIo;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.commands.data.BlockDataAccessor;
-import net.minecraft.server.commands.data.DataCommands;
-import net.minecraft.server.commands.data.StorageDataAccessor;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.DyeableArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import org.lwjgl.glfw.GLFW;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -36,12 +25,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
-
-import static net.asodev.islandutils.state.CosmeticState.customModelData;
-import static net.asodev.islandutils.state.CosmeticState.itemsMatch;
+import static net.asodev.islandutils.state.cosmetics.CosmeticState.customModelData;
+import static net.asodev.islandutils.state.cosmetics.CosmeticState.itemsMatch;
 
 
 @Mixin(AbstractContainerScreen.class)
