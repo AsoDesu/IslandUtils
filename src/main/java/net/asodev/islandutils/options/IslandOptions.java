@@ -47,6 +47,12 @@ public class IslandOptions implements ConfigData {
 
     @ConfigEntry.Category("misc")
     boolean pauseConfirm = true;
+    @ConfigEntry.Category("misc")
+    boolean autoTeamChat = false;
+
+    @ConfigEntry.Category("misc")
+    @ConfigEntry.Gui.Tooltip()
+    boolean hideSliders = false;
 
     @ConfigEntry.Category("misc")
     boolean debugMode = false;
@@ -72,6 +78,13 @@ public class IslandOptions implements ConfigData {
     public boolean isPauseConfirm() {
         return pauseConfirm;
     }
+    public boolean isAutoTeamChat() {
+        return autoTeamChat;
+    }
+    public boolean isHideSliders() {
+        return hideSliders;
+    }
+
     public boolean isShowOnHover() {
         return showOnHover;
     }

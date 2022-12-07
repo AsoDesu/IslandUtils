@@ -1,9 +1,11 @@
 package net.asodev.islandutils.options;
 
-import dev.stashy.soundcategories.CategoryLoader;
 import net.minecraft.sounds.SoundSource;
 
-public class IslandSoundCategories implements CategoryLoader {
-    @Register(id = "MCC_MUSIC", master = true)
-    public static SoundSource MUSIC;
+public class IslandSoundCategories {
+
+    public static SoundSource[] before;
+
+    public static SoundSource GAME_MUSIC;
+    public static SoundSource CORE_MUSIC;
 }

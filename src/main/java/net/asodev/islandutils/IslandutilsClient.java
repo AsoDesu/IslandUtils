@@ -1,16 +1,12 @@
 package net.asodev.islandutils;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import net.asodev.islandutils.discord.DiscordPresence;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
-import net.asodev.islandutils.options.IslandOptions;
-import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
@@ -29,15 +25,11 @@ public class IslandutilsClient implements ClientModInitializer {
                 GLFW.GLFW_KEY_P, // The keycode of the key
                 "category.islandutils.keys" // The translation key of the keybinding's category.
         ));
-
-        ClientPlayConnectionEvents.JOIN.register((packetListener, packetSender, client) -> {
-            if (MccIslandState.isOnline()) onJoinMCCI();
-        });
     }
 
-    public void onJoinMCCI() {
+    public static void onJoinMCCI() {
         if (IslandUtils.availableUpdate != null) {
-            ChatUtils.dev("Hey! Update " + IslandUtils.availableUpdate.title() + " is available for Island Utils!");
+            ChatUtils.send("Hey! Update " + IslandUtils.availableUpdate.title() + " is available for Island Utils!");
 
             Style style = Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, IslandUtils.availableUpdate.releaseUrl()));
             Component link = Component.literal(IslandUtils.availableUpdate.releaseUrl()).setStyle(style);
@@ -45,7 +37,6 @@ public class IslandutilsClient implements ClientModInitializer {
 
             ChatUtils.send(text);
         }
-
         DiscordPresenceUpdator.create();
     }
 }

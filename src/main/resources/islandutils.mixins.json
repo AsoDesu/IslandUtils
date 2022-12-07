@@ -8,16 +8,19 @@
     "cosmetics.FontLoaderMixin",
     "discord.ConnectionMixin",
     "discord.PlayerTeamMixin",
-    "resources.PackRepositoryMixin"
+    "resources.PackRepositoryMixin",
+    "sounds.SoundSourceMixin"
   ],
   "client": [
+    "JoinMCCIMixin",
     "MainScreenMixin",
     "OptionsMixin",
     "PacketListenerMixin",
     "PauseScreenMixin",
     "cosmetics.UIMixin",
     "resources.MultiplayerJoinMixin",
-    "resources.ProgressScreenAccessor"
+    "resources.ProgressScreenAccessor",
+    "sounds.SoundOptionsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

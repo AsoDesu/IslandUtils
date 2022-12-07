@@ -31,7 +31,7 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
     modApi("com.terraformersmc:modmenu:4.0.6")
-    modImplementation include("dev.stashy:sound-categories:1.2.4+1.19")
+    // modImplementation include("dev.stashy:sound-categories:1.2.4+1.19")
 
     implementation include('com.github.JnCrMx:discord-game-sdk4j:0.5.5')
 }

@@ -2,7 +2,6 @@ package net.asodev.islandutils.util;
 
 import net.asodev.islandutils.options.IslandOptions;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.network.chat.Component;
 
 public class ChatUtils {
@@ -12,7 +11,7 @@ public class ChatUtils {
         return s.replaceAll("&", "§");
     }
 
-    public static void dev(String s) {
+    public static void send(String s) {
         send(Component.literal(translate(prefix + " " + s)));
     }
 

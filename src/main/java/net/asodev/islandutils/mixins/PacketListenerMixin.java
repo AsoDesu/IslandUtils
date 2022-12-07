@@ -1,6 +1,8 @@
 package net.asodev.islandutils.mixins;
 
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
+import net.asodev.islandutils.options.IslandOptions;
+import net.asodev.islandutils.options.IslandSoundCategories;
 import net.asodev.islandutils.state.*;
 import net.asodev.islandutils.state.cosmetics.CosmeticSlot;
 import net.asodev.islandutils.state.cosmetics.CosmeticState;
@@ -9,12 +11,15 @@ import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.ChatScreen;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.WeighedSoundEvents;
 import net.minecraft.nbt.NbtIo;
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.PacketUtils;
@@ -23,6 +28,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Final;
@@ -40,6 +46,10 @@ import java.util.regex.Pattern;
 public abstract class PacketListenerMixin {
 
     @Shadow @Final private Minecraft minecraft;
+
+    @Shadow public abstract void cleanup();
+
+    @Shadow private ClientLevel level;
 
     @Inject(method = "handleAddObjective", at = @At("TAIL"))
     public void handleAddObjective(ClientboundSetObjectivePacket clientboundSetObjectivePacket, CallbackInfo ci) {
@@ -131,9 +141,10 @@ public abstract class PacketListenerMixin {
         if (!MccIslandState.isOnline()) return;
 
         // Create a sound instance of the sound that is being played with this packed
+        // Set the source to CORE_MUSIC just in case we want to play this later.
         SoundInstance instance = new SimpleSoundInstance(
                 clientboundCustomSoundPacket.getName(),
-                SoundSource.RECORDS,
+                IslandSoundCategories.CORE_MUSIC,
                 clientboundCustomSoundPacket.getVolume(),
                 clientboundCustomSoundPacket.getPitch(),
                 RandomSource.create(clientboundCustomSoundPacket.getSeed()),
@@ -154,16 +165,6 @@ public abstract class PacketListenerMixin {
         } catch (Exception e) {
             return;
         }
-
-        // End:
-        // games.global.timer.round_end
-        // games.global.music.roundendmusic
-        // games.global.music.overtime_intro_music
-        // games.global.music.gameendmusic
-
-        // Start:
-        // games.global.countdown.go
-        // games.global.music.gameintro
 
         // If we aren't in a game, dont play music
         if (MccIslandState.getGame() != STATE.HUB) {
@@ -189,6 +190,12 @@ public abstract class PacketListenerMixin {
                 // The game ended or is about to end. Stop the music!!
                 MusicUtil.stopMusic();
             }
+        }
+
+        // Play Music in the "Core Music" Category.
+        if (soundLoc.getPath().contains("global.music")) {
+            Minecraft.getInstance().getSoundManager().play(instance);
+            ci.cancel();
         }
     }
 
@@ -244,6 +251,24 @@ public abstract class PacketListenerMixin {
             }
         };
         clientboundBossEventPacket.dispatch(bossbarHandler);
+    }
+
+    @Inject(method = "handleSystemChat", at = @At("TAIL"))
+    private void handleSystemChat(ClientboundSystemChatPacket clientboundSystemChatPacket, CallbackInfo ci) {
+        List<Component> components = clientboundSystemChatPacket.content().toFlatList();
+        if (components.size() > 1 && components.get(0).getString().contains("[Click Here]")) {
+            ClickEvent event = components.get(0).getStyle().getClickEvent();
+            if (event == null) return;
+            String command = event.getValue();
+
+            if (command.equals("/chat team") &&
+                    IslandOptions.getOptions().isAutoTeamChat() &&
+                    this.minecraft.player != null) {
+                this.minecraft.player.commandSigned(command.substring(1), null);
+
+                ChatUtils.send("&aAutomatically put you into Team Chat!");
+            }
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package net.asodev.islandutils.mixins.discord;
 
+import net.asodev.islandutils.discord.DiscordPresence;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
@@ -13,6 +14,7 @@ public class ConnectionMixin {
 
     @Inject(method = "disconnect", at = @At("HEAD"))
     private void disconnect(Component component, CallbackInfo ci) {
+        DiscordPresenceUpdator.started = null;
         DiscordPresenceUpdator.clear();
     }
 

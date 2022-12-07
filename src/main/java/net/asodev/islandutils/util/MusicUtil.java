@@ -42,7 +42,7 @@ public class MusicUtil {
 
         SoundInstance instance = new SimpleSoundInstance(
                 location,
-                IslandSoundCategories.MUSIC,
+                IslandSoundCategories.GAME_MUSIC,
                 1,
                 pitch,
                 RandomSource.create(clientboundCustomSoundPacket.getSeed()),
@@ -62,7 +62,7 @@ public class MusicUtil {
         if (location == null) return;
 
         ChatUtils.debug("[MusicUtil] Stopping: " + location.getPath());
-        Minecraft.getInstance().getSoundManager().stop(location, IslandSoundCategories.MUSIC);
+        Minecraft.getInstance().getSoundManager().stop(location, IslandSoundCategories.GAME_MUSIC);
     }
 
 }

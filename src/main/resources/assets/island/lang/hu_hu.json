@@ -1,5 +1,4 @@
 {
-  "soundCategory.mcc_music":  "§bMCCI Zene",
   "key.islandutils.preview": "Kozmetikai Előnézet",
   "category.islandutils.keys": "IslandUtils",
   "category.islandutils": "Island Utils",
@@ -36,5 +35,11 @@
   "text.autoconfig.islandutils.option.showTimeElapsed": "Show Time Elapsed",
   "text.autoconfig.islandutils.option.showTimeElapsed.@Tooltip": "Show how long you've been playing on island!",
   "text.autoconfig.islandutils.option.showFactionLevel": "Show Faction Level",
-  "text.autoconfig.islandutils.option.showFactionLevel.@Tooltip": "Show your current Faction and Level."
+  "text.autoconfig.islandutils.option.showFactionLevel.@Tooltip": "Show your current Faction and Level.",
+  "text.autoconfig.islandutils.option.autoTeamChat": "Auto Team Chat",
+  "soundCategory.game_music":  "§bMCCI Zene",
+  "soundCategory.core_music": "§cMCCI: Core Music",
+  "text.autoconfig.islandutils.option.autoTeamChat.@Tooltip": "Automatically be put into Team Chat in Team Games",
+  "text.autoconfig.islandutils.option.hideSliders": "Hide Sound Sliders if not Online",
+  "text.autoconfig.islandutils.option.hideSliders.@Tooltip": "Hides the Music Sliders if you're not on MCC Island"
 }

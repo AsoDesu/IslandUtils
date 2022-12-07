@@ -1,6 +1,7 @@
 {
   "menu.island_utils": "IslandUtils Options",
-  "soundCategory.mcc_music":  "§bMCCI Music",
+  "soundCategory.game_music":  "§bMCCI: Game Music",
+  "soundCategory.core_music":  "§cMCCI: Core Music",
   "key.islandutils.preview": "Preview Cosmetic",
   "category.islandutils.keys": "IslandUtils",
   "category.islandutils": "Island Utils",
@@ -33,6 +34,10 @@
 
   "text.autoconfig.islandutils.category.misc": "Miscellaneous",
   "text.autoconfig.islandutils.option.pauseConfirm": "Confirm Before Disconnect",
+  "text.autoconfig.islandutils.option.autoTeamChat": "Auto Team Chat",
+  "text.autoconfig.islandutils.option.autoTeamChat.@Tooltip": "Automatically be put into Team Chat in Team Games",
+  "text.autoconfig.islandutils.option.hideSliders": "Hide Sound Sliders if not Online",
+  "text.autoconfig.islandutils.option.hideSliders.@Tooltip": "Hides the Music Sliders if you're not on MCC Island",
   "text.autoconfig.islandutils.option.debugMode": "Debug Mode",
 
   "modmenu.descriptionTranslation.islandutils": "A Utility Mod for MCC Island!",

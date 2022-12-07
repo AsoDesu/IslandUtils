@@ -6,15 +6,16 @@ import de.jcm.discordgamesdk.activity.ActivityType;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.state.STATE;
+import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
 import java.util.UUID;
 
 public class DiscordPresenceUpdator {
 
-    static Activity activity;
+    @Nullable static Activity activity;
     public static UUID timeLeftBossbar = null;
-    static Instant started;
+    public static Instant started;
     public static void create() {
         DiscordPresence.init();
 
@@ -31,6 +32,7 @@ public class DiscordPresenceUpdator {
     }
 
     public static void updateTimeLeft(Long endTimestamp) {
+        if (activity == null) return;
         if (!IslandOptions.getOptions().showTimeRemaining || !IslandOptions.getOptions().showGame) return;
 
         if (endTimestamp != null) activity.timestamps().setEnd(Instant.ofEpochMilli(endTimestamp));
@@ -40,6 +42,7 @@ public class DiscordPresenceUpdator {
 
     public static int lastLevel = -1;
     public static void setLevel(int level) {
+        if (activity == null) return;
         if (!IslandOptions.getOptions().showFactionLevel) return;
 
         lastLevel = level;
@@ -51,6 +54,7 @@ public class DiscordPresenceUpdator {
     }
 
     public static void updatePlace() {
+        if (activity == null) return;
         if (!IslandOptions.getOptions().showGame) return;
 
         activity.assets().setLargeImage(MccIslandState.getGame().name().toLowerCase());
@@ -78,6 +82,7 @@ public class DiscordPresenceUpdator {
 
     static String REMAIN_STATE;
     public static void remainScoreboardUpdate(String value, Boolean set) {
+        if (activity == null) return;
         if (!IslandOptions.getOptions().showGameInfo || !IslandOptions.getOptions().showGame) return;
 
         if (set) REMAIN_STATE = "Remaining: " + value;
@@ -87,6 +92,7 @@ public class DiscordPresenceUpdator {
     }
     static String ROUND_STATE;
     public static void roundScoreboardUpdate(String value, Boolean set) {
+        if (activity == null) return;
         if (!IslandOptions.getOptions().showGameInfo || !IslandOptions.getOptions().showGame) return;
 
         if (set) ROUND_STATE = "Round: " + value;
@@ -96,12 +102,10 @@ public class DiscordPresenceUpdator {
     }
 
     public static void updateActivity() {
+        if (activity == null) return;
         if (!IslandOptions.getOptions().discordPresence) return;
         Core core = DiscordPresence.core;
-        if (core == null || !core.isOpen()) {
-            System.out.println("Discord is not initalised.");
-            return;
-        }
+        if (core == null || !core.isOpen()) return;
         core.activityManager().updateActivity(activity);
     }
 
