@@ -1,16 +1,18 @@
 package net.asodev.islandutils.resourcepack;
 
-import net.minecraft.server.packs.repository.Pack;
-import net.minecraft.server.packs.repository.PackRepository;
-import net.minecraft.server.packs.repository.RepositorySource;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.packs.repository.PackSource;
 
-import java.util.function.Consumer;
+public class IslandUtilsPackSource implements PackSource {
 
-public class IslandUtilsPackSource implements RepositorySource {
     @Override
-    public void loadPacks(Consumer<Pack> consumer) {
-        if (ResourcePackUpdater.pack != null) {
-            consumer.accept(ResourcePackUpdater.pack);
-        }
+    public boolean shouldAddAutomatically() {
+        return true;
+    }
+
+    @Override
+    public Component decorate(Component packName) {
+        return Component.literal("Fabric mod").withStyle(ChatFormatting.GRAY);
     }
 }
