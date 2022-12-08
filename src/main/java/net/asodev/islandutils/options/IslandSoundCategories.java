@@ -8,4 +8,5 @@ public class IslandSoundCategories {
 
     public static SoundSource GAME_MUSIC;
     public static SoundSource CORE_MUSIC;
+    public static SoundSource SOUND_EFFECTS;
 }

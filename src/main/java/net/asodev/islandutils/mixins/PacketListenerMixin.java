@@ -1,5 +1,6 @@
 package net.asodev.islandutils.mixins;
 
+import com.mojang.authlib.GameProfile;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.IslandSoundCategories;
@@ -12,16 +13,21 @@ import net.asodev.islandutils.util.MusicUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.WeighedSoundEvents;
+import net.minecraft.client.telemetry.WorldSessionTelemetryManager;
 import net.minecraft.nbt.NbtIo;
+import net.minecraft.network.Connection;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.PacketUtils;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.resources.ResourceKey;
@@ -42,14 +48,12 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static net.asodev.islandutils.IslandutilsClient.onJoinMCCI;
+
 @Mixin(ClientPacketListener.class)
 public abstract class PacketListenerMixin {
 
     @Shadow @Final private Minecraft minecraft;
-
-    @Shadow public abstract void cleanup();
-
-    @Shadow private ClientLevel level;
 
     @Inject(method = "handleAddObjective", at = @At("TAIL"))
     public void handleAddObjective(ClientboundSetObjectivePacket clientboundSetObjectivePacket, CallbackInfo ci) {
@@ -135,26 +139,14 @@ public abstract class PacketListenerMixin {
         });
     }
 
-    @Inject(method = "handleCustomSoundEvent", at = @At("HEAD"), cancellable = true)
-    public void handleCustomSoundEvent(ClientboundCustomSoundPacket clientboundCustomSoundPacket, CallbackInfo ci) {
+    @Inject(method = "handleSoundEvent", at = @At("HEAD"), cancellable = true)
+    public void handleCustomSoundEvent(ClientboundSoundPacket clientboundCustomSoundPacket, CallbackInfo ci) {
         PacketUtils.ensureRunningOnSameThread(clientboundCustomSoundPacket, (ClientPacketListener) (Object) this, this.minecraft);
         if (!MccIslandState.isOnline()) return;
 
         // Create a sound instance of the sound that is being played with this packed
         // Set the source to CORE_MUSIC just in case we want to play this later.
-        SoundInstance instance = new SimpleSoundInstance(
-                clientboundCustomSoundPacket.getName(),
-                IslandSoundCategories.CORE_MUSIC,
-                clientboundCustomSoundPacket.getVolume(),
-                clientboundCustomSoundPacket.getPitch(),
-                RandomSource.create(clientboundCustomSoundPacket.getSeed()),
-                false,
-                0,
-                SoundInstance.Attenuation.LINEAR,
-                clientboundCustomSoundPacket.getX(),
-                clientboundCustomSoundPacket.getY(),
-                clientboundCustomSoundPacket.getZ(),
-                false);
+        SoundInstance instance = MusicUtil.createSoundInstance(clientboundCustomSoundPacket, SoundSource.MASTER);
 
         // Attempt to get the underlying sound file from the played sound
         // We have to do this because Noxcrew obfuscated the sound ids, and may change should the resource pack update
@@ -194,6 +186,11 @@ public abstract class PacketListenerMixin {
 
         // Play Music in the "Core Music" Category.
         if (soundLoc.getPath().contains("global.music")) {
+            instance = MusicUtil.createSoundInstance(clientboundCustomSoundPacket, IslandSoundCategories.CORE_MUSIC);
+            Minecraft.getInstance().getSoundManager().play(instance);
+            ci.cancel();
+        } else if (soundLoc.getNamespace().equals("mcc")) {
+            instance = MusicUtil.createSoundInstance(clientboundCustomSoundPacket, IslandSoundCategories.SOUND_EFFECTS);
             Minecraft.getInstance().getSoundManager().play(instance);
             ci.cancel();
         }
@@ -264,7 +261,7 @@ public abstract class PacketListenerMixin {
             if (command.equals("/chat team") &&
                     IslandOptions.getOptions().isAutoTeamChat() &&
                     this.minecraft.player != null) {
-                this.minecraft.player.commandSigned(command.substring(1), null);
+                this.minecraft.player.connection.sendCommand(command.substring(1));
 
                 ChatUtils.send("&aAutomatically put you into Team Chat!");
             }

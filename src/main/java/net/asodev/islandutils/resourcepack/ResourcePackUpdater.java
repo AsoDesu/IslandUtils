@@ -3,15 +3,20 @@ package net.asodev.islandutils.resourcepack;
 import com.google.gson.Gson;
 import net.asodev.islandutils.resourcepack.schema.ResourcePack;
 import net.asodev.islandutils.updater.schema.GithubRelease;
+import net.fabricmc.fabric.impl.resource.loader.FabricModResourcePack;
+import net.fabricmc.fabric.mixin.resource.loader.ResourcePackManagerMixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ProgressScreen;
 import net.minecraft.client.resources.ClientPackSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.FilePackResources;
+import net.minecraft.server.packs.PackResources;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackCompatibility;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.util.HttpUtil;
+import net.minecraft.world.flag.FeatureFlagSet;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,17 +65,17 @@ public class ResourcePackUpdater {
     public void apply(File file, Boolean save) {
         getting = false;
         state = null;
-
-        pack = new Pack(
+        pack = Pack.create(
                 "island_utils",
-                true,
-                () -> new FilePackResources(file),
                 title,
-                desc,
-                PackCompatibility.COMPATIBLE,
+                true,
+                (d) -> new FilePackResources("IslandUtils", file, true),
+                new Pack.Info(desc, 0, FeatureFlagSet.of()),
+                PackType.CLIENT_RESOURCES,
                 Pack.Position.BOTTOM,
                 true,
-                PackSource.decorating("Fabric mod"));
+                PackSource.create((d) -> Component.literal("Fabric mod"), true)
+        );
 
         if (save) {
             try { ResourcePackOptions.save(); }

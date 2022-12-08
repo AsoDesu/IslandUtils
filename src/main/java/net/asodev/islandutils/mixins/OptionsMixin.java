@@ -3,10 +3,13 @@ package net.asodev.islandutils.mixins;
 import net.asodev.islandutils.options.IslandOptions;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.screens.AccessibilityOptionsScreen;
 import net.minecraft.client.gui.screens.OptionsScreen;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -23,9 +26,9 @@ public class OptionsMixin extends Screen {
 
     @Inject(method = "init", at = @At("TAIL"))
     public void init(CallbackInfo ci) {
-        this.addRenderableWidget(new Button(this.width / 2 - 155, this.height / 6 + 144 - 6, 150, 20, Component.translatable("menu.island_utils"), (button) -> {
+        this.addRenderableWidget(Button.builder(Component.translatable("menu.island_utils"), (button) -> {
             this.minecraft.setScreen(IslandOptions.getScreen(this));
-        }));
+        }).pos(10, 10).size(100, 20).build());
     }
 
 }

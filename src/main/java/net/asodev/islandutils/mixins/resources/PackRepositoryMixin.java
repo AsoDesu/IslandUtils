@@ -20,8 +20,8 @@ public class PackRepositoryMixin {
 
     @Shadow @Final @Mutable private Set<RepositorySource> sources;
 
-    @Inject(method = "<init>(Lnet/minecraft/server/packs/repository/Pack$PackConstructor;[Lnet/minecraft/server/packs/repository/RepositorySource;)V", at = @At("RETURN"))
-    private void init(Pack.PackConstructor packConstructor, RepositorySource[] repositorySources, CallbackInfo ci) {
+    @Inject(method = "<init>", at = @At("RETURN"))
+    private void init(RepositorySource[] repositorySources, CallbackInfo ci) {
         sources = new HashSet<>(sources);
         sources.add(new IslandUtilsPackSource());
     }

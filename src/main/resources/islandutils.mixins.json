@@ -12,12 +12,12 @@
     "sounds.SoundSourceMixin"
   ],
   "client": [
-    "JoinMCCIMixin",
     "MainScreenMixin",
     "OptionsMixin",
     "PacketListenerMixin",
     "PauseScreenMixin",
     "cosmetics.UIMixin",
+    "discord.JoinMCCIMixin",
     "resources.MultiplayerJoinMixin",
     "resources.ProgressScreenAccessor",
     "sounds.SoundOptionsMixin"

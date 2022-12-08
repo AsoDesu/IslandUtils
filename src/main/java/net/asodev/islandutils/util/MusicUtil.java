@@ -7,8 +7,9 @@ import net.asodev.islandutils.state.STATE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
-import net.minecraft.network.protocol.game.ClientboundCustomSoundPacket;
+import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 
 import java.util.Objects;
@@ -17,7 +18,7 @@ import static net.asodev.islandutils.options.IslandOptions.getOptions;
 
 public class MusicUtil {
 
-    public static void startMusic(ClientboundCustomSoundPacket clientboundCustomSoundPacket) {
+    public static void startMusic(ClientboundSoundPacket clientboundCustomSoundPacket) {
         IslandOptions options = getOptions();
         switch (MccIslandState.getGame()) {
             case HITW -> { if (!options.isHitwMusic()) return; }
@@ -55,6 +56,22 @@ public class MusicUtil {
                 false);
 
         Minecraft.getInstance().getSoundManager().play(instance);
+    }
+
+    public static SoundInstance createSoundInstance(ClientboundSoundPacket clientboundCustomSoundPacket, SoundSource source) {
+        return new SimpleSoundInstance(
+                clientboundCustomSoundPacket.getSound().value().getLocation(),
+                source,
+                clientboundCustomSoundPacket.getVolume(),
+                clientboundCustomSoundPacket.getPitch(),
+                RandomSource.create(clientboundCustomSoundPacket.getSeed()),
+                false,
+                0,
+                SoundInstance.Attenuation.LINEAR,
+                clientboundCustomSoundPacket.getX(),
+                clientboundCustomSoundPacket.getY(),
+                clientboundCustomSoundPacket.getZ(),
+                false);
     }
 
     public static void stopMusic() {

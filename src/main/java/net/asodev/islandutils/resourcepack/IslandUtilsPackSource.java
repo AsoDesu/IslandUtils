@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 
 public class IslandUtilsPackSource implements RepositorySource {
     @Override
-    public void loadPacks(Consumer<Pack> consumer, Pack.PackConstructor packConstructor) {
+    public void loadPacks(Consumer<Pack> consumer) {
         if (ResourcePackUpdater.pack != null) {
             consumer.accept(ResourcePackUpdater.pack);
         }
