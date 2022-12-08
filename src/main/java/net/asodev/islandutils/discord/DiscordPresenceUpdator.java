@@ -114,6 +114,7 @@ public class DiscordPresenceUpdator {
     }
 
     public static void updateFromConfig(IslandOptions options) {
+        if (!MccIslandState.isOnline()) return;
         if (activity == null || DiscordPresence.core == null) return;
 
         if (options.discordPresence) create();

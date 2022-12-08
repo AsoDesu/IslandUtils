@@ -142,19 +142,7 @@ public abstract class PacketListenerMixin {
 
         // Create a sound instance of the sound that is being played with this packed
         // Set the source to CORE_MUSIC just in case we want to play this later.
-        SoundInstance instance = new SimpleSoundInstance(
-                clientboundCustomSoundPacket.getName(),
-                IslandSoundCategories.CORE_MUSIC,
-                clientboundCustomSoundPacket.getVolume(),
-                clientboundCustomSoundPacket.getPitch(),
-                RandomSource.create(clientboundCustomSoundPacket.getSeed()),
-                false,
-                0,
-                SoundInstance.Attenuation.LINEAR,
-                clientboundCustomSoundPacket.getX(),
-                clientboundCustomSoundPacket.getY(),
-                clientboundCustomSoundPacket.getZ(),
-                false);
+        SoundInstance instance = MusicUtil.createSoundInstance(clientboundCustomSoundPacket, SoundSource.MASTER);
 
         // Attempt to get the underlying sound file from the played sound
         // We have to do this because Noxcrew obfuscated the sound ids, and may change should the resource pack update
@@ -194,6 +182,11 @@ public abstract class PacketListenerMixin {
 
         // Play Music in the "Core Music" Category.
         if (soundLoc.getPath().contains("global.music")) {
+            instance = MusicUtil.createSoundInstance(clientboundCustomSoundPacket, IslandSoundCategories.CORE_MUSIC);
+            Minecraft.getInstance().getSoundManager().play(instance);
+            ci.cancel();
+        } else if (soundLoc.getNamespace().equals("mcc")) {
+            instance = MusicUtil.createSoundInstance(clientboundCustomSoundPacket, IslandSoundCategories.SOUND_EFFECTS);
             Minecraft.getInstance().getSoundManager().play(instance);
             ci.cancel();
         }

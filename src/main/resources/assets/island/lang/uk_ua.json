@@ -1,7 +1,8 @@
 {
-  "menu.island_utils": "IslandUtils Options",
+  "menu.island_utils": "IslandUtils",
   "soundCategory.game_music":  "§bMCCI: Game Music",
   "soundCategory.core_music":  "§cMCCI: Core Music",
+  "soundCategory.sound_effects":  "§aMCCI: Sound Effects",
   "key.islandutils.preview": "Preview Cosmetic",
   "category.islandutils.keys": "IslandUtils",
   "category.islandutils": "Island Utils",

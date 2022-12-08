@@ -41,6 +41,7 @@ public class SoundSourceMixin {
 
         IslandSoundCategories.GAME_MUSIC = addVariant(categories, "GAME_MUSIC");
         IslandSoundCategories.CORE_MUSIC = addVariant(categories, "CORE_MUSIC");
+        IslandSoundCategories.SOUND_EFFECTS = addVariant(categories, "SOUND_EFFECTS");
 
         $VALUES = categories.toArray(new SoundSource[0]);
     }
