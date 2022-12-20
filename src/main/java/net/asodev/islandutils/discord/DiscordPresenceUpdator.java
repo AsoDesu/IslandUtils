@@ -119,7 +119,10 @@ public class DiscordPresenceUpdator {
         if (options.discordPresence) create();
 
         if (!options.showTimeElapsed) activity.timestamps().setStart(Instant.MAX);
-        else activity.timestamps().setStart(started);
+        else {
+            if (started == null) started = Instant.ofEpochMilli(System.currentTimeMillis());
+            activity.timestamps().setStart(started);
+        }
 
         if (!options.showTimeRemaining) activity.timestamps().setEnd(Instant.ofEpochSecond(0));
 

@@ -1,7 +1,6 @@
 package net.asodev.islandutils.mixins.discord;
 
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
-import net.asodev.islandutils.util.ChatUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.scores.PlayerTeam;
 import org.spongepowered.asm.mixin.Mixin;

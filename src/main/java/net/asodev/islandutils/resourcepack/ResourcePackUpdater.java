@@ -2,26 +2,19 @@ package net.asodev.islandutils.resourcepack;
 
 import com.google.gson.Gson;
 import net.asodev.islandutils.resourcepack.schema.ResourcePack;
-import net.asodev.islandutils.updater.schema.GithubRelease;
-import net.fabricmc.fabric.impl.resource.loader.FabricModResourcePack;
-import net.fabricmc.fabric.mixin.resource.loader.ResourcePackManagerMixin;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ProgressScreen;
-import net.minecraft.client.resources.ClientPackSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.FilePackResources;
-import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
-import net.minecraft.server.packs.repository.PackCompatibility;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.util.HttpUtil;
 import net.minecraft.world.flag.FeatureFlagSet;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;

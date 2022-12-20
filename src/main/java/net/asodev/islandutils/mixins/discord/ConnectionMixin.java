@@ -1,6 +1,5 @@
 package net.asodev.islandutils.mixins.discord;
 
-import net.asodev.islandutils.discord.DiscordPresence;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;

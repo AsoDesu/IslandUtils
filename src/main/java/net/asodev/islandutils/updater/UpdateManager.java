@@ -1,21 +1,14 @@
 package net.asodev.islandutils.updater;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import net.asodev.islandutils.IslandUtils;
 import net.asodev.islandutils.updater.schema.AvailableUpdate;
 import net.asodev.islandutils.updater.schema.GithubRelease;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
 
-import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class UpdateManager {

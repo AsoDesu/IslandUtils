@@ -1,6 +1,5 @@
 package net.asodev.islandutils.mixins;
 
-import com.mojang.realmsclient.RealmsMainScreen;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.MccIslandState;
 import net.minecraft.ChatFormatting;
@@ -8,8 +7,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.FrameWidget;
 import net.minecraft.client.gui.components.GridWidget;
-import net.minecraft.client.gui.screens.*;
-import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
+import net.minecraft.client.gui.screens.ConfirmScreen;
+import net.minecraft.client.gui.screens.PauseScreen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

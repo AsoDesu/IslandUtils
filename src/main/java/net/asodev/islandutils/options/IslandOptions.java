@@ -47,8 +47,6 @@ public class IslandOptions implements ConfigData {
 
     @ConfigEntry.Category("misc")
     boolean pauseConfirm = true;
-    @ConfigEntry.Category("misc")
-    boolean autoTeamChat = false;
 
     @ConfigEntry.Category("misc")
     @ConfigEntry.Gui.Tooltip()
@@ -77,9 +75,6 @@ public class IslandOptions implements ConfigData {
     }
     public boolean isPauseConfirm() {
         return pauseConfirm;
-    }
-    public boolean isAutoTeamChat() {
-        return autoTeamChat;
     }
     public boolean isHideSliders() {
         return hideSliders;

@@ -1,10 +1,10 @@
 package net.asodev.islandutils.mixins;
 
-import com.mojang.authlib.GameProfile;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
-import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.IslandSoundCategories;
-import net.asodev.islandutils.state.*;
+import net.asodev.islandutils.state.COSMETIC_TYPE;
+import net.asodev.islandutils.state.MccIslandState;
+import net.asodev.islandutils.state.STATE;
 import net.asodev.islandutils.state.cosmetics.CosmeticSlot;
 import net.asodev.islandutils.state.cosmetics.CosmeticState;
 import net.asodev.islandutils.state.faction.FactionComponents;
@@ -12,29 +12,18 @@ import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.ChatScreen;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.WeighedSoundEvents;
-import net.minecraft.client.telemetry.WorldSessionTelemetryManager;
-import net.minecraft.nbt.NbtIo;
-import net.minecraft.network.Connection;
-import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.PacketUtils;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Final;
@@ -44,11 +33,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static net.asodev.islandutils.IslandutilsClient.onJoinMCCI;
 
 @Mixin(ClientPacketListener.class)
 public abstract class PacketListenerMixin {
@@ -237,9 +227,7 @@ public abstract class PacketListenerMixin {
 
                     DiscordPresenceUpdator.timeLeftBossbar = uUID;
                     DiscordPresenceUpdator.updateTimeLeft(finalUnix);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                } catch (Exception e) {}
             }
             @Override
             public void remove(UUID uUID) {
@@ -248,24 +236,6 @@ public abstract class PacketListenerMixin {
             }
         };
         clientboundBossEventPacket.dispatch(bossbarHandler);
-    }
-
-    @Inject(method = "handleSystemChat", at = @At("TAIL"))
-    private void handleSystemChat(ClientboundSystemChatPacket clientboundSystemChatPacket, CallbackInfo ci) {
-        List<Component> components = clientboundSystemChatPacket.content().toFlatList();
-        if (components.size() > 1 && components.get(0).getString().contains("[Click Here]")) {
-            ClickEvent event = components.get(0).getStyle().getClickEvent();
-            if (event == null) return;
-            String command = event.getValue();
-
-            if (command.equals("/chat team") &&
-                    IslandOptions.getOptions().isAutoTeamChat() &&
-                    this.minecraft.player != null) {
-                this.minecraft.player.connection.sendCommand(command.substring(1));
-
-                ChatUtils.send("&aAutomatically put you into Team Chat!");
-            }
-        }
     }
 
 }

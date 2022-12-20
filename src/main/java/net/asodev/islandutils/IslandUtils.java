@@ -2,7 +2,6 @@ package net.asodev.islandutils;
 
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
-import me.shedaniel.autoconfig.event.ConfigSerializeEvent;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.options.IslandOptions;
