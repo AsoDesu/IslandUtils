@@ -12,6 +12,7 @@
     "sounds.SoundSourceMixin"
   ],
   "client": [
+    "BossHeathAccessor",
     "MainScreenMixin",
     "OptionsMixin",
     "PacketListenerMixin",

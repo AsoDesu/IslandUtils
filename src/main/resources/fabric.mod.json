@@ -4,8 +4,11 @@
   "version": "${version}",
   "name": "IslandUtils",
   "description": "A Utility mod for MCC Island",
-  "authors": [],
-  "contact": {},
+  "authors": ["Aso"],
+  "contact": {
+    "sources": "https://github.com/AsoDesu/IslandUtils",
+    "homepage": "https://modrinth.com/mod/island-utils"
+  },
   "license": "MIT",
   "icon": "assets/island/icon.png",
   "environment": "client",

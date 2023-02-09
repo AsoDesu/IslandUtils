@@ -32,7 +32,7 @@ dependencies {
     }
     modApi("com.terraformersmc:modmenu:5.0.1")
 
-    implementation include('com.github.JnCrMx:discord-game-sdk4j:0.5.5')
+    implementation include('com.github.JnCrMx:discord-game-sdk4j:v0.5.5')
 }
 
 processResources {
