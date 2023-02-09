@@ -80,7 +80,7 @@ public class MusicUtil {
 
     public static void stopMusic() {
         if (currentlyPlayingSound != null) {
-            currentlyPlayingSound.fade(40);
+            currentlyPlayingSound.fade(20);
             ChatUtils.debug("[MusicUtil] Fading: " + currentlyPlayingSound);
             return;
         }
