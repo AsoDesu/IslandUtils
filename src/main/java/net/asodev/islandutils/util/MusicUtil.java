@@ -9,6 +9,7 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 
@@ -17,6 +18,8 @@ import java.util.Objects;
 import static net.asodev.islandutils.options.IslandOptions.getOptions;
 
 public class MusicUtil {
+
+    public static MCCSoundInstance currentlyPlayingSound = null;
 
     public static void startMusic(ClientboundSoundPacket clientboundCustomSoundPacket) {
         IslandOptions options = getOptions();
@@ -41,11 +44,11 @@ public class MusicUtil {
                 ChatUtils.debug("[MusicUtil] Double Time on TGTTOS active! (Pitch: %s)", pitch);
         }
 
-        SoundInstance instance = new SimpleSoundInstance(
-                location,
+        MCCSoundInstance instance = new MCCSoundInstance(
+                SoundEvent.createVariableRangeEvent(location),
                 IslandSoundCategories.GAME_MUSIC,
-                1,
-                pitch,
+                clientboundCustomSoundPacket.getVolume(),
+                clientboundCustomSoundPacket.getPitch(),
                 RandomSource.create(clientboundCustomSoundPacket.getSeed()),
                 false,
                 0,
@@ -56,11 +59,12 @@ public class MusicUtil {
                 false);
 
         Minecraft.getInstance().getSoundManager().play(instance);
+        currentlyPlayingSound = instance;
     }
 
-    public static SoundInstance createSoundInstance(ClientboundSoundPacket clientboundCustomSoundPacket, SoundSource source) {
-        return new SimpleSoundInstance(
-                clientboundCustomSoundPacket.getSound().value().getLocation(),
+    public static MCCSoundInstance createSoundInstance(ClientboundSoundPacket clientboundCustomSoundPacket, SoundSource source) {
+        return new MCCSoundInstance(
+                clientboundCustomSoundPacket.getSound().value(),
                 source,
                 clientboundCustomSoundPacket.getVolume(),
                 clientboundCustomSoundPacket.getPitch(),
@@ -75,6 +79,11 @@ public class MusicUtil {
     }
 
     public static void stopMusic() {
+        if (currentlyPlayingSound != null) {
+            currentlyPlayingSound.fade(40);
+            ChatUtils.debug("[MusicUtil] Fading: " + currentlyPlayingSound);
+            return;
+        }
         ResourceLocation location = MccIslandState.getGame().getMusicLocation();
         if (location == null) return;
 
