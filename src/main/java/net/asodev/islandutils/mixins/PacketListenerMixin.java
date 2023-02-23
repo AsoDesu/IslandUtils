@@ -242,8 +242,8 @@ public abstract class PacketListenerMixin {
 
     @Inject(method = "handleCommandSuggestions", cancellable = true, at = @At("HEAD"))
     private void commandSuggestionsResponse(ClientboundCommandSuggestionsPacket clientboundCommandSuggestionsPacket, CallbackInfo ci) {
-        ci.cancel();
         if (clientboundCommandSuggestionsPacket.getId() == TRANSACTION_ID) {
+            ci.cancel();
             List<String> friends = clientboundCommandSuggestionsPacket
                     .getSuggestions()
                     .getList()
