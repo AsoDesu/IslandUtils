@@ -37,6 +37,8 @@
 
   "text.autoconfig.islandutils.category.misc": "Miscellaneous",
   "text.autoconfig.islandutils.option.pauseConfirm": "Confirm Before Disconnect",
+  "text.autoconfig.islandutils.option.showFriendsInGame": "Show which friends in your game",
+  "text.autoconfig.islandutils.option.showFriendsInGame.@Tooltip": "When you join a game, a message will be put in chat with the friends in your game",
   "text.autoconfig.islandutils.option.autoTeamChat": "Auto Team Chat",
   "text.autoconfig.islandutils.option.autoTeamChat.@Tooltip": "Automatically be put into Team Chat in Team Games",
   "text.autoconfig.islandutils.option.hideSliders": "Hide Sound Sliders if not Online",

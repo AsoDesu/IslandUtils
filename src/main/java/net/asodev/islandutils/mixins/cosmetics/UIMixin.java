@@ -106,7 +106,7 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
 
         if (this.hoveredSlot != null && this.hoveredSlot.getItem() != null) {
             ItemStack currHover = this.hoveredSlot.getItem();
-            if (!currHover.is(Items.GHAST_TEAR) & !currHover.is(Items.AIR)) {
+            if (CosmeticState.isUnlocked(currHover) & !currHover.is(Items.AIR)) {
                 CosmeticState.setHoveredItem(this.hoveredSlot);
             }
         }

@@ -1,0 +1,11 @@
+{
+    "providers": [
+        {
+            "type": "bitmap",
+            "file": "minecraft:gui/gui_icons/social.png",
+            "chars": ["\ue001"],
+            "ascent": 7,
+            "height": 8
+        }
+    ]
+}

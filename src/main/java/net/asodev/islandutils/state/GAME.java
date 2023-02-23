@@ -3,7 +3,7 @@ package net.asodev.islandutils.state;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
-public enum STATE {
+public enum GAME {
 
     HUB("Hub", null),
 
@@ -14,7 +14,7 @@ public enum STATE {
 
     final private String name;
     final private ResourceLocation musicLocation;
-    STATE(String name, ResourceLocation location) {
+    GAME(String name, ResourceLocation location) {
         this.name = name;
         this.musicLocation = location;
     }
@@ -27,8 +27,8 @@ public enum STATE {
     }
 
     @Nullable
-    public static STATE getFromName(String name) {
-        for (STATE value : STATE.values()) {
+    public static GAME getFromName(String name) {
+        for (GAME value : GAME.values()) {
             if (name.contains(value.getName())) return value;
         }
         return null;

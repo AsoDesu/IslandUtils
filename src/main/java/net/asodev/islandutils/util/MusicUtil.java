@@ -3,9 +3,8 @@ package net.asodev.islandutils.util;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.IslandSoundCategories;
 import net.asodev.islandutils.state.MccIslandState;
-import net.asodev.islandutils.state.STATE;
+import net.asodev.islandutils.state.GAME;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -38,7 +37,7 @@ public class MusicUtil {
 
         float pitch = 1f;
         if (options.isTgttosDoubleTime() &&
-            MccIslandState.getGame() == STATE.TGTTOS &&
+            MccIslandState.getGame() == GAME.TGTTOS &&
             Objects.equals(MccIslandState.getModifier(), "DOUBLE TIME")) {
                 pitch = 1.2f;
                 ChatUtils.debug("[MusicUtil] Double Time on TGTTOS active! (Pitch: %s)", pitch);
@@ -48,7 +47,7 @@ public class MusicUtil {
                 SoundEvent.createVariableRangeEvent(location),
                 IslandSoundCategories.GAME_MUSIC,
                 clientboundCustomSoundPacket.getVolume(),
-                clientboundCustomSoundPacket.getPitch(),
+                pitch,
                 RandomSource.create(clientboundCustomSoundPacket.getSeed()),
                 false,
                 0,

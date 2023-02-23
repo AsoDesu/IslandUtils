@@ -1,10 +1,11 @@
 package net.asodev.islandutils.mixins;
 
+import com.mojang.brigadier.suggestion.Suggestion;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.options.IslandSoundCategories;
 import net.asodev.islandutils.state.COSMETIC_TYPE;
 import net.asodev.islandutils.state.MccIslandState;
-import net.asodev.islandutils.state.STATE;
+import net.asodev.islandutils.state.GAME;
 import net.asodev.islandutils.state.cosmetics.CosmeticSlot;
 import net.asodev.islandutils.state.cosmetics.CosmeticState;
 import net.asodev.islandutils.state.faction.FactionComponents;
@@ -33,12 +34,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import static net.asodev.islandutils.state.MccIslandState.TRANSACTION_ID;
 
 @Mixin(ClientPacketListener.class)
 public abstract class PacketListenerMixin {
@@ -54,19 +55,18 @@ public abstract class PacketListenerMixin {
         if (title == null) return;
 
         if (!isGameDisplayName(displayName)) {
-            MccIslandState.setGame(STATE.HUB);
+            MccIslandState.setGame(GAME.HUB);
         } else {
             if (title.contains("HOLE IN THE WALL")) {
-                MccIslandState.setGame(STATE.HITW);
+                MccIslandState.setGame(GAME.HITW);
             } else if (title.contains("TGTTOS")) {
-                MccIslandState.setGame(STATE.TGTTOS);
+                MccIslandState.setGame(GAME.TGTTOS);
             } else if (title.contains("SKY BATTLE")) {
-                MccIslandState.setGame(STATE.SKY_BATTLE);
+                MccIslandState.setGame(GAME.SKY_BATTLE);
             } else if (title.contains("BATTLE BOX")) {
-                MccIslandState.setGame(STATE.BATTLE_BOX);
+                MccIslandState.setGame(GAME.BATTLE_BOX);
             } else {
-                System.out.println("wat");
-                MccIslandState.setGame(STATE.HUB);
+                MccIslandState.setGame(GAME.HUB);
             }
         }
         DiscordPresenceUpdator.updatePlace();
@@ -149,16 +149,16 @@ public abstract class PacketListenerMixin {
         }
 
         // If we aren't in a game, dont play music
-        if (MccIslandState.getGame() != STATE.HUB) {
+        if (MccIslandState.getGame() != GAME.HUB) {
             // Use the sound files above to determine what just happend in the game
-            if (MccIslandState.getGame() != STATE.BATTLE_BOX) {
+            if (MccIslandState.getGame() != GAME.BATTLE_BOX) {
                 if (Objects.equals(soundLoc.getPath(), "games.global.countdown.go")) {
                     // The game started. Start the music!!
                     MusicUtil.startMusic(clientboundCustomSoundPacket);
                     return;
                 }
             } else {
-                if (Objects.equals(soundLoc.getPath(), "games.global.music.gameintro")) {
+                if (Objects.equals(soundLoc.getPath(), "music.global.gameintro")) {
                     MusicUtil.startMusic(clientboundCustomSoundPacket);
                     ChatUtils.debug("[PacketListener] Canceling gameintro");
                     ci.cancel();
@@ -166,22 +166,24 @@ public abstract class PacketListenerMixin {
                 }
             }
             if (Objects.equals(soundLoc.getPath(), "games.global.timer.round_end") ||
-                    Objects.equals(soundLoc.getPath(), "games.global.music.roundendmusic") ||
-                    Objects.equals(soundLoc.getPath(), "games.global.music.overtime_intro_music") ||
-                    Objects.equals(soundLoc.getPath(), "games.global.music.gameendmusic")) {
+                    Objects.equals(soundLoc.getPath(), "music.global.roundendmusic") ||
+                    Objects.equals(soundLoc.getPath(), "music.global.overtime_intro_music") ||
+                    Objects.equals(soundLoc.getPath(), "music.global.overtime_loop_music")) {
                 // The game ended or is about to end. Stop the music!!
                 MusicUtil.stopMusic();
             }
         }
 
         // Play Music in the "Core Music" Category.
-        if (soundLoc.getPath().contains("global.music")) {
+        if (soundLoc.getPath().contains("music.global")) {
             instance = MusicUtil.createSoundInstance(clientboundCustomSoundPacket, IslandSoundCategories.CORE_MUSIC);
             Minecraft.getInstance().getSoundManager().play(instance);
+            ChatUtils.debug("Playing " + soundLoc.getPath() + " in CORE_MUSIC");
             ci.cancel();
         } else if (soundLoc.getNamespace().equals("mcc")) {
             instance = MusicUtil.createSoundInstance(clientboundCustomSoundPacket, IslandSoundCategories.SOUND_EFFECTS);
             Minecraft.getInstance().getSoundManager().play(instance);
+            ChatUtils.debug("Playing " + soundLoc.getPath() + " in SOUND_EFFECTS");
             ci.cancel();
         }
     }
@@ -236,6 +238,19 @@ public abstract class PacketListenerMixin {
             }
         };
         clientboundBossEventPacket.dispatch(bossbarHandler);
+    }
+
+    @Inject(method = "handleCommandSuggestions", cancellable = true, at = @At("HEAD"))
+    private void commandSuggestionsResponse(ClientboundCommandSuggestionsPacket clientboundCommandSuggestionsPacket, CallbackInfo ci) {
+        ci.cancel();
+        if (clientboundCommandSuggestionsPacket.getId() == TRANSACTION_ID) {
+            List<String> friends = clientboundCommandSuggestionsPacket
+                    .getSuggestions()
+                    .getList()
+                    .stream().map(Suggestion::getText)
+                    .collect(Collectors.toList());
+            MccIslandState.setFriends(friends);
+        }
     }
 
 }

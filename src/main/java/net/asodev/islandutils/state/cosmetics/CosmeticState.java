@@ -3,6 +3,13 @@ package net.asodev.islandutils.state.cosmetics;
 import net.asodev.islandutils.state.COSMETIC_TYPE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.block.model.ItemModelGenerator;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.texture.SpriteContents;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelManager;
+import net.minecraft.data.models.blockstates.MultiPartGenerator;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -11,6 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.Nullable;
 
@@ -47,6 +55,12 @@ public class CosmeticState {
         return (inspectingPlayer == null) ? Minecraft.getInstance().player : inspectingPlayer;
     }
 
+    public static boolean isUnlocked(ItemStack item) {
+        if (!item.is(Items.POPPED_CHORUS_FRUIT)) return true;
+        boolean out = true;
+        return out;
+    }
+
     public static Integer getColor(ItemStack itemStack) {
         CompoundTag compoundTag = itemStack.getTagElement(TAG_DISPLAY);
         if (compoundTag != null && compoundTag.contains(TAG_COLOR, 99)) {
@@ -68,13 +82,11 @@ public class CosmeticState {
         if (player == null) return null;
         List<Component> lores = item.getTooltipLines(player, TooltipFlag.Default.NORMAL);
         if (lores.size() > 1) {
-            AtomicReference<COSMETIC_TYPE> type = new AtomicReference<>();
             Component line2 = lores.get(1);
-            line2.toFlatList().forEach(c -> {
-                if (c.contains(HAT_COMP) || c.contains(HAIR_COMP)) { type.set(COSMETIC_TYPE.HAT); }
-                if (c.contains(ACCESSORY_COMP)) { type.set(COSMETIC_TYPE.ACCESSORY); }
-            });
-           return type.get();
+            for (Component c : line2.toFlatList()) {
+                if (c.contains(HAT_COMP) || c.contains(HAIR_COMP)) { return COSMETIC_TYPE.HAT;  }
+                if (c.contains(ACCESSORY_COMP)) { return COSMETIC_TYPE.ACCESSORY; }
+            }
         }
         return null;
     }

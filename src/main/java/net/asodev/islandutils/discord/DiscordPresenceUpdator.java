@@ -5,7 +5,7 @@ import de.jcm.discordgamesdk.activity.Activity;
 import de.jcm.discordgamesdk.activity.ActivityType;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.MccIslandState;
-import net.asodev.islandutils.state.STATE;
+import net.asodev.islandutils.state.GAME;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
@@ -61,7 +61,7 @@ public class DiscordPresenceUpdator {
         activity.assets().setLargeText(MccIslandState.getGame().getName());
         activity.assets().setSmallImage("mcci");
 
-        if (MccIslandState.getGame() != STATE.HUB)
+        if (MccIslandState.getGame() != GAME.HUB)
             activity.setDetails("Playing " + MccIslandState.getGame().getName());
         else {
             activity.setDetails("In the Hub");
@@ -71,9 +71,9 @@ public class DiscordPresenceUpdator {
             activity.timestamps().setEnd(Instant.ofEpochSecond(0));
         }
 
-        if (MccIslandState.getGame() == STATE.TGTTOS || MccIslandState.getGame() == STATE.BATTLE_BOX)
+        if (MccIslandState.getGame() == GAME.TGTTOS || MccIslandState.getGame() == GAME.BATTLE_BOX)
             if (ROUND_STATE != null) roundScoreboardUpdate(ROUND_STATE, false);
-        if (MccIslandState.getGame() == STATE.HITW || MccIslandState.getGame() == STATE.SKY_BATTLE)
+        if (MccIslandState.getGame() == GAME.HITW || MccIslandState.getGame() == GAME.SKY_BATTLE)
             if (REMAIN_STATE != null) remainScoreboardUpdate(REMAIN_STATE, false);
 
 
@@ -86,7 +86,7 @@ public class DiscordPresenceUpdator {
         if (!IslandOptions.getOptions().showGameInfo || !IslandOptions.getOptions().showGame) return;
 
         if (set) REMAIN_STATE = "Remaining: " + value;
-        if (MccIslandState.getGame() != STATE.HITW && MccIslandState.getGame() != STATE.SKY_BATTLE) return;
+        if (MccIslandState.getGame() != GAME.HITW && MccIslandState.getGame() != GAME.SKY_BATTLE) return;
         activity.setState(REMAIN_STATE);
         updateActivity();
     }
@@ -96,7 +96,7 @@ public class DiscordPresenceUpdator {
         if (!IslandOptions.getOptions().showGameInfo || !IslandOptions.getOptions().showGame) return;
 
         if (set) ROUND_STATE = "Round: " + value;
-        if (MccIslandState.getGame() != STATE.TGTTOS && MccIslandState.getGame() != STATE.BATTLE_BOX) return;
+        if (MccIslandState.getGame() != GAME.TGTTOS && MccIslandState.getGame() != GAME.BATTLE_BOX) return;
         activity.setState(ROUND_STATE);
         updateActivity();
     }

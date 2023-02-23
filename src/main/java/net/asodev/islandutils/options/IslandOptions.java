@@ -22,8 +22,9 @@ public class IslandOptions implements ConfigData {
 
     @ConfigEntry.Category("cosmetics")
     boolean showPlayerPreview = true;
-    @ConfigEntry.Category("cosmetics")
-    boolean showOnHover = true;
+
+    //@ConfigEntry.Category("cosmetics")
+    //boolean showOnHover = true;
     @ConfigEntry.Category("cosmetics")
     boolean showOnOnlyCosmeticMenus = true;
 
@@ -47,6 +48,10 @@ public class IslandOptions implements ConfigData {
 
     @ConfigEntry.Category("misc")
     boolean pauseConfirm = true;
+
+    @ConfigEntry.Category("misc")
+    @ConfigEntry.Gui.Tooltip()
+    boolean showFriendsInGame = true;
 
     @ConfigEntry.Category("misc")
     @ConfigEntry.Gui.Tooltip()
@@ -81,13 +86,17 @@ public class IslandOptions implements ConfigData {
     }
 
     public boolean isShowOnHover() {
-        return showOnHover;
+        return false;
     }
     public boolean isShowOnOnlyCosmeticMenus() {
         return showOnOnlyCosmeticMenus;
     }
     public boolean isDebugMode() {
         return debugMode;
+    }
+
+    public boolean isShowFriendsInGame() {
+        return showFriendsInGame;
     }
 
     public static Screen getScreen(Screen parent) {
