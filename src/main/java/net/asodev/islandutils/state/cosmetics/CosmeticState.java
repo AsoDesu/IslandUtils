@@ -55,10 +55,20 @@ public class CosmeticState {
         return (inspectingPlayer == null) ? Minecraft.getInstance().player : inspectingPlayer;
     }
 
-    public static boolean isUnlocked(ItemStack item) {
-        if (!item.is(Items.POPPED_CHORUS_FRUIT)) return true;
-        boolean out = true;
-        return out;
+    // Locked items always do not contain HideFlags
+    // Unlocked do
+    public static boolean isLockedItem(ItemStack item) {
+        if (!item.is(Items.POPPED_CHORUS_FRUIT)) return false;
+        CompoundTag tag = item.getTag();
+        if (tag == null) return false;
+        return tag.getInt("HideFlags") == 0;
+    }
+    // Color items do not have lore
+    public static boolean isColoredItem(ItemStack item) {
+        if (!item.is(Items.LEATHER_HORSE_ARMOR)) return false;
+        CompoundTag displayTag = item.getTagElement("display");
+        if (displayTag == null) return false;
+        return !displayTag.getAllKeys().contains("Lore");
     }
 
     public static Integer getColor(ItemStack itemStack) {

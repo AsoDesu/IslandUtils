@@ -35,4 +35,11 @@ public class CosmeticSlot {
         if (!itemsMatch(menuItem, item)) return item;
         else return menuItem;
     }
+
+    public boolean matchesSlot(@Nullable Slot checkSlot) {
+        if (checkSlot == null) return false;
+        if (this.slot == null) return false;
+        if (this.slot.index != checkSlot.index) return false;
+        return CosmeticState.itemsMatch(checkSlot.getItem(), item);
+    }
 }

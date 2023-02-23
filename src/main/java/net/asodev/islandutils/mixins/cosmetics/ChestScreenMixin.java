@@ -44,7 +44,6 @@ public abstract class ChestScreenMixin extends Screen {
     private void renderSlot(PoseStack poseStack, Slot slot, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
 
-        if (slot.getItem() == null) return;
         ItemStack slotItem = slot.getItem();
 
         CompoundTag slotTag = slotItem.getTag();
@@ -52,8 +51,8 @@ public abstract class ChestScreenMixin extends Screen {
 
         boolean shouldRender = false;
 
-        if (CosmeticState.hatSlot.preview != null && itemsMatch(slot.getItem(), CosmeticState.hatSlot.preview.item)) shouldRender = true;
-        else if (CosmeticState.accessorySlot.preview != null && itemsMatch(slot.getItem(), CosmeticState.accessorySlot.preview.item)) shouldRender = true;
+        if (CosmeticState.hatSlot.preview != null && CosmeticState.hatSlot.preview.matchesSlot(slot)) shouldRender = true;
+        else if (CosmeticState.accessorySlot.preview != null && CosmeticState.accessorySlot.preview.matchesSlot(slot)) shouldRender = true;
 
         if (shouldRender) {
             this.setBlitOffset(395);
@@ -65,7 +64,7 @@ public abstract class ChestScreenMixin extends Screen {
 
     @Inject(method = "render", at = @At("TAIL"))
     private void render(PoseStack poseStack, int i, int j, float f, CallbackInfo ci) {
-        if (IslandOptions.getOptions().isShowOnHover() && hoveredSlot != null && hoveredSlot.hasItem() && hoveredSlot.getItem().is(Items.LEATHER_HELMET)) {
+        if (IslandOptions.getOptions().isShowOnHover() && hoveredSlot != null && hoveredSlot.hasItem() && CosmeticState.isColoredItem(hoveredSlot.getItem())) {
             Integer color = CosmeticState.getColor(hoveredSlot.getItem());
             if (color != null) {
                 CosmeticState.hoveredColor = color;

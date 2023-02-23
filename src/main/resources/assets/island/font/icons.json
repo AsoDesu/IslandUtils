@@ -6,6 +6,27 @@
             "chars": ["\ue001"],
             "ascent": 7,
             "height": 8
+        },
+        {
+            "type": "bitmap",
+            "file": "island:chat_channels/local.png",
+            "chars": ["\ue002"],
+            "ascent": 8,
+            "height": 9
+        },
+        {
+            "type": "bitmap",
+            "file": "island:chat_channels/party.png",
+            "chars": ["\ue003"],
+            "ascent": 8,
+            "height": 9
+        },
+        {
+            "type": "bitmap",
+            "file": "island:chat_channels/team.png",
+            "chars": ["\ue004"],
+            "ascent": 8,
+            "height": 9
         }
     ]
 }

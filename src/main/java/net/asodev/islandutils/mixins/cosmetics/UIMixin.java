@@ -104,9 +104,9 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         drawString(poseStack, this.font, CosmeticState.ACCESSORY_COMP, x-(size / 2) + 4, y + 6, 16777215 | 255 << 24);
         this.itemRenderer.renderAndDecorateItem(this.minecraft.player, accSlot, itemPos, y+2, x + y * this.imageWidth);
 
-        if (this.hoveredSlot != null && this.hoveredSlot.getItem() != null) {
+        if (this.hoveredSlot != null) {
             ItemStack currHover = this.hoveredSlot.getItem();
-            if (CosmeticState.isUnlocked(currHover) & !currHover.is(Items.AIR)) {
+            if (!currHover.is(Items.GHAST_TEAR) && !CosmeticState.isLockedItem(currHover) && !currHover.is(Items.AIR)) {
                 CosmeticState.setHoveredItem(this.hoveredSlot);
             }
         }

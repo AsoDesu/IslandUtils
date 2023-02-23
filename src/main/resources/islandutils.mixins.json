@@ -12,7 +12,7 @@
     "sounds.SoundSourceMixin"
   ],
   "client": [
-    "BossHeathAccessor",
+    "ChatScreenMixin",
     "MainScreenMixin",
     "OptionsMixin",
     "PacketListenerMixin",
@@ -21,7 +21,8 @@
     "discord.JoinMCCIMixin",
     "resources.MultiplayerJoinMixin",
     "resources.ProgressScreenAccessor",
-    "sounds.SoundOptionsMixin"
+    "sounds.SoundOptionsMixin",
+    "ui.CommandSuggestionsAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
