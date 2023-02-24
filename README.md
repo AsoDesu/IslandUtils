@@ -15,9 +15,9 @@ A Utility mod for MCC Island.
 
 ### Utilities
 - Event music to the games on Island
-- A confirmation screen when clicking "Disconnect" during games
-- A preview of your character when in the wardrobe or shops
-- Custom Volume slider for music
+- Custom Volume slider for music and sound effects
+- Confirmation screen when clicking "Disconnect" during games
+- Preview of your character when in the wardrobe or shops
 - Discord Presence
-- A message to show friends in the same game
+- Message to show friends in the same game
 - Buttons above the chat box to switch between chat channels
