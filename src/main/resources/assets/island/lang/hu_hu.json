@@ -1,4 +1,10 @@
 {
+  "menu.island_utils": "IslandUtils",
+  
+  "soundCategory.game_music":  "§bMCCI: Zene",
+  "soundCategory.core_music":  "§cMCCI: Alapzene",
+  "soundCategory.sound_effects":  "§aMCCI: Hangeffektek",
+  
   "key.islandutils.preview": "Kozmetikai Előnézet",
   "category.islandutils.keys": "IslandUtils",
   "category.islandutils": "Island Utils",
@@ -16,14 +22,6 @@
   "text.autoconfig.islandutils.option.showOnHover": "Előnézet Frissítése Rámutatáskor",
   "text.autoconfig.islandutils.option.showOnOnlyCosmeticMenus": "A kozmetikai előnézet megjelenítése csak kozmetikai menükben",
 
-  "text.autoconfig.islandutils.category.misc": "Egyéb",
-  "text.autoconfig.islandutils.option.pauseConfirm": "Kilépés Megerősítése",
-  "text.autoconfig.islandutils.option.debugMode": "Debug Mód",
-
-  "modmenu.descriptionTranslation.islandutils": "Egy Utility Mod az MCC Islandhez!",
-  "modmenu.summaryTranslation.islandutils": "Egy Utility Mod az MCC Islandhez!",
-
-  "menu.island_utils": "IslandUtils Beállítások",
   "text.autoconfig.islandutils.category.discord": "Discord Státusz",
   "text.autoconfig.islandutils.option.discordPresence": "Discord Státusz Bekapcsolása",
   "text.autoconfig.islandutils.option.showGame": "Játék mutatása",
@@ -36,10 +34,15 @@
   "text.autoconfig.islandutils.option.showTimeElapsed.@Tooltip": "Mutasd meg, mióta játszol a szigeten!",
   "text.autoconfig.islandutils.option.showFactionLevel": "Faction Szint Mutatása",
   "text.autoconfig.islandutils.option.showFactionLevel.@Tooltip": "Megmutatja a Factiont amiben vagy és a szinted.",
-  "text.autoconfig.islandutils.option.autoTeamChat": "Automatikus Csapat Chat",
-  "soundCategory.game_music": "§bMCCI Zene",
-  "soundCategory.core_music": "§cMCCI: Alapzene",
-  "text.autoconfig.islandutils.option.autoTeamChat.@Tooltip": "Automatikusan beletesz téged a Csapat Chatbe a Csapatjátékokban",
+  
+  "text.autoconfig.islandutils.category.misc": "Egyéb",
+  "text.autoconfig.islandutils.option.pauseConfirm": "Kilépés Megerősítése",
+  "text.autoconfig.islandutils.option.showFriendsInGame": "Show which friends in your game",
+  "text.autoconfig.islandutils.option.showFriendsInGame.@Tooltip": "When you join a game, a message will be put in chat with the friends in your game",
   "text.autoconfig.islandutils.option.hideSliders": "Hang csúszkák elrejtése, ha nem vagy Online",
   "text.autoconfig.islandutils.option.hideSliders.@Tooltip": "Elrejti a Zene csúszkákat, ha nem az MCC Islanden vagy."
+  "text.autoconfig.islandutils.option.debugMode": "Debug Mód",
+
+  "modmenu.descriptionTranslation.islandutils": "Egy Utility Mod az MCC Islandhez!",
+  "modmenu.summaryTranslation.islandutils": "Egy Utility Mod az MCC Islandhez!",
 }
