@@ -24,6 +24,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.asodev.islandutils.state.MccIslandState.isOnline;
+
 @Mixin(ChatScreen.class)
 public abstract class ChatScreenMixin extends Screen {
     @Shadow CommandSuggestions commandSuggestions;
@@ -36,6 +38,8 @@ public abstract class ChatScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
+        if (!isOnline()) return;
+
         int x = 2;
         buttons.add(new PlainTextButtonNoShadow(
                 x,
