@@ -2,7 +2,7 @@
 
 A Utility mod for MCC Island. 
 
-**Requires Minecraft 1.19.1 or higher**
+**Requires Minecraft 1.19.3 or higher**
 
 **This mod contains music from the MCC Event, created by [Issac Wilkins](https://open.spotify.com/artist/0AhY6cET8JCq1ARiwnTkGi)**\
 **All credits for music go to Issac and the Noxcrew**
@@ -15,11 +15,9 @@ A Utility mod for MCC Island.
 
 ### Utilities
 - Event music to the games on Island
-- A confirmation screen when clicking "Disconnect" during games
-- A preivew of your character when in the wardrobe or shops
-- Custom Volume slider for music
----
-
-### Planned
-- Hub Music
-- Looping Music
+- Custom Volume slider for music and sound effects
+- Confirmation screen when clicking "Disconnect" during games
+- Preview of your character when in the wardrobe or shops
+- Discord Presence
+- Message to show friends in the same game
+- Buttons above the chat box to switch between chat channels
