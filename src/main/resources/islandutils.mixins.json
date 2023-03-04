@@ -17,6 +17,8 @@
     "OptionsMixin",
     "PacketListenerMixin",
     "PauseScreenMixin",
+    "accessors.SoundEngineAccessor",
+    "accessors.SoundManagerAccessor",
     "cosmetics.UIMixin",
     "discord.JoinMCCIMixin",
     "resources.MultiplayerJoinMixin",

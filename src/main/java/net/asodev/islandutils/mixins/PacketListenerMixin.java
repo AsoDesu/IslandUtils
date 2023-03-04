@@ -2,8 +2,10 @@ package net.asodev.islandutils.mixins;
 
 import com.mojang.brigadier.suggestion.Suggestion;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
+import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.IslandSoundCategories;
 import net.asodev.islandutils.state.COSMETIC_TYPE;
+import net.asodev.islandutils.state.HITWTrapState;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.state.GAME;
 import net.asodev.islandutils.state.cosmetics.CosmeticSlot;
@@ -12,17 +14,21 @@ import net.asodev.islandutils.state.faction.FactionComponents;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Game;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.WeighedSoundEvents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.PacketUtils;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
@@ -40,6 +46,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static net.asodev.islandutils.state.MccIslandState.TRANSACTION_ID;
+import static net.minecraft.network.chat.Component.literal;
 
 @Mixin(ClientPacketListener.class)
 public abstract class PacketListenerMixin {
@@ -251,6 +258,54 @@ public abstract class PacketListenerMixin {
                     .collect(Collectors.toList());
             MccIslandState.setFriends(friends);
         }
+    }
+
+
+    TextColor textColor = TextColor.parseColor("#FFA800"); // Trap Title Text Color
+    Style style = Style.EMPTY.withColor(textColor); // Style for the trap color
+    @Inject(method = "setSubtitleText", at = @At("HEAD"), cancellable = true)
+    private void titleText(ClientboundSetSubtitleTextPacket clientboundSetSubtitleTextPacket, CallbackInfo ci) {
+        if (!IslandOptions.getOptions().isClassicHITW()) return; // Requires isClassicHITW
+        if (MccIslandState.getGame() != GAME.HITW) return;
+        String trap = clientboundSetSubtitleTextPacket.getText().getString();
+
+        boolean isTrap = false;
+        for (Component component : clientboundSetSubtitleTextPacket.getText().toFlatList()) {
+            if (component.getStyle().isObfuscated()) { return; }
+            if (component.getStyle().getColor() != null && component.getStyle().getColor().equals(textColor))
+                isTrap = true;
+        }
+        if (!isTrap) return;
+
+        String change = changeName(trap);
+        if (change != null) {
+            this.minecraft.gui.setSubtitle(literal(change).withStyle(style));
+            ci.cancel();
+        }
+
+        long timestamp = System.currentTimeMillis();
+        if ((timestamp - HITWTrapState.lastTrapTimestamp) < 50) return;
+        HITWTrapState.lastTrapTimestamp = timestamp;
+
+        trap = trap.replaceAll("/([ -!])/","").toLowerCase();
+
+        try {
+            HITWTrapState.trap = trap;
+            ResourceLocation sound = new ResourceLocation("island", "announcer." + trap);
+            Minecraft.getInstance().getSoundManager().play(MusicUtil.createSoundInstance(sound));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String changeName(String originalTrap) {
+        return switch (originalTrap) {
+            case "Feeling Hot" -> "What in the Blazes";
+            case "Blast-Off" -> "Kaboom";
+            case "Pillagers" -> "So Lonely";
+            case "Leg Day" -> "Molasses";
+            default -> null;
+        };
     }
 
 }

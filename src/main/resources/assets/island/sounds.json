@@ -1,0 +1,164 @@
+{
+  "announcer.reproduction": {
+    "sounds": ["island:announcer/reproduction"]
+  },
+  "announcer.matrix": {
+    "sounds": ["island:announcer/matrix"]
+  },
+  "announcer.swimmyfish": {
+    "sounds": ["island:announcer/swimmyfish"]
+  },
+  "announcer.blastoff": {
+    "sounds": ["island:announcer/kaboom"]
+  },
+  "announcer.feelinghot": {
+    "sounds": ["island:announcer/whatintheblazes"]
+  },
+  "announcer.revenge": {
+    "sounds": ["island:announcer/revenge"]
+  },
+  "announcer.whereami": {
+    "sounds": ["island:announcer/whereami"]
+  },
+  "announcer.flowerhead": {
+    "sounds": ["island:announcer/flowerhead"]
+  },
+  "announcer.doublebooby": {
+    "sounds": ["island:announcer/doublebooby"]
+  },
+  "announcer.booby": {
+    "sounds": ["island:announcer/booby"]
+  },
+  "announcer.button": {
+    "sounds": ["island:announcer/button"]
+  },
+  "announcer.easy": {
+    "sounds": ["island:announcer/easy"]
+  },
+  "announcer.hard": {
+    "sounds": ["island:announcer/hard"]
+  },
+  "announcer.letters": {
+    "sounds": ["island:announcer/letters"]
+  },
+  "announcer.medium": {
+    "sounds": ["island:announcer/medium"]
+  },
+  "announcer.wacky": {
+    "sounds": ["island:announcer/wacky"]
+  },
+  "announcer.archery": {
+    "sounds": ["island:announcer/archery"]
+  },
+  "announcer.bombsquad": {
+    "sounds": ["island:announcer/bombsquad"]
+  },
+  "announcer.bumperbars": {
+    "sounds": ["island:announcer/bumperbars"]
+  },
+  "announcer.chickentornado": {
+    "sounds": ["island:announcer/chickentornado"]
+  },
+  "announcer.erosion": {
+    "sounds": ["island:announcer/erosion"]
+  },
+  "announcer.hightide": {
+    "sounds": ["island:announcer/hightide"]
+  },
+  "announcer.hmm": {
+    "sounds": ["island:announcer/hmm"]
+  },
+  "announcer.hotcoals": {
+    "sounds": ["island:announcer/hotcoals"]
+  },
+  "announcer.jungle": {
+    "sounds": ["island:announcer/jungle"]
+  },
+  "announcer.legday": {
+    "sounds": ["island:announcer/molasses"]
+  },
+  "announcer.stickyshoes": {
+    "sounds": ["island:announcer/stickyshoes"]
+  },
+  "announcer.one": {
+    "sounds": ["island:announcer/one"]
+  },
+  "announcer.two": {
+    "sounds": ["island:announcer/two"]
+  },
+  "announcer.three": {
+    "sounds": ["island:announcer/three"]
+  },
+  "announcer.scoreone": {
+    "sounds": ["island:announcer/scoreone"]
+  },
+  "announcer.scoretwo": {
+    "sounds": ["island:announcer/scoretwo"]
+  },
+  "announcer.scorethree": {
+    "sounds": ["island:announcer/scorethree"]
+  },
+  "announcer.scorefour": {
+    "sounds": ["island:announcer/scorefour"]
+  },
+  "announcer.arrowstorm": {
+    "sounds": ["island:announcer/arrowstorm"]
+  },
+  "announcer.bonuspoints": {
+    "sounds": ["island:announcer/bonuspoints"]
+  },
+  "announcer.ears": {
+    "sounds": ["island:announcer/ears"]
+  },
+  "announcer.gameover": {
+    "sounds": ["island:announcer/gameover"]
+  },
+  "announcer.gettingdizzy": {
+    "sounds": ["island:announcer/gettingdizzy"]
+  },
+  "announcer.go": {
+    "sounds": ["island:announcer/go"]
+  },
+  "announcer.jackfrost": {
+    "sounds": ["island:announcer/jackfrost"]
+  },
+  "announcer.loser": {
+    "sounds": ["island:announcer/loser"]
+  },
+  "announcer.marathon": {
+    "sounds": ["island:announcer/marathon"]
+  },
+  "announcer.modeone": {
+    "sounds": ["island:announcer/modeone"]
+  },
+  "announcer.modetwo": {
+    "sounds": ["island:announcer/modetwo"]
+  },
+  "announcer.modethree": {
+    "sounds": ["island:announcer/modethree"]
+  },
+  "announcer.modefour": {
+    "sounds": ["island:announcer/modefour"]
+  },
+  "announcer.myeyes": {
+    "sounds": ["island:announcer/myeyes"]
+  },
+  "announcer.plugyourears": {
+    "sounds": ["island:announcer/plugyourears"]
+  },
+  "announcer.snowballfrenzy": {
+    "sounds": ["island:announcer/snowballfrenzy"]
+  },
+  "announcer.pillagers": {
+    "sounds": ["island:announcer/solonely"]
+  },
+  "announcer.superspeed": {
+    "sounds": ["island:announcer/superspeed"]
+  },
+  "announcer.title": {
+    "sounds": ["island:announcer/title"]
+  },
+  "announcer.winner": {
+    "sounds": ["island:announcer/winner"]
+  }
+}

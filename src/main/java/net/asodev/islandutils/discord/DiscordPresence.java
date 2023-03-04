@@ -55,7 +55,10 @@ public class DiscordPresence {
     public static void clear() {
         if (core == null) return;
         if (!core.isOpen()) return;
-        core.close();
+
+        try { core.close(); }
+        catch (Exception e) { e.printStackTrace(); }
+
         initalised = false;
     }
 

@@ -54,7 +54,11 @@ public class IslandOptions implements ConfigData {
 
     @ConfigEntry.Category("misc")
     @ConfigEntry.Gui.Tooltip()
-    boolean hideSliders = false;
+    boolean classicHITW = false;
+
+    @ConfigEntry.Category("misc")
+    @ConfigEntry.Gui.Tooltip()
+    boolean hideSliders = true;
 
     @ConfigEntry.Category("misc")
     boolean debugMode = false;
@@ -90,6 +94,9 @@ public class IslandOptions implements ConfigData {
     public boolean isShowOnOnlyCosmeticMenus() {
         return showOnOnlyCosmeticMenus;
     }
+
+    public boolean isClassicHITW() { return classicHITW; }
+
     public boolean isDebugMode() {
         return debugMode;
     }

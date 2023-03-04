@@ -37,12 +37,12 @@
 
   "text.autoconfig.islandutils.category.misc": "Miscellaneous",
   "text.autoconfig.islandutils.option.pauseConfirm": "Confirm Before Disconnect",
-  "text.autoconfig.islandutils.option.showFriendsInGame": "Show which friends in your game",
+  "text.autoconfig.islandutils.option.showFriendsInGame": "Show which friends is in your game",
   "text.autoconfig.islandutils.option.showFriendsInGame.@Tooltip": "When you join a game, a message will be put in chat with the friends in your game",
-  "text.autoconfig.islandutils.option.autoTeamChat": "Auto Team Chat",
-  "text.autoconfig.islandutils.option.autoTeamChat.@Tooltip": "Automatically be put into Team Chat in Team Games",
   "text.autoconfig.islandutils.option.hideSliders": "Hide Sound Sliders if not Online",
   "text.autoconfig.islandutils.option.hideSliders.@Tooltip": "Hides the Music Sliders if you're not on MCC Island",
+  "text.autoconfig.islandutils.option.classicHITW": "Classic Hole In The Wall Announcer",
+  "text.autoconfig.islandutils.option.classicHITW.@Tooltip": "Adds back the announcer from the \noriginal HITW map by Noxcrew!",
   "text.autoconfig.islandutils.option.debugMode": "Debug Mode",
 
   "modmenu.descriptionTranslation.islandutils": "A Utility Mod for MCC Island!",

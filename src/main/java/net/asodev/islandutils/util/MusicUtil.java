@@ -1,16 +1,21 @@
 package net.asodev.islandutils.util;
 
+import com.mojang.blaze3d.audio.Listener;
+import net.asodev.islandutils.mixins.accessors.SoundEngineAccessor;
+import net.asodev.islandutils.mixins.accessors.SoundManagerAccessor;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.IslandSoundCategories;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.state.GAME;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Objects;
 
@@ -75,6 +80,26 @@ public class MusicUtil {
                 clientboundCustomSoundPacket.getY(),
                 clientboundCustomSoundPacket.getZ(),
                 false);
+    }
+    public static SimpleSoundInstance createSoundInstance(ResourceLocation resourceLocation) {
+        SoundEngineAccessor soundEngine = (SoundEngineAccessor)((SoundManagerAccessor)Minecraft.getInstance().getSoundManager()).getSoundEngine();
+        Listener listener = soundEngine.getListener();
+        Vec3 listenerPosition = listener.getListenerPosition();
+
+        return new SimpleSoundInstance(
+                resourceLocation,
+                IslandSoundCategories.SOUND_EFFECTS,
+                1f,
+                1f,
+                RandomSource.create(),
+                false,
+                0,
+                SoundInstance.Attenuation.NONE,
+                listenerPosition.x,
+                listenerPosition.y,
+                listenerPosition.z,
+                false
+        );
     }
 
     public static void stopMusic() {
