@@ -41,8 +41,12 @@
   "text.autoconfig.islandutils.option.showFriendsInGame.@Tooltip": "Amikor csatlakozol egy játékhoz, egy üzenet jelenik meg a chatben a játékban lévő barátaiddal.",
   "text.autoconfig.islandutils.option.hideSliders": "Hang csúszkák elrejtése, ha nem vagy Online",
   "text.autoconfig.islandutils.option.hideSliders.@Tooltip": "Elrejti a Zene csúszkákat, ha nem az MCC Islanden vagy."
+  
+  "text.autoconfig.islandutils.category.classic_hitw": "Klasszikus HITW",
   "text.autoconfig.islandutils.option.classicHITW": "Klasszikus Hole In The Wall Bemondó",
   "text.autoconfig.islandutils.option.classicHITW.@Tooltip": "Visszaadja a Bemondót ahogyan az a \nHivatalos HITW mapen is volt amit a Noxcrew készített!",
+  "text.autoconfig.islandutils.option.classicHITWMusic": "Klasszikus Hole In The Wall Zene",
+  "text.autoconfig.islandutils.option.classicHITWMusic.@Tooltip": "Visszaadja a Zenét ahogyan az a \nHivatalos HITW mapen is volt amit a Noxcrew készített!"
   "text.autoconfig.islandutils.option.debugMode": "Debug Mód",
 
   "modmenu.descriptionTranslation.islandutils": "Egy Utility Mod az MCC Islandhez!",
