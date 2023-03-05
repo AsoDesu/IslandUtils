@@ -39,9 +39,15 @@ public class MusicUtil {
         }
 
         ResourceLocation location = MccIslandState.getGame().getMusicLocation();
+        if (MccIslandState.getGame() == GAME.HITW && IslandOptions.getOptions().isClassicHITWMusic()) {
+            location = new ResourceLocation("island","island.music.classic_hitw");
+            ChatUtils.send(literal("Now playing: ").withStyle(ChatFormatting.GREEN)
+                            .append(literal("Spacewall - Taylor Grover").withStyle(ChatFormatting.AQUA))
+            );
+        }
         if (location == null) return;
 
-        ChatUtils.debug("[MusicUtil] Starting: " + MccIslandState.getGame().name());
+        ChatUtils.debug("[MusicUtil] Starting: " + location);
         stopMusic();
 
         float pitch = 1f;

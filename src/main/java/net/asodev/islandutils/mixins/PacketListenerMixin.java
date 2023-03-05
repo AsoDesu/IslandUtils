@@ -310,6 +310,7 @@ public abstract class PacketListenerMixin {
     private String changeName(String originalTrap) {
         return switch (originalTrap) {
             case "Feeling Hot" -> "What in the Blazes";
+            case "Hot Coals" -> "Feeling Hot";
             case "Blast-Off" -> "Kaboom";
             case "Pillagers" -> "So Lonely";
             case "Leg Day" -> "Molasses";

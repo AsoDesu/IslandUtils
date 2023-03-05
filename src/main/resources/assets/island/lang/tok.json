@@ -41,8 +41,13 @@
   "text.autoconfig.islandutils.option.showFriendsInGame.@Tooltip": "When you join a game, a message will be put in chat with the friends in your game",
   "text.autoconfig.islandutils.option.hideSliders": "Hide Sound Sliders if not Online",
   "text.autoconfig.islandutils.option.hideSliders.@Tooltip": "Hides the Music Sliders if you're not on MCC Island",
+
+  "text.autoconfig.islandutils.category.classic_hitw": "Classic HITW",
   "text.autoconfig.islandutils.option.classicHITW": "Classic Hole In The Wall Announcer",
   "text.autoconfig.islandutils.option.classicHITW.@Tooltip": "Adds back the announcer from the \noriginal HITW map by Noxcrew!",
+  "text.autoconfig.islandutils.option.classicHITWMusic": "Classic Hole In The Wall Music",
+  "text.autoconfig.islandutils.option.classicHITWMusic.@Tooltip": "Adds back the music from the \noriginal HITW map by Noxcrew!",
+
   "text.autoconfig.islandutils.option.debugMode": "Debug Mode",
 
   "modmenu.descriptionTranslation.islandutils": "A Utility Mod for MCC Island!",

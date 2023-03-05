@@ -18,5 +18,10 @@
     "sounds": [
       "island:sky_battle"
     ]
+  },
+  "island.music.classic_hitw": {
+    "sounds": [
+      "island:spacewall"
+    ]
   }
 }

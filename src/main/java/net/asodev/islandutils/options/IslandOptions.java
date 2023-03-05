@@ -45,16 +45,19 @@ public class IslandOptions implements ConfigData {
     @ConfigEntry.Gui.Tooltip()
     public boolean showFactionLevel = true;
 
+    @ConfigEntry.Category("classic_hitw")
+    @ConfigEntry.Gui.Tooltip()
+    boolean classicHITW = false;
+    @ConfigEntry.Category("classic_hitw")
+    @ConfigEntry.Gui.Tooltip()
+    boolean classicHITWMusic = false;
+
     @ConfigEntry.Category("misc")
     boolean pauseConfirm = true;
 
     @ConfigEntry.Category("misc")
     @ConfigEntry.Gui.Tooltip()
     boolean showFriendsInGame = true;
-
-    @ConfigEntry.Category("misc")
-    @ConfigEntry.Gui.Tooltip()
-    boolean classicHITW = false;
 
     @ConfigEntry.Category("misc")
     @ConfigEntry.Gui.Tooltip()
@@ -96,6 +99,7 @@ public class IslandOptions implements ConfigData {
     }
 
     public boolean isClassicHITW() { return classicHITW; }
+    public boolean isClassicHITWMusic() { return classicHITWMusic; }
 
     public boolean isDebugMode() {
         return debugMode;
