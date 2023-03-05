@@ -119,7 +119,7 @@
   "announcer.go": {
     "sounds": ["island:announcer/go"]
   },
-  "announcer.jackfrost": {
+  "announcer.snowballfight": {
     "sounds": ["island:announcer/jackfrost"]
   },
   "announcer.loser": {

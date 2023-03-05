@@ -1,4 +1,4 @@
-package net.asodev.islandutils.mixins;
+package net.asodev.islandutils.mixins.ui;
 
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.MccIslandState;

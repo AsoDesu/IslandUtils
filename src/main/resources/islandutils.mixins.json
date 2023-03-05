@@ -12,11 +12,8 @@
     "sounds.SoundSourceMixin"
   ],
   "client": [
-    "ChatScreenMixin",
     "MainScreenMixin",
-    "OptionsMixin",
     "PacketListenerMixin",
-    "PauseScreenMixin",
     "accessors.SoundEngineAccessor",
     "accessors.SoundManagerAccessor",
     "cosmetics.UIMixin",
@@ -24,7 +21,10 @@
     "resources.MultiplayerJoinMixin",
     "resources.ProgressScreenAccessor",
     "sounds.SoundOptionsMixin",
-    "ui.CommandSuggestionsAccessor"
+    "ui.ChatScreenMixin",
+    "ui.CommandSuggestionsAccessor",
+    "ui.OptionsMixin",
+    "ui.PauseScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -51,19 +51,20 @@ import static net.minecraft.network.chat.Component.literal;
 @Mixin(ClientPacketListener.class)
 public abstract class PacketListenerMixin {
 
-    @Shadow @Final private Minecraft minecraft;
+    // I should really separate these mixins...
 
-    @Inject(method = "handleAddObjective", at = @At("TAIL"))
+    @Shadow @Final private Minecraft minecraft; // I love minecraft
+
+    @Inject(method = "handleAddObjective", at = @At("TAIL")) // Checks which game we're playing!
     public void handleAddObjective(ClientboundSetObjectivePacket clientboundSetObjectivePacket, CallbackInfo ci) {
-        if (!MccIslandState.isOnline()) return;
-        Component displayName = clientboundSetObjectivePacket.getDisplayName();
-        if (displayName == null) return;
-        String title = displayName.getString();
-        if (title == null) return;
+        if (!MccIslandState.isOnline()) return; // We have to be online
+        Component displayName = clientboundSetObjectivePacket.getDisplayName(); // Get the title of the scoreboard
+        String title = displayName.getString(); // Get the string version of the title of the scoreboard
 
-        if (!isGameDisplayName(displayName)) {
+        if (!isGameDisplayName(displayName)) { // Check if the name doesn't have the aqua color, if so, we're in hub!
             MccIslandState.setGame(GAME.HUB);
-        } else {
+        } else { // We're in a game!!!
+            // These checks are pretty self-explanatory
             if (title.contains("HOLE IN THE WALL")) {
                 MccIslandState.setGame(GAME.HITW);
             } else if (title.contains("TGTTOS")) {
@@ -73,67 +74,68 @@ public abstract class PacketListenerMixin {
             } else if (title.contains("BATTLE BOX")) {
                 MccIslandState.setGame(GAME.BATTLE_BOX);
             } else {
-                MccIslandState.setGame(GAME.HUB);
+                MccIslandState.setGame(GAME.HUB); // Somehow we're in a game, but not soooo hub it is!!
             }
         }
-        DiscordPresenceUpdator.updatePlace();
+        DiscordPresenceUpdator.updatePlace(); // Update where we are on discord presence
     }
 
-    @Inject(method = "handleSetExperience", at = @At("TAIL"))
+    TextColor aqua = TextColor.fromLegacyFormat(ChatFormatting.AQUA);
+    private boolean isGameDisplayName(Component component) {
+        for (Component sibling : component.getSiblings()) { // Get all the elements of this component
+            if (sibling.getStyle().getColor() == aqua) return true; // If it's aqua, YES
+        }
+        return false; // If not... no :(
+    }
+
+    @Inject(method = "handleSetExperience", at = @At("TAIL")) // Get our faction level
     public void handleSetExperience(ClientboundSetExperiencePacket clientboundSetExperiencePacket, CallbackInfo ci) {
-        if (!MccIslandState.isOnline()) return;
-        DiscordPresenceUpdator.setLevel(clientboundSetExperiencePacket.getExperienceLevel());
+        if (!MccIslandState.isOnline()) return; // We must be online!
+        DiscordPresenceUpdator.setLevel(clientboundSetExperiencePacket.getExperienceLevel()); // Set our faction level on discord to our XP
     }
 
     String lastCheckedActionBar = "";
-    @Inject(method = "setActionBarText", at = @At("TAIL"))
+    @Inject(method = "setActionBarText", at = @At("TAIL")) // Get our faction!
     public void handleSetExperience(ClientboundSetActionBarTextPacket clientboundSetActionBarTextPacket, CallbackInfo ci) {
-        if (!MccIslandState.isOnline()) return;
-        String text = clientboundSetActionBarTextPacket.getText().getString();
-        if (Objects.equals(lastCheckedActionBar, text)) return;
+        if (!MccIslandState.isOnline()) return; // Me must be on the island!
+        String text = clientboundSetActionBarTextPacket.getText().getString(); // Get the string version of our actionbar
+        if (Objects.equals(lastCheckedActionBar, text)) return; // If the action bar is the same as the last, ignore it
         lastCheckedActionBar = text;
 
-        FactionComponents.comps.forEach((faction, component) -> {
-            if (text.contains(component.getString())) MccIslandState.setFaction(faction);
+        FactionComponents.comps.forEach((faction, component) -> { // Loop over the faction icon characters
+            if (text.contains(component.getString())) MccIslandState.setFaction(faction); // If we contain it, that's our faction!!
         });
     }
 
-    private boolean isGameDisplayName(Component component) {
-        for (Component sibling : component.getSiblings()) {
-            if (sibling.getStyle().getColor() == TextColor.fromLegacyFormat(ChatFormatting.AQUA))
-                return true;
-        }
-        return false;
-    }
-
-    @Inject(method = "handleSetPlayerTeamPacket", at = @At("TAIL"))
+    // Patterns for the Map & Modifier options on scoreboard
+    final Map<String, Pattern> scoreboardPatterns = Map.of(
+            "MAP", Pattern.compile("MAP: (?<map>\\w+(?:,? \\w+)*)"),
+            "MODIFIER", Pattern.compile("MODIFIER: (?<modifier>\\w+(?:,? \\w+)*)")
+    );
+    @Inject(method = "handleSetPlayerTeamPacket", at = @At("TAIL")) // Scoreboard lines!
     public void handleSetPlayerTeamPacket(ClientboundSetPlayerTeamPacket clientboundSetPlayerTeamPacket, CallbackInfo ci) {
+        if (!MccIslandState.isOnline()) return;
         Optional<ClientboundSetPlayerTeamPacket.Parameters> optional = clientboundSetPlayerTeamPacket.getParameters();
-        optional.ifPresent((parameters) -> {
-            try {
-                Component prefixComponent = parameters.getPlayerPrefix();
-                String playerPrefix = prefixComponent.getString().toUpperCase();
+        if (optional.isEmpty()) return;
 
-                // FIXME: idk how to properly put it outside of this methos, so yeah, it's here for now
-                final Map<String, Pattern> scoreboardPatterns = Map.of(
-                        "MAP", Pattern.compile("MAP: (?<map>\\w+(?:,? \\w+)*)"),
-                        "MODIFIER", Pattern.compile("MODIFIER: (?<modifier>\\w+(?:,? \\w+)*)")
-                );
+        ClientboundSetPlayerTeamPacket.Parameters parameters = optional.get(); // Get the team parameters
+        try { // We do a little exceptioning
+            Component prefixComponent = parameters.getPlayerPrefix(); // Get the prefix of this team
+            String playerPrefix = prefixComponent.getString().toUpperCase(); // Turn it uppercase
 
-                for (Map.Entry<String, Pattern> entry : scoreboardPatterns.entrySet()) {
-                    Matcher matcher = entry.getValue().matcher(playerPrefix);
-                    if (!matcher.find()) continue;
-                    String value = matcher.group(1);
+            for (Map.Entry<String, Pattern> entry : scoreboardPatterns.entrySet()) { // Loop over our scoreboard reg-exes
+                Matcher matcher = entry.getValue().matcher(playerPrefix); // Match the prefix against the regex
+                if (!matcher.find()) continue; // If we don't have a subsequence, then go to the next
+                String value = matcher.group(1); // WE HAVE A MATCH, Get the first Regex group
 
-                    switch (entry.getKey()) {
-                        case "MAP" -> MccIslandState.setMap(value);
-                        case "MODIFIER" -> MccIslandState.setModifier(value);
-                    }
-
-                    ChatUtils.debug("ScoreboardUpdate - Current %s: \"%s\"", entry.getKey(), value);
+                switch (entry.getKey()) {
+                    case "MAP" -> MccIslandState.setMap(value); // Set our MAP
+                    case "MODIFIER" -> MccIslandState.setModifier(value); // Set our MODIFIER
                 }
-            } catch (Exception ignored) {}
-        });
+
+                ChatUtils.debug("ScoreboardUpdate - Current %s: \"%s\"", entry.getKey(), value);
+            }
+        } catch (Exception ignored) {}
     }
 
     @Inject(method = "handleSoundEvent", at = @At("HEAD"), cancellable = true)
@@ -141,34 +143,24 @@ public abstract class PacketListenerMixin {
         PacketUtils.ensureRunningOnSameThread(clientboundCustomSoundPacket, (ClientPacketListener) (Object) this, this.minecraft);
         if (!MccIslandState.isOnline()) return;
 
-        // Create a sound instance of the sound that is being played with this packed
-        // Set the source to CORE_MUSIC just in case we want to play this later.
-        SoundInstance instance = MusicUtil.createSoundInstance(clientboundCustomSoundPacket, SoundSource.MASTER);
+        // Get the location of the new sound
+        // Previously this was obfuscated by noxcrew, but not anymore yayyyyy :D
+        ResourceLocation soundLoc = clientboundCustomSoundPacket.getSound().value().getLocation();
 
-        // Attempt to get the underlying sound file from the played sound
-        // We have to do this because Noxcrew obfuscated the sound ids, and may change should the resource pack update
-        ResourceLocation soundLoc;
-        try {
-            WeighedSoundEvents sounds = instance.resolve(Minecraft.getInstance().getSoundManager());
-            soundLoc = sounds.getSound(RandomSource.create()).getLocation();
-        } catch (Exception e) {
-            return;
-        }
-
-        // If we aren't in a game, dont play music
+        // If we aren't in a game, don't play music
         if (MccIslandState.getGame() != GAME.HUB) {
-            // Use the sound files above to determine what just happend in the game
+            // Use the sound files above to determine what just happened in the game
             if (MccIslandState.getGame() != GAME.BATTLE_BOX) {
                 if (Objects.equals(soundLoc.getPath(), "games.global.countdown.go")) {
-                    // The game started. Start the music!!
-                    MusicUtil.startMusic(clientboundCustomSoundPacket);
+                    MusicUtil.startMusic(clientboundCustomSoundPacket); // The game started. Start the music!!
                     return;
                 }
             } else {
+                // We're playing battlebox, and the music needs to start early.
                 if (Objects.equals(soundLoc.getPath(), "music.global.gameintro")) {
-                    MusicUtil.startMusic(clientboundCustomSoundPacket);
+                    MusicUtil.startMusic(clientboundCustomSoundPacket); // Start the music!!
                     ChatUtils.debug("[PacketListener] Canceling gameintro");
-                    ci.cancel();
+                    ci.cancel(); // Stop minecraft from minecrafting
                     return;
                 }
             }
@@ -181,120 +173,137 @@ public abstract class PacketListenerMixin {
             }
         }
 
-        // Play Music in the "Core Music" Category.
+        SoundInstance instance;
+        // If our sound is music, play in the Core Music slider
         if (soundLoc.getPath().contains("music.global")) {
-            instance = MusicUtil.createSoundInstance(clientboundCustomSoundPacket, IslandSoundCategories.CORE_MUSIC);
-            Minecraft.getInstance().getSoundManager().play(instance);
-            ChatUtils.debug("Playing " + soundLoc.getPath() + " in CORE_MUSIC");
-            ci.cancel();
-        } else if (soundLoc.getNamespace().equals("mcc")) {
-            instance = MusicUtil.createSoundInstance(clientboundCustomSoundPacket, IslandSoundCategories.SOUND_EFFECTS);
-            Minecraft.getInstance().getSoundManager().play(instance);
-            ChatUtils.debug("Playing " + soundLoc.getPath() + " in SOUND_EFFECTS");
-            ci.cancel();
+            instance = MusicUtil.createSoundInstance(clientboundCustomSoundPacket, IslandSoundCategories.CORE_MUSIC); // Create the sound
+            Minecraft.getInstance().getSoundManager().play(instance); // Play the sound
+            ChatUtils.debug("Playing " + soundLoc.getPath() + " in CORE_MUSIC"); // Log the sound
+            ci.cancel(); // Stop minecraft from trying.
+        } else if (soundLoc.getNamespace().equals("mcc")) { // If it's a MCC sound, we'll just play it in sound effects.
+            instance = MusicUtil.createSoundInstance(clientboundCustomSoundPacket, IslandSoundCategories.SOUND_EFFECTS); // Make the sound
+            Minecraft.getInstance().getSoundManager().play(instance); // Play the sound
+            ChatUtils.debug("Playing " + soundLoc.getPath() + " in SOUND_EFFECTS"); // Debug for days
+            ci.cancel(); // Minecraft no
         }
     }
 
-    @Inject(method = "handleContainerContent", at = @At("HEAD"))
+    @Inject(method = "handleContainerContent", at = @At("HEAD")) // Cosmetic previews, whenever we get our cosmetics back after closing menu
     private void containerContent(ClientboundContainerSetContentPacket clientboundContainerSetContentPacket, CallbackInfo ci) {
-        if (Minecraft.getInstance().player == null) return;
-        if (clientboundContainerSetContentPacket.getContainerId() != 0) return;
+        if (!MccIslandState.isOnline()) return;
+        if (Minecraft.getInstance().player == null) return; // If no player, stop
+        if (clientboundContainerSetContentPacket.getContainerId() != 0) return; // If this is a chest, stop
 
-        for (int i = 0; i < clientboundContainerSetContentPacket.getItems().size(); i++) {
-            ItemStack item = clientboundContainerSetContentPacket.getItems().get(i);
-            COSMETIC_TYPE type = CosmeticState.getType(item);
-            if (type == COSMETIC_TYPE.ACCESSORY) CosmeticState.accessorySlot.set = new CosmeticSlot(item);
-            else if (type == COSMETIC_TYPE.HAT) CosmeticState.hatSlot.set = new CosmeticSlot(item);
+        for (int i = 0; i < clientboundContainerSetContentPacket.getItems().size(); i++) { // Loop over the items we just recived
+            ItemStack item = clientboundContainerSetContentPacket.getItems().get(i); // Get the item
+            COSMETIC_TYPE type = CosmeticState.getType(item); // Get it's cosmetic type
+            if (type == COSMETIC_TYPE.ACCESSORY) CosmeticState.accessorySlot.set = new CosmeticSlot(item); // Set accessory back
+            else if (type == COSMETIC_TYPE.HAT) CosmeticState.hatSlot.set = new CosmeticSlot(item); // Set hat back
         }
     }
 
-    @Inject(method = "handleRespawn", at = @At("HEAD"))
+    @Inject(method = "handleRespawn", at = @At("HEAD")) // Whenever we change worlds
     private void handleRespawn(ClientboundRespawnPacket clientboundRespawnPacket, CallbackInfo ci) {
-        LocalPlayer localPlayer = this.minecraft.player;
-        if (localPlayer == null) return;
-        ResourceKey<Level> resourceKey = clientboundRespawnPacket.getDimension();
-        if (resourceKey != localPlayer.level.dimension()) {
-            MusicUtil.stopMusic();
+        LocalPlayer localPlayer = this.minecraft.player; // Get our player
+        if (localPlayer == null) return; // minecraft is a good game.
+
+        ResourceKey<Level> resourceKey = clientboundRespawnPacket.getDimension(); // Get the key of this world
+        if (resourceKey != localPlayer.level.dimension()) { // If we have changed worlds...
+            MusicUtil.stopMusic(); // ...stop the music
         }
     }
 
-    @Inject(method = "handleBossUpdate", at = @At("HEAD"))
+    @Inject(method = "handleBossUpdate", at = @At("HEAD")) // Discord presence, time left
     private void handleBossUpdate(ClientboundBossEventPacket clientboundBossEventPacket, CallbackInfo ci) {
+        if (!MccIslandState.isOnline()) return;
+        // Create a handler for the bossbar
         ClientboundBossEventPacket.Handler bossbarHandler = new ClientboundBossEventPacket.Handler(){
             @Override
             public void updateName(UUID uUID, Component component) {
-                if (!component.getString().contains(":")) return;
+                if (!component.getString().contains(":")) return; // If we don't have a timer, move on with our lives
                 try {
-                    String[] split = component.getString().split(":");
-                    String minsText = split[0];
-                    String secsText = split[1];
+                    String[] split = component.getString().split(":"); // Split by the timer
+                    String minsText = split[0]; // Get the left side
+                    String secsText = split[1]; // Get the right side
 
-                    int mins = Integer.parseInt( minsText.substring( Math.max(minsText.length() - 2, 0)) );
-                    int secs = Integer.parseInt( secsText.substring(0, 2) );
+                    int mins = Integer.parseInt( minsText.substring( Math.max(minsText.length() - 2, 0)) ); // Get the last 2 character of the left side
+                    int secs = Integer.parseInt( secsText.substring(0, 2) ); // Get the first 2 on the right side
 
-                    long finalUnix = System.currentTimeMillis() + (((mins * 60L) + secs+1) * 1000);
+                    long secondsLeft = ((mins * 60L) + secs+1);
+                    long finalUnix = System.currentTimeMillis() + (secondsLeft * 1000); // Get the timestamp when the game will end
 
-                    DiscordPresenceUpdator.timeLeftBossbar = uUID;
-                    DiscordPresenceUpdator.updateTimeLeft(finalUnix);
-                } catch (Exception e) {}
+                    DiscordPresenceUpdator.timeLeftBossbar = uUID; // why do i do this again?
+                    DiscordPresenceUpdator.updateTimeLeft(finalUnix); // Update our time left!!
+                } catch (Exception ignored) {}
             }
             @Override
-            public void remove(UUID uUID) {
+            public void remove(UUID uUID) { // tbf, i don't this is ever called, but y'know, just to be sure
                 if (DiscordPresenceUpdator.timeLeftBossbar == uUID)
                     DiscordPresenceUpdator.updateTimeLeft(null);
             }
         };
-        clientboundBossEventPacket.dispatch(bossbarHandler);
+        clientboundBossEventPacket.dispatch(bossbarHandler); // Execute the handler!
     }
 
-    @Inject(method = "handleCommandSuggestions", cancellable = true, at = @At("HEAD"))
+    @Inject(method = "handleCommandSuggestions", cancellable = true, at = @At("HEAD")) // "Friends in this game: "
     private void commandSuggestionsResponse(ClientboundCommandSuggestionsPacket clientboundCommandSuggestionsPacket, CallbackInfo ci) {
-        if (clientboundCommandSuggestionsPacket.getId() == TRANSACTION_ID) {
-            ci.cancel();
-            List<String> friends = clientboundCommandSuggestionsPacket
-                    .getSuggestions()
-                    .getList()
-                    .stream().map(Suggestion::getText)
-                    .collect(Collectors.toList());
-            MccIslandState.setFriends(friends);
+        if (clientboundCommandSuggestionsPacket.getId() == TRANSACTION_ID) { // If we get back suggestions from our previous request
+            ci.cancel(); // Stop minecraft... please.
+            List<String> friends = clientboundCommandSuggestionsPacket // our friends suggestions
+                    .getSuggestions() // the suggestions
+                    .getList() // a list of suggestions
+                    .stream().map(Suggestion::getText) // the text of the suggestions
+                    .collect(Collectors.toList()); // a list of the suggestions
+            MccIslandState.setFriends(friends); // Set our friends!
         }
     }
-
 
     TextColor textColor = TextColor.parseColor("#FFA800"); // Trap Title Text Color
     Style style = Style.EMPTY.withColor(textColor); // Style for the trap color
     @Inject(method = "setSubtitleText", at = @At("HEAD"), cancellable = true)
     private void titleText(ClientboundSetSubtitleTextPacket clientboundSetSubtitleTextPacket, CallbackInfo ci) {
+        if (MccIslandState.getGame() != GAME.HITW) return; // Make sure we're playing HITW
         if (!IslandOptions.getOptions().isClassicHITW()) return; // Requires isClassicHITW
-        if (MccIslandState.getGame() != GAME.HITW) return;
-        String trap = clientboundSetSubtitleTextPacket.getText().getString();
+        String trap = clientboundSetSubtitleTextPacket.getText().getString(); // Get the string version of the subtitle
 
-        boolean isTrap = false;
+        boolean isTrap = false; // Get all the elements in this component
         for (Component component : clientboundSetSubtitleTextPacket.getText().toFlatList()) {
-            if (component.getStyle().isObfuscated()) { return; }
+            if (component.getStyle().isObfuscated()) { return; } // If this component is obfuscated, it's the animation before the trap
             if (component.getStyle().getColor() != null && component.getStyle().getColor().equals(textColor))
-                isTrap = true;
+                isTrap = true; // If it's the gold color of the trap subtitle, it's a trap!
         }
-        if (!isTrap) return;
+        if (!isTrap) return; // If we didn't find the trap, we can just stop
 
-        String change = changeName(trap);
-        if (change != null) {
-            this.minecraft.gui.setSubtitle(literal(change).withStyle(style));
-            ci.cancel();
+        String change = changeName(trap); // Check for the changed trap names
+        if (change != null) { // If we have changed the name of the trap
+            this.minecraft.gui.setSubtitle(literal(change).withStyle(style)); // Send our own subtitle
+            ci.cancel(); // Cancel minecraft executing futher
         }
 
-        long timestamp = System.currentTimeMillis();
-        if ((timestamp - HITWTrapState.lastTrapTimestamp) < 50) return;
+        long timestamp = System.currentTimeMillis(); // This just ensures we don't play the sound twice
+        if ((timestamp - HITWTrapState.lastTrapTimestamp) < 50) return; // 50ms delay
         HITWTrapState.lastTrapTimestamp = timestamp;
 
-        trap = trap.replaceAll("/([ -!])/","").toLowerCase();
+        trap = trap.replaceAll("([ \\-!])","").toLowerCase(); // Convert the trap to a lowercase space-less string
 
         try {
-            HITWTrapState.trap = trap;
-            ResourceLocation sound = new ResourceLocation("island", "announcer." + trap);
-            Minecraft.getInstance().getSoundManager().play(MusicUtil.createSoundInstance(sound));
+            HITWTrapState.trap = trap; // Set the trap to the one we just found
+            ResourceLocation sound = new ResourceLocation("island", "announcer." + trap); // island:announcer.(trap) -> The sound location
+            Minecraft.getInstance().getSoundManager().play(MusicUtil.createSoundInstance(sound)); // Play the sound!!
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Something went horribly wrong, probably an invalid character
+        }
+    }
+
+    @Inject(method = "setTitleText", at = @At("HEAD")) // Game Over Sound Effect
+    private void gameOver(ClientboundSetTitleTextPacket clientboundSetTitleTextPacket, CallbackInfo ci) {
+        if (MccIslandState.getGame() != GAME.HITW) return; // Make sure we're playing HITW
+        if (!IslandOptions.getOptions().isClassicHITW()) return; // Requires isClassicHITW
+        String title = clientboundSetTitleTextPacket.getText().getString().toUpperCase(); // Get the title in upper case
+
+        if (title.contains("GAME OVER")) { // If we got game over title, play sound
+            ResourceLocation sound = new ResourceLocation("island", "announcer.gameover");
+            Minecraft.getInstance().getSoundManager().play(MusicUtil.createSoundInstance(sound)); // Play the sound!!
         }
     }
 
@@ -304,6 +313,7 @@ public abstract class PacketListenerMixin {
             case "Blast-Off" -> "Kaboom";
             case "Pillagers" -> "So Lonely";
             case "Leg Day" -> "Molasses";
+            case "Snowball Fight" -> "Jack Frost";
             default -> null;
         };
     }

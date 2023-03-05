@@ -8,6 +8,8 @@ import net.minecraft.util.RandomSource;
 
 public class MCCSoundInstance extends AbstractTickableSoundInstance {
 
+    public static ResourceLocation location;
+
     public float totalVolume;
     public float totalFadeTicks = 20f;
     public float fadeTicks = 0f;
@@ -15,6 +17,7 @@ public class MCCSoundInstance extends AbstractTickableSoundInstance {
 
     protected MCCSoundInstance(SoundEvent event, SoundSource soundSource, float f,float g, RandomSource randomSource, boolean bl, int i, SoundInstance.Attenuation attenuation, double d, double e, double h, boolean bl2) {
         super(event, soundSource, randomSource);
+        location = event.getLocation();
         this.volume = f;
         totalVolume = f;
         this.pitch = g;
@@ -31,6 +34,9 @@ public class MCCSoundInstance extends AbstractTickableSoundInstance {
         isFading = true;
         totalFadeTicks = ticks;
         fadeTicks = totalFadeTicks;
+    }
+    public void stopFwd() {
+        stop();
     }
 
     @Override

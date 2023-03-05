@@ -1,12 +1,15 @@
 package net.asodev.islandutils.util;
 
 import com.mojang.blaze3d.audio.Listener;
+import com.mojang.brigadier.context.CommandContext;
 import net.asodev.islandutils.mixins.accessors.SoundEngineAccessor;
 import net.asodev.islandutils.mixins.accessors.SoundManagerAccessor;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.IslandSoundCategories;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.state.GAME;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
@@ -20,6 +23,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.Objects;
 
 import static net.asodev.islandutils.options.IslandOptions.getOptions;
+import static net.minecraft.network.chat.Component.literal;
 
 public class MusicUtil {
 
@@ -66,9 +70,9 @@ public class MusicUtil {
         currentlyPlayingSound = instance;
     }
 
-    public static MCCSoundInstance createSoundInstance(ClientboundSoundPacket clientboundCustomSoundPacket, SoundSource source) {
-        return new MCCSoundInstance(
-                clientboundCustomSoundPacket.getSound().value(),
+    public static SimpleSoundInstance createSoundInstance(ClientboundSoundPacket clientboundCustomSoundPacket, SoundSource source) {
+        return new SimpleSoundInstance(
+                clientboundCustomSoundPacket.getSound().value().getLocation(),
                 source,
                 clientboundCustomSoundPacket.getVolume(),
                 clientboundCustomSoundPacket.getPitch(),
@@ -82,10 +86,7 @@ public class MusicUtil {
                 false);
     }
     public static SimpleSoundInstance createSoundInstance(ResourceLocation resourceLocation) {
-        SoundEngineAccessor soundEngine = (SoundEngineAccessor)((SoundManagerAccessor)Minecraft.getInstance().getSoundManager()).getSoundEngine();
-        Listener listener = soundEngine.getListener();
-        Vec3 listenerPosition = listener.getListenerPosition();
-
+        Vec3 listenerPosition = getListenerPosition();
         return new SimpleSoundInstance(
                 resourceLocation,
                 IslandSoundCategories.SOUND_EFFECTS,
@@ -102,10 +103,24 @@ public class MusicUtil {
         );
     }
 
+    private static Vec3 getListenerPosition() {
+        SoundEngineAccessor soundEngine = (SoundEngineAccessor)((SoundManagerAccessor)Minecraft.getInstance().getSoundManager()).getSoundEngine();
+        Listener listener = soundEngine.getListener();
+        return listener.getListenerPosition();
+    }
+
     public static void stopMusic() {
+        stopMusic(false);
+    }
+
+    public static void stopMusic(Boolean instant) {
         if (currentlyPlayingSound != null) {
-            currentlyPlayingSound.fade(20);
-            ChatUtils.debug("[MusicUtil] Fading: " + currentlyPlayingSound);
+            if (!instant) {
+                currentlyPlayingSound.fade(20);
+                ChatUtils.debug("[MusicUtil] Fading: " + currentlyPlayingSound);
+            } else currentlyPlayingSound.stopFwd();
+
+            currentlyPlayingSound = null;
             return;
         }
         ResourceLocation location = MccIslandState.getGame().getMusicLocation();
@@ -113,6 +128,35 @@ public class MusicUtil {
 
         ChatUtils.debug("[MusicUtil] Stopping: " + location.getPath());
         Minecraft.getInstance().getSoundManager().stop(location, IslandSoundCategories.GAME_MUSIC);
+    }
+
+    public static void resetMusic(CommandContext<FabricClientCommandSource> ctx) {
+        if (currentlyPlayingSound == null) {
+            ctx.getSource().sendError(literal("There is no music currently playing.").withStyle(ChatFormatting.RED));
+            return;
+        }
+
+        ResourceLocation music = currentlyPlayingSound.getLocation();
+        float pitch = currentlyPlayingSound.getPitch();
+        stopMusic(true);
+
+        Vec3 listenerPosition = getListenerPosition();
+        MCCSoundInstance instance = new MCCSoundInstance(
+                SoundEvent.createVariableRangeEvent(music),
+                IslandSoundCategories.GAME_MUSIC,
+                1f,
+                pitch,
+                RandomSource.create(),
+                false,
+                0,
+                SoundInstance.Attenuation.LINEAR,
+                listenerPosition.x,
+                listenerPosition.y,
+                listenerPosition.z,
+                false);
+        currentlyPlayingSound = instance;
+        Minecraft.getInstance().getSoundManager().play(instance);
+        ctx.getSource().sendFeedback(literal("Reset your music!").withStyle(ChatFormatting.GREEN));
     }
 
 }

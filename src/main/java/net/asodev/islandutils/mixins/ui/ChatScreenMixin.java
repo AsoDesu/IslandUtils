@@ -1,4 +1,4 @@
-package net.asodev.islandutils.mixins;
+package net.asodev.islandutils.mixins.ui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.asodev.islandutils.mixins.ui.CommandSuggestionsAccessor;

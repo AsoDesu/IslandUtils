@@ -13,30 +13,41 @@ import java.util.UUID;
 
 public class DiscordPresenceUpdator {
 
+    // EVERYTHING in this file that interacts with discord is in a try/catch
+    // Discord GameSDK sometimes likes to not work whenever you ask it to do something
+    // So we have to be sure we don't crash when that happens.
+
     @Nullable static Activity activity;
     public static UUID timeLeftBossbar = null;
     public static Instant started;
     public static void create() {
-        DiscordPresence.init();
+        try {
+            DiscordPresence.init();
 
-        activity = new Activity();
-        activity.setType(ActivityType.PLAYING);
+            activity = new Activity();
+            activity.setType(ActivityType.PLAYING);
 
-        activity.assets().setLargeImage("mcci");
-        activity.assets().setLargeText("play.mccisland.net");
+            activity.assets().setLargeImage("mcci");
+            activity.assets().setLargeText("play.mccisland.net");
 
-        if (started == null) started = Instant.ofEpochMilli(System.currentTimeMillis());
-        if (IslandOptions.getOptions().showTimeElapsed)
-            activity.timestamps().setStart(started);
-        updateActivity();
+            if (started == null) started = Instant.ofEpochMilli(System.currentTimeMillis());
+            if (IslandOptions.getOptions().showTimeElapsed)
+                activity.timestamps().setStart(started);
+
+            updateActivity();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void updateTimeLeft(Long endTimestamp) {
         if (activity == null) return;
         if (!IslandOptions.getOptions().showTimeRemaining || !IslandOptions.getOptions().showGame) return;
 
-        if (endTimestamp != null) activity.timestamps().setEnd(Instant.ofEpochMilli(endTimestamp));
-        else activity.timestamps().setEnd(Instant.ofEpochSecond(0));
+        try {
+            if (endTimestamp != null) activity.timestamps().setEnd(Instant.ofEpochMilli(endTimestamp));
+            else activity.timestamps().setEnd(Instant.ofEpochSecond(0));
+        } catch (Exception e) { e.printStackTrace(); }
         updateActivity();
     }
 
@@ -50,25 +61,30 @@ public class DiscordPresenceUpdator {
         if (MccIslandState.getFaction() != null)
             faction = " (" + MccIslandState.getFaction().getTitle() + ")";
 
-        activity.assets().setSmallText("Level " + level + faction);
+        try { activity.assets().setSmallText("Level " + level + faction); }
+        catch (Exception e) { e.printStackTrace(); }
     }
 
     public static void updatePlace() {
         if (activity == null) return;
         if (!IslandOptions.getOptions().showGame) return;
 
-        activity.assets().setLargeImage(MccIslandState.getGame().name().toLowerCase());
-        activity.assets().setLargeText(MccIslandState.getGame().getName());
-        activity.assets().setSmallImage("mcci");
+        try {
+            activity.assets().setLargeImage(MccIslandState.getGame().name().toLowerCase());
+            activity.assets().setLargeText(MccIslandState.getGame().getName());
+            activity.assets().setSmallImage("mcci");
 
-        if (MccIslandState.getGame() != GAME.HUB)
-            activity.setDetails("Playing " + MccIslandState.getGame().getName());
-        else {
-            activity.setDetails("In the Hub");
-            REMAIN_STATE = null;
-            ROUND_STATE = null;
-            activity.setState("");
-            activity.timestamps().setEnd(Instant.ofEpochSecond(0));
+            if (MccIslandState.getGame() != GAME.HUB)
+                activity.setDetails("Playing " + MccIslandState.getGame().getName());
+            else {
+                activity.setDetails("In the Hub");
+                REMAIN_STATE = null;
+                ROUND_STATE = null;
+                activity.setState("");
+                activity.timestamps().setEnd(Instant.ofEpochSecond(0));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         if (MccIslandState.getGame() == GAME.TGTTOS || MccIslandState.getGame() == GAME.BATTLE_BOX)
@@ -87,7 +103,10 @@ public class DiscordPresenceUpdator {
 
         if (set) REMAIN_STATE = "Remaining: " + value;
         if (MccIslandState.getGame() != GAME.HITW && MccIslandState.getGame() != GAME.SKY_BATTLE) return;
-        activity.setState(REMAIN_STATE);
+
+        try { activity.setState(REMAIN_STATE); }
+        catch (Exception e) { e.printStackTrace(); }
+
         updateActivity();
     }
     static String ROUND_STATE;
@@ -97,7 +116,10 @@ public class DiscordPresenceUpdator {
 
         if (set) ROUND_STATE = "Round: " + value;
         if (MccIslandState.getGame() != GAME.TGTTOS && MccIslandState.getGame() != GAME.BATTLE_BOX) return;
-        activity.setState(ROUND_STATE);
+
+        try { activity.setState(ROUND_STATE); }
+        catch (Exception e) { e.printStackTrace(); }
+
         updateActivity();
     }
 
@@ -106,7 +128,9 @@ public class DiscordPresenceUpdator {
         if (!IslandOptions.getOptions().discordPresence) return;
         Core core = DiscordPresence.core;
         if (core == null || !core.isOpen()) return;
-        core.activityManager().updateActivity(activity);
+
+        try { core.activityManager().updateActivity(activity); }
+        catch (Exception e) { e.printStackTrace(); }
     }
 
     public static void clear() {
@@ -114,37 +138,39 @@ public class DiscordPresenceUpdator {
     }
 
     public static void updateFromConfig(IslandOptions options) {
-        if (activity == null || DiscordPresence.core == null) return;
+        try {
+            if (activity == null || DiscordPresence.core == null) return;
 
-        if (options.discordPresence) create();
+            if (options.discordPresence) create();
 
-        if (!options.showTimeElapsed) activity.timestamps().setStart(Instant.MAX);
-        else {
-            if (started == null) started = Instant.ofEpochMilli(System.currentTimeMillis());
-            activity.timestamps().setStart(started);
-        }
+            if (!options.showTimeElapsed) activity.timestamps().setStart(Instant.MAX);
+            else {
+                if (started == null) started = Instant.ofEpochMilli(System.currentTimeMillis());
+                activity.timestamps().setStart(started);
+            }
 
-        if (!options.showTimeRemaining) activity.timestamps().setEnd(Instant.ofEpochSecond(0));
+            if (!options.showTimeRemaining) activity.timestamps().setEnd(Instant.ofEpochSecond(0));
 
-        if (!options.showGame) {
-            activity.assets().setSmallImage("");
-            activity.assets().setSmallText("");
+            if (!options.showGame) {
+                activity.assets().setSmallImage("");
+                activity.assets().setSmallText("");
 
-            activity.assets().setLargeImage("mcci");
-            activity.assets().setLargeText("play.mccisland.net");
+                activity.assets().setLargeImage("mcci");
+                activity.assets().setLargeText("play.mccisland.net");
 
-            activity.setDetails("");
-            activity.setState("");
-            activity.timestamps().setEnd(Instant.ofEpochSecond(0));
-        } else updatePlace();
+                activity.setDetails("");
+                activity.setState("");
+                activity.timestamps().setEnd(Instant.ofEpochSecond(0));
+            } else updatePlace();
 
-        if (!options.showFactionLevel) activity.assets().setSmallText("");
-        else setLevel(lastLevel);
+            if (!options.showFactionLevel) activity.assets().setSmallText("");
+            else setLevel(lastLevel);
 
-        if (!options.showGameInfo) activity.setState("");
-        else updatePlace();
+            if (!options.showGameInfo) activity.setState("");
+            else updatePlace();
 
-        if (!options.discordPresence) clear();
+            if (!options.discordPresence) clear();
+        } catch (Exception e) { e.printStackTrace(); }
     }
 
 }
