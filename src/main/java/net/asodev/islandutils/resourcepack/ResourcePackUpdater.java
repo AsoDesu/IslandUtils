@@ -59,7 +59,7 @@ public class ResourcePackUpdater {
     public void apply(File file, Boolean save) {
         getting = false;
         state = null;
-        int version = PackType.CLIENT_RESOURCES.getVersion(SharedConstants.getCurrentVersion());
+        int version = SharedConstants.getCurrentVersion().getPackVersion(PackType.CLIENT_RESOURCES);
         pack = Pack.create(
                 "island_utils",
                 title,

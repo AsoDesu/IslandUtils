@@ -3,6 +3,7 @@ package net.asodev.islandutils.mixins.cosmetics;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.asodev.islandutils.mixins.accessors.WalkAnimStateAccessor;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.state.cosmetics.CosmeticState;
@@ -69,11 +70,12 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
             accSlot = player.getInventory().offhand.get(0);
         }
 
-        float animPos = player.animationPosition;
-        float animSpeed = player.animationSpeed;
+        float animPos = player.walkAnimation.position();
+        float animSpeed = player.walkAnimation.speed();
         float attackAnim = player.attackAnim;
-        player.animationPosition = 0;
-        player.animationSpeed = 0;
+        WalkAnimStateAccessor walkAnim = (WalkAnimStateAccessor) player.walkAnimation;
+        walkAnim.setPosition(0f);
+        walkAnim.setSpeed(0f);
         player.attackAnim = 0;
 
         int size = Double.valueOf(Math.ceil(this.imageHeight / 2.5)).intValue();
@@ -86,8 +88,8 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
                 size , // size
                 player); // Entity
 
-        player.animationPosition = animPos;
-        player.animationSpeed = animSpeed;
+        walkAnim.setPosition(animPos);
+        walkAnim.setSpeed(animPos);
         player.attackAnim = attackAnim;
 
         // this code is so ugly omfg
@@ -97,12 +99,12 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         int backgroundColor = 0x60000000;
         fill(poseStack, x-(size / 2) - 2, y, x+(size / 2)+2, y + 19, backgroundColor);
         drawString(poseStack, this.font, CosmeticState.HAT_COMP, x-(size / 2) + 4, y + 6, 16777215 | 255 << 24);
-        this.itemRenderer.renderAndDecorateItem(this.minecraft.player, hatSlot, itemPos, y+2, x + y * this.imageWidth);
+        this.itemRenderer.renderAndDecorateItem(poseStack, this.minecraft.player, hatSlot, itemPos, y+2, x + y * this.imageWidth);
 
         y += 19 + 4;
         fill(poseStack, x-(size / 2) - 2, y, x+(size / 2)+2, y + 19, backgroundColor);
         drawString(poseStack, this.font, CosmeticState.ACCESSORY_COMP, x-(size / 2) + 4, y + 6, 16777215 | 255 << 24);
-        this.itemRenderer.renderAndDecorateItem(this.minecraft.player, accSlot, itemPos, y+2, x + y * this.imageWidth);
+        this.itemRenderer.renderAndDecorateItem(poseStack, this.minecraft.player, accSlot, itemPos, y+2, x + y * this.imageWidth);
 
         if (this.hoveredSlot != null) {
             ItemStack currHover = this.hoveredSlot.getItem();

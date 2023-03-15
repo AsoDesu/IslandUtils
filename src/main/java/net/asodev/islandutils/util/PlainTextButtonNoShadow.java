@@ -22,7 +22,7 @@ public class PlainTextButtonNoShadow extends Button {
     }
 
     @Override
-    public void renderButton(PoseStack poseStack, int i, int j, float f) {
+    public void renderWidget(PoseStack poseStack, int i, int j, float f) {
         Component component = this.isHoveredOrFocused() ? this.underlinedMessage : this.message;
         this.font.draw(poseStack, component, getX(), getY(), 0xFFFFFF | Mth.ceil(this.alpha * 255.0f) << 24);
     }

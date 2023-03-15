@@ -14,7 +14,6 @@ import net.asodev.islandutils.state.faction.FactionComponents;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Game;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;

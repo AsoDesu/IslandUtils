@@ -5,8 +5,8 @@ import net.asodev.islandutils.state.MccIslandState;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.FrameWidget;
-import net.minecraft.client.gui.components.GridWidget;
+import net.minecraft.client.gui.layouts.FrameLayout;
+import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.gui.screens.Screen;
@@ -37,7 +37,7 @@ public class PauseScreenMixin extends Screen {
             cancellable = true,
             locals = LocalCapture.CAPTURE_FAILHARD
     )
-    private void createPause(CallbackInfo ci, GridWidget gridWidget, GridWidget.RowHelper rowHelper) {
+    private void createPause(CallbackInfo ci, GridLayout gridLayout, GridLayout.RowHelper rowHelper) {
         if (!MccIslandState.isOnline()) return;
         ci.cancel();
 
@@ -53,9 +53,9 @@ public class PauseScreenMixin extends Screen {
                 Minecraft.getInstance().setScreen(screen);
             }
         }).width(204).build(), 2);
-        gridWidget.pack();
-        FrameWidget.alignInRectangle(gridWidget, 0, 0, this.width, this.height, 0.5F, 0.25F);
-        this.addRenderableWidget(gridWidget);
+        gridLayout.arrangeElements();
+        FrameLayout.alignInRectangle(gridLayout, 0, 0, this.width, this.height, 0.5F, 0.25F);
+        gridLayout.visitWidgets(this::addRenderableWidget);
     }
 
     void callback(boolean confirm, Button buttonx) {

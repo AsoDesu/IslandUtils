@@ -55,10 +55,10 @@ public abstract class ChestScreenMixin extends Screen {
         else if (CosmeticState.accessorySlot.preview != null && CosmeticState.accessorySlot.preview.matchesSlot(slot)) shouldRender = true;
 
         if (shouldRender) {
-            this.setBlitOffset(395);
-            this.itemRenderer.blitOffset = 105.0F;
+            poseStack.pushPose();
+            poseStack.translate(0.0F, 0.0F, 105.0F);
             RenderSystem.setShaderTexture(0, PREVIEW);
-            blit(poseStack, slot.x-3, slot.y-4, this.getBlitOffset(), 0, 0, 22, 24, 22, 24);
+            blit(poseStack, slot.x-3, slot.y-4, 0, 0, 0, 22, 24, 22, 24);
         }
     }
 
