@@ -10,7 +10,7 @@
     "homepage": "https://modrinth.com/mod/island-utils"
   },
   "license": "MIT",
-  "icon": "assets/island/icon.png",
+  "icon": "icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [ "net.asodev.islandutils.IslandutilsClient" ],
@@ -30,6 +30,6 @@
   "depends": {
     "fabricloader": ">=0.14.8",
     "fabric": "*",
-    "minecraft": ">=1.19.3"
+    "minecraft": "1.19.4"
   }
 }

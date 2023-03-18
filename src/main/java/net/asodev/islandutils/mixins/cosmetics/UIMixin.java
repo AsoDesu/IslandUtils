@@ -70,12 +70,15 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
             accSlot = player.getInventory().offhand.get(0);
         }
 
-        float animPos = player.walkAnimation.position();
-        float animSpeed = player.walkAnimation.speed();
-        float attackAnim = player.attackAnim;
         WalkAnimStateAccessor walkAnim = (WalkAnimStateAccessor) player.walkAnimation;
+        float animPos = walkAnim.getPosition();
+        float animSpeed = walkAnim.getSpeed();
+        float animSpeedOld = walkAnim.getSpeedOld();
+        float attackAnim = player.attackAnim;
+
         walkAnim.setPosition(0f);
         walkAnim.setSpeed(0f);
+        walkAnim.setSpeedOld(0f);
         player.attackAnim = 0;
 
         int size = Double.valueOf(Math.ceil(this.imageHeight / 2.5)).intValue();
@@ -89,7 +92,8 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
                 player); // Entity
 
         walkAnim.setPosition(animPos);
-        walkAnim.setSpeed(animPos);
+        walkAnim.setSpeed(animSpeed);
+        walkAnim.setSpeedOld(animSpeedOld);
         player.attackAnim = attackAnim;
 
         // this code is so ugly omfg
