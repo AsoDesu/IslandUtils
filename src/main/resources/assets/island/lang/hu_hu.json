@@ -47,6 +47,7 @@
   "text.autoconfig.islandutils.option.classicHITW.@Tooltip": "Visszaadja a Bemondót ahogyan az a \nHivatalos HITW mapen is volt amit a Noxcrew készített!",
   "text.autoconfig.islandutils.option.classicHITWMusic": "Klasszikus Hole In The Wall Zene",
   "text.autoconfig.islandutils.option.classicHITWMusic.@Tooltip": "Visszaadja a Zenét ahogyan az a \nHivatalos HITW mapen is volt amit a Noxcrew készített!"
+  
   "text.autoconfig.islandutils.option.debugMode": "Debug Mód",
 
   "modmenu.descriptionTranslation.islandutils": "Egy Utility Mod az MCC Islandhez!",
