@@ -21,8 +21,14 @@ public class DiscordPresenceUpdator {
     public static UUID timeLeftBossbar = null;
     public static Instant started;
     public static void create() {
+        if (!IslandOptions.getOptions().discordPresence) return;
+
         try {
-            DiscordPresence.init();
+            boolean didInit = DiscordPresence.init();
+            if (!didInit) {
+                System.out.println("Failed to start discord presence");
+                return;
+            }
 
             activity = new Activity();
             activity.setType(ActivityType.PLAYING);
@@ -139,9 +145,12 @@ public class DiscordPresenceUpdator {
 
     public static void updateFromConfig(IslandOptions options) {
         try {
-            if (activity == null || DiscordPresence.core == null) return;
+            if (!MccIslandState.isOnline()) { clear(); return; }
 
             if (options.discordPresence) create();
+            else { clear(); return; }
+
+            if (activity == null) activity = new Activity();
 
             if (!options.showTimeElapsed) activity.timestamps().setStart(Instant.MAX);
             else {

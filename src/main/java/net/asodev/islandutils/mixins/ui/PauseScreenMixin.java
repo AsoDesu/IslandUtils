@@ -16,46 +16,39 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(PauseScreen.class)
 public class PauseScreenMixin extends Screen {
 
     @Final @Shadow private static Component DISCONNECT;
-    @Final @Shadow private static Component RETURN_TO_MENU;
-    @Mutable @Shadow private Button disconnectButton;
     @Mutable @Shadow private void onDisconnect() {}
 
     protected PauseScreenMixin(Component component) {
         super(component);
     }
 
-    @Inject(method = "createPauseMenu",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;isLocalServer()Z", shift = At.Shift.AFTER),
-            cancellable = true,
-            locals = LocalCapture.CAPTURE_FAILHARD
+    @Redirect(
+            method = "createPauseMenu",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/gui/components/Button;builder(Lnet/minecraft/network/chat/Component;Lnet/minecraft/client/gui/components/Button$OnPress;)Lnet/minecraft/client/gui/components/Button$Builder;"
+            )
     )
-    private void createPause(CallbackInfo ci, GridLayout gridLayout, GridLayout.RowHelper rowHelper) {
-        if (!MccIslandState.isOnline()) return;
-        ci.cancel();
+    private Button.Builder createPause(Component component, Button.OnPress onPress) {
+        if (!MccIslandState.isOnline() && IslandOptions.getOptions().isPauseConfirm()) return Button.builder(component, onPress);
+        if (component == DISCONNECT) {
+            Component message = Component.literal("Are you sure you want to leave?").withStyle(ChatFormatting.AQUA);
+            Component no = Component.literal("Cancel");
+            Component yes = Component.literal("Disconnect").withStyle(ChatFormatting.RED);
 
-        Component message = Component.literal("Are you sure you want to leave?").withStyle(ChatFormatting.AQUA);
-        Component no = Component.literal("Cancel");
-        Component yes = Component.literal("Disconnect").withStyle(ChatFormatting.RED);
-
-        Component component = this.minecraft.isLocalServer() ? RETURN_TO_MENU : DISCONNECT;
-        this.disconnectButton = rowHelper.addChild(Button.builder(component, (button) -> {
-            if (!IslandOptions.getOptions().isPauseConfirm()) disconnect(button);
-            else {
+            return Button.builder(component, (button) -> {
                 ConfirmScreen screen = new ConfirmScreen((bool) -> callback(bool, button), Component.literal("Leave the server"), message, yes, no);
                 Minecraft.getInstance().setScreen(screen);
-            }
-        }).width(204).build(), 2);
-        gridLayout.arrangeElements();
-        FrameLayout.alignInRectangle(gridLayout, 0, 0, this.width, this.height, 0.5F, 0.25F);
-        gridLayout.visitWidgets(this::addRenderableWidget);
+            });
+        }
+        return Button.builder(component, onPress);
     }
 
     void callback(boolean confirm, Button buttonx) {

@@ -14,8 +14,8 @@ public class DiscordPresence {
 
     static String os = System.getProperty("os.name").toLowerCase();
 
-    public static void init() {
-        if (initalised) return;
+    public static boolean init() {
+        if (initalised) return true;
 
         File discordLibrary;
         try {
@@ -26,7 +26,7 @@ public class DiscordPresence {
             System.load(discordJNI.getAbsolutePath());
         } catch (Exception e) {
             System.out.println("Failed to grab Natives: " + e.getMessage());
-            return;
+            return false;
         }
 
         Core.initDiscordNative(discordLibrary.getAbsolutePath());
@@ -40,16 +40,17 @@ public class DiscordPresence {
             initalised = true;
         } catch (Exception e) {
             System.out.println("Failed to Initialise Discord Presence.");
-            return;
+            return false;
         }
 
         new Thread(() -> {
-            while (core.isOpen()) {
+            while (core != null && core.isOpen()) {
                 core.runCallbacks();
                 try { Thread.sleep(16); }
                 catch (Exception e) { e.printStackTrace(); }
             }
-        }).start();
+        }, "IslandUtils - Discord Callbacks").start();
+        return true;
     }
 
     public static void clear() {
@@ -60,6 +61,7 @@ public class DiscordPresence {
         catch (Exception e) { e.printStackTrace(); }
 
         initalised = false;
+        core = null;
     }
 
 }

@@ -30,7 +30,7 @@ dependencies {
     modApi include("me.shedaniel.cloth:cloth-config-fabric:10.0.96") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-    modApi("com.terraformersmc:modmenu:5.0.1")
+    modApi("com.terraformersmc:modmenu:6.1.0-rc.4")
 
     implementation include('com.github.JnCrMx:discord-game-sdk4j:v0.5.5')
 }

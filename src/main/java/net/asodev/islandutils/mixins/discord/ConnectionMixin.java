@@ -1,6 +1,8 @@
 package net.asodev.islandutils.mixins.discord;
 
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
+import net.asodev.islandutils.state.GAME;
+import net.asodev.islandutils.state.MccIslandState;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,6 +17,8 @@ public class ConnectionMixin {
     private void disconnect(Component component, CallbackInfo ci) {
         DiscordPresenceUpdator.started = null;
         DiscordPresenceUpdator.clear();
+
+        MccIslandState.setGame(GAME.HUB);
     }
 
 }

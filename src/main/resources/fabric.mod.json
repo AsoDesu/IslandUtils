@@ -10,7 +10,7 @@
     "homepage": "https://modrinth.com/mod/island-utils"
   },
   "license": "MIT",
-  "icon": "icon.png",
+  "icon": "assets/island/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [ "net.asodev.islandutils.IslandutilsClient" ],
@@ -23,7 +23,7 @@
   "custom": {
     "modmenu": {
       "links": {
-        "islandutils.website": "https://modrinth.com/mod/island-utils"
+        "website": "https://modrinth.com/mod/island-utils"
       }
     }
   },
