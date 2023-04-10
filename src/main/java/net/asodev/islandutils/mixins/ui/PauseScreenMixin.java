@@ -37,7 +37,7 @@ public class PauseScreenMixin extends Screen {
             )
     )
     private Button.Builder createPause(Component component, Button.OnPress onPress) {
-        if (!MccIslandState.isOnline() && IslandOptions.getOptions().isPauseConfirm()) return Button.builder(component, onPress);
+        if (!MccIslandState.isOnline() || !IslandOptions.getOptions().isPauseConfirm()) return Button.builder(component, onPress);
         if (component == DISCONNECT) {
             Component message = Component.literal("Are you sure you want to leave?").withStyle(ChatFormatting.AQUA);
             Component no = Component.literal("Cancel");
