@@ -19,6 +19,11 @@
       "island:sky_battle"
     ]
   },
+  "island.music.parkour_warrior": {
+    "sounds": [
+      "island:parkour_warrior"
+    ]
+  },
   "island.music.classic_hitw": {
     "sounds": [
       "island:spacewall"

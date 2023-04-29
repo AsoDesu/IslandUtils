@@ -72,6 +72,8 @@ public abstract class PacketListenerMixin {
                 MccIslandState.setGame(GAME.SKY_BATTLE);
             } else if (title.contains("BATTLE BOX")) {
                 MccIslandState.setGame(GAME.BATTLE_BOX);
+            } else if (title.contains("PARKOUR WARRIOR")) {
+                MccIslandState.setGame(GAME.PARKOUR_WARRIOR);
             } else {
                 MccIslandState.setGame(GAME.HUB); // Somehow we're in a game, but not soooo hub it is!!
             }
