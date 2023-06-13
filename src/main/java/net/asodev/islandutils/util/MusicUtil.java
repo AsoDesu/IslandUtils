@@ -13,6 +13,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -137,9 +138,9 @@ public class MusicUtil {
         Minecraft.getInstance().getSoundManager().stop(location, IslandSoundCategories.GAME_MUSIC);
     }
 
-    public static void resetMusic(CommandContext<FabricClientCommandSource> ctx) {
+    public static void resetMusic(CommandContext<?> ctx) {
         if (currentlyPlayingSound == null) {
-            ctx.getSource().sendError(literal("There is no music currently playing.").withStyle(ChatFormatting.RED));
+            ChatUtils.send(literal("There is no music currently playing.").withStyle(ChatFormatting.RED));
             return;
         }
 
@@ -163,7 +164,7 @@ public class MusicUtil {
                 false);
         currentlyPlayingSound = instance;
         Minecraft.getInstance().getSoundManager().play(instance);
-        ctx.getSource().sendFeedback(literal("Reset your music!").withStyle(ChatFormatting.GREEN));
+        ChatUtils.send(literal("Reset your music!").withStyle(ChatFormatting.GREEN));
     }
 
 }

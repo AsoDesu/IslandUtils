@@ -2,7 +2,7 @@
 
 A Utility mod for MCC Island. 
 
-**Requires Minecraft 1.19.3 or higher**
+**Requires Minecraft 1.19.4 or higher**
 
 **This mod contains music from the MCC Event, created by [Issac Wilkins](https://open.spotify.com/artist/0AhY6cET8JCq1ARiwnTkGi)**\
 **All credits for music go to Issac and the Noxcrew**

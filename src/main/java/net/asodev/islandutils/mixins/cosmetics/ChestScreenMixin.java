@@ -3,7 +3,7 @@ package net.asodev.islandutils.mixins.cosmetics;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.asodev.islandutils.IslandutilsClient;
+import net.asodev.islandutils.IslandUtilsClient;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.COSMETIC_TYPE;
 import net.asodev.islandutils.state.MccIslandState;
@@ -27,7 +27,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import static net.asodev.islandutils.state.cosmetics.CosmeticState.customModelData;
-import static net.asodev.islandutils.state.cosmetics.CosmeticState.itemsMatch;
 
 
 @Mixin(AbstractContainerScreen.class)
@@ -87,7 +86,7 @@ public abstract class ChestScreenMixin extends Screen {
         if (!MccIslandState.isOnline()) return;
         if (hoveredSlot == null || !hoveredSlot.hasItem()) return;
 
-        InputConstants.Key previewBind = KeyBindingHelper.getBoundKeyOf(IslandutilsClient.previewKeyBind);
+        InputConstants.Key previewBind = KeyBindingHelper.getBoundKeyOf(IslandUtilsClient.previewKeyBind);
         if (keyCode == previewBind.getValue()) {
             if (hoveredSlot.getItem().is(Items.GHAST_TEAR) || hoveredSlot.getItem().is(Items.AIR)) return;
             COSMETIC_TYPE type = CosmeticState.getType(hoveredSlot.getItem());

@@ -1,6 +1,11 @@
 package net.asodev.islandutils.mixins;
 
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.ParseResults;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestion;
+import net.asodev.islandutils.IslandUtilsClient;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.IslandSoundCategories;
@@ -16,10 +21,11 @@ import net.asodev.islandutils.util.MusicUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.multiplayer.ClientSuggestionProvider;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
-import net.minecraft.client.sounds.WeighedSoundEvents;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
@@ -27,9 +33,6 @@ import net.minecraft.network.protocol.PacketUtils;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Final;
@@ -38,6 +41,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -53,6 +57,14 @@ public abstract class PacketListenerMixin {
     // I should really separate these mixins...
 
     @Shadow @Final private Minecraft minecraft; // I love minecraft
+
+    @Shadow private CommandDispatcher<CommandSourceStack> commands;
+
+    @Shadow public abstract ClientSuggestionProvider getSuggestionsProvider();
+
+    @Shadow public abstract void sendCommand(String string2);
+
+    @Shadow protected abstract ParseResults<SharedSuggestionProvider> parseCommand(String string);
 
     @Inject(method = "handleAddObjective", at = @At("TAIL")) // Checks which game we're playing!
     public void handleAddObjective(ClientboundSetObjectivePacket clientboundSetObjectivePacket, CallbackInfo ci) {
@@ -318,6 +330,35 @@ public abstract class PacketListenerMixin {
             case "Snowball Fight" -> "Jack Frost";
             default -> null;
         };
+    }
+
+    // MCCI Commands
+    @Inject(method = "handleCommands", at = @At("TAIL"))
+    private void handleCommands(ClientboundCommandsPacket clientboundCommandsPacket, CallbackInfo ci) {
+        if (!MccIslandState.isOnline()) return;
+        this.commands.register((LiteralArgumentBuilder<CommandSourceStack>)IslandUtilsClient.Commands.resetMusic);
+    }
+
+    @Inject(method = "sendUnsignedCommand", at = @At("HEAD"), cancellable = true)
+    private void sendUnsignedCommand(String string, CallbackInfoReturnable<Boolean> cir) {
+        if (!MccIslandState.isOnline()) return;
+        if (string.startsWith("resetmusic")) {
+            executeCommand();
+            cir.setReturnValue(true);
+        }
+    }
+    @Inject(method = "sendCommand", at = @At("HEAD"), cancellable = true)
+    private void sendCommand(String string, CallbackInfo ci) {
+        if (!MccIslandState.isOnline()) return;
+        if (string.startsWith("resetmusic")) {
+            executeCommand();
+            ci.cancel();
+        }
+    }
+
+    private static void executeCommand() {
+        try { IslandUtilsClient.Commands.resetMusic.getCommand().run(null); }
+        catch (CommandSyntaxException e) { e.printStackTrace(); }
     }
 
 }

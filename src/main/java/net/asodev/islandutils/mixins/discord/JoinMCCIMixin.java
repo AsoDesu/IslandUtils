@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static net.asodev.islandutils.IslandutilsClient.onJoinMCCI;
+import static net.asodev.islandutils.IslandUtilsClient.onJoinMCCI;
 
 @Mixin(ClientHandshakePacketListenerImpl.class)
 public class JoinMCCIMixin {
