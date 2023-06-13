@@ -13,7 +13,9 @@
   "icon": "assets/island/icon.png",
   "environment": "client",
   "entrypoints": {
-    "client": [ "net.asodev.islandutils.IslandutilsClient" ],
+    "client": [
+      "net.asodev.islandutils.IslandUtilsClient"
+    ],
     "main": [ "net.asodev.islandutils.IslandUtils" ],
     "modmenu": [ "net.asodev.islandutils.options.ModMenuIntegration" ]
   },
