@@ -1,5 +1,6 @@
 package net.asodev.islandutils.util;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -9,6 +10,9 @@ import net.minecraft.util.RandomSource;
 public class MCCSoundInstance extends AbstractTickableSoundInstance {
 
     public static ResourceLocation location;
+
+    public float ticksRemaining;
+    public boolean hasLooped;
 
     public float totalVolume;
     public float totalFadeTicks = 20f;
@@ -28,6 +32,7 @@ public class MCCSoundInstance extends AbstractTickableSoundInstance {
         this.delay = i;
         this.attenuation = attenuation;
         this.relative = bl2;
+        this.ticksRemaining = ticksBeforeLoop(location);
     }
 
     public void fade(float ticks) {
@@ -41,6 +46,17 @@ public class MCCSoundInstance extends AbstractTickableSoundInstance {
 
     @Override
     public void tick() {
+        if (ticksRemaining != -1 && !hasLooped) {
+            if (ticksRemaining <= 0) {
+                Minecraft.getInstance().getSoundManager().queueTickingSound(this.copy());
+                hasLooped = true;
+                this.stop();
+                ChatUtils.debug("Looping sound...");
+                return;
+            }
+            ticksRemaining--;
+        }
+
         if (!isFading) return;
         if (fadeTicks <= 0) this.stop();
 
@@ -53,5 +69,29 @@ public class MCCSoundInstance extends AbstractTickableSoundInstance {
         return "MCCSoundInstance{" +
                 "location=" + location +
                 '}';
+    }
+
+    public MCCSoundInstance copy() {
+        return new MCCSoundInstance(
+                SoundEvent.createVariableRangeEvent(this.getLocation()),
+                this.source,
+                this.totalVolume,
+                this.pitch,
+                this.random,
+                this.looping,
+                this.delay,
+                this.attenuation,
+                this.x,
+                this.y,
+                this.z,
+                this.relative
+        );
+    }
+
+    static int ticksBeforeLoop(ResourceLocation sound) {
+        if (sound.getPath().equals("island.music.parkour_warrior")) {
+            return 2400;
+        }
+        return -1;
     }
 }

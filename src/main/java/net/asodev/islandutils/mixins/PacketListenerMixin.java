@@ -43,6 +43,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -72,7 +73,11 @@ public abstract class PacketListenerMixin {
         Component displayName = clientboundSetObjectivePacket.getDisplayName(); // Get the title of the scoreboard
         String title = displayName.getString(); // Get the string version of the title of the scoreboard
 
-        if (!isGameDisplayName(displayName)) { // Check if the name doesn't have the aqua color, if so, we're in hub!
+
+        // Check if the name of the game is not the aqua color, then we check if we are not in parkour warrior
+        // Parkour Warrior (at least solo mode) is exception and has white name in the scoreboard title
+        // if both checks are false, we are in hub!
+        if (!isGameDisplayName(displayName) && !title.contains("PARKOUR WARRIOR")) {
             MccIslandState.setGame(GAME.HUB);
         } else { // We're in a game!!!
             // These checks are pretty self-explanatory
@@ -84,6 +89,8 @@ public abstract class PacketListenerMixin {
                 MccIslandState.setGame(GAME.SKY_BATTLE);
             } else if (title.contains("BATTLE BOX")) {
                 MccIslandState.setGame(GAME.BATTLE_BOX);
+            } else if (title.contains("PARKOUR WARRIOR")) {
+                MccIslandState.setGame(GAME.PARKOUR_WARRIOR);
             } else {
                 MccIslandState.setGame(GAME.HUB); // Somehow we're in a game, but not soooo hub it is!!
             }
@@ -121,7 +128,8 @@ public abstract class PacketListenerMixin {
     // Patterns for the Map & Modifier options on scoreboard
     final Map<String, Pattern> scoreboardPatterns = Map.of(
             "MAP", Pattern.compile("MAP: (?<map>\\w+(?:,? \\w+)*)"),
-            "MODIFIER", Pattern.compile("MODIFIER: (?<modifier>\\w+(?:,? \\w+)*)")
+            "MODIFIER", Pattern.compile("MODIFIER: (?<modifier>\\w+(?:,? \\w+)*)"),
+            "COURSE", Pattern.compile("COURSE: (?<course>.*)")
     );
     @Inject(method = "handleSetPlayerTeamPacket", at = @At("TAIL")) // Scoreboard lines!
     public void handleSetPlayerTeamPacket(ClientboundSetPlayerTeamPacket clientboundSetPlayerTeamPacket, CallbackInfo ci) {
@@ -132,7 +140,7 @@ public abstract class PacketListenerMixin {
         ClientboundSetPlayerTeamPacket.Parameters parameters = optional.get(); // Get the team parameters
         try { // We do a little exceptioning
             Component prefixComponent = parameters.getPlayerPrefix(); // Get the prefix of this team
-            String playerPrefix = prefixComponent.getString().toUpperCase(); // Turn it uppercase
+            String playerPrefix = prefixComponent.getString(); // Turn it uppercase
 
             for (Map.Entry<String, Pattern> entry : scoreboardPatterns.entrySet()) { // Loop over our scoreboard reg-exes
                 Matcher matcher = entry.getValue().matcher(playerPrefix); // Match the prefix against the regex
@@ -142,6 +150,7 @@ public abstract class PacketListenerMixin {
                 switch (entry.getKey()) {
                     case "MAP" -> MccIslandState.setMap(value); // Set our MAP
                     case "MODIFIER" -> MccIslandState.setModifier(value); // Set our MODIFIER
+                    case "COURSE" -> DiscordPresenceUpdator.courseScoreboardUpdate(value, true);
                 }
 
                 ChatUtils.debug("ScoreboardUpdate - Current %s: \"%s\"", entry.getKey(), value);
@@ -162,6 +171,12 @@ public abstract class PacketListenerMixin {
         if (MccIslandState.getGame() != GAME.HUB) {
             // Use the sound files above to determine what just happened in the game
             if (MccIslandState.getGame() != GAME.BATTLE_BOX) {
+
+                // Stop the music if you restart the course or switch game mode in Parkour Warrior
+                if(soundLoc.getPath().contains("games.parkour_warrior.mode_swap") || soundLoc.getPath().contains("games.parkour_warrior.restart_course")) {
+                    MusicUtil.stopMusic(false);
+                }
+
                 if (Objects.equals(soundLoc.getPath(), "games.global.countdown.go")) {
                     MusicUtil.startMusic(clientboundCustomSoundPacket); // The game started. Start the music!!
                     return;

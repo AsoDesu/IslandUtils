@@ -45,6 +45,7 @@ public class MccIslandState {
             ClientPacketListener connection = Minecraft.getInstance().getConnection();
             if (connection != null) connection.send(packet);
         }
+        ChatUtils.debug("MccIslandState - Changed game to: " + game);
         MccIslandState.game = game;
     }
 
@@ -59,7 +60,7 @@ public class MccIslandState {
         return faction;
     }
     public static void setFaction(FACTION faction) {
-        ChatUtils.debug("Detected Faction: " + faction);
+        //ChatUtils.debug("Detected Faction: " + faction);
         DiscordPresenceUpdator.setLevel(DiscordPresenceUpdator.lastLevel);
         MccIslandState.faction = faction;
     }

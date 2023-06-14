@@ -27,7 +27,7 @@ import java.util.concurrent.CompletableFuture;
 import static net.asodev.islandutils.util.ChatUtils.translate;
 
 public class ResourcePackUpdater {
-    private static final String url = "http://static.islandutils.asodev.net/pack.json";
+    private static final String url = "http://static.islandutils.asodev.net/pack_2.json";
     private static final Component title = Component.literal(translate("Island Utils"));
     private static final Component desc = Component.literal(translate("&6Music Resources"));
     HttpClient client;

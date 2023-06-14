@@ -36,7 +36,7 @@ public class DiscordPresenceUpdator {
             activity.assets().setLargeImage("mcci");
             activity.assets().setLargeText("play.mccisland.net");
 
-            if (started == null) started = Instant.ofEpochMilli(System.currentTimeMillis());
+            if (started == null) started = Instant.now();
             if (IslandOptions.getOptions().showTimeElapsed)
                 activity.timestamps().setStart(started);
 
@@ -97,7 +97,11 @@ public class DiscordPresenceUpdator {
             if (ROUND_STATE != null) roundScoreboardUpdate(ROUND_STATE, false);
         if (MccIslandState.getGame() == GAME.HITW || MccIslandState.getGame() == GAME.SKY_BATTLE)
             if (REMAIN_STATE != null) remainScoreboardUpdate(REMAIN_STATE, false);
-
+        if (MccIslandState.getGame() == GAME.PARKOUR_WARRIOR)
+            if (COURSE_STATE != null) courseScoreboardUpdate(COURSE_STATE, false);
+        if (MccIslandState.getGame() == GAME.HUB) {
+            activity.setState("");
+        }
 
         updateActivity();
     }
@@ -129,6 +133,20 @@ public class DiscordPresenceUpdator {
         updateActivity();
     }
 
+    static String COURSE_STATE;
+    public static void courseScoreboardUpdate(String value, Boolean set) {
+        if (activity == null) return;
+        if (!IslandOptions.getOptions().showGameInfo || !IslandOptions.getOptions().showGame) return;
+
+        if (set) COURSE_STATE = value;
+        if (MccIslandState.getGame() != GAME.PARKOUR_WARRIOR) return;
+
+        try { activity.setState(COURSE_STATE); }
+        catch (Exception e) { e.printStackTrace(); }
+
+        updateActivity();
+    }
+
     public static void updateActivity() {
         if (activity == null) return;
         if (!IslandOptions.getOptions().discordPresence) return;
@@ -154,7 +172,7 @@ public class DiscordPresenceUpdator {
 
             if (!options.showTimeElapsed) activity.timestamps().setStart(Instant.MAX);
             else {
-                if (started == null) started = Instant.ofEpochMilli(System.currentTimeMillis());
+                if (started == null) started = Instant.now();
                 activity.timestamps().setStart(started);
             }
 

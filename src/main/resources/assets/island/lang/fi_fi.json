@@ -15,6 +15,7 @@
   "text.autoconfig.islandutils.option.hitwMusic": "HITW- Musiikki",
   "text.autoconfig.islandutils.option.bbMusic": "Battle Box- Musiikki",
   "text.autoconfig.islandutils.option.sbMusic": "Sky Battle- Musiikki",
+  "text.autoconfig.islandutils.option.pkwMusic": "Parkour Warrior Music",
   "text.autoconfig.islandutils.option.tgttosDoubleTime": "TGTTOS Tupla-aika- Musiikki",
 
   "text.autoconfig.islandutils.category.cosmetics": "Kosmetiikka",
@@ -53,4 +54,3 @@
   "modmenu.descriptionTranslation.islandutils": "Käytännöllisyys-Modi MCC Islandille!",
   "modmenu.summaryTranslation.islandutils": "Käytännöllisyys-Modi MCC Islandille!"
 }
-

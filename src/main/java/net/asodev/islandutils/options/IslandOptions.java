@@ -18,6 +18,8 @@ public class IslandOptions implements ConfigData {
     @ConfigEntry.Category("music")
     boolean sbMusic = true;
     @ConfigEntry.Category("music")
+    boolean pkwMusic = true;
+    @ConfigEntry.Category("music")
     boolean tgttosDoubleTime = true;
 
     @ConfigEntry.Category("cosmetics")
@@ -78,6 +80,10 @@ public class IslandOptions implements ConfigData {
     public boolean isSbMusic() {
         return sbMusic;
     }
+    public boolean isPkwMusic() {
+        return pkwMusic;
+    }
+
     public boolean isTgttosDoubleTime() {
         return tgttosDoubleTime;
     }

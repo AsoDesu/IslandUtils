@@ -2,7 +2,7 @@
     "providers": [
         {
             "type": "bitmap",
-            "file": "minecraft:gui/gui_icons/social.png",
+            "file": "mcc:island_interface/social/icon.png",
             "chars": ["\ue001"],
             "ascent": 7,
             "height": 8
