@@ -61,7 +61,7 @@ public class CosmeticState {
         if (!item.is(Items.POPPED_CHORUS_FRUIT)) return false;
         CompoundTag tag = item.getTag();
         if (tag == null) return false;
-        return tag.getInt("HideFlags") == 0;
+        return tag.getInt("HideFlags") == -1;
     }
     // Color items do not have lore
     public static boolean isColoredItem(ItemStack item) {

@@ -37,6 +37,7 @@ public class MusicUtil {
             case TGTTOS -> { if (!options.isTgttosMusic()) return; }
             case BATTLE_BOX -> { if (!options.isBbMusic()) return; }
             case SKY_BATTLE -> { if (!options.isSbMusic()) return; }
+            case PARKOUR_WARRIOR -> { if (!options.isPkwMusic()) return; }
         }
 
         ResourceLocation location = MccIslandState.getGame().getMusicLocation();
