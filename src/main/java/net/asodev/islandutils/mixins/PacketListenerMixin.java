@@ -43,6 +43,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -127,7 +128,8 @@ public abstract class PacketListenerMixin {
     // Patterns for the Map & Modifier options on scoreboard
     final Map<String, Pattern> scoreboardPatterns = Map.of(
             "MAP", Pattern.compile("MAP: (?<map>\\w+(?:,? \\w+)*)"),
-            "MODIFIER", Pattern.compile("MODIFIER: (?<modifier>\\w+(?:,? \\w+)*)")
+            "MODIFIER", Pattern.compile("MODIFIER: (?<modifier>\\w+(?:,? \\w+)*)"),
+            "COURSE", Pattern.compile("COURSE: (?<course>.*)")
     );
     @Inject(method = "handleSetPlayerTeamPacket", at = @At("TAIL")) // Scoreboard lines!
     public void handleSetPlayerTeamPacket(ClientboundSetPlayerTeamPacket clientboundSetPlayerTeamPacket, CallbackInfo ci) {
@@ -138,7 +140,7 @@ public abstract class PacketListenerMixin {
         ClientboundSetPlayerTeamPacket.Parameters parameters = optional.get(); // Get the team parameters
         try { // We do a little exceptioning
             Component prefixComponent = parameters.getPlayerPrefix(); // Get the prefix of this team
-            String playerPrefix = prefixComponent.getString().toUpperCase(); // Turn it uppercase
+            String playerPrefix = prefixComponent.getString(); // Turn it uppercase
 
             for (Map.Entry<String, Pattern> entry : scoreboardPatterns.entrySet()) { // Loop over our scoreboard reg-exes
                 Matcher matcher = entry.getValue().matcher(playerPrefix); // Match the prefix against the regex
@@ -148,6 +150,7 @@ public abstract class PacketListenerMixin {
                 switch (entry.getKey()) {
                     case "MAP" -> MccIslandState.setMap(value); // Set our MAP
                     case "MODIFIER" -> MccIslandState.setModifier(value); // Set our MODIFIER
+                    case "COURSE" -> DiscordPresenceUpdator.courseScoreboardUpdate(value, true);
                 }
 
                 ChatUtils.debug("ScoreboardUpdate - Current %s: \"%s\"", entry.getKey(), value);
