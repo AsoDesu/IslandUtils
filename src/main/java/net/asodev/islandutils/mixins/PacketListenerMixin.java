@@ -72,7 +72,11 @@ public abstract class PacketListenerMixin {
         Component displayName = clientboundSetObjectivePacket.getDisplayName(); // Get the title of the scoreboard
         String title = displayName.getString(); // Get the string version of the title of the scoreboard
 
-        if (!isGameDisplayName(displayName)) { // Check if the name doesn't have the aqua color, if so, we're in hub!
+
+        // Check if the name of the game is not the aqua color, then we check if we are not in parkour warrior
+        // Parkour Warrior (at least solo mode) is exception and has white name in the scoreboard title
+        // if both checks are false, we are in hub!
+        if (!isGameDisplayName(displayName) && !title.contains("PARKOUR WARRIOR")) {
             MccIslandState.setGame(GAME.HUB);
         } else { // We're in a game!!!
             // These checks are pretty self-explanatory
