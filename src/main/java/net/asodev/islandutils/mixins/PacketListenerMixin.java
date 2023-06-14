@@ -168,6 +168,12 @@ public abstract class PacketListenerMixin {
         if (MccIslandState.getGame() != GAME.HUB) {
             // Use the sound files above to determine what just happened in the game
             if (MccIslandState.getGame() != GAME.BATTLE_BOX) {
+
+                // Stop the music if you restart the course or switch game mode in Parkour Warrior
+                if(soundLoc.getPath().contains("games.parkour_warrior.mode_swap") || soundLoc.getPath().contains("games.parkour_warrior.restart_course")) {
+                    MusicUtil.stopMusic(false);
+                }
+
                 if (Objects.equals(soundLoc.getPath(), "games.global.countdown.go")) {
                     MusicUtil.startMusic(clientboundCustomSoundPacket); // The game started. Start the music!!
                     return;
