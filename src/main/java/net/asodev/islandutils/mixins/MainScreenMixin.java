@@ -5,6 +5,7 @@ import net.asodev.islandutils.IslandUtils;
 import net.asodev.islandutils.mixins.resources.ProgressScreenAccessor;
 import net.asodev.islandutils.util.ChatUtils;
 import net.minecraft.Util;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
@@ -38,7 +39,7 @@ public abstract class MainScreenMixin extends Screen {
     }
 
     @Inject(method = "render", at = @At("TAIL"))
-    private void render(PoseStack poseStack, int i, int j, float f, CallbackInfo ci) {
+    private void render(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
         if (!packUpdater.getting) return;
 
         float progress = 0;
@@ -50,8 +51,8 @@ public abstract class MainScreenMixin extends Screen {
         int width = 150;
         int height = 10;
 
-        fill(poseStack, (this.width / 2) - width, 3, (this.width / 2) + width, 5+height, backgroundColor);
-        fill(poseStack, (this.width / 2) - width, 3, (int) ((this.width / 2) - width + (Math.min(100, progress) * (width * 2))), 3+height, foregroundColor);
-        drawCenteredString(poseStack, this.font, Component.literal((int)(progress * 100) + "%"), this.width / 2, 3 + 10 + 3, 0xFFFFFF);
+        guiGraphics.fill((this.width / 2) - width, 3, (this.width / 2) + width, 5+height, backgroundColor);
+        guiGraphics.fill((this.width / 2) - width, 3, (int) ((this.width / 2) - width + (Math.min(100, progress) * (width * 2))), 3+height, foregroundColor);
+        guiGraphics.drawCenteredString(this.font, Component.literal((int)(progress * 100) + "%"), this.width / 2, 3 + 10 + 3, 0xFFFFFF);
     }
 }

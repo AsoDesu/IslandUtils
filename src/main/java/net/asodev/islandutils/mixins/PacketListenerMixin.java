@@ -20,6 +20,7 @@ import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.ClientSuggestionProvider;
 import net.minecraft.client.player.LocalPlayer;
@@ -230,11 +231,11 @@ public abstract class PacketListenerMixin {
 
     @Inject(method = "handleRespawn", at = @At("HEAD")) // Whenever we change worlds
     private void handleRespawn(ClientboundRespawnPacket clientboundRespawnPacket, CallbackInfo ci) {
-        LocalPlayer localPlayer = this.minecraft.player; // Get our player
-        if (localPlayer == null) return; // minecraft is a good game.
+        ClientLevel clientLevel = this.minecraft.level; // Get our player
+        if (clientLevel == null) return; // minecraft is a good game.
 
         ResourceKey<Level> resourceKey = clientboundRespawnPacket.getDimension(); // Get the key of this world
-        if (resourceKey != localPlayer.level.dimension()) { // If we have changed worlds...
+        if (resourceKey != clientLevel.dimension()) { // If we have changed worlds...
             MusicUtil.stopMusic(); // ...stop the music
         }
     }

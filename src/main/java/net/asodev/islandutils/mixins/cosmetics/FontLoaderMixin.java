@@ -17,20 +17,20 @@ import java.util.List;
 import static net.asodev.islandutils.state.cosmetics.CosmeticState.MCC_ICONS;
 import static net.asodev.islandutils.state.faction.FactionComponents.MCC_ICONS_19;
 
-@Mixin(BitmapProvider.Builder.class)
+@Mixin(BitmapProvider.Definition.class)
 public class FontLoaderMixin {
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void init(ResourceLocation resourceLocation, int i, int j, List<int[]> list, CallbackInfo ci) {
-        if (list.size() == 1) {
-            int[] c = list.get(0);
+    private void init(ResourceLocation file, int i, int j, int[][] chars, CallbackInfo ci) {
+        if (chars.length == 1) {
+            int[] c = chars[0];
 
             StringBuilder builder = new StringBuilder();
             for (int point : c) { builder.appendCodePoint(point); }
 
             Component comp = Component.literal(builder.toString()).setStyle(Style.EMPTY.withFont(MCC_ICONS));
             Component factionComp = Component.literal(builder.toString()).setStyle(Style.EMPTY.withFont(MCC_ICONS_19));
-            switch (resourceLocation.getPath()) {
+            switch (file.getPath()) {
                 case "_fonts/tooltips/hat.png" -> CosmeticState.HAT_COMP = comp;
                 case "_fonts/tooltips/accessory.png" -> CosmeticState.ACCESSORY_COMP = comp;
                 case "_fonts/tooltips/hair.png" -> CosmeticState.HAIR_COMP = comp;

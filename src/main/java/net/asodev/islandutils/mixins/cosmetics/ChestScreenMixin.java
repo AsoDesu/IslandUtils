@@ -11,6 +11,7 @@ import net.asodev.islandutils.state.cosmetics.Cosmetic;
 import net.asodev.islandutils.state.cosmetics.CosmeticSlot;
 import net.asodev.islandutils.state.cosmetics.CosmeticState;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.nbt.CompoundTag;
@@ -40,7 +41,7 @@ public abstract class ChestScreenMixin extends Screen {
     }
 
     @Inject(method = "renderSlot", at = @At("TAIL"))
-    private void renderSlot(PoseStack poseStack, Slot slot, CallbackInfo ci) {
+    private void renderSlot(GuiGraphics guiGraphics, Slot slot, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
 
         ItemStack slotItem = slot.getItem();
@@ -53,16 +54,16 @@ public abstract class ChestScreenMixin extends Screen {
         if (CosmeticState.hatSlot.preview != null && CosmeticState.hatSlot.preview.matchesSlot(slot)) shouldRender = true;
         else if (CosmeticState.accessorySlot.preview != null && CosmeticState.accessorySlot.preview.matchesSlot(slot)) shouldRender = true;
 
+        guiGraphics.pose().pushPose();
         if (shouldRender) {
-            poseStack.pushPose();
-            poseStack.translate(0.0F, 0.0F, 105.0F);
-            RenderSystem.setShaderTexture(0, PREVIEW);
-            blit(poseStack, slot.x-3, slot.y-4, 0, 0, 0, 22, 24, 22, 24);
+            guiGraphics.pose().translate(0.0f, 0.0f, 105f);
+            guiGraphics.blit(PREVIEW, slot.x-3, slot.y-4, 105, 0, 0, 22, 24, 22, 24);
         }
+        guiGraphics.pose().popPose();
     }
 
     @Inject(method = "render", at = @At("TAIL"))
-    private void render(PoseStack poseStack, int i, int j, float f, CallbackInfo ci) {
+    private void render(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
         if (IslandOptions.getOptions().isShowOnHover() && hoveredSlot != null && hoveredSlot.hasItem() && CosmeticState.isColoredItem(hoveredSlot.getItem())) {
             Integer color = CosmeticState.getColor(hoveredSlot.getItem());
             if (color != null) {
