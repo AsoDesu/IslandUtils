@@ -48,7 +48,9 @@ public class MCCSoundInstance extends AbstractTickableSoundInstance {
     public void tick() {
         if (ticksRemaining != -1 && !hasLooped) {
             if (ticksRemaining <= 0) {
-                Minecraft.getInstance().getSoundManager().queueTickingSound(this.copy());
+                MCCSoundInstance newInstance = this.copy();
+                Minecraft.getInstance().getSoundManager().queueTickingSound(newInstance);
+                MusicUtil.currentlyPlayingSound = newInstance;
                 hasLooped = true;
                 ChatUtils.debug("Looping sound...");
                 return;
