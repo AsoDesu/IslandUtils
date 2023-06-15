@@ -7,6 +7,7 @@ import net.asodev.islandutils.util.PlainTextButtonNoShadow;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.CommandSuggestions;
 import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.client.gui.screens.ChatScreen;
@@ -73,10 +74,10 @@ public abstract class ChatScreenMixin extends Screen {
     }
 
     @Inject(method = "render", at = @At("TAIL"))
-    private void render(PoseStack poseStack, int i, int j, float f, CallbackInfo ci) {
+    private void render(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
         CommandSuggestionsAccessor suggestionsAccessor = ((CommandSuggestionsAccessor)commandSuggestions);
         if (suggestionsAccessor.suggestions() == null && suggestionsAccessor.commandUsage().size() == 0) {
-            buttons.forEach(btn -> btn.render(poseStack, i, j, f));
+            buttons.forEach(btn -> btn.render(guiGraphics, i, j, f));
         }
     }
 

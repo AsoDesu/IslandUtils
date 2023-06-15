@@ -8,6 +8,7 @@ import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.state.cosmetics.CosmeticState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -38,7 +39,7 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
     }
 
     @Inject(method = "renderBg", at = @At("TAIL"))
-    public void renderBg(PoseStack poseStack, float f, int i, int j, CallbackInfo ci) {
+    public void renderBg(GuiGraphics guiGraphics, float f, int i, int j, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
 
         IslandOptions options = IslandOptions.getOptions();
@@ -101,14 +102,14 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
 
         y += 8;
         int backgroundColor = 0x60000000;
-        fill(poseStack, x-(size / 2) - 2, y, x+(size / 2)+2, y + 19, backgroundColor);
-        drawString(poseStack, this.font, CosmeticState.HAT_COMP, x-(size / 2) + 4, y + 6, 16777215 | 255 << 24);
-        this.itemRenderer.renderAndDecorateItem(poseStack, this.minecraft.player, hatSlot, itemPos, y+2, x + y * this.imageWidth);
+        guiGraphics.fill(x-(size / 2) - 2, y, x+(size / 2)+2, y + 19, backgroundColor);
+        guiGraphics.drawString(this.font, CosmeticState.HAT_COMP, x-(size / 2) + 4, y + 6, 16777215 | 255 << 24);
+        guiGraphics.renderItem(this.minecraft.player, hatSlot, itemPos, y+2, x + y * this.imageWidth);
 
         y += 19 + 4;
-        fill(poseStack, x-(size / 2) - 2, y, x+(size / 2)+2, y + 19, backgroundColor);
-        drawString(poseStack, this.font, CosmeticState.ACCESSORY_COMP, x-(size / 2) + 4, y + 6, 16777215 | 255 << 24);
-        this.itemRenderer.renderAndDecorateItem(poseStack, this.minecraft.player, accSlot, itemPos, y+2, x + y * this.imageWidth);
+        guiGraphics.fill(x-(size / 2) - 2, y, x+(size / 2)+2, y + 19, backgroundColor);
+        guiGraphics.drawString(this.font, CosmeticState.ACCESSORY_COMP, x-(size / 2) + 4, y + 6, 16777215 | 255 << 24);
+        guiGraphics.renderItem(this.minecraft.player, accSlot, itemPos, y+2, x + y * this.imageWidth);
 
         if (this.hoveredSlot != null) {
             ItemStack currHover = this.hoveredSlot.getItem();

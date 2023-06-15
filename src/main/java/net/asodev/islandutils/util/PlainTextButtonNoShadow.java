@@ -2,6 +2,7 @@ package net.asodev.islandutils.util;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.network.chat.Component;
@@ -22,8 +23,8 @@ public class PlainTextButtonNoShadow extends Button {
     }
 
     @Override
-    public void renderWidget(PoseStack poseStack, int i, int j, float f) {
+    public void renderWidget(GuiGraphics guiGraphics, int i, int j, float f) {
         Component component = this.isHoveredOrFocused() ? this.underlinedMessage : this.message;
-        this.font.draw(poseStack, component, getX(), getY(), 0xFFFFFF | Mth.ceil(this.alpha * 255.0f) << 24);
+        guiGraphics.drawString(this.font, component, getX(), getY(), 0xFFFFFF | Mth.ceil(this.alpha * 255.0f) << 24);
     }
 }
