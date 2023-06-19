@@ -44,6 +44,14 @@ public class CosmeticState {
     public static Cosmetic accessorySlot = new Cosmetic(COSMETIC_TYPE.ACCESSORY);
     @Nullable public static Integer hoveredColor;
 
+    public static Cosmetic getCosmeticByType(COSMETIC_TYPE type) {
+        switch (type) {
+            case HAT -> { return hatSlot; }
+            case ACCESSORY -> { return accessorySlot; }
+        }
+        return null;
+    }
+
     public static Player getInspectingPlayer() {
         return (inspectingPlayer == null) ? Minecraft.getInstance().player : inspectingPlayer;
     }
@@ -55,8 +63,14 @@ public class CosmeticState {
         return lores.stream().anyMatch(p -> p.getString().contains("Right-Click to preview"));
     }
 
+    public static boolean isCosmeticItem(ItemStack stack) {
+        return isLoreCosmeticItem(stack.getTooltipLines(Minecraft.getInstance().player, TooltipFlag.NORMAL));
+    }
     public static boolean isLoreCosmeticItem(List<Component> lores) {
-        return lores.stream().anyMatch(p -> p.getString().contains("Left-Click to Equip"));
+        return lores.stream().anyMatch(p -> {
+            String s = p.getString();
+            return s.contains("Left-Click to Equip") || s.contains("Right-Click to stop previewing");
+        });
     }
     // Color items do not have lore
     public static boolean isColoredItem(ItemStack item) {
