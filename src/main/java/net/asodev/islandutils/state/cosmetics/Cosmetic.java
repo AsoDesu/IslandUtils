@@ -6,10 +6,14 @@ import org.jetbrains.annotations.Nullable;
 
 public class Cosmetic {
 
-    @Nullable public CosmeticSlot original;
+    @Nullable private CosmeticSlot original;
     @Nullable public CosmeticSlot preview;
 
     public COSMETIC_TYPE type;
+
+    public void setOriginal(CosmeticSlot original) {
+        this.original = original;
+    }
 
     public Cosmetic(COSMETIC_TYPE type) {
         this.type = type;

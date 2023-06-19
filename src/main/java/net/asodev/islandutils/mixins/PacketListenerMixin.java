@@ -216,8 +216,8 @@ public abstract class PacketListenerMixin {
         if (player == null) return; // If no player, stop
         if (clientboundContainerSetContentPacket.getContainerId() != 0) return; // If this is a chest, stop
 
-        CosmeticState.hatSlot.original = new CosmeticSlot(player.getInventory().armor.get(3));
-        CosmeticState.accessorySlot.original = new CosmeticSlot(player.getInventory().offhand.get(0));
+        CosmeticState.hatSlot.setOriginal(new CosmeticSlot(player.getInventory().armor.get(3)));
+        CosmeticState.accessorySlot.setOriginal(new CosmeticSlot(player.getInventory().offhand.get(0)));
     }
 
     @Inject(method = "handleRespawn", at = @At("HEAD")) // Whenever we change worlds
