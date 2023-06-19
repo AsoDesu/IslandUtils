@@ -20,7 +20,7 @@
 
   "text.autoconfig.islandutils.category.cosmetics": "Cosmetic Previews",
   "text.autoconfig.islandutils.option.showPlayerPreview": "Show Cosmetic Previews",
-  "text.autoconfig.islandutils.option.showOnHover": "Update Preview On Hover",
+  "text.autoconfig.islandutils.option.previewKey": "Preview Cosmetic Key",
   "text.autoconfig.islandutils.option.showOnOnlyCosmeticMenus": "Show cosmetic preview only in Cosmetic Menus",
 
   "text.autoconfig.islandutils.category.discord": "Discord Presence",

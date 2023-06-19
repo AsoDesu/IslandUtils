@@ -1,5 +1,6 @@
 package net.asodev.islandutils;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;

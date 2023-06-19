@@ -53,16 +53,20 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         if (player == null) return;
         if (localPlayer == null) return;
 
+        ItemStack defaultHatSlot = null;
+        ItemStack defaultAccSlot = null;
+
         ItemStack hatSlot;
         ItemStack accSlot;
         if (CosmeticState.inspectingPlayer == null || CosmeticState.inspectingPlayer.getUUID() == Minecraft.getInstance().player.getUUID()) {
             hatSlot = CosmeticState.hatSlot.getContent().getItem(this.menu);
             accSlot = CosmeticState.accessorySlot.getContent().getItem(this.menu);
-
             if (isCosmeticMenu(this.menu)) {
                 applyColor(hatSlot);
                 applyColor(accSlot);
 
+                defaultHatSlot = player.getInventory().armor.get(3);
+                defaultAccSlot = player.getInventory().offhand.get(0);
                 player.getInventory().armor.set(3, hatSlot);
                 player.getInventory().offhand.set(0, accSlot);
             }
@@ -96,6 +100,8 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         walkAnim.setSpeed(animSpeed);
         walkAnim.setSpeedOld(animSpeedOld);
         player.attackAnim = attackAnim;
+        if (defaultHatSlot != null) player.getInventory().armor.set(3, defaultHatSlot);
+        if (defaultAccSlot != null) player.getInventory().offhand.set(0, defaultAccSlot);
 
         // this code is so ugly omfg
         int itemPos = x+(size / 2) - 18;
@@ -110,15 +116,10 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         guiGraphics.fill(x-(size / 2) - 2, y, x+(size / 2)+2, y + 19, backgroundColor);
         guiGraphics.drawString(this.font, CosmeticState.ACCESSORY_COMP, x-(size / 2) + 4, y + 6, 16777215 | 255 << 24);
         guiGraphics.renderItem(this.minecraft.player, accSlot, itemPos, y+2, x + y * this.imageWidth);
-
-        if (this.hoveredSlot != null) {
-            ItemStack currHover = this.hoveredSlot.getItem();
-            if (!currHover.is(Items.GHAST_TEAR) && !CosmeticState.isLockedItem(currHover) && !currHover.is(Items.AIR)) {
-                CosmeticState.setHoveredItem(this.hoveredSlot);
-            }
-        }
     }
 
+    // don't ask what this code does
+    // the answer is "it renders the player, it works, no touch."
     private void renderPlayerInInventory(int x, int y, int size, LivingEntity livingEntity) {
         float yRot = CosmeticState.yRot;
         float xRot = (float)Math.atan(CosmeticState.xRot / 40.0f);;
