@@ -20,6 +20,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TooltipFlag;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -51,9 +52,8 @@ public abstract class ChestScreenMixin extends Screen {
         if (!MccIslandState.isOnline()) return;
         ci.cancel();
         if (this.menu.getCarried().isEmpty() && this.hoveredSlot != null && this.hoveredSlot.hasItem()) {
-            ItemStack itemStack = this.hoveredSlot.getItem();
-            List<Component> lines = this.getTooltipFromItem(itemStack);
-            if (lines.size() > 400) return;
+            List<Component> list = this.hoveredSlot.getItem().getTooltipLines(this.minecraft.player, TooltipFlag.NORMAL);
+            if (list.size() > 400) return;
             this.renderTooltip(poseStack, this.hoveredSlot.getItem(), i, j);
         }
     }
@@ -76,6 +76,7 @@ public abstract class ChestScreenMixin extends Screen {
             poseStack.translate(0.0F, 0.0F, 105.0F);
             RenderSystem.setShaderTexture(0, PREVIEW);
             blit(poseStack, slot.x-3, slot.y-4, 0, 0, 0, 22, 24, 22, 24);
+            poseStack.popPose();
         }
     }
 
