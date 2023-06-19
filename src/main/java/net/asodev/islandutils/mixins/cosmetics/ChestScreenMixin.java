@@ -16,6 +16,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -106,6 +107,19 @@ public abstract class ChestScreenMixin extends Screen {
     @Inject(method = "mouseReleased", at = @At("HEAD"))
     private void mouseReleased(double d, double e, int keyCode, CallbackInfoReturnable<Boolean> cir) {
         triggerPreviewClicked(keyCode);
+    }
+
+    @Inject(method = "slotClicked", at = @At("TAIL"))
+    private void slotClicked(Slot slot, int i, int j, ClickType clickType, CallbackInfo ci) {
+        ItemStack stack = slot.getItem();
+        if (CosmeticState.isCosmeticItem(stack)) {
+            COSMETIC_TYPE type = CosmeticState.getType(stack);
+            if (type == null) return;
+            Cosmetic cosmeticByType = CosmeticState.getCosmeticByType(type);
+            if (cosmeticByType == null) return;
+
+            cosmeticByType.original = new CosmeticSlot(stack);
+        }
     }
 
     private void triggerPreviewClicked(int keyCode) {

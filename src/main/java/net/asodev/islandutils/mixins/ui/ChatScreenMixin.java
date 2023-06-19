@@ -39,6 +39,7 @@ public abstract class ChatScreenMixin extends Screen {
     @Inject(method = "init", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
         if (!isOnline()) return;
+        buttons.clear();
 
         int x = 2;
         buttons.add(new PlainTextButtonNoShadow(
