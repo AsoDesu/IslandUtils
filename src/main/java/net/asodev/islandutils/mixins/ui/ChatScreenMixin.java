@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static net.asodev.islandutils.state.MccIslandState.isOnline;
+import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 
 @Mixin(ChatScreen.class)
 public abstract class ChatScreenMixin extends Screen {
@@ -33,7 +34,6 @@ public abstract class ChatScreenMixin extends Screen {
     protected ChatScreenMixin(Component component) { super(component); }
 
     private final List<PlainTextButtonNoShadow> buttons = new ArrayList<>();
-    private final Style style = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(new ResourceLocation("island","icons"));
     private int nextPress = 0;
 
     @Inject(method = "init", at = @At("TAIL"))
@@ -46,7 +46,7 @@ public abstract class ChatScreenMixin extends Screen {
                 this.height - 14 - 9 - 2,
                 43,
                 9,
-                Component.literal("\ue002").withStyle(style),
+                Component.literal("\ue002").withStyle(iconsFontStyle),
                 (d) -> Minecraft.getInstance().getConnection().sendCommand("chat local"),
                 Minecraft.getInstance().font
         ));
@@ -56,7 +56,7 @@ public abstract class ChatScreenMixin extends Screen {
                 this.height - 14 - 9 - 2,
                 43,
                 9,
-                Component.literal("\ue003").withStyle(style),
+                Component.literal("\ue003").withStyle(iconsFontStyle),
                 (d) -> Minecraft.getInstance().getConnection().sendCommand("chat party"),
                 Minecraft.getInstance().font
         ));
@@ -66,7 +66,7 @@ public abstract class ChatScreenMixin extends Screen {
                 this.height - 14 - 9 - 2,
                 43,
                 9,
-                Component.literal("\ue004").withStyle(style),
+                Component.literal("\ue004").withStyle(iconsFontStyle),
                 (d) -> Minecraft.getInstance().getConnection().sendCommand("chat team"),
                 Minecraft.getInstance().font
         ));

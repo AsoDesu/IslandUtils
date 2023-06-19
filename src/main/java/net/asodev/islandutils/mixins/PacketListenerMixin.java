@@ -33,6 +33,7 @@ import net.minecraft.network.protocol.PacketUtils;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Final;
@@ -43,7 +44,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.time.Instant;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -176,10 +176,8 @@ public abstract class PacketListenerMixin {
                 if(soundLoc.getPath().contains("games.parkour_warrior.mode_swap") || soundLoc.getPath().contains("games.parkour_warrior.restart_course")) {
                     MusicUtil.stopMusic(false);
                 }
-
                 if (Objects.equals(soundLoc.getPath(), "games.global.countdown.go")) {
                     MusicUtil.startMusic(clientboundCustomSoundPacket); // The game started. Start the music!!
-                    return;
                 }
             } else {
                 // We're playing battlebox, and the music needs to start early.
@@ -187,7 +185,6 @@ public abstract class PacketListenerMixin {
                     MusicUtil.startMusic(clientboundCustomSoundPacket); // Start the music!!
                     ChatUtils.debug("[PacketListener] Canceling gameintro");
                     ci.cancel(); // Stop minecraft from minecrafting
-                    return;
                 }
             }
             if (Objects.equals(soundLoc.getPath(), "games.global.timer.round_end") ||
@@ -214,18 +211,15 @@ public abstract class PacketListenerMixin {
         }
     }
 
-    @Inject(method = "handleContainerContent", at = @At("HEAD")) // Cosmetic previews, whenever we get our cosmetics back after closing menu
+    @Inject(method = "handleContainerContent", at = @At("TAIL")) // Cosmetic previews, whenever we get our cosmetics back after closing menu
     private void containerContent(ClientboundContainerSetContentPacket clientboundContainerSetContentPacket, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
-        if (Minecraft.getInstance().player == null) return; // If no player, stop
+        Player player = Minecraft.getInstance().player;
+        if (player == null) return; // If no player, stop
         if (clientboundContainerSetContentPacket.getContainerId() != 0) return; // If this is a chest, stop
 
-        for (int i = 0; i < clientboundContainerSetContentPacket.getItems().size(); i++) { // Loop over the items we just recived
-            ItemStack item = clientboundContainerSetContentPacket.getItems().get(i); // Get the item
-            COSMETIC_TYPE type = CosmeticState.getType(item); // Get it's cosmetic type
-            if (type == COSMETIC_TYPE.ACCESSORY) CosmeticState.accessorySlot.set = new CosmeticSlot(item); // Set accessory back
-            else if (type == COSMETIC_TYPE.HAT) CosmeticState.hatSlot.set = new CosmeticSlot(item); // Set hat back
-        }
+        CosmeticState.hatSlot.content = new CosmeticSlot(player.getInventory().armor.get(3));
+        CosmeticState.accessorySlot.content = new CosmeticSlot(player.getInventory().offhand.get(0));
     }
 
     @Inject(method = "handleRespawn", at = @At("HEAD")) // Whenever we change worlds

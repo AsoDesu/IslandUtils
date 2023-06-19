@@ -1,9 +1,13 @@
 package net.asodev.islandutils.options;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
+import me.shedaniel.clothconfig2.api.Modifier;
+import me.shedaniel.clothconfig2.api.ModifierKeyCode;
+import me.shedaniel.clothconfig2.gui.entries.KeyCodeEntry;
 import net.minecraft.client.gui.screens.Screen;
 
 @Config(name = "islandutils")
@@ -24,8 +28,6 @@ public class IslandOptions implements ConfigData {
 
     @ConfigEntry.Category("cosmetics")
     boolean showPlayerPreview = true;
-    @ConfigEntry.Category("cosmetics")
-    boolean showOnHover = true;
     @ConfigEntry.Category("cosmetics")
     boolean showOnOnlyCosmeticMenus = true;
 
@@ -97,9 +99,6 @@ public class IslandOptions implements ConfigData {
         return hideSliders;
     }
 
-    public boolean isShowOnHover() {
-        return showOnHover;
-    }
     public boolean isShowOnOnlyCosmeticMenus() {
         return showOnOnlyCosmeticMenus;
     }

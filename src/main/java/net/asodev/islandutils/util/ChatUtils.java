@@ -1,11 +1,15 @@
 package net.asodev.islandutils.util;
 
 import net.asodev.islandutils.options.IslandOptions;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceLocation;
 
 public class ChatUtils {
 
+    public static final Style iconsFontStyle = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(new ResourceLocation("island","icons"));
     public static final String prefix = "&b[&eIslandUtils&b]";
     public static String translate(String s) {
         return s.replaceAll("&", "§");

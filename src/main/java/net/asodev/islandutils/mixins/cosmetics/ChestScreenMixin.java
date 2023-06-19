@@ -3,7 +3,6 @@ package net.asodev.islandutils.mixins.cosmetics;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.asodev.islandutils.IslandUtilsClient;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.COSMETIC_TYPE;
 import net.asodev.islandutils.state.MccIslandState;
@@ -13,18 +12,23 @@ import net.asodev.islandutils.state.cosmetics.CosmeticState;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.List;
 
 import static net.asodev.islandutils.state.cosmetics.CosmeticState.customModelData;
 
@@ -35,14 +39,28 @@ public abstract class ChestScreenMixin extends Screen {
 
     @Shadow protected Slot hoveredSlot;
 
+    @Shadow @Final protected AbstractContainerMenu menu;
+
     protected ChestScreenMixin(Component component) {
         super(component);
+    }
+
+    // Don't render MCCI's invisible Tooltips (something is conflicting and idk what it is)
+    @Inject(method = "renderTooltip", at = @At("HEAD"), cancellable = true)
+    private void renderTooltip(PoseStack poseStack, int i, int j, CallbackInfo ci) {
+        if (!MccIslandState.isOnline()) return;
+        ci.cancel();
+        if (this.menu.getCarried().isEmpty() && this.hoveredSlot != null && this.hoveredSlot.hasItem()) {
+            ItemStack itemStack = this.hoveredSlot.getItem();
+            List<Component> lines = this.getTooltipFromItem(itemStack);
+            if (lines.size() > 400) return;
+            this.renderTooltip(poseStack, this.hoveredSlot.getItem(), i, j);
+        }
     }
 
     @Inject(method = "renderSlot", at = @At("TAIL"))
     private void renderSlot(PoseStack poseStack, Slot slot, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
-
         ItemStack slotItem = slot.getItem();
 
         CompoundTag slotTag = slotItem.getTag();
@@ -50,8 +68,8 @@ public abstract class ChestScreenMixin extends Screen {
 
         boolean shouldRender = false;
 
-        if (CosmeticState.hatSlot.preview != null && CosmeticState.hatSlot.preview.matchesSlot(slot)) shouldRender = true;
-        else if (CosmeticState.accessorySlot.preview != null && CosmeticState.accessorySlot.preview.matchesSlot(slot)) shouldRender = true;
+        if (CosmeticState.hatSlot.content != null && CosmeticState.hatSlot.content.matchesSlot(slot)) shouldRender = true;
+        else if (CosmeticState.accessorySlot.content != null && CosmeticState.accessorySlot.content.matchesSlot(slot)) shouldRender = true;
 
         if (shouldRender) {
             poseStack.pushPose();
@@ -63,7 +81,7 @@ public abstract class ChestScreenMixin extends Screen {
 
     @Inject(method = "render", at = @At("TAIL"))
     private void render(PoseStack poseStack, int i, int j, float f, CallbackInfo ci) {
-        if (IslandOptions.getOptions().isShowOnHover() && hoveredSlot != null && hoveredSlot.hasItem() && CosmeticState.isColoredItem(hoveredSlot.getItem())) {
+        if (hoveredSlot != null && hoveredSlot.hasItem() && CosmeticState.isColoredItem(hoveredSlot.getItem())) {
             Integer color = CosmeticState.getColor(hoveredSlot.getItem());
             if (color != null) {
                 CosmeticState.hoveredColor = color;
@@ -83,26 +101,38 @@ public abstract class ChestScreenMixin extends Screen {
 
     @Inject(method = "keyPressed", at = @At("HEAD"))
     private void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+        triggerPreviewClicked(keyCode);
+    }
+    @Inject(method = "mouseReleased", at = @At("HEAD"))
+    private void mouseReleased(double d, double e, int keyCode, CallbackInfoReturnable<Boolean> cir) {
+        triggerPreviewClicked(keyCode);
+    }
+
+    private void triggerPreviewClicked(int keyCode) {
         if (!MccIslandState.isOnline()) return;
         if (hoveredSlot == null || !hoveredSlot.hasItem()) return;
-
-        InputConstants.Key previewBind = KeyBindingHelper.getBoundKeyOf(IslandUtilsClient.previewKeyBind);
+        InputConstants.Key previewBind = KeyBindingHelper.getBoundKeyOf(minecraft.options.keyPickItem);
         if (keyCode == previewBind.getValue()) {
-            if (hoveredSlot.getItem().is(Items.GHAST_TEAR) || hoveredSlot.getItem().is(Items.AIR)) return;
-            COSMETIC_TYPE type = CosmeticState.getType(hoveredSlot.getItem());
-
-            int hoverCMD = customModelData(hoveredSlot.getItem());
-
-            if (type == COSMETIC_TYPE.HAT) setOrNotSet(CosmeticState.hatSlot, hoverCMD);
-            else if (type == COSMETIC_TYPE.ACCESSORY) setOrNotSet(CosmeticState.accessorySlot, hoverCMD);
+            ItemStack item = hoveredSlot.getItem();
+            if (item.is(Items.GHAST_TEAR) || item.is(Items.AIR)) return;
+            if (!CosmeticState.isLockedItem(item))
+                setPreview(item);
         }
     }
 
+    private void setPreview(ItemStack item) {
+        COSMETIC_TYPE type = CosmeticState.getType(item);
+        int hoverCMD = customModelData(item);
+        if (type == COSMETIC_TYPE.HAT) setOrNotSet(CosmeticState.hatSlot, hoverCMD);
+        else if (type == COSMETIC_TYPE.ACCESSORY) setOrNotSet(CosmeticState.accessorySlot, hoverCMD);
+
+    }
+
     private void setOrNotSet(Cosmetic cosmetic, int itemCMD) {
-        if (cosmetic.preview == null || itemCMD != customModelData(cosmetic.preview.item))
-            cosmetic.preview = new CosmeticSlot(hoveredSlot);
+        if (cosmetic.content == null || itemCMD != customModelData(cosmetic.content.item))
+            cosmetic.content = new CosmeticSlot(hoveredSlot);
         else
-            cosmetic.preview = null;
+            cosmetic.content = null;
     }
 
     @Inject(method = "onClose", at = @At("TAIL"))

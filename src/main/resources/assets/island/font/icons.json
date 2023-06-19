@@ -1,6 +1,10 @@
 {
     "providers": [
         {
+            "type":"space",
+            "advances":{" ": 4.0}
+        },
+        {
             "type": "bitmap",
             "file": "mcc:island_interface/social/icon.png",
             "chars": ["\ue001"],
@@ -27,6 +31,13 @@
             "chars": ["\ue004"],
             "ascent": 8,
             "height": 9
+        },
+        {
+            "type": "bitmap",
+            "file": "island:middle_click.png",
+            "chars": ["\ue005"],
+            "ascent": 7,
+            "height": 7
         }
     ]
 }

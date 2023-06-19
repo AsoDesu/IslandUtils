@@ -44,24 +44,19 @@ public class CosmeticState {
     public static Cosmetic accessorySlot = new Cosmetic(COSMETIC_TYPE.ACCESSORY);
     @Nullable public static Integer hoveredColor;
 
-    public static void setHoveredItem(Slot hover) {
-        COSMETIC_TYPE type = getType(hover.getItem());
-
-        if (type == COSMETIC_TYPE.HAT) hatSlot.hovering = new CosmeticSlot(hover);
-        else if (type == COSMETIC_TYPE.ACCESSORY) accessorySlot.hovering = new CosmeticSlot(hover);
-    }
-
     public static Player getInspectingPlayer() {
         return (inspectingPlayer == null) ? Minecraft.getInstance().player : inspectingPlayer;
     }
 
-    // Locked items always do not contain HideFlags
-    // Unlocked do
+    // Locked items have a lore called "Right-Click to preview"
     public static boolean isLockedItem(ItemStack item) {
-        if (!item.is(Items.POPPED_CHORUS_FRUIT)) return false;
-        CompoundTag tag = item.getTag();
-        if (tag == null) return false;
-        return tag.getInt("HideFlags") == -1;
+        List<Component> lores = getLores(item);
+        if (lores == null) return false;
+        return lores.stream().anyMatch(p -> p.getString().contains("Right-Click to preview"));
+    }
+
+    public static boolean isLoreCosmeticItem(List<Component> lores) {
+        return lores.stream().anyMatch(p -> p.getString().contains("Left-Click to Equip"));
     }
     // Color items do not have lore
     public static boolean isColoredItem(ItemStack item) {
@@ -88,9 +83,8 @@ public class CosmeticState {
     }
 
     public static COSMETIC_TYPE getType(ItemStack item) {
-        LocalPlayer player = Minecraft.getInstance().player;
-        if (player == null) return null;
-        List<Component> lores = item.getTooltipLines(player, TooltipFlag.Default.NORMAL);
+        List<Component> lores = getLores(item);
+        if (lores == null) return null;
         if (lores.size() > 1) {
             Component line2 = lores.get(1);
             for (Component c : line2.toFlatList()) {
@@ -99,6 +93,11 @@ public class CosmeticState {
             }
         }
         return null;
+    }
+    private static List<Component> getLores(ItemStack item) {
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player == null) return null;
+        return item.getTooltipLines(player, TooltipFlag.Default.NORMAL);
     }
 
     public static boolean isCosmeticMenu(ChestMenu menu) {
