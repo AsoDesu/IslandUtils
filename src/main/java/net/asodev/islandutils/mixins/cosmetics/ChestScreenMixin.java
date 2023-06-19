@@ -108,8 +108,10 @@ public abstract class ChestScreenMixin extends Screen {
         triggerPreviewClicked(keyCode);
     }
 
-    @Inject(method = "slotClicked", at = @At("TAIL"))
+    @Inject(method = "slotClicked", at = @At("HEAD"))
     private void slotClicked(Slot slot, int i, int j, ClickType clickType, CallbackInfo ci) {
+        if (!MccIslandState.isOnline()) return;
+        if (slot == null || !slot.hasItem()) return;
         ItemStack stack = slot.getItem();
         if (CosmeticState.isCosmeticItem(stack)) {
             COSMETIC_TYPE type = CosmeticState.getType(stack);
@@ -117,7 +119,7 @@ public abstract class ChestScreenMixin extends Screen {
             Cosmetic cosmeticByType = CosmeticState.getCosmeticByType(type);
             if (cosmeticByType == null) return;
 
-            cosmeticByType.original = new CosmeticSlot(stack);
+            cosmeticByType.setOriginal(new CosmeticSlot(stack.copy()));
         }
     }
 
