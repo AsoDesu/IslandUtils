@@ -48,6 +48,9 @@ public class Scheduler {
         instance.tasks.add(task);
         return task;
     }
+    public static Task nextTick(Consumer<Minecraft> callback) {
+        return schedule(1, callback);
+    }
     public static void create() {
         instance = new Scheduler();
     }
