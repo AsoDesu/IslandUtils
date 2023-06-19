@@ -9,6 +9,7 @@ import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.resourcepack.ResourcePackUpdater;
 import net.asodev.islandutils.updater.UpdateManager;
 import net.asodev.islandutils.updater.schema.AvailableUpdate;
+import net.asodev.islandutils.util.Scheduler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
@@ -38,5 +39,7 @@ public class IslandUtils implements ModInitializer {
         updater.runUpdateCheck();
         packUpdater = new ResourcePackUpdater();
         packUpdater.get();
+
+        Scheduler.create();
     }
 }

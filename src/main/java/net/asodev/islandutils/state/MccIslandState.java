@@ -4,6 +4,7 @@ import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.faction.FACTION;
 import net.asodev.islandutils.util.ChatUtils;
+import net.asodev.islandutils.util.Scheduler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -12,11 +13,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.protocol.game.ServerboundCommandSuggestionPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 
 public class MccIslandState {
 
@@ -70,27 +74,30 @@ public class MccIslandState {
     }
     public static void setFriends(List<String> friends) {
         MccIslandState.friends = friends;
+        Scheduler.schedule(20, MccIslandState::sendFriendsInGame);
+    }
 
+    public static void sendFriendsInGame(Minecraft client) {
         if (!IslandOptions.getOptions().isShowFriendsInGame()) return;
-        AtomicReference<String> friendsInThisGame = new AtomicReference<>("");
-        AtomicBoolean hasFriends = new AtomicBoolean(false);
+        StringBuilder friendsInThisGame = new StringBuilder();
+        boolean hasFriends = false;
 
-        ClientPacketListener connection = Minecraft.getInstance().getConnection();
+        ClientPacketListener connection = client.getConnection();
         if (connection == null) return;
-        connection.getLevel().players().forEach(p -> {
+        for (Player p : connection.getLevel().players()) {
             String name = p.getName().getString();
             if (friends.contains(name)) {
-                hasFriends.set(true);
-                friendsInThisGame.set(friendsInThisGame + ", " + name);
+                hasFriends = true;
+                friendsInThisGame.append(", ").append(name);
             }
-        });
-        friendsInThisGame.set(friendsInThisGame.get().replaceFirst(", ",""));
-        if (!hasFriends.get()) return;
+        }
+        if (!hasFriends) return;
+        String friendString = friendsInThisGame.toString().replaceFirst(", ","");
 
         Component component = Component.literal("[").withStyle(ChatFormatting.GREEN)
-                .append(Component.literal("\ue001").withStyle(Style.EMPTY.withFont(new ResourceLocation("island","icons"))))
+                .append(Component.literal("\ue001").withStyle(iconsFontStyle))
                 .append(Component.literal("] Friends in this game: ").withStyle(ChatFormatting.GREEN))
-                .append(Component.literal(friendsInThisGame.get()).withStyle(ChatFormatting.YELLOW));
+                .append(Component.literal(friendString).withStyle(ChatFormatting.YELLOW));
         ChatUtils.send(component);
     }
 
