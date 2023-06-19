@@ -9,7 +9,6 @@ import net.asodev.islandutils.IslandUtilsClient;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.IslandSoundCategories;
-import net.asodev.islandutils.state.COSMETIC_TYPE;
 import net.asodev.islandutils.state.HITWTrapState;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.state.GAME;
@@ -34,7 +33,6 @@ import net.minecraft.network.protocol.game.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -218,8 +216,8 @@ public abstract class PacketListenerMixin {
         if (player == null) return; // If no player, stop
         if (clientboundContainerSetContentPacket.getContainerId() != 0) return; // If this is a chest, stop
 
-        CosmeticState.hatSlot.content = new CosmeticSlot(player.getInventory().armor.get(3));
-        CosmeticState.accessorySlot.content = new CosmeticSlot(player.getInventory().offhand.get(0));
+        CosmeticState.hatSlot.original = new CosmeticSlot(player.getInventory().armor.get(3));
+        CosmeticState.accessorySlot.original = new CosmeticSlot(player.getInventory().offhand.get(0));
     }
 
     @Inject(method = "handleRespawn", at = @At("HEAD")) // Whenever we change worlds

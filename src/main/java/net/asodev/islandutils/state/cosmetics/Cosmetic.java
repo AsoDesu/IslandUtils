@@ -6,7 +6,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class Cosmetic {
 
-    @Nullable public CosmeticSlot content;
+    @Nullable public CosmeticSlot original;
+    @Nullable public CosmeticSlot preview;
 
     public COSMETIC_TYPE type;
 
@@ -14,8 +15,9 @@ public class Cosmetic {
         this.type = type;
     }
 
-    public CosmeticSlot getContent() {
-        if (content != null) return content;
+    public CosmeticSlot getContents() {
+        if (preview != null) return preview;
+        if (original != null) return original;
         return new CosmeticSlot(ItemStack.EMPTY, null);
     }
 }
