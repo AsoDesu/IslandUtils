@@ -12,7 +12,6 @@ import net.asodev.islandutils.state.cosmetics.CosmeticState;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -68,8 +67,8 @@ public abstract class ChestScreenMixin extends Screen {
 
         boolean shouldRender = false;
 
-        if (CosmeticState.hatSlot.content != null && CosmeticState.hatSlot.content.matchesSlot(slot)) shouldRender = true;
-        else if (CosmeticState.accessorySlot.content != null && CosmeticState.accessorySlot.content.matchesSlot(slot)) shouldRender = true;
+        if (CosmeticState.hatSlot.preview != null && CosmeticState.hatSlot.preview.matchesSlot(slot)) shouldRender = true;
+        else if (CosmeticState.accessorySlot.preview != null && CosmeticState.accessorySlot.preview.matchesSlot(slot)) shouldRender = true;
 
         if (shouldRender) {
             poseStack.pushPose();
@@ -130,10 +129,10 @@ public abstract class ChestScreenMixin extends Screen {
     }
 
     private void setOrNotSet(Cosmetic cosmetic, int itemCMD) {
-        if (cosmetic.content == null || itemCMD != customModelData(cosmetic.content.item))
-            cosmetic.content = new CosmeticSlot(hoveredSlot);
+        if (cosmetic.preview == null || itemCMD != customModelData(cosmetic.preview.item))
+            cosmetic.preview = new CosmeticSlot(hoveredSlot);
         else
-            cosmetic.content = null;
+            cosmetic.preview = null;
     }
 
     @Inject(method = "onClose", at = @At("TAIL"))
