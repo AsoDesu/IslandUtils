@@ -63,8 +63,10 @@ public class CosmeticState {
         return lores.stream().anyMatch(p -> p.getString().contains("Right-Click to preview"));
     }
 
-    public static boolean isCosmeticItem(ItemStack stack) {
-        return isLoreCosmeticItem(stack.getTooltipLines(Minecraft.getInstance().player, TooltipFlag.NORMAL));
+    public static boolean isUnlockedCosmeticItem(ItemStack stack) {
+        List<Component> lores = getLores(stack);
+        if (lores == null) return false;
+        return lores.stream().anyMatch(p -> p.getString().contains("Left-Click to Equip"));
     }
     public static boolean isLoreCosmeticItem(List<Component> lores) {
         return lores.stream().anyMatch(p -> {
@@ -72,6 +74,7 @@ public class CosmeticState {
             return s.contains("Left-Click to Equip") || s.contains("Right-Click to stop previewing");
         });
     }
+
     // Color items do not have lore
     public static boolean isColoredItem(ItemStack item) {
         if (!item.is(Items.LEATHER_HORSE_ARMOR)) return false;
