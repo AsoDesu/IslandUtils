@@ -183,6 +183,7 @@ public abstract class PacketListenerMixin {
                     MusicUtil.startMusic(clientboundCustomSoundPacket); // Start the music!!
                     ChatUtils.debug("[PacketListener] Canceling gameintro");
                     ci.cancel(); // Stop minecraft from minecrafting
+                    return;
                 }
             }
             if (Objects.equals(soundLoc.getPath(), "games.global.timer.round_end") ||
