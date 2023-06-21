@@ -114,7 +114,7 @@ public abstract class ChestScreenMixin extends Screen {
         if (!MccIslandState.isOnline()) return;
         if (slot == null || !slot.hasItem()) return;
         ItemStack stack = slot.getItem();
-        if (CosmeticState.isUnlockedCosmeticItem(stack)) {
+        if (CosmeticState.canBeEquipped(stack)) {
             COSMETIC_TYPE type = CosmeticState.getType(stack);
             if (type == null) return;
             Cosmetic cosmeticByType = CosmeticState.getCosmeticByType(type);
