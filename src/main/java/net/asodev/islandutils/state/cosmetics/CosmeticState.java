@@ -3,13 +3,6 @@ package net.asodev.islandutils.state.cosmetics;
 import net.asodev.islandutils.state.COSMETIC_TYPE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.block.model.ItemModelGenerator;
-import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.renderer.texture.SpriteContents;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelManager;
-import net.minecraft.data.models.blockstates.MultiPartGenerator;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -24,7 +17,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static net.minecraft.world.item.DyeableLeatherItem.TAG_COLOR;
 import static net.minecraft.world.item.DyeableLeatherItem.TAG_DISPLAY;
@@ -60,19 +52,16 @@ public class CosmeticState {
     public static boolean isLockedItem(ItemStack item) {
         List<Component> lores = getLores(item);
         if (lores == null) return false;
+        return isLoreLockedItem(lores);
+    }
+    public static boolean isLoreLockedItem(List<Component> lores) {
         return lores.stream().anyMatch(p -> p.getString().contains("Right-Click to preview"));
     }
 
-    public static boolean isUnlockedCosmeticItem(ItemStack stack) {
+    public static boolean canBeEquipped(ItemStack stack) {
         List<Component> lores = getLores(stack);
         if (lores == null) return false;
         return lores.stream().anyMatch(p -> p.getString().contains("Left-Click to Equip"));
-    }
-    public static boolean isLoreCosmeticItem(List<Component> lores) {
-        return lores.stream().anyMatch(p -> {
-            String s = p.getString();
-            return s.contains("Left-Click to Equip") || s.contains("Right-Click to stop previewing");
-        });
     }
 
     // Color items do not have lore
@@ -100,7 +89,9 @@ public class CosmeticState {
     }
 
     public static COSMETIC_TYPE getType(ItemStack item) {
-        List<Component> lores = getLores(item);
+        return getType(getLores(item));
+    }
+    public static COSMETIC_TYPE getType(List<Component> lores) {
         if (lores == null) return null;
         if (lores.size() > 1) {
             Component line2 = lores.get(1);
