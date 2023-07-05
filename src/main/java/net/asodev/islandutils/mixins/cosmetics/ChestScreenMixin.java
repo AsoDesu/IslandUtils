@@ -84,14 +84,33 @@ public abstract class ChestScreenMixin extends Screen {
     private void render(PoseStack poseStack, int i, int j, float f, CallbackInfo ci) {
         if (hoveredSlot != null && hoveredSlot.hasItem() && CosmeticState.isColoredItem(hoveredSlot.getItem())) {
 
+        if (hoveredSlot != null && hoveredSlot.hasItem()) {
+            ItemStack hoveredItem = hoveredSlot.getItem();
+            if (IslandOptions.getOptions().isShowCosmeticsOnHover()) {
+                if (!CosmeticState.canPreviewItem(hoveredItem) || !setHovered(hoveredItem)) {
+                    CosmeticState.hatSlot.hover = null;
+                    CosmeticState.accessorySlot.hover = null;
+                }
+            }
 
-            Integer color = CosmeticState.getColor(hoveredSlot.getItem());
-            if (color != null) {
-                CosmeticState.hoveredColor = color;
-                return;
+            if (CosmeticState.isColoredItem(hoveredItem)) {
+                Integer color = CosmeticState.getColor(hoveredSlot.getItem());
+                if (color != null) {
+                    CosmeticState.hoveredColor = color;
+                    return;
+                }
             }
         }
         CosmeticState.hoveredColor = null;
+    }
+
+    private boolean setHovered(ItemStack item) {
+        COSMETIC_TYPE type = CosmeticState.getType(item);
+        if (type == null) return false;
+        Cosmetic cosmeticByType = CosmeticState.getCosmeticByType(type);
+        if (cosmeticByType == null) return false;
+        cosmeticByType.hover = new CosmeticSlot(item, hoveredSlot);
+        return true;
     }
 
     @Inject(method = "mouseDragged", at = @At("HEAD"))
@@ -133,17 +152,17 @@ public abstract class ChestScreenMixin extends Screen {
         if (keyCode == previewBind.getValue()) {
             ItemStack item = hoveredSlot.getItem();
             if (item.is(Items.GHAST_TEAR) || item.is(Items.AIR)) return;
-            if (!CosmeticState.isLockedItem(item))
+            if (CosmeticState.canPreviewItem(item))
                 setPreview(item);
         }
     }
+
 
     private void setPreview(ItemStack item) {
         COSMETIC_TYPE type = CosmeticState.getType(item);
         int hoverCMD = customModelData(item);
         if (type == COSMETIC_TYPE.HAT) setOrNotSet(CosmeticState.hatSlot, hoverCMD);
         else if (type == COSMETIC_TYPE.ACCESSORY) setOrNotSet(CosmeticState.accessorySlot, hoverCMD);
-
     }
 
     private void setOrNotSet(Cosmetic cosmetic, int itemCMD) {

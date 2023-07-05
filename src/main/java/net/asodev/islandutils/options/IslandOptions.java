@@ -31,7 +31,7 @@ public class IslandOptions implements ConfigData {
     @ConfigEntry.Category("cosmetics")
     boolean showPlayerPreview = true;
     @ConfigEntry.Category("cosmetics")
-    boolean showCosmeticsOnHover = true;
+    boolean showOnHover = true;
     @ConfigEntry.Category("cosmetics")
     boolean showOnOnlyCosmeticMenus = true;
 
@@ -107,7 +107,7 @@ public class IslandOptions implements ConfigData {
     }
 
     public boolean isShowCosmeticsOnHover() {
-        return showCosmeticsOnHover;
+        return showOnHover;
     }
     public boolean isShowOnOnlyCosmeticMenus() {
         return showOnOnlyCosmeticMenus;
