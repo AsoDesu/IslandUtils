@@ -49,10 +49,10 @@ public class CosmeticState {
     }
 
     // Locked items have a lore called "Right-Click to preview"
-    public static boolean isLockedItem(ItemStack item) {
+    public static boolean canPreviewItem(ItemStack item) {
         List<Component> lores = getLores(item);
         if (lores == null) return false;
-        return isLoreLockedItem(lores);
+        return !isLoreLockedItem(lores);
     }
     public static boolean isLoreLockedItem(List<Component> lores) {
         return lores.stream().anyMatch(p -> p.getString().contains("Right-Click to preview"));
