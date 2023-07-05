@@ -40,6 +40,8 @@ public class IslandUtilsClient implements ClientModInitializer {
             Component text = Component.literal(ChatUtils.translate(ChatUtils.prefix + " Download Here: &f")).append(link);
 
             ChatUtils.send(text);
+        } else if (IslandUtils.isPreRelease()) {
+            ChatUtils.send("&cYou are using a pre-release version of IslandUtils! Expect things to be broken & buggy, and report to #test-feedback!");
         }
         DiscordPresenceUpdator.create();
     }
