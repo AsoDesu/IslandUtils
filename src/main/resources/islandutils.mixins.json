@@ -18,6 +18,7 @@
     "PacketListenerMixin",
     "accessors.SoundEngineAccessor",
     "accessors.SoundManagerAccessor",
+    "accessors.TabListAccessor",
     "cosmetics.UIMixin",
     "discord.JoinMCCIMixin",
     "resources.MultiplayerJoinMixin",

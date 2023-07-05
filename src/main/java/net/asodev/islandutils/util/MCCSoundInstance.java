@@ -40,6 +40,12 @@ public class MCCSoundInstance extends AbstractTickableSoundInstance {
         totalFadeTicks = ticks;
         fadeTicks = totalFadeTicks;
     }
+    public void unfade() {
+        isFading = false;
+        totalFadeTicks = 20f;
+        fadeTicks = 0f;
+        volume = totalVolume;
+    }
     public void stopFwd() {
         stop();
     }
@@ -59,10 +65,13 @@ public class MCCSoundInstance extends AbstractTickableSoundInstance {
         }
 
         if (!isFading) return;
-        if (fadeTicks <= 0) this.stop();
-
-        this.volume = totalVolume * (fadeTicks/totalFadeTicks);
-        fadeTicks -= 1;
+        if (fadeTicks <= 0) {
+            this.volume = totalVolume * (fadeTicks/totalFadeTicks);
+            this.stop();
+        } else {
+            this.volume = totalVolume * (fadeTicks/totalFadeTicks);
+            fadeTicks -= 1;
+        }
     }
 
     @Override

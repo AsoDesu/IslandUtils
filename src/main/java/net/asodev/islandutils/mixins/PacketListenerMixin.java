@@ -7,6 +7,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestion;
 import net.asodev.islandutils.IslandUtilsClient;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
+import net.asodev.islandutils.mixins.accessors.TabListAccessor;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.IslandSoundCategories;
 import net.asodev.islandutils.state.HITWTrapState;
@@ -17,8 +18,11 @@ import net.asodev.islandutils.state.cosmetics.CosmeticState;
 import net.asodev.islandutils.state.faction.FactionComponents;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
+import net.asodev.islandutils.util.Scheduler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.PlayerTabOverlay;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.ClientSuggestionProvider;
 import net.minecraft.client.player.LocalPlayer;
@@ -65,43 +69,24 @@ public abstract class PacketListenerMixin {
 
     @Shadow protected abstract ParseResults<SharedSuggestionProvider> parseCommand(String string);
 
+    Component objectiveName = Component.empty();
+    String tablistHeader = "";
     @Inject(method = "handleAddObjective", at = @At("TAIL")) // Checks which game we're playing!
     public void handleAddObjective(ClientboundSetObjectivePacket clientboundSetObjectivePacket, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return; // We have to be online
         Component displayName = clientboundSetObjectivePacket.getDisplayName(); // Get the title of the scoreboard
-        String title = displayName.getString(); // Get the string version of the title of the scoreboard
 
-
-        // Check if the name of the game is not the aqua color, then we check if we are not in parkour warrior
-        // Parkour Warrior (at least solo mode) is exception and has white name in the scoreboard title
-        // if both checks are false, we are in hub!
-        if (!isGameDisplayName(displayName) && !title.contains("PARKOUR WARRIOR")) {
-            MccIslandState.setGame(GAME.HUB);
-        } else { // We're in a game!!!
-            // These checks are pretty self-explanatory
-            if (title.contains("HOLE IN THE WALL")) {
-                MccIslandState.setGame(GAME.HITW);
-            } else if (title.contains("TGTTOS")) {
-                MccIslandState.setGame(GAME.TGTTOS);
-            } else if (title.contains("SKY BATTLE")) {
-                MccIslandState.setGame(GAME.SKY_BATTLE);
-            } else if (title.contains("BATTLE BOX")) {
-                MccIslandState.setGame(GAME.BATTLE_BOX);
-            } else if (title.contains("PARKOUR WARRIOR")) {
-                MccIslandState.setGame(GAME.PARKOUR_WARRIOR);
-            } else {
-                MccIslandState.setGame(GAME.HUB); // Somehow we're in a game, but not soooo hub it is!!
-            }
-        }
-        DiscordPresenceUpdator.updatePlace(); // Update where we are on discord presence
+        objectiveName = displayName;
+        MccIslandState.updateGame(displayName, tablistHeader);
     }
 
-    TextColor aqua = TextColor.fromLegacyFormat(ChatFormatting.AQUA);
-    private boolean isGameDisplayName(Component component) {
-        for (Component sibling : component.getSiblings()) { // Get all the elements of this component
-            if (sibling.getStyle().getColor() == aqua) return true; // If it's aqua, YES
-        }
-        return false; // If not... no :(
+    @Inject(method = "handleTabListCustomisation", at = @At("TAIL"))
+    private void updateTablist(ClientboundTabListPacket clientboundTabListPacket, CallbackInfo ci) {
+        String string = clientboundTabListPacket.getHeader().getString();
+        if (tablistHeader.equals(string)) return;
+
+        tablistHeader = string;
+        MccIslandState.updateGame(objectiveName, tablistHeader);
     }
 
     @Inject(method = "handleSetExperience", at = @At("TAIL")) // Get our faction level
@@ -127,7 +112,8 @@ public abstract class PacketListenerMixin {
     final Map<String, Pattern> scoreboardPatterns = Map.of(
             "MAP", Pattern.compile("MAP: (?<map>\\w+(?:,? \\w+)*)"),
             "MODIFIER", Pattern.compile("MODIFIER: (?<modifier>\\w+(?:,? \\w+)*)"),
-            "COURSE", Pattern.compile("COURSE: (?<course>.*)")
+            "COURSE", Pattern.compile("COURSE: (?<course>.*)"),
+            "LEAP", Pattern.compile("LEAP \\[(?<leap>.*/.*)]")
     );
     @Inject(method = "handleSetPlayerTeamPacket", at = @At("TAIL")) // Scoreboard lines!
     public void handleSetPlayerTeamPacket(ClientboundSetPlayerTeamPacket clientboundSetPlayerTeamPacket, CallbackInfo ci) {
@@ -149,6 +135,7 @@ public abstract class PacketListenerMixin {
                     case "MAP" -> MccIslandState.setMap(value); // Set our MAP
                     case "MODIFIER" -> MccIslandState.setModifier(value); // Set our MODIFIER
                     case "COURSE" -> DiscordPresenceUpdator.courseScoreboardUpdate(value, true);
+                    case "LEAP" -> DiscordPresenceUpdator.leapScoreboardUpdate(value, true);
                 }
 
                 ChatUtils.debug("ScoreboardUpdate - Current %s: \"%s\"", entry.getKey(), value);
@@ -174,7 +161,9 @@ public abstract class PacketListenerMixin {
                 if(soundLoc.getPath().contains("games.parkour_warrior.mode_swap") || soundLoc.getPath().contains("games.parkour_warrior.restart_course")) {
                     MusicUtil.stopMusic(false);
                 }
-                if (Objects.equals(soundLoc.getPath(), "games.global.countdown.go")) {
+                if (MccIslandState.getGame() == GAME.PARKOUR_WARRIOR_SURVIVOR && Objects.equals(soundLoc.getPath(), "games.global.early_elimination")) {
+                    MusicUtil.startMusic(clientboundCustomSoundPacket, true); // The game started. Start the music!!
+                } else if (Objects.equals(soundLoc.getPath(), "games.global.countdown.go")) {
                     MusicUtil.startMusic(clientboundCustomSoundPacket); // The game started. Start the music!!
                 }
             } else {
@@ -189,7 +178,10 @@ public abstract class PacketListenerMixin {
             if (Objects.equals(soundLoc.getPath(), "games.global.timer.round_end") ||
                     Objects.equals(soundLoc.getPath(), "music.global.roundendmusic") ||
                     Objects.equals(soundLoc.getPath(), "music.global.overtime_intro_music") ||
-                    Objects.equals(soundLoc.getPath(), "music.global.overtime_loop_music")) {
+                    Objects.equals(soundLoc.getPath(), "music.global.overtime_loop_music") ||
+                    Objects.equals(soundLoc.getPath(), "music.global.gameintro") ||
+                    Objects.equals(soundLoc.getPath(), "music.global.game_small_success")
+            ) {
                 // The game ended or is about to end. Stop the music!!
                 MusicUtil.stopMusic();
             }
