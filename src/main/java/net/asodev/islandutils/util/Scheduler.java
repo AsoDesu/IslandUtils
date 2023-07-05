@@ -17,7 +17,7 @@ public class Scheduler {
         });
     }
 
-    static class Task {
+    public static class Task {
         private boolean shouldRemove = false;
         private int ticks;
         private final Consumer<Minecraft> callback;

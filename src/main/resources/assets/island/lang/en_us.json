@@ -15,7 +15,8 @@
   "text.autoconfig.islandutils.option.hitwMusic": "HITW Music",
   "text.autoconfig.islandutils.option.bbMusic": "Battle Box Music",
   "text.autoconfig.islandutils.option.sbMusic": "Sky Battle Music",
-  "text.autoconfig.islandutils.option.pkwMusic": "Parkour Warrior Music",
+  "text.autoconfig.islandutils.option.pkwMusic": "Parkour Warrior Dojo Music",
+  "text.autoconfig.islandutils.option.pkwsMusic": "Parkour Warrior Survivor Music",
   "text.autoconfig.islandutils.option.tgttosDoubleTime": "TGTTOS Double Time Music",
 
   "text.autoconfig.islandutils.category.cosmetics": "Cosmetic Previews",

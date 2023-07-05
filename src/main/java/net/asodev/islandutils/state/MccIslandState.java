@@ -1,6 +1,7 @@
 package net.asodev.islandutils.state;
 
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
+import net.asodev.islandutils.mixins.accessors.TabListAccessor;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.faction.FACTION;
 import net.asodev.islandutils.util.ChatUtils;
@@ -11,6 +12,7 @@ import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.game.ServerboundCommandSuggestionPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -51,6 +53,46 @@ public class MccIslandState {
         }
         ChatUtils.debug("MccIslandState - Changed game to: " + game);
         MccIslandState.game = game;
+    }
+
+    public static void updateGame(Component displayName, String tablistTitle) {
+        String title = displayName.getString();
+
+        // Check if the name of the game is not the aqua color, then we check if we are not in parkour warrior
+        // Parkour Warrior (at least solo mode) is exception and has white name in the scoreboard title
+        // if both checks are false, we are in hub!
+        if (!isGameDisplayName(displayName) && !title.contains("PARKOUR WARRIOR")) {
+            MccIslandState.setGame(GAME.HUB);
+        } else { // We're in a game!!!
+            // These checks are pretty self-explanatory
+            if (title.contains("HOLE IN THE WALL")) {
+                MccIslandState.setGame(GAME.HITW);
+            } else if (title.contains("TGTTOS")) {
+                MccIslandState.setGame(GAME.TGTTOS);
+            } else if (title.contains("SKY BATTLE")) {
+                MccIslandState.setGame(GAME.SKY_BATTLE);
+            } else if (title.contains("BATTLE BOX")) {
+                MccIslandState.setGame(GAME.BATTLE_BOX);
+            } else if (title.contains("PARKOUR WARRIOR")) {
+                if (tablistTitle.contains("PARKOUR WARRIOR SURVIVOR")) {
+                    MccIslandState.setGame(GAME.PARKOUR_WARRIOR_SURVIVOR);
+                } else if (tablistTitle.contains("Parkour Warrior - ")) {
+                    MccIslandState.setGame(GAME.PARKOUR_WARRIOR_DOJO);
+                } else {
+                    MccIslandState.setGame(GAME.HUB);
+                }
+            } else {
+                MccIslandState.setGame(GAME.HUB); // Somehow we're in a game, but not soooo hub it is!!
+            }
+        }
+        DiscordPresenceUpdator.updatePlace(); // Update where we are on discord presence
+    }
+    static TextColor aqua = TextColor.fromLegacyFormat(ChatFormatting.AQUA);
+    private static boolean isGameDisplayName(Component component) {
+        for (Component sibling : component.getSiblings()) { // Get all the elements of this component
+            if (sibling.getStyle().getColor() == aqua) return true; // If it's aqua, YES
+        }
+        return false; // If not... no :(
     }
 
     public static void setMap(String map) {

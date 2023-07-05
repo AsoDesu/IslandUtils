@@ -82,6 +82,8 @@ public abstract class ChestScreenMixin extends Screen {
     @Inject(method = "render", at = @At("TAIL"))
     private void render(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
         if (hoveredSlot != null && hoveredSlot.hasItem() && CosmeticState.isColoredItem(hoveredSlot.getItem())) {
+
+
             Integer color = CosmeticState.getColor(hoveredSlot.getItem());
             if (color != null) {
                 CosmeticState.hoveredColor = color;

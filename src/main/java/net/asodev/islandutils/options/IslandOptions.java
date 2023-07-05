@@ -24,10 +24,14 @@ public class IslandOptions implements ConfigData {
     @ConfigEntry.Category("music")
     boolean pkwMusic = true;
     @ConfigEntry.Category("music")
+    boolean pkwsMusic = true;
+    @ConfigEntry.Category("music")
     boolean tgttosDoubleTime = true;
 
     @ConfigEntry.Category("cosmetics")
     boolean showPlayerPreview = true;
+    @ConfigEntry.Category("cosmetics")
+    boolean showCosmeticsOnHover = true;
     @ConfigEntry.Category("cosmetics")
     boolean showOnOnlyCosmeticMenus = true;
 
@@ -85,6 +89,9 @@ public class IslandOptions implements ConfigData {
     public boolean isPkwMusic() {
         return pkwMusic;
     }
+    public boolean isPkwsMusic() {
+        return pkwsMusic;
+    }
 
     public boolean isTgttosDoubleTime() {
         return tgttosDoubleTime;
@@ -99,6 +106,9 @@ public class IslandOptions implements ConfigData {
         return hideSliders;
     }
 
+    public boolean isShowCosmeticsOnHover() {
+        return showCosmeticsOnHover;
+    }
     public boolean isShowOnOnlyCosmeticMenus() {
         return showOnOnlyCosmeticMenus;
     }

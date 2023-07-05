@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class Cosmetic {
 
+    @Nullable public CosmeticSlot hover;
     @Nullable private CosmeticSlot original;
     @Nullable public CosmeticSlot preview;
 
@@ -20,6 +21,7 @@ public class Cosmetic {
     }
 
     public CosmeticSlot getContents() {
+        if (hover != null) return hover;
         if (preview != null) return preview;
         if (original != null) return original;
         return new CosmeticSlot(ItemStack.EMPTY, null);

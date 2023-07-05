@@ -13,6 +13,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
+import net.minecraft.client.sounds.SoundEngine;
+import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -21,7 +23,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Objects;
+import java.util.*;
 
 import static net.asodev.islandutils.options.IslandOptions.getOptions;
 import static net.minecraft.network.chat.Component.literal;
@@ -30,14 +32,22 @@ public class MusicUtil {
 
     public static MCCSoundInstance currentlyPlayingSound = null;
 
-    public static void startMusic(ClientboundSoundPacket clientboundCustomSoundPacket) {
+    public static void startMusic(ClientboundSoundPacket clientboundSoundPacket) {
+        startMusic(clientboundSoundPacket, false);
+    }
+    public static void startMusic(ClientboundSoundPacket clientboundCustomSoundPacket, boolean bypassOvertimeCheck) {
         IslandOptions options = getOptions();
         switch (MccIslandState.getGame()) {
             case HITW -> { if (!options.isHitwMusic()) return; }
             case TGTTOS -> { if (!options.isTgttosMusic()) return; }
             case BATTLE_BOX -> { if (!options.isBbMusic()) return; }
             case SKY_BATTLE -> { if (!options.isSbMusic()) return; }
-            case PARKOUR_WARRIOR -> { if (!options.isPkwMusic()) return; }
+            case PARKOUR_WARRIOR_DOJO -> { if (!options.isPkwMusic()) return; }
+            case PARKOUR_WARRIOR_SURVIVOR -> {
+                if (!options.isPkwsMusic()) return;
+                if (currentlyPlayingSound != null) return;
+                if (!bypassOvertimeCheck && isOvertimePlaying()) return;
+            }
         }
 
         ResourceLocation location = MccIslandState.getGame().getMusicLocation();
@@ -73,7 +83,6 @@ public class MusicUtil {
                 clientboundCustomSoundPacket.getY(),
                 clientboundCustomSoundPacket.getZ(),
                 false);
-
         Minecraft.getInstance().getSoundManager().play(instance);
         currentlyPlayingSound = instance;
     }
@@ -126,8 +135,9 @@ public class MusicUtil {
             if (!instant) {
                 currentlyPlayingSound.fade(20);
                 ChatUtils.debug("[MusicUtil] Fading: " + currentlyPlayingSound);
-            } else currentlyPlayingSound.stopFwd();
-
+            } else {
+                currentlyPlayingSound.stopFwd();
+            }
             currentlyPlayingSound = null;
             return;
         }
@@ -162,9 +172,24 @@ public class MusicUtil {
                 listenerPosition.y,
                 listenerPosition.z,
                 false);
+        currentlyPlayingSound.stopFwd();
         currentlyPlayingSound = instance;
         Minecraft.getInstance().getSoundManager().play(instance);
         ChatUtils.send(literal("Reset your music!").withStyle(ChatFormatting.GREEN));
+    }
+
+    public static boolean isOvertimePlaying() {
+        return isSoundsPlaying("music.global.overtime_intro_music", "music.global.overtime_loop_music");
+    }
+    public static boolean isSoundsPlaying(String ...sounds) {
+        List<String> soundList = Arrays.stream(sounds).toList();
+        SoundManager soundManager = Minecraft.getInstance().getSoundManager();
+        SoundEngineAccessor engine = (SoundEngineAccessor)((SoundManagerAccessor)soundManager).getSoundEngine();
+        for (SoundInstance soundInstance : engine.getInstanceToChannel().keySet()) {
+            if (!soundList.contains(soundInstance.getLocation().getPath())) continue;
+            return true;
+        }
+        return false;
     }
 
 }
