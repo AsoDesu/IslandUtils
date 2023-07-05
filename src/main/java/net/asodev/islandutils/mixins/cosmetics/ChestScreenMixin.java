@@ -82,26 +82,26 @@ public abstract class ChestScreenMixin extends Screen {
 
     @Inject(method = "render", at = @At("TAIL"))
     private void render(PoseStack poseStack, int i, int j, float f, CallbackInfo ci) {
-        if (hoveredSlot != null && hoveredSlot.hasItem() && CosmeticState.isColoredItem(hoveredSlot.getItem())) {
-
         if (hoveredSlot != null && hoveredSlot.hasItem()) {
-            ItemStack hoveredItem = hoveredSlot.getItem();
-            if (IslandOptions.getOptions().isShowCosmeticsOnHover()) {
-                if (!CosmeticState.canPreviewItem(hoveredItem) || !setHovered(hoveredItem)) {
-                    CosmeticState.hatSlot.hover = null;
-                    CosmeticState.accessorySlot.hover = null;
+            if (hoveredSlot != null && hoveredSlot.hasItem()) {
+                ItemStack hoveredItem = hoveredSlot.getItem();
+                if (IslandOptions.getOptions().isShowCosmeticsOnHover()) {
+                    if (!CosmeticState.canPreviewItem(hoveredItem) || !setHovered(hoveredItem)) {
+                        CosmeticState.hatSlot.hover = null;
+                        CosmeticState.accessorySlot.hover = null;
+                    }
                 }
-            }
 
-            if (CosmeticState.isColoredItem(hoveredItem)) {
-                Integer color = CosmeticState.getColor(hoveredSlot.getItem());
-                if (color != null) {
-                    CosmeticState.hoveredColor = color;
-                    return;
+                if (CosmeticState.isColoredItem(hoveredItem)) {
+                    Integer color = CosmeticState.getColor(hoveredSlot.getItem());
+                    if (color != null) {
+                        CosmeticState.hoveredColor = color;
+                        return;
+                    }
                 }
             }
+            CosmeticState.hoveredColor = null;
         }
-        CosmeticState.hoveredColor = null;
     }
 
     private boolean setHovered(ItemStack item) {
