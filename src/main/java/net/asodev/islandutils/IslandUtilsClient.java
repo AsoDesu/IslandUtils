@@ -32,6 +32,7 @@ public class IslandUtilsClient implements ClientModInitializer {
     }
 
     public static void onJoinMCCI() {
+        System.out.println("Connected to MCCI!");
         if (IslandUtils.availableUpdate != null) {
             ChatUtils.send("Hey! Update " + IslandUtils.availableUpdate.title() + " is available for Island Utils!");
 

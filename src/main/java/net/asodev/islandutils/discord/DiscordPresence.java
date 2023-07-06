@@ -49,6 +49,7 @@ public class DiscordPresence {
                 try { Thread.sleep(16); }
                 catch (Exception e) { e.printStackTrace(); }
             }
+            System.out.println("Core has closed. Core: " + core);
         }, "IslandUtils - Discord Callbacks").start();
         return true;
     }
