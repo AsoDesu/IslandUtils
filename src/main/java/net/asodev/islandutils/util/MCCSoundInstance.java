@@ -40,12 +40,6 @@ public class MCCSoundInstance extends AbstractTickableSoundInstance {
         totalFadeTicks = ticks;
         fadeTicks = totalFadeTicks;
     }
-    public void unfade() {
-        isFading = false;
-        totalFadeTicks = 20f;
-        fadeTicks = 0f;
-        volume = totalVolume;
-    }
     public void stopFwd() {
         stop();
     }
