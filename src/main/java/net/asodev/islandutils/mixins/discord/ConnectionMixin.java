@@ -21,7 +21,9 @@ public abstract class ConnectionMixin {
 
     @Inject(method = "disconnect", at = @At("HEAD"))
     private void disconnect(Component component, CallbackInfo ci) {
+        if (getRemoteAddress() == null) return;
         String hostName = ((InetSocketAddress) getRemoteAddress()).getHostName();
+        if (hostName == null) return;
         if (hostName.contains("mccisland.net")) {
             DiscordPresenceUpdator.started = null;
             DiscordPresenceUpdator.clear();
