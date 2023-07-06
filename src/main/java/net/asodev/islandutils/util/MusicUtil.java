@@ -172,7 +172,6 @@ public class MusicUtil {
                 listenerPosition.y,
                 listenerPosition.z,
                 false);
-        currentlyPlayingSound.stopFwd();
         currentlyPlayingSound = instance;
         Minecraft.getInstance().getSoundManager().play(instance);
         ChatUtils.send(literal("Reset your music!").withStyle(ChatFormatting.GREEN));
