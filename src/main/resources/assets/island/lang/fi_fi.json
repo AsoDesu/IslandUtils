@@ -48,6 +48,9 @@
   "text.autoconfig.islandutils.option.classicHITW.@Tooltip": "Lisää takaisin kuuluttajan \nNoxcrewin alkuperäisestä HITW-kartasta!",
   "text.autoconfig.islandutils.option.classicHITWMusic": "Klassinen Hole In The Wall- Musiikki",
   "text.autoconfig.islandutils.option.classicHITWMusic.@Tooltip": "Lisää takaisin musiikin \nNoxcrewin alkuperäisestä HITW-kartasta!",
+  "text.autoconfig.islandutils.option.enableConfigButton": "Lisää konfiguraationappi asetusvalikkoon",
+  "text.autoconfig.islandutils.option.enableConfigButton.@Tooltip": "Lisää konfiguraationapin asetusvalikon vasempaan kulmaan\n§c§VAROITUS! §rJos poistat tämän käytöstä ja sinulla ei ole vaihtoehtoista menetelmää päästä asetuksiin (ModMenu), et voi enää muuttaa asetuksia pelinsisäisesti!",
+
 
   "text.autoconfig.islandutils.option.debugMode": "Debug-Tila",
 

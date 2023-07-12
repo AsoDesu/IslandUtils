@@ -72,6 +72,10 @@ public class IslandOptions implements ConfigData {
     boolean hideSliders = true;
 
     @ConfigEntry.Category("misc")
+    @ConfigEntry.Gui.Tooltip()
+    boolean enableConfigButton = true;
+
+    @ConfigEntry.Category("misc")
     boolean debugMode = false;
 
     public boolean isTgttosMusic() {
@@ -116,6 +120,9 @@ public class IslandOptions implements ConfigData {
     public boolean isClassicHITW() { return classicHITW; }
     public boolean isClassicHITWMusic() { return classicHITWMusic; }
 
+    public boolean isConfigButtonEnabled() {
+        return enableConfigButton;
+    }
     public boolean isDebugMode() {
         return debugMode;
     }

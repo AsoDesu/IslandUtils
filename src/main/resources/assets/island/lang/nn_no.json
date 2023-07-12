@@ -49,6 +49,8 @@
   "text.autoconfig.islandutils.option.classicHITW.@Tooltip": "Adds back the announcer from the \noriginal HITW map by Noxcrew!",
   "text.autoconfig.islandutils.option.classicHITWMusic": "Classic Hole In The Wall Music",
   "text.autoconfig.islandutils.option.classicHITWMusic.@Tooltip": "Adds back the music from the \noriginal HITW map by Noxcrew!",
+  "text.autoconfig.islandutils.option.enableConfigButton": "Enable Config Button in options",
+  "text.autoconfig.islandutils.option.enableConfigButton.@Tooltip": "Enables the Config Button in the top left of the options menu\n§c§lWARNING! §rIf you disable this and you don't have another way to access the config (ModMenu), you will be unable to access the config in-game!",
 
   "text.autoconfig.islandutils.option.debugMode": "Debug Mode",
 
