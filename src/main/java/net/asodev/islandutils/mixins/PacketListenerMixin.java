@@ -191,12 +191,10 @@ public abstract class PacketListenerMixin {
         if (soundLoc.getPath().contains("music.global")) {
             instance = MusicUtil.createSoundInstance(clientboundCustomSoundPacket, IslandSoundCategories.CORE_MUSIC); // Create the sound
             Minecraft.getInstance().getSoundManager().play(instance); // Play the sound
-            ChatUtils.debug("Playing " + soundLoc.getPath() + " in CORE_MUSIC"); // Log the sound
             ci.cancel(); // Stop minecraft from trying.
         } else if (soundLoc.getNamespace().equals("mcc")) { // If it's a MCC sound, we'll just play it in sound effects.
             instance = MusicUtil.createSoundInstance(clientboundCustomSoundPacket, IslandSoundCategories.SOUND_EFFECTS); // Make the sound
             Minecraft.getInstance().getSoundManager().play(instance); // Play the sound
-            ChatUtils.debug("Playing " + soundLoc.getPath() + " in SOUND_EFFECTS"); // Debug for days
             ci.cancel(); // Minecraft no
         }
     }

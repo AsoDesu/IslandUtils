@@ -28,5 +28,10 @@
     "sounds": [
       "island:spacewall"
     ]
+  },
+  "island.music.to_the_dome": {
+    "sounds": [
+      "island:to_the_dome"
+    ]
   }
 }
