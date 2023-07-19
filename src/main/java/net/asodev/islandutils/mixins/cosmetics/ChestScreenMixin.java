@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 
-import static net.asodev.islandutils.state.cosmetics.CosmeticState.customModelData;
+import static net.asodev.islandutils.util.Utils.customModelData;
 
 
 @Mixin(AbstractContainerScreen.class)
