@@ -27,6 +27,8 @@ public class IslandOptions implements ConfigData {
     boolean pkwsMusic = true;
     @ConfigEntry.Category("music")
     boolean tgttosDoubleTime = true;
+    @ConfigEntry.Category("music")
+    boolean tgttosToTheDome = true;
 
     @ConfigEntry.Category("cosmetics")
     boolean showPlayerPreview = true;
@@ -96,10 +98,13 @@ public class IslandOptions implements ConfigData {
     public boolean isPkwsMusic() {
         return pkwsMusic;
     }
-
     public boolean isTgttosDoubleTime() {
         return tgttosDoubleTime;
     }
+    public boolean isTgttosToTheDome() {
+        return tgttosToTheDome;
+    }
+
     public boolean isShowPlayerPreview() {
         return showPlayerPreview;
     }

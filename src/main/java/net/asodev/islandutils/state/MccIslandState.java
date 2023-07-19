@@ -45,13 +45,16 @@ public class MccIslandState {
         return game;
     }
     public static void setGame(GAME game) {
-        if (MccIslandState.game != game && game != GAME.HUB) {
-            friends.clear();
-            ServerboundCommandSuggestionPacket packet = new ServerboundCommandSuggestionPacket(TRANSACTION_ID, "/friend remove ");
-            ClientPacketListener connection = Minecraft.getInstance().getConnection();
-            if (connection != null) connection.send(packet);
+        if (MccIslandState.game != game) {
+            ChatUtils.debug("MccIslandState - Changed game to: " + game);
+
+            if (game != GAME.HUB) {
+                friends.clear();
+                ServerboundCommandSuggestionPacket packet = new ServerboundCommandSuggestionPacket(TRANSACTION_ID, "/friend remove ");
+                ClientPacketListener connection = Minecraft.getInstance().getConnection();
+                if (connection != null) connection.send(packet);
+            }
         }
-        ChatUtils.debug("MccIslandState - Changed game to: " + game);
         MccIslandState.game = game;
     }
 
