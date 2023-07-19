@@ -59,16 +59,20 @@ public class MusicUtil {
         }
         if (location == null) return;
 
-        ChatUtils.debug("[MusicUtil] Starting: " + location);
-        stopMusic();
-
         float pitch = 1f;
-        if (options.isTgttosDoubleTime() &&
-            MccIslandState.getGame() == GAME.TGTTOS &&
+        if (options.isTgttosDoubleTime() && MccIslandState.getGame() == GAME.TGTTOS &&
             Objects.equals(MccIslandState.getModifier(), "DOUBLE TIME")) {
                 pitch = 1.2f;
                 ChatUtils.debug("[MusicUtil] Double Time on TGTTOS active! (Pitch: %s)", pitch);
         }
+        if (options.isTgttosToTheDome() && MccIslandState.getGame() == GAME.TGTTOS &&
+                Objects.equals(MccIslandState.getMap(), "TO THE DOME")) {
+            location = new ResourceLocation("island", "island.music.to_the_dome");
+            ChatUtils.debug("[MusicUtil] To The Dome on TGTTOS active!");
+        }
+
+        ChatUtils.debug("[MusicUtil] Starting: " + location);
+        stopMusic();
 
         MCCSoundInstance instance = new MCCSoundInstance(
                 SoundEvent.createVariableRangeEvent(location),
