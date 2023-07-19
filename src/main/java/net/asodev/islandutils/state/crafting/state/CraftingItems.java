@@ -2,6 +2,7 @@ package net.asodev.islandutils.state.crafting.state;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.asodev.islandutils.state.crafting.CraftingMenuType;
 import net.asodev.islandutils.util.Scheduler;
@@ -66,7 +67,6 @@ public class CraftingItems {
     }
     public static void save() {
         if (saveQueued) {
-            logger.info("Deferred save because one is already queued!"); // TODO: Remove this log
             return;
         }
 
@@ -81,10 +81,13 @@ public class CraftingItems {
             Utils.assertIslandFolder();
 
             JsonArray array = new JsonArray();
-            items.forEach(item -> {
-                // TODO: Make this safer - toJson could throw an error
-                array.add(item.toJson());
-            });
+            for (CraftingItem item : getItems()) {
+                try {
+                    array.add(item.toJson());
+                } catch (Exception e) {
+                    logger.error("Failed to save item: " + item, e);
+                }
+            }
 
             JsonObject object = new JsonObject();
             object.add("items", array);

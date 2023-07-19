@@ -1,6 +1,7 @@
 package net.asodev.islandutils.mixins.crafting;
 
 import net.asodev.islandutils.options.IslandOptions;
+import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.state.crafting.CraftingMenuType;
 import net.asodev.islandutils.state.crafting.CraftingUI;
 import net.asodev.islandutils.util.ChatUtils;
@@ -27,18 +28,10 @@ public abstract class CraftingPacketMixin {
 
     }
 
-    @Inject(method = "initializeContents", at = @At("TAIL"))
-    private void init(int i, List<ItemStack> list, ItemStack itemStack, CallbackInfo ci) {
-        if (IslandOptions.getOptions().isDebugMode()) {
-            for (int j = 0; j < list.size(); ++j) {
-                injectedSetItem(j, 0, list.get(j), ci);
-            }
-        }
-    }
-
     @Inject(method = "setItem", at = @At("TAIL"))
     private void injectedSetItem(int slot, int j, ItemStack item, CallbackInfo ci) {
-        Minecraft minecraft = Minecraft.getInstance(); // TODO: Add online check
+        if (!MccIslandState.isOnline()) return;
+        Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.screen instanceof ContainerScreen container) {
             Component uiTitle = container.getTitle();
             CraftingMenuType type = CraftingUI.craftingMenuType(uiTitle);

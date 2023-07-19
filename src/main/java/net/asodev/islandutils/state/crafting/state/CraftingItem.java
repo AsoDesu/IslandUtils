@@ -113,4 +113,17 @@ public class CraftingItem {
     public void setSlot(int slot) {
         this.slot = slot;
     }
+
+    @Override
+    public String toString() {
+        return "CraftingItem{" +
+                "title=" + title +
+                ", type=" + type +
+                ", customModelData=" + customModelData +
+                ", finishesCrafting=" + finishesCrafting +
+                ", craftingMenuType=" + craftingMenuType +
+                ", hasSentNotif=" + hasSentNotif +
+                ", slot=" + slot +
+                '}';
+    }
 }
