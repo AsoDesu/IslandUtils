@@ -1,5 +1,11 @@
 name: build
-on: [pull_request, push, workflow_dispatch]
+on: 
+  push:
+    branches:
+      - 'main'
+      - 'mc/**'
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
