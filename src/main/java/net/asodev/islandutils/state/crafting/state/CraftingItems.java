@@ -7,6 +7,10 @@ import com.google.gson.JsonObject;
 import net.asodev.islandutils.state.crafting.CraftingMenuType;
 import net.asodev.islandutils.util.Scheduler;
 import net.asodev.islandutils.util.Utils;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.world.item.Items;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,6 +102,30 @@ public class CraftingItems {
         } catch (Exception e) {
             logger.error("Failed to save crafting items", e);
         }
+    }
+
+    // DEBUG
+    public static void addDebugItem(String color) {
+        CraftingItem item = new CraftingItem();
+        item.setTitle(
+                Component.literal("Refined Quest Spirit")
+                        .setStyle(Style.EMPTY.withColor(TextColor.parseColor(color)))
+        );
+        // Common = #FFFFFF
+        // Uncommon = #1EFF00
+        // Rare = #0070DD
+        // Epic = #A335EE
+        // Legendary = #FF8000
+        // Mythic = #F94242
+
+        item.setCustomModelData(7924);
+        item.setFinishesCrafting(0);
+        item.setHasSentNotif(false);
+        item.setSlot(37);
+        item.setCraftingMenuType(CraftingMenuType.FORGE);
+        item.setType(Items.POPPED_CHORUS_FRUIT);
+
+        CraftingItems.addItem(item);
     }
 
 }

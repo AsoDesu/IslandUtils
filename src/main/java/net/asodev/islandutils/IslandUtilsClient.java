@@ -6,6 +6,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.DisguiseUtil;
+import net.asodev.islandutils.util.IslandUtilsCommand;
 import net.asodev.islandutils.util.MusicUtil;
 
 import net.fabricmc.api.ClientModInitializer;
@@ -41,6 +42,7 @@ public class IslandUtilsClient implements ClientModInitializer {
                 "category.islandutils.keys" // The translation key of the keybinding's category.
         ));
         DisguiseUtil.registerDisguiseInput();
+        IslandUtilsCommand.register();
     }
 
     public static void onJoinMCCI() {
