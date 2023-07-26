@@ -1,5 +1,6 @@
 package net.asodev.islandutils.state;
 
+import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.crafting.state.CraftingItem;
 import net.asodev.islandutils.state.crafting.state.CraftingItems;
 import net.minecraft.ChatFormatting;
@@ -18,8 +19,10 @@ public class MccIslandNotifs {
 
         List<Component> craftingLists = new ArrayList<>();
         boolean anycomplete = false;
-        for (CraftingItem item : CraftingItems.getItems()) {
-            if (item.isComplete()) {
+        IslandOptions options = IslandOptions.getOptions();
+        if (options.isEnableCraftingNotifs() && options.isNotifyServerList()) { // "i'm a never-nester"
+            for (CraftingItem item : CraftingItems.getItems()) {
+                if (!item.isComplete()) continue;
                 craftingLists.add(Component.literal("  ").append(item.getTitle()));
                 anycomplete = true;
             }

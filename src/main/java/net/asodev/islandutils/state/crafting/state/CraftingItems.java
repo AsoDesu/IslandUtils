@@ -122,7 +122,7 @@ public class CraftingItems {
         item.setFinishesCrafting(0);
         item.setHasSentNotif(false);
         item.setSlot(37);
-        item.setCraftingMenuType(CraftingMenuType.FORGE);
+        item.setCraftingMenuType(CraftingMenuType.ASSEMBLER);
         item.setType(Items.POPPED_CHORUS_FRUIT);
 
         CraftingItems.addItem(item);
