@@ -56,7 +56,7 @@ public class IslandUtilsClient implements ClientModInitializer {
 
             ChatUtils.send(text);
         } else if (IslandUtils.isPreRelease()) {
-            ChatUtils.send("&cYou are using a pre-release version of IslandUtils! Expect things to be broken & buggy, and report to #test-feedback!");
+            ChatUtils.send("&cYou are using a pre-release version of IslandUtils! Expect things to be broken and buggy, and report to #test-feedback!");
         }
         DiscordPresenceUpdator.create();
     }
