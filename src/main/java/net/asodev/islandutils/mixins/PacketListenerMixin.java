@@ -152,6 +152,10 @@ public abstract class PacketListenerMixin {
         // Previously this was obfuscated by noxcrew, but not anymore yayyyyy :D
         ResourceLocation soundLoc = clientboundCustomSoundPacket.getSound().value().getLocation();
 
+        if (MccIslandState.getGame() == GAME.PARKOUR_WARRIOR_DOJO) {
+            LevelSplit.onSound(clientboundCustomSoundPacket);
+        }
+
         // If we aren't in a game, don't play music
         if (MccIslandState.getGame() != GAME.HUB) {
             // Use the sound files above to determine what just happened in the game

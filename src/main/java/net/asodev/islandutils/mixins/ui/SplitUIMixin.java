@@ -13,7 +13,8 @@ public class SplitUIMixin {
 
     @Inject(method = "render", at = @At("HEAD"))
     private void render(GuiGraphics guiGraphics, CallbackInfo ci) {
-        LevelSplit.getInstance().getUI().render(guiGraphics);
+        LevelSplit instance = LevelSplit.getInstance();
+        if (instance != null) instance.getUI().render(guiGraphics);
     }
 
 }
