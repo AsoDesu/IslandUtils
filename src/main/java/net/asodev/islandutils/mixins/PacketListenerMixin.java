@@ -16,6 +16,7 @@ import net.asodev.islandutils.state.GAME;
 import net.asodev.islandutils.state.cosmetics.CosmeticSlot;
 import net.asodev.islandutils.state.cosmetics.CosmeticState;
 import net.asodev.islandutils.state.faction.FactionComponents;
+import net.asodev.islandutils.state.splits.LevelSplit;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
 import net.asodev.islandutils.util.Scheduler;
@@ -270,36 +271,12 @@ public abstract class PacketListenerMixin {
     Style style = Style.EMPTY.withColor(textColor); // Style for the trap color
     @Inject(method = "setSubtitleText", at = @At("HEAD"), cancellable = true)
     private void titleText(ClientboundSetSubtitleTextPacket clientboundSetSubtitleTextPacket, CallbackInfo ci) {
-        if (MccIslandState.getGame() != GAME.HITW) return; // Make sure we're playing HITW
-        if (!IslandOptions.getOptions().isClassicHITW()) return; // Requires isClassicHITW
-        String trap = clientboundSetSubtitleTextPacket.getText().getString(); // Get the string version of the subtitle
-
-        boolean isTrap = false; // Get all the elements in this component
-        for (Component component : clientboundSetSubtitleTextPacket.getText().toFlatList()) {
-            if (component.getStyle().isObfuscated()) { return; } // If this component is obfuscated, it's the animation before the trap
-            if (component.getStyle().getColor() != null && component.getStyle().getColor().equals(textColor))
-                isTrap = true; // If it's the gold color of the trap subtitle, it's a trap!
-        }
-        if (!isTrap) return; // If we didn't find the trap, we can just stop
-
-        String change = changeName(trap); // Check for the changed trap names
-        if (change != null) { // If we have changed the name of the trap
-            this.minecraft.gui.setSubtitle(literal(change).withStyle(style)); // Send our own subtitle
-            ci.cancel(); // Cancel minecraft executing futher
-        }
-
-        long timestamp = System.currentTimeMillis(); // This just ensures we don't play the sound twice
-        if ((timestamp - HITWTrapState.lastTrapTimestamp) < 50) return; // 50ms delay
-        HITWTrapState.lastTrapTimestamp = timestamp;
-
-        trap = trap.replaceAll("([ \\-!])","").toLowerCase(); // Convert the trap to a lowercase space-less string
-
-        try {
-            HITWTrapState.trap = trap; // Set the trap to the one we just found
-            ResourceLocation sound = new ResourceLocation("island", "announcer." + trap); // island:announcer.(trap) -> The sound location
-            Minecraft.getInstance().getSoundManager().play(MusicUtil.createSoundInstance(sound)); // Play the sound!!
-        } catch (Exception e) {
-            e.printStackTrace(); // Something went horribly wrong, probably an invalid character
+        if (MccIslandState.getGame() == GAME.HITW) {
+            HITWTrapState.handleTrap(clientboundSetSubtitleTextPacket, ci);
+        } else if (MccIslandState.getGame() == GAME.PARKOUR_WARRIOR_DOJO) {
+            LevelSplit instance = LevelSplit.getInstance();
+            if (instance == null) return;
+            instance.handleSubtitle(clientboundSetSubtitleTextPacket, ci);
         }
     }
 
@@ -313,18 +290,6 @@ public abstract class PacketListenerMixin {
             ResourceLocation sound = new ResourceLocation("island", "announcer.gameover");
             Minecraft.getInstance().getSoundManager().play(MusicUtil.createSoundInstance(sound)); // Play the sound!!
         }
-    }
-
-    private String changeName(String originalTrap) {
-        return switch (originalTrap) {
-            case "Feeling Hot" -> "What in the Blazes";
-            case "Hot Coals" -> "Feeling Hot";
-            case "Blast-Off" -> "Kaboom";
-            case "Pillagers" -> "So Lonely";
-            case "Leg Day" -> "Molasses";
-            case "Snowball Fight" -> "Jack Frost";
-            default -> null;
-        };
     }
 
     // MCCI Commands

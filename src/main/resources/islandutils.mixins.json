@@ -27,7 +27,8 @@
     "ui.ChatScreenMixin",
     "ui.CommandSuggestionsAccessor",
     "ui.OptionsMixin",
-    "ui.PauseScreenMixin"
+    "ui.PauseScreenMixin",
+    "ui.SplitUIMixin"
   ],
   "injectors": {
     "defaultRequire": 1

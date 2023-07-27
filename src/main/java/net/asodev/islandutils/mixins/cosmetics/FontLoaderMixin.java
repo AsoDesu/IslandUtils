@@ -3,6 +3,7 @@ package net.asodev.islandutils.mixins.cosmetics;
 import net.asodev.islandutils.state.cosmetics.CosmeticState;
 import net.asodev.islandutils.state.faction.FACTION;
 import net.asodev.islandutils.state.faction.FactionComponents;
+import net.asodev.islandutils.state.splits.LevelSplit;
 import net.minecraft.client.gui.font.providers.BitmapProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -28,12 +29,16 @@ public class FontLoaderMixin {
             StringBuilder builder = new StringBuilder();
             for (int point : c) { builder.appendCodePoint(point); }
 
-            Component comp = Component.literal(builder.toString()).setStyle(Style.EMPTY.withFont(MCC_ICONS));
-            Component factionComp = Component.literal(builder.toString()).setStyle(Style.EMPTY.withFont(MCC_ICONS_19));
+            String character = builder.toString();
+            Component comp = Component.literal(character).setStyle(Style.EMPTY.withFont(MCC_ICONS));
+            Component factionComp = Component.literal(character).setStyle(Style.EMPTY.withFont(MCC_ICONS_19));
             switch (file.getPath()) {
                 case "_fonts/tooltips/hat.png" -> CosmeticState.HAT_COMP = comp;
                 case "_fonts/tooltips/accessory.png" -> CosmeticState.ACCESSORY_COMP = comp;
                 case "_fonts/tooltips/hair.png" -> CosmeticState.HAIR_COMP = comp;
+                case "_fonts/medals.png" -> LevelSplit.medalCharacter = character;
+                case "_fonts/split_up.png" -> LevelSplit.splitUpComponent = comp;
+                case "_fonts/split_down.png" -> LevelSplit.splitDownComponent = comp;
 
                 case "_fonts/team/aqua_big.png" -> FactionComponents.setComponent(FACTION.AQUA, factionComp);
                 case "_fonts/team/blue_big.png" -> FactionComponents.setComponent(FACTION.BLUE, factionComp);
