@@ -54,13 +54,13 @@ public class CraftingUI {
 
                 CraftingItems.addItem(craftingItem);
 
-                ChatUtils.debug("[#" + slot + "] Found active craft: " + item.getDisplayName().getString() + " (" + timeLeft + ")");
+                ChatUtils.debug("[#" + slot + " " + type.name() + "] Found active craft: " + item.getDisplayName().getString() + " (" + timeLeft + ")");
                 return;
             }
         }
 
         CraftingItems.removeSlot(type, slot);
-        ChatUtils.debug("Found empty craft slot: " + slot + "!");
+        ChatUtils.debug(type.name() + " - Found empty craft slot: " + slot + "!");
     }
 
     private static boolean isActive(List<Component> lores) {
