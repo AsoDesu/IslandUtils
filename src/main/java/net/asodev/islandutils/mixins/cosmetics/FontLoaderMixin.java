@@ -3,7 +3,7 @@ package net.asodev.islandutils.mixins.cosmetics;
 import net.asodev.islandutils.state.cosmetics.CosmeticState;
 import net.asodev.islandutils.state.faction.FACTION;
 import net.asodev.islandutils.state.faction.FactionComponents;
-import net.asodev.islandutils.state.splits.LevelSplit;
+import net.asodev.islandutils.state.splits.LevelTimer;
 import net.minecraft.client.gui.font.providers.BitmapProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -12,8 +12,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.List;
 
 import static net.asodev.islandutils.state.cosmetics.CosmeticState.MCC_ICONS;
 import static net.asodev.islandutils.state.faction.FactionComponents.MCC_ICONS_19;
@@ -36,9 +34,9 @@ public class FontLoaderMixin {
                 case "_fonts/tooltips/hat.png" -> CosmeticState.HAT_COMP = comp;
                 case "_fonts/tooltips/accessory.png" -> CosmeticState.ACCESSORY_COMP = comp;
                 case "_fonts/tooltips/hair.png" -> CosmeticState.HAIR_COMP = comp;
-                case "_fonts/medals.png" -> LevelSplit.medalCharacter = character;
-                case "_fonts/split_up.png" -> LevelSplit.splitUpComponent = comp;
-                case "_fonts/split_down.png" -> LevelSplit.splitDownComponent = comp;
+                case "_fonts/medals.png" -> LevelTimer.medalCharacter = character;
+                case "_fonts/split_up.png" -> LevelTimer.splitUpComponent = comp;
+                case "_fonts/split_down.png" -> LevelTimer.splitDownComponent = comp;
 
                 case "_fonts/team/aqua_big.png" -> FactionComponents.setComponent(FACTION.AQUA, factionComp);
                 case "_fonts/team/blue_big.png" -> FactionComponents.setComponent(FACTION.BLUE, factionComp);

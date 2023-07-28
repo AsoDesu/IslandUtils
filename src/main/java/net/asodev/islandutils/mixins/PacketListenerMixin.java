@@ -7,7 +7,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestion;
 import net.asodev.islandutils.IslandUtilsClient;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
-import net.asodev.islandutils.mixins.accessors.TabListAccessor;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.IslandSoundCategories;
 import net.asodev.islandutils.state.HITWTrapState;
@@ -16,13 +15,10 @@ import net.asodev.islandutils.state.GAME;
 import net.asodev.islandutils.state.cosmetics.CosmeticSlot;
 import net.asodev.islandutils.state.cosmetics.CosmeticState;
 import net.asodev.islandutils.state.faction.FactionComponents;
-import net.asodev.islandutils.state.splits.LevelSplit;
+import net.asodev.islandutils.state.splits.LevelTimer;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
-import net.asodev.islandutils.util.Scheduler;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.PlayerTabOverlay;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.ClientSuggestionProvider;
@@ -52,7 +48,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static net.asodev.islandutils.state.MccIslandState.TRANSACTION_ID;
-import static net.minecraft.network.chat.Component.literal;
 
 @Mixin(ClientPacketListener.class)
 public abstract class PacketListenerMixin {
@@ -134,7 +129,10 @@ public abstract class PacketListenerMixin {
                 switch (entry.getKey()) {
                     case "MAP" -> MccIslandState.setMap(value); // Set our MAP
                     case "MODIFIER" -> MccIslandState.setModifier(value); // Set our MODIFIER
-                    case "COURSE" -> DiscordPresenceUpdator.courseScoreboardUpdate(value, true);
+                    case "COURSE" -> {
+                        DiscordPresenceUpdator.courseScoreboardUpdate(value, true);
+                        MccIslandState.setMap(value);
+                    }
                     case "LEAP" -> DiscordPresenceUpdator.leapScoreboardUpdate(value, true);
                 }
 
@@ -153,7 +151,7 @@ public abstract class PacketListenerMixin {
         ResourceLocation soundLoc = clientboundCustomSoundPacket.getSound().value().getLocation();
 
         if (MccIslandState.getGame() == GAME.PARKOUR_WARRIOR_DOJO) {
-            LevelSplit.onSound(clientboundCustomSoundPacket);
+            LevelTimer.onSound(clientboundCustomSoundPacket);
         }
 
         // If we aren't in a game, don't play music
@@ -278,7 +276,7 @@ public abstract class PacketListenerMixin {
         if (MccIslandState.getGame() == GAME.HITW) {
             HITWTrapState.handleTrap(clientboundSetSubtitleTextPacket, ci);
         } else if (MccIslandState.getGame() == GAME.PARKOUR_WARRIOR_DOJO) {
-            LevelSplit instance = LevelSplit.getInstance();
+            LevelTimer instance = LevelTimer.getInstance();
             if (instance == null) return;
             instance.handleSubtitle(clientboundSetSubtitleTextPacket, ci);
         }

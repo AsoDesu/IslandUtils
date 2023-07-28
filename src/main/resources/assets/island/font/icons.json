@@ -38,6 +38,13 @@
             "chars": ["\ue005"],
             "ascent": 7,
             "height": 7
+        },
+        {
+            "type": "bitmap",
+            "file": "island:chat_buttons/view.png",
+            "chars": ["\ue006"],
+            "ascent": 7,
+            "height": 7
         }
     ]
 }

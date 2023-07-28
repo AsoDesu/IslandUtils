@@ -1,6 +1,6 @@
-package net.asodev.islandutils.mixins.ui;
+package net.asodev.islandutils.mixins.splits;
 
-import net.asodev.islandutils.state.splits.LevelSplit;
+import net.asodev.islandutils.state.splits.LevelTimer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.BossHealthOverlay;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,7 +13,7 @@ public class SplitUIMixin {
 
     @Inject(method = "render", at = @At("HEAD"))
     private void render(GuiGraphics guiGraphics, CallbackInfo ci) {
-        LevelSplit instance = LevelSplit.getInstance();
+        LevelTimer instance = LevelTimer.getInstance();
         if (instance != null) instance.getUI().render(guiGraphics);
     }
 
