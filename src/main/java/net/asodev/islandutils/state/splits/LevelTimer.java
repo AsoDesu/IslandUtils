@@ -114,7 +114,7 @@ public class LevelTimer {
         if (splits == null) {
             return null;
         } else {
-            Double split = splits.getSplit(levelName);
+            Double split = splits.getSplit(levelUid);
             if (split == null) return null;
             return currentSplitTime - split;
         }

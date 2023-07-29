@@ -22,7 +22,7 @@ import static net.asodev.islandutils.resourcepack.ResourcePackOptions.islandFold
 
 public class SplitManager {
     private static Logger logger = LoggerFactory.getLogger(SplitManager.class);
-    private static final File file = new File(islandFolder + "/split.json");
+    private static final File file = new File(islandFolder + "/splits.json");
 
     private static final Map<String, LevelSplits> courseSplits = new HashMap<>();
     private static Long currentCourseExpiry = null;

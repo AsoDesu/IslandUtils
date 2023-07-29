@@ -52,7 +52,7 @@ public class LevelSplits {
         object.add("splits", splitObject);
 
         JsonObject levelNames = new JsonObject();
-        this.splits.forEach(levelNames::addProperty);
+        this.levelNames.forEach(levelNames::addProperty);
         object.add("names", levelNames);
 
         return object;
