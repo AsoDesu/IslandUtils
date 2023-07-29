@@ -81,11 +81,10 @@ public class LevelTimer {
             icon = Component.literal("-").withStyle(color);
         }
 
-        Component timeComponent = Component.literal(" ").withStyle(Style.EMPTY)
-                .append(Component.literal("(").withStyle(ChatFormatting.GREEN))
+        Component timeComponent = Component.literal(" (").withStyle(Style.EMPTY)
                 .append(icon)
                 .append(Component.literal(" " + formattedTime).withStyle(color))
-                .append(Component.literal(")").withStyle(ChatFormatting.GREEN));
+                .append(Component.literal(")").withStyle(Style.EMPTY));
 
         Component component1 = component.copy().append(timeComponent);
         Minecraft.getInstance().gui.setSubtitle(component1);
