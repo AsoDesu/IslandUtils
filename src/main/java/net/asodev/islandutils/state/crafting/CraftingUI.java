@@ -45,7 +45,8 @@ public class CraftingUI {
                 long timeLeft = getTimeLeft(timeLeftString);
 
                 Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.SECOND, 59);
+                calendar.add(Calendar.MINUTE, 1);
+                calendar.set(Calendar.SECOND, 0);
                 long currentMillis = calendar.getTimeInMillis();
                 long finishTimestamp = currentMillis + (timeLeft * 1000);
 
