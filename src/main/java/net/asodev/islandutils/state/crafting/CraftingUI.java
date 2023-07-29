@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +43,11 @@ public class CraftingUI {
             }
             if (timeLeftString != null) {
                 long timeLeft = getTimeLeft(timeLeftString);
-                long finishTimestamp = System.currentTimeMillis() + timeLeft * 1000;
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.SECOND, 59);
+                long currentMillis = calendar.getTimeInMillis();
+                long finishTimestamp = currentMillis + (timeLeft * 1000);
 
                 CraftingItem craftingItem = new CraftingItem();
                 craftingItem.setCraftingMenuType(type);

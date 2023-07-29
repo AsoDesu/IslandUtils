@@ -9,6 +9,7 @@ import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.crafting.CraftingMenuType;
 import net.asodev.islandutils.state.crafting.state.CraftingItem;
 import net.asodev.islandutils.state.crafting.state.CraftingItems;
+import net.asodev.islandutils.state.crafting.state.CraftingNotifier;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.network.chat.Component;
@@ -23,6 +24,11 @@ public class IslandUtilsCommand {
     private static final Component cantUseDebugError =
             Component.literal(ChatUtils.translate("You must be in debug mode to use the debug command."));
 
+    public static LiteralArgumentBuilder<FabricClientCommandSource> craftsCommand = literal("crafting")
+            .executes(ctx -> {
+                ctx.getSource().sendFeedback(CraftingNotifier.activeCraftsMessage());
+               return 0;
+            });
     public static LiteralArgumentBuilder<FabricClientCommandSource> debugSubcommand = literal("debug")
             .then(literal("add_craft")
             .then(argument("color", StringArgumentType.string())
@@ -35,7 +41,8 @@ public class IslandUtilsCommand {
                 CraftingItems.addDebugItem(color);
                 return 1;
             })));
-    public static LiteralArgumentBuilder<FabricClientCommandSource> islandCommand = literal("islandutils");
+    public static LiteralArgumentBuilder<FabricClientCommandSource> islandCommand = literal("islandutils")
+            .then(craftsCommand);
 
     public static void register() {
         if (IslandUtils.isPreRelease()) {
@@ -44,6 +51,7 @@ public class IslandUtilsCommand {
 
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
             dispatcher.register(islandCommand);
+            dispatcher.register(craftsCommand);
         });
     }
 

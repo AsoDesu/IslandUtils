@@ -5,6 +5,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 
@@ -12,6 +14,8 @@ import java.io.*;
 import java.util.List;
 
 public class Utils {
+    public static final Style MCC_HUD_FONT = Style.EMPTY.withFont(new ResourceLocation("mcc", "hud"));
+
     public static List<Component> getLores(ItemStack item) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return null;

@@ -18,10 +18,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 
 import java.util.Date;
+import java.util.List;
 
 import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
+import static net.asodev.islandutils.util.Utils.MCC_HUD_FONT;
 
 public class CraftingNotifier implements ClientTickEvents.EndTick {
     private int tick = 0;
@@ -80,6 +83,33 @@ public class CraftingNotifier implements ClientTickEvents.EndTick {
         Scheduler.schedule(5, (mc) -> {
             mc.getSoundManager().play(mcc);
         });
+    }
+
+    public static Component activeCraftsMessage() {
+        Component newLine = Component.literal("\n").withStyle(Style.EMPTY);
+        MutableComponent component = Component.literal("CRAFTING ITEMS:").withStyle(MCC_HUD_FONT);
+        component.append(newLine);
+
+        int i = 0;
+        List<CraftingItem> itemList = CraftingItems.getItems();
+        for (CraftingItem item : itemList) {
+            i++;
+
+            String icon = item.getCraftingMenuType() == CraftingMenuType.FORGE ? "\ue006" : "\ue007";
+            long timeRemaining = item.getFinishesCrafting() - System.currentTimeMillis();
+            String timeText = DurationFormatUtils.formatDuration(timeRemaining, "H'h' m'm' s's'");
+
+            Component itemComponent = Component.literal(" ").withStyle(Style.EMPTY.withFont(Style.DEFAULT_FONT))
+                    .append(Component.literal(icon).withStyle(iconsFontStyle))
+                    .append(" ")
+                    .append(item.getTitle())
+                    .append(Component.literal(" - ").withStyle(ChatFormatting.DARK_GRAY))
+                    .append(Component.literal(timeText).withStyle(ChatFormatting.RED));
+
+            component.append(itemComponent);
+            if (i < itemList.size()) component.append(newLine);
+        }
+        return component;
     }
 
     @Override

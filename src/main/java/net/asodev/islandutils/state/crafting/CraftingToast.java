@@ -10,16 +10,15 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
+import static net.asodev.islandutils.util.Utils.MCC_HUD_FONT;
+
 public class CraftingToast implements Toast {
     private static ResourceLocation ISLAND_TOASTS_TEXTURE = new ResourceLocation("island", "textures/gui/toasts.png");
 
     ItemStack itemStack;
     Component displayName;
     final Component description = Component.literal("CRAFTING COMPLETE!")
-            .withStyle(Style.EMPTY
-                .withColor(ChatFormatting.WHITE)
-                .withFont(new ResourceLocation("mcc", "hud"))
-            );
+            .withStyle(MCC_HUD_FONT.withColor(ChatFormatting.WHITE));
 
     public CraftingToast(CraftingItem craftingItem) {
         itemStack = craftingItem.getStack();
