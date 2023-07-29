@@ -94,10 +94,13 @@ public class CraftingNotifier implements ClientTickEvents.EndTick {
 
             long timeRemaining = item.getFinishesCrafting() - System.currentTimeMillis();
             String timeText;
+            ChatFormatting timeColor;
             if (timeRemaining > 0) {
                 timeText = DurationFormatUtils.formatDuration(timeRemaining, "H'h' m'm' s's'");
+                timeColor = ChatFormatting.RED;
             } else {
                 timeText = "Complete";
+                timeColor = ChatFormatting.DARK_GREEN;
             }
 
             Component itemComponent = Component.literal(" ").withStyle(Style.EMPTY.withFont(Style.DEFAULT_FONT))
@@ -105,7 +108,7 @@ public class CraftingNotifier implements ClientTickEvents.EndTick {
                     .append(" ")
                     .append(item.getTitle())
                     .append(Component.literal(" - ").withStyle(ChatFormatting.DARK_GRAY))
-                    .append(Component.literal(timeText).withStyle(ChatFormatting.RED));
+                    .append(Component.literal(timeText).withStyle(timeColor));
 
             component.append(itemComponent);
             if (i < itemList.size()) component.append(newLine);
