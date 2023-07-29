@@ -96,6 +96,7 @@ public class CraftingItems {
             JsonObject object = new JsonObject();
             object.add("items", array);
             object.addProperty("savedAt", System.currentTimeMillis());
+            object.addProperty("version", 1);
 
             Utils.writeFile(file, object.toString());
             logger.info("Saved Crafting Items");
