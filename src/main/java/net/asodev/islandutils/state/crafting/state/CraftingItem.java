@@ -11,6 +11,8 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Date;
 
+import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
+
 public class CraftingItem {
 
     private Component title;
@@ -67,6 +69,10 @@ public class CraftingItem {
 
     public Component getTitle() {
         return title;
+    }
+    public Component getTypeIcon() {
+        String icon = this.getCraftingMenuType() == CraftingMenuType.FORGE ? "\ue006" : "\ue007";
+        return Component.literal(icon).withStyle(iconsFontStyle);
     }
     public void setTitle(Component title) {
         this.title = title;

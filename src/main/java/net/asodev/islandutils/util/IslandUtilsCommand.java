@@ -32,15 +32,19 @@ public class IslandUtilsCommand {
     public static LiteralArgumentBuilder<FabricClientCommandSource> debugSubcommand = literal("debug")
             .then(literal("add_craft")
             .then(argument("color", StringArgumentType.string())
+            .then(argument("slot", IntegerArgumentType.integer())
+            .then(argument("delay", IntegerArgumentType.integer())
             .executes(ctx -> {
                 if (!IslandOptions.getOptions().isDebugMode()) {
                     ctx.getSource().sendError(cantUseDebugError);
                     return 0;
                 }
                 String color = ctx.getArgument("color", String.class);
-                CraftingItems.addDebugItem(color);
+                Integer slot = ctx.getArgument("slot", Integer.class);
+                Integer delay = ctx.getArgument("delay", Integer.class);
+                CraftingItems.addDebugItem(color, slot, delay);
                 return 1;
-            })));
+            })))));
     public static LiteralArgumentBuilder<FabricClientCommandSource> islandCommand = literal("islandutils")
             .then(craftsCommand);
 

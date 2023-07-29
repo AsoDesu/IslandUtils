@@ -106,7 +106,7 @@ public class CraftingItems {
     }
 
     // DEBUG
-    public static void addDebugItem(String color) {
+    public static void addDebugItem(String color, Integer slot, Integer delay) {
         CraftingItem item = new CraftingItem();
         item.setTitle(
                 Component.literal("Refined Quest Spirit")
@@ -120,9 +120,9 @@ public class CraftingItems {
         // Mythic = #F94242
 
         item.setCustomModelData(7924);
-        item.setFinishesCrafting(0);
+        item.setFinishesCrafting(System.currentTimeMillis() + delay * 1000);
         item.setHasSentNotif(false);
-        item.setSlot(37);
+        item.setSlot(slot);
         item.setCraftingMenuType(CraftingMenuType.ASSEMBLER);
         item.setType(Items.POPPED_CHORUS_FRUIT);
 

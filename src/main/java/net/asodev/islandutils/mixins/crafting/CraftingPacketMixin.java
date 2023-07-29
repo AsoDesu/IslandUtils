@@ -28,6 +28,15 @@ public abstract class CraftingPacketMixin {
 
     }
 
+    @Inject(method = "initializeContents", at = @At("TAIL"))
+    private void contents(int i, List<ItemStack> list, ItemStack itemStack, CallbackInfo ci) {
+        int index = 0;
+        for (ItemStack stack : list) {
+            injectedSetItem(index, i, stack, ci);
+            index++;
+        }
+    }
+
     @Inject(method = "setItem", at = @At("TAIL"))
     private void injectedSetItem(int slot, int j, ItemStack item, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;

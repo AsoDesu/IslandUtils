@@ -66,12 +66,9 @@ public class CraftingNotifier implements ClientTickEvents.EndTick {
     }
 
     private void sendChatNotif(CraftingItem item) {
-        String icon = item.getCraftingMenuType() == CraftingMenuType.FORGE ? "\ue006" : "\ue007";
-        Component iconComponent = Component.literal(icon).withStyle(iconsFontStyle);
-
         Style darkGreenColor = Style.EMPTY.withColor(ChatFormatting.DARK_GREEN);
         Component component = Component.literal("(").withStyle(darkGreenColor)
-                .append(iconComponent)
+                .append(item.getTypeIcon())
                 .append(Component.literal(") ").withStyle(darkGreenColor))
                 .append(item.getTitle())
                 .append(Component.literal(" has finished crafting!").withStyle(darkGreenColor));
@@ -87,7 +84,7 @@ public class CraftingNotifier implements ClientTickEvents.EndTick {
 
     public static Component activeCraftsMessage() {
         Component newLine = Component.literal("\n").withStyle(Style.EMPTY);
-        MutableComponent component = Component.literal("CRAFTING ITEMS:").withStyle(MCC_HUD_FONT);
+        MutableComponent component = Component.literal("\nCRAFTING ITEMS:").withStyle(MCC_HUD_FONT);
         component.append(newLine);
 
         int i = 0;
@@ -95,12 +92,16 @@ public class CraftingNotifier implements ClientTickEvents.EndTick {
         for (CraftingItem item : itemList) {
             i++;
 
-            String icon = item.getCraftingMenuType() == CraftingMenuType.FORGE ? "\ue006" : "\ue007";
             long timeRemaining = item.getFinishesCrafting() - System.currentTimeMillis();
-            String timeText = DurationFormatUtils.formatDuration(timeRemaining, "H'h' m'm' s's'");
+            String timeText;
+            if (timeRemaining > 0) {
+                timeText = DurationFormatUtils.formatDuration(timeRemaining, "H'h' m'm' s's'");
+            } else {
+                timeText = "Complete";
+            }
 
             Component itemComponent = Component.literal(" ").withStyle(Style.EMPTY.withFont(Style.DEFAULT_FONT))
-                    .append(Component.literal(icon).withStyle(iconsFontStyle))
+                    .append(item.getTypeIcon())
                     .append(" ")
                     .append(item.getTitle())
                     .append(Component.literal(" - ").withStyle(ChatFormatting.DARK_GRAY))
