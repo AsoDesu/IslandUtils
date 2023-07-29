@@ -22,7 +22,7 @@ public class PlayerTeamMixin {
         String playerPrefix = component.getString().toUpperCase();
 
         final Map<String, Pattern> scoreboardPatterns = Map.of(
-                "REMAIN", Pattern.compile("PLAYERS REMAINING: (?<remain>([1-9]*/[1-9]*))"),
+                "REMAIN", Pattern.compile("PLAYERS REMAINING: (?<remain>([0-9]*/[0-9]*))"),
                 "ROUND", Pattern.compile("ROUND \\[(?<round>([1-9]*/[1-9]*))]")
         );
 
