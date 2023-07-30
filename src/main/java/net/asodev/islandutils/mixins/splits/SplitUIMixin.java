@@ -14,7 +14,7 @@ public class SplitUIMixin {
     @Inject(method = "render", at = @At("HEAD"))
     private void render(GuiGraphics guiGraphics, CallbackInfo ci) {
         LevelTimer instance = LevelTimer.getInstance();
-        if (instance != null) instance.getUI().render(guiGraphics);
+        if (instance != null && instance.getUI() != null) instance.getUI().render(guiGraphics);
     }
 
 }

@@ -1,5 +1,6 @@
 package net.asodev.islandutils.state.splits;
 
+import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.GAME;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.state.splits.ui.DojoSplitUI;
@@ -8,6 +9,7 @@ import net.asodev.islandutils.util.ChatUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
@@ -15,24 +17,28 @@ import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LevelTimer {
     private static final Pattern channelTitlePattern = Pattern.compile("\\[(.*)]");
 
-    private final SplitUI splitUI = new DojoSplitUI(this);
+    private SplitUI splitUI = null;
     private final LevelSplits splits;
     private Long lastSplitTimestamp = System.currentTimeMillis();
+
     private String levelName = "M1-1";
+    private TextColor levelColor = TextColor.fromLegacyFormat(ChatFormatting.GRAY);
     private String levelUid = "";
+
     private boolean isBetween = true; // If the player is inbetween levels;
-    private Map<String, Long> times = new HashMap<>();
+    public final IslandOptions options = IslandOptions.getOptions();
 
     public LevelTimer(LevelSplits splits) {
         this.splits = splits;
+        if (options.isShowPKWTimer()) {
+            this.splitUI = new DojoSplitUI(this);
+        }
     }
 
     public void handleSubtitle(ClientboundSetSubtitleTextPacket subtitle, CallbackInfo ci) {
@@ -53,6 +59,7 @@ public class LevelTimer {
             for (Component sibling : component.getSiblings()) {
                 TextColor color = sibling.getStyle().getColor();
                 if (color != null) {
+                    levelColor = color;
                     hashString.append(color);
                 }
             }
@@ -63,6 +70,40 @@ public class LevelTimer {
     }
     public void modifyMedalTitle(ClientboundSetSubtitleTextPacket subtitle, CallbackInfo ci) {
         Component component = subtitle.getText();
+        MutableComponent component1 = component.copy();
+        if (options.isShowSplitImprovements()) {
+            component1.append(getSplitImprovementComponent());
+        }
+        Minecraft.getInstance().gui.setSubtitle(component1);
+        ci.cancel();
+
+        saveSplit();
+        lastSplitTimestamp = System.currentTimeMillis();
+        isBetween = true;
+    }
+    public void saveSplit() {
+        if (splits != null) {
+            sendSplitCompeteMessage();
+
+            Long millis = getCurrentSplitTimeMilis();
+            splits.saveSplit(levelUid, levelName, millis);
+        }
+    }
+    public void sendSplitCompeteMessage() {
+        if (!options.isSendSplitTime()) return;
+        String time = String.format("%.3fs", getCurrentSplitTime());
+        Style tickFont = Style.EMPTY.withFont(new ResourceLocation("island", "icons")).withColor(ChatFormatting.WHITE);
+
+        MutableComponent component = Component.literal("[").withStyle(ChatFormatting.GREEN)
+                .append(Component.literal("\ue009").withStyle(tickFont))
+                .append("] " + levelName + " complete in: ")
+                .append(Component.literal(time).withStyle(Style.EMPTY.withColor(ChatFormatting.WHITE)));
+        if (options.isShowSplitImprovements()) {
+            component.append(Component.empty().withStyle(ChatFormatting.WHITE).append(getSplitImprovementComponent()));
+        }
+        ChatUtils.send(component);
+    }
+    private Component getSplitImprovementComponent() {
         Double splitImprovement = getSplitImprovement();
         if (splitImprovement == null) splitImprovement = 0d;
 
@@ -81,25 +122,10 @@ public class LevelTimer {
             icon = Component.literal("-").withStyle(color);
         }
 
-        Component timeComponent = Component.literal(" (").withStyle(Style.EMPTY)
+        return Component.literal(" (").withStyle(Style.EMPTY)
                 .append(icon)
                 .append(Component.literal(" " + formattedTime).withStyle(color))
                 .append(Component.literal(")").withStyle(Style.EMPTY));
-
-        Component component1 = component.copy().append(timeComponent);
-        Minecraft.getInstance().gui.setSubtitle(component1);
-        ci.cancel();
-
-        saveSplit();
-        lastSplitTimestamp = System.currentTimeMillis();
-        isBetween = true;
-    }
-    public void saveSplit() {
-        if (splits != null) {
-            Long millis = getCurrentSplitTimeMilis();
-            splits.saveSplit(levelUid, levelName, millis);
-            times.put(levelName, millis);
-        }
     }
 
     public Long getCurrentSplitTimeMilis() {
@@ -120,15 +146,17 @@ public class LevelTimer {
     }
 
     public static void onSound(ClientboundSoundPacket clientboundSoundPacket) {
+        if (!IslandOptions.getOptions().isEnablePkwSplits()) return;
         ResourceLocation soundLoc = clientboundSoundPacket.getSound().value().getLocation();
         String path = soundLoc.getPath();
+        boolean isRoundEnd = path.equals("games.global.timer.round_end");
         if (path.contains("games.parkour_warrior.mode_swap") ||
                 path.contains("games.parkour_warrior.restart_course") ||
-                path.equals("games.global.timer.round_end") ||
+                isRoundEnd ||
                 path.equals("ui.queue_teleport")) {
             // Stop split
             LevelTimer currentInstance = getInstance();
-            if (currentInstance != null) {
+            if (currentInstance != null && isRoundEnd) {
                 currentInstance.saveSplit();
             }
             setInstance(null);

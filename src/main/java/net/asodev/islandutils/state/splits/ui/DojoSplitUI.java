@@ -1,5 +1,6 @@
 package net.asodev.islandutils.state.splits.ui;
 
+import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.splits.LevelTimer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -29,7 +30,9 @@ public class DojoSplitUI implements SplitUI {
 
         renderLevelName(guiGraphics, x, y);
         renderSplitTime(guiGraphics, x, y);
-        renderSplitImprovement(guiGraphics, x, y);
+        if (timer.options.isShowSplitImprovements()) {
+            renderSplitImprovement(guiGraphics, x, y);
+        }
     }
     public void renderLevelName(GuiGraphics guiGraphics, int x, int y) {
         Font font = Minecraft.getInstance().font; // Minecraft is incapable of getting this itself

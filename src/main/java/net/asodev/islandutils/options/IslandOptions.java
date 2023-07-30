@@ -1,13 +1,10 @@
 package net.asodev.islandutils.options;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
-import me.shedaniel.clothconfig2.api.Modifier;
-import me.shedaniel.clothconfig2.api.ModifierKeyCode;
-import me.shedaniel.clothconfig2.gui.entries.KeyCodeEntry;
+import net.asodev.islandutils.state.splits.SplitType;
 import net.minecraft.client.gui.screens.Screen;
 
 @Config(name = "islandutils")
@@ -73,6 +70,24 @@ public class IslandOptions implements ConfigData {
     @ConfigEntry.Category("crafting_notfis")
     @ConfigEntry.Gui.Tooltip()
     boolean notifyServerList = true;
+
+    @ConfigEntry.Category("pkw_splits")
+    boolean enablePkwSplits = false;
+
+    @ConfigEntry.Category("pkw_splits")
+    boolean sendSplitTime = true;
+
+    @ConfigEntry.Category("pkw_splits")
+    @ConfigEntry.Gui.Tooltip()
+    boolean showTimer = true;
+
+    @ConfigEntry.Category("pkw_splits")
+    @ConfigEntry.Gui.Tooltip()
+    boolean showSplitImprovements = true;
+
+    @ConfigEntry.Category("pkw_splits")
+    @ConfigEntry.Gui.Tooltip()
+    SplitType saveMode = SplitType.BEST;
 
     @ConfigEntry.Category("misc")
     boolean pauseConfirm = true;
@@ -148,6 +163,22 @@ public class IslandOptions implements ConfigData {
     }
     public boolean isNotifyServerList() {
         return notifyServerList;
+    }
+
+    public boolean isEnablePkwSplits() {
+        return enablePkwSplits;
+    }
+    public boolean isShowPKWTimer() {
+        return enablePkwSplits && showTimer;
+    }
+    public boolean isShowSplitImprovements() {
+        return enablePkwSplits && showSplitImprovements;
+    }
+    public boolean isSendSplitTime() {
+        return enablePkwSplits && sendSplitTime;
+    }
+    public SplitType getSaveMode() {
+        return saveMode;
     }
 
     public boolean isConfigButtonEnabled() {

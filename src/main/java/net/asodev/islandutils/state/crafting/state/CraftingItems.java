@@ -23,6 +23,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static net.asodev.islandutils.resourcepack.ResourcePackOptions.islandFolder;
+import static net.asodev.islandutils.util.Utils.savingQueue;
 
 public class CraftingItems {
     private static Logger logger = LoggerFactory.getLogger(CraftingItems.class);
@@ -30,7 +31,6 @@ public class CraftingItems {
     private static final List<CraftingItem> items = new ArrayList<>();
 
     private static boolean saveQueued = false;
-    private static final ExecutorService craftingQueue = Executors.newFixedThreadPool(2);
 
     /**
      * Adds an item into the items
@@ -55,7 +55,7 @@ public class CraftingItems {
     }
 
     public static <T> void submit(Runnable task) {
-        craftingQueue.submit(task);
+        savingQueue.submit(task);
     }
     public static List<CraftingItem> getItems() {
         return items;
@@ -76,7 +76,7 @@ public class CraftingItems {
 
         saveQueued = true;
         Scheduler.schedule(3, (client) -> {
-            craftingQueue.submit(CraftingItems::saveSync);
+            savingQueue.submit(CraftingItems::saveSync);
             saveQueued = false;
         });
     }

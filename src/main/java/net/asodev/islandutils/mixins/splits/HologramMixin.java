@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 public class HologramMixin {
     Pattern timeRegex = Pattern.compile("(\\d*)([dhm])");
     TextColor redColor = TextColor.fromLegacyFormat(ChatFormatting.RED);
+    TextColor yellowColor = TextColor.fromLegacyFormat(ChatFormatting.YELLOW);
 
     @Inject(method = "handleSetEntityData", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
     private void handleEntityData(ClientboundSetEntityDataPacket clientboundSetEntityDataPacket, CallbackInfo ci, Entity entity) {
@@ -33,7 +34,11 @@ public class HologramMixin {
         if (!MccIslandState.isOnline() || MccIslandState.getGame() != GAME.PARKOUR_WARRIOR_DOJO) return;
 
         Component customName = hologram.getCustomName();
-        if (customName == null || !Objects.equals(customName.getStyle().getColor(), redColor)) return;
+        if (customName == null) return;
+        TextColor color = customName.getStyle().getColor();
+        if (color == null) return;
+        if (!color.equals(redColor) && !color.equals(yellowColor)) return;
+
         String name = customName.getString();
 
         Matcher matcher = timeRegex.matcher(name);
