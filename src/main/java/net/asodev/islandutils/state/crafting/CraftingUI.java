@@ -42,13 +42,9 @@ public class CraftingUI {
                 break;
             }
             if (timeLeftString != null) {
-                long timeLeft = getTimeLeft(timeLeftString);
+                long timeLeft = getTimeLeft(timeLeftString) + 30;
 
-                Calendar calendar = Calendar.getInstance();
-                calendar.add(Calendar.MINUTE, 1);
-                calendar.set(Calendar.SECOND, 0);
-                long currentMillis = calendar.getTimeInMillis();
-                long finishTimestamp = currentMillis + (timeLeft * 1000);
+                long finishTimestamp = System.currentTimeMillis() + (timeLeft * 1000);
 
                 CraftingItem craftingItem = new CraftingItem();
                 craftingItem.setCraftingMenuType(type);
