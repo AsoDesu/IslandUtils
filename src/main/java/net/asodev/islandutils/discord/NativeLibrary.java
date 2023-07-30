@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
-import static net.asodev.islandutils.resourcepack.ResourcePackOptions.assertIslandFolder;
+import static net.asodev.islandutils.util.Utils.assertIslandFolder;
 
 public class NativeLibrary {
 

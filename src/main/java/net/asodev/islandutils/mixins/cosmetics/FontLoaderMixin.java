@@ -1,6 +1,7 @@
 package net.asodev.islandutils.mixins.cosmetics;
 
 import net.asodev.islandutils.state.cosmetics.CosmeticState;
+import net.asodev.islandutils.state.crafting.CraftingUI;
 import net.asodev.islandutils.state.faction.FACTION;
 import net.asodev.islandutils.state.faction.FactionComponents;
 import net.asodev.islandutils.state.splits.LevelTimer;
@@ -31,6 +32,9 @@ public class FontLoaderMixin {
             Component comp = Component.literal(character).setStyle(Style.EMPTY.withFont(MCC_ICONS));
             Component factionComp = Component.literal(character).setStyle(Style.EMPTY.withFont(MCC_ICONS_19));
             switch (file.getPath()) {
+                case "_fonts/framework_assembler.png" -> CraftingUI.setAssemblerCharacter(character);
+                case "_fonts/header/fusion_crafting_tab_1.png" -> CraftingUI.setForgeCharacter(character);
+
                 case "_fonts/tooltips/hat.png" -> CosmeticState.HAT_COMP = comp;
                 case "_fonts/tooltips/accessory.png" -> CosmeticState.ACCESSORY_COMP = comp;
                 case "_fonts/tooltips/hair.png" -> CosmeticState.HAIR_COMP = comp;

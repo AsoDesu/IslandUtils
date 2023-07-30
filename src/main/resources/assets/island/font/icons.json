@@ -41,8 +41,22 @@
         },
         {
             "type": "bitmap",
-            "file": "island:chat_buttons/view.png",
+            "file": "mcc:_fonts/header_icons/fusion_crafting.png",
             "chars": ["\ue006"],
+            "ascent": 7,
+            "height": 24
+        },
+        {
+            "type": "bitmap",
+            "file": "mcc:_fonts/header_icons/crafting.png",
+            "chars": ["\ue007"],
+            "ascent": 8,
+            "height": 24
+        },
+        {
+            "type": "bitmap",
+            "file": "island:chat_buttons/view.png",
+            "chars": ["\ue008"],
             "ascent": 7,
             "height": 7
         }

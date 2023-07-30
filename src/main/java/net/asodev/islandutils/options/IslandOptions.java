@@ -62,6 +62,18 @@ public class IslandOptions implements ConfigData {
     @ConfigEntry.Gui.Tooltip()
     boolean classicHITWMusic = false;
 
+    @ConfigEntry.Category("crafting_notfis")
+    boolean enableCraftingNotifs = true;
+    @ConfigEntry.Category("crafting_notfis")
+    @ConfigEntry.Gui.Tooltip()
+    boolean toastNotif = true;
+    @ConfigEntry.Category("crafting_notfis")
+    @ConfigEntry.Gui.Tooltip()
+    boolean chatNotif = true;
+    @ConfigEntry.Category("crafting_notfis")
+    @ConfigEntry.Gui.Tooltip()
+    boolean notifyServerList = true;
+
     @ConfigEntry.Category("misc")
     boolean pauseConfirm = true;
 
@@ -124,6 +136,19 @@ public class IslandOptions implements ConfigData {
 
     public boolean isClassicHITW() { return classicHITW; }
     public boolean isClassicHITWMusic() { return classicHITWMusic; }
+
+    public boolean isEnableCraftingNotifs() {
+        return enableCraftingNotifs;
+    }
+    public boolean isToastNotif() {
+        return toastNotif;
+    }
+    public boolean isChatNotif() {
+        return chatNotif;
+    }
+    public boolean isNotifyServerList() {
+        return notifyServerList;
+    }
 
     public boolean isConfigButtonEnabled() {
         return enableConfigButton;
