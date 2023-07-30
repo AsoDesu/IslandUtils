@@ -1,6 +1,7 @@
 package net.asodev.islandutils.mixins.cosmetics;
 
 import net.asodev.islandutils.state.cosmetics.CosmeticState;
+import net.asodev.islandutils.state.crafting.CraftingUI;
 import net.asodev.islandutils.state.faction.FACTION;
 import net.asodev.islandutils.state.faction.FactionComponents;
 import net.minecraft.client.gui.font.providers.BitmapProvider;
@@ -11,8 +12,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.List;
 
 import static net.asodev.islandutils.state.cosmetics.CosmeticState.MCC_ICONS;
 import static net.asodev.islandutils.state.faction.FactionComponents.MCC_ICONS_19;
@@ -28,9 +27,13 @@ public class FontLoaderMixin {
             StringBuilder builder = new StringBuilder();
             for (int point : c) { builder.appendCodePoint(point); }
 
-            Component comp = Component.literal(builder.toString()).setStyle(Style.EMPTY.withFont(MCC_ICONS));
-            Component factionComp = Component.literal(builder.toString()).setStyle(Style.EMPTY.withFont(MCC_ICONS_19));
+            String character = builder.toString();
+            Component comp = Component.literal(character).setStyle(Style.EMPTY.withFont(MCC_ICONS));
+            Component factionComp = Component.literal(character).setStyle(Style.EMPTY.withFont(MCC_ICONS_19));
             switch (file.getPath()) {
+                case "_fonts/framework_assembler.png" -> CraftingUI.setAssemblerCharacter(character);
+                case "_fonts/header/fusion_crafting_tab_1.png" -> CraftingUI.setForgeCharacter(character);
+
                 case "_fonts/tooltips/hat.png" -> CosmeticState.HAT_COMP = comp;
                 case "_fonts/tooltips/accessory.png" -> CosmeticState.ACCESSORY_COMP = comp;
                 case "_fonts/tooltips/hair.png" -> CosmeticState.HAIR_COMP = comp;

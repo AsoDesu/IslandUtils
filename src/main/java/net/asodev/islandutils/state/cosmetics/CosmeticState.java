@@ -1,8 +1,8 @@
 package net.asodev.islandutils.state.cosmetics;
 
 import net.asodev.islandutils.state.COSMETIC_TYPE;
+import net.asodev.islandutils.util.Utils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -12,7 +12,6 @@ import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ public class CosmeticState {
 
     // Locked items have a lore called "Right-Click to preview"
     public static boolean canPreviewItem(ItemStack item) {
-        List<Component> lores = getLores(item);
+        List<Component> lores = Utils.getLores(item);
         if (lores == null) return false;
         return !isLoreLockedItem(lores);
     }
@@ -59,7 +58,7 @@ public class CosmeticState {
     }
 
     public static boolean canBeEquipped(ItemStack stack) {
-        List<Component> lores = getLores(stack);
+        List<Component> lores = Utils.getLores(stack);
         if (lores == null) return false;
         return lores.stream().anyMatch(p -> p.getString().contains("Left-Click to Equip"));
     }
@@ -89,7 +88,7 @@ public class CosmeticState {
     }
 
     public static COSMETIC_TYPE getType(ItemStack item) {
-        return getType(getLores(item));
+        return getType(Utils.getLores(item));
     }
     public static COSMETIC_TYPE getType(List<Component> lores) {
         if (lores == null) return null;
@@ -101,11 +100,6 @@ public class CosmeticState {
             }
         }
         return null;
-    }
-    private static List<Component> getLores(ItemStack item) {
-        LocalPlayer player = Minecraft.getInstance().player;
-        if (player == null) return null;
-        return item.getTooltipLines(player, TooltipFlag.Default.NORMAL);
     }
 
     public static boolean isCosmeticMenu(ChestMenu menu) {
@@ -122,15 +116,10 @@ public class CosmeticState {
         ItemStack item1 = item != null ? item : ItemStack.EMPTY;
         ItemStack item2 = compare != null ? compare : ItemStack.EMPTY;
 
-        int item1CMD = customModelData(item1);
-        int item2CMD = customModelData(item2);
+        int item1CMD = Utils.customModelData(item1);
+        int item2CMD = Utils.customModelData(item2);
 
         return item1.is(item2.getItem()) && item1CMD == item2CMD;
-    }
-
-    public static int customModelData(ItemStack item) {
-        CompoundTag itemTag = item.getTag();
-        return itemTag == null ? -1 : itemTag.getInt("CustomModelData");
     }
 
 }
