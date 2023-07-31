@@ -28,7 +28,6 @@ public class LevelTimer {
     private Long lastSplitTimestamp = System.currentTimeMillis();
 
     private String levelName = "M1-1";
-    private TextColor levelColor = TextColor.fromLegacyFormat(ChatFormatting.GRAY);
     private String levelUid = "";
 
     private boolean isBetween = true; // If the player is inbetween levels;
@@ -59,7 +58,6 @@ public class LevelTimer {
             for (Component sibling : component.getSiblings()) {
                 TextColor color = sibling.getStyle().getColor();
                 if (color != null) {
-                    levelColor = color;
                     hashString.append(color);
                 }
             }
