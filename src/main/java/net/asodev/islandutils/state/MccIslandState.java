@@ -123,7 +123,7 @@ public class MccIslandState {
     }
 
     public static void sendFriendsInGame(Minecraft client) {
-        if (!IslandOptions.getOptions().isShowFriendsInGame()) return;
+        if (!IslandOptions.getMisc().isShowFriendsInGame()) return;
         StringBuilder friendsInThisGame = new StringBuilder();
         boolean hasFriends = false;
 

@@ -42,14 +42,15 @@
   "text.autoconfig.islandutils.category.crafting_notfis": "Crafting Notifications",
   "text.autoconfig.islandutils.option.enableCraftingNotifs": "Enable Crafting Notifications",
   "text.autoconfig.islandutils.option.toastNotif": "Enable popup notification",
-  "text.autoconfig.islandutils.option.toastNotif.@Tooltip": "Adds a pop-up in the top right when\nyour items have finished crafting\n\n§e§l[Only shows if you are playing on MCCI]",
+  "text.autoconfig.islandutils.option.toastNotif.@Tooltip": "Adds a pop-up in the top right when your items have finished crafting\n\n§e§l[Only shows if you are playing on MCCI]",
   "text.autoconfig.islandutils.option.chatNotif": "Enable chat notification",
-  "text.autoconfig.islandutils.option.chatNotif.@Tooltip": "Adds a chat message when your\nitems have finished crafting",
+  "text.autoconfig.islandutils.option.chatNotif.@Tooltip": "Adds a chat message when your items have finished crafting",
   "text.autoconfig.islandutils.option.notifyServerList": "Add server list notification",
-  "text.autoconfig.islandutils.option.notifyServerList.@Tooltip": "Adds an icon to the server list when\nyour items have finished crafting.",
+  "text.autoconfig.islandutils.option.notifyServerList.@Tooltip": "Adds an icon to the server list when your items have finished crafting.",
 
   "text.autoconfig.islandutils.category.misc": "Miscellaneous",
   "text.autoconfig.islandutils.option.pauseConfirm": "Confirm Before Disconnect",
+  "text.autoconfig.islandutils.option.pauseConfirm.@Tooltip": "Adds an extra confirmation screen before you disconnect",
   "text.autoconfig.islandutils.option.showFriendsInGame": "Show which friends are in your game",
   "text.autoconfig.islandutils.option.showFriendsInGame.@Tooltip": "When you join a game, a message will be put in chat with the friends in your game",
   "text.autoconfig.islandutils.option.hideSliders": "Hide Sound Sliders if not Online",
@@ -57,13 +58,14 @@
 
   "text.autoconfig.islandutils.category.classic_hitw": "Classic HITW",
   "text.autoconfig.islandutils.option.classicHITW": "Classic Hole In The Wall Announcer",
-  "text.autoconfig.islandutils.option.classicHITW.@Tooltip": "Adds back the announcer from the \noriginal HITW map by Noxcrew!",
+  "text.autoconfig.islandutils.option.classicHITW.@Tooltip": "Adds back the announcer from the original HITW map by Noxcrew!",
   "text.autoconfig.islandutils.option.classicHITWMusic": "Classic Hole In The Wall Music",
-  "text.autoconfig.islandutils.option.classicHITWMusic.@Tooltip": "Adds back the music from the \noriginal HITW map by Noxcrew!",
+  "text.autoconfig.islandutils.option.classicHITWMusic.@Tooltip": "Adds back the music from the original HITW map by Noxcrew!",
   "text.autoconfig.islandutils.option.enableConfigButton": "Enable Config Button in options",
-  "text.autoconfig.islandutils.option.enableConfigButton.@Tooltip": "Enables the Config Button in the top left of the options menu\n§c§lWARNING! §rIf you disable this and you don't have another way to access the config (ModMenu), you will be unable to access the config in-game!",
+  "text.autoconfig.islandutils.option.enableConfigButton.@Tooltip": "Enables the Config Button in the top left of the options menu\n\n§c§lWARNING! §rIf you disable this and you don't have another way to access the config (ModMenu), you will be unable to access the config in-game!",
 
   "text.autoconfig.islandutils.option.debugMode": "Debug Mode",
+  "text.autoconfig.islandutils.option.debugMode.@Tooltip": "Enables: Chat debug logs, Custom Item ID tooltips & Other debug features",
 
   "modmenu.descriptionTranslation.islandutils": "A Utility Mod for MCC Island!",
   "modmenu.summaryTranslation.islandutils": "A Utility Mod for MCC Island!"

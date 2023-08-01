@@ -6,6 +6,7 @@ import net.asodev.islandutils.mixins.accessors.SoundEngineAccessor;
 import net.asodev.islandutils.mixins.accessors.SoundManagerAccessor;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.IslandSoundCategories;
+import net.asodev.islandutils.options.categories.MusicOptions;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.state.GAME;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
@@ -25,7 +26,6 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.*;
 
-import static net.asodev.islandutils.options.IslandOptions.getOptions;
 import static net.minecraft.network.chat.Component.literal;
 
 public class MusicUtil {
@@ -36,7 +36,7 @@ public class MusicUtil {
         startMusic(clientboundSoundPacket, false);
     }
     public static void startMusic(ClientboundSoundPacket clientboundCustomSoundPacket, boolean bypassOvertimeCheck) {
-        IslandOptions options = getOptions();
+        MusicOptions options = IslandOptions.getMusic();
         switch (MccIslandState.getGame()) {
             case HITW -> { if (!options.isHitwMusic()) return; }
             case TGTTOS -> { if (!options.isTgttosMusic()) return; }
@@ -51,7 +51,7 @@ public class MusicUtil {
         }
 
         ResourceLocation location = MccIslandState.getGame().getMusicLocation();
-        if (MccIslandState.getGame() == GAME.HITW && IslandOptions.getOptions().isClassicHITWMusic()) {
+        if (MccIslandState.getGame() == GAME.HITW && IslandOptions.getClassicHITW().isClassicHITWMusic()) {
             location = new ResourceLocation("island","island.music.classic_hitw");
             ChatUtils.send(literal("Now playing: ").withStyle(ChatFormatting.GREEN)
                             .append(literal("Spacewall - Taylor Grover").withStyle(ChatFormatting.AQUA))

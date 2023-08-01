@@ -1,6 +1,7 @@
 package net.asodev.islandutils.state.crafting.state;
 
 import net.asodev.islandutils.options.IslandOptions;
+import net.asodev.islandutils.options.categories.CraftingOptions;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.state.crafting.CraftingMenuType;
 import net.asodev.islandutils.state.crafting.CraftingToast;
@@ -46,7 +47,7 @@ public class CraftingNotifier implements ClientTickEvents.EndTick {
     }
 
     public void sendNotif(Minecraft client, CraftingItem item) {
-        IslandOptions options = IslandOptions.getOptions();
+        CraftingOptions options = IslandOptions.getCrafting();
         item.setHasSentNotif(true);
 
         if (!options.isEnableCraftingNotifs()) return;

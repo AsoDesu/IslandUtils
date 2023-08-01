@@ -35,7 +35,7 @@ public class IslandUtilsCommand {
             .then(argument("slot", IntegerArgumentType.integer())
             .then(argument("delay", IntegerArgumentType.integer())
             .executes(ctx -> {
-                if (!IslandOptions.getOptions().isDebugMode()) {
+                if (!IslandOptions.getMisc().isDebugMode()) {
                     ctx.getSource().sendError(cantUseDebugError);
                     return 0;
                 }

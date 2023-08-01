@@ -271,7 +271,7 @@ public abstract class PacketListenerMixin {
     @Inject(method = "setSubtitleText", at = @At("HEAD"), cancellable = true)
     private void titleText(ClientboundSetSubtitleTextPacket clientboundSetSubtitleTextPacket, CallbackInfo ci) {
         if (MccIslandState.getGame() != GAME.HITW) return; // Make sure we're playing HITW
-        if (!IslandOptions.getOptions().isClassicHITW()) return; // Requires isClassicHITW
+        if (!IslandOptions.getClassicHITW().isClassicHITW()) return; // Requires isClassicHITW
         String trap = clientboundSetSubtitleTextPacket.getText().getString(); // Get the string version of the subtitle
 
         boolean isTrap = false; // Get all the elements in this component
@@ -306,7 +306,7 @@ public abstract class PacketListenerMixin {
     @Inject(method = "setTitleText", at = @At("HEAD")) // Game Over Sound Effect
     private void gameOver(ClientboundSetTitleTextPacket clientboundSetTitleTextPacket, CallbackInfo ci) {
         if (MccIslandState.getGame() != GAME.HITW) return; // Make sure we're playing HITW
-        if (!IslandOptions.getOptions().isClassicHITW()) return; // Requires isClassicHITW
+        if (!IslandOptions.getClassicHITW().isClassicHITW()) return; // Requires isClassicHITW
         String title = clientboundSetTitleTextPacket.getText().getString().toUpperCase(); // Get the title in upper case
 
         if (title.contains("GAME OVER")) { // If we got game over title, play sound

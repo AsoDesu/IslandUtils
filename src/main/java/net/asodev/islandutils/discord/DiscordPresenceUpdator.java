@@ -4,6 +4,7 @@ import de.jcm.discordgamesdk.Core;
 import de.jcm.discordgamesdk.activity.Activity;
 import de.jcm.discordgamesdk.activity.ActivityType;
 import net.asodev.islandutils.options.IslandOptions;
+import net.asodev.islandutils.options.categories.DiscordOptions;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.state.GAME;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +22,7 @@ public class DiscordPresenceUpdator {
     public static UUID timeLeftBossbar = null;
     public static Instant started;
     public static void create() {
-        if (!IslandOptions.getOptions().discordPresence) return;
+        if (!IslandOptions.getDiscord().discordPresence) return;
 
         try {
             boolean didInit = DiscordPresence.init();
@@ -37,7 +38,7 @@ public class DiscordPresenceUpdator {
             activity.assets().setLargeText("play.mccisland.net");
 
             if (started == null) started = Instant.now();
-            if (IslandOptions.getOptions().showTimeElapsed)
+            if (IslandOptions.getDiscord().showTimeElapsed)
                 activity.timestamps().setStart(started);
 
             updateActivity();
@@ -48,7 +49,7 @@ public class DiscordPresenceUpdator {
 
     public static void updateTimeLeft(Long endTimestamp) {
         if (activity == null) return;
-        if (!IslandOptions.getOptions().showTimeRemaining || !IslandOptions.getOptions().showGame) return;
+        if (!IslandOptions.getDiscord().showTimeRemaining || !IslandOptions.getDiscord().showGame) return;
 
         try {
             if (endTimestamp != null) activity.timestamps().setEnd(Instant.ofEpochMilli(endTimestamp));
@@ -60,7 +61,7 @@ public class DiscordPresenceUpdator {
     public static int lastLevel = -1;
     public static void setLevel(int level) {
         if (activity == null) return;
-        if (!IslandOptions.getOptions().showFactionLevel) return;
+        if (!IslandOptions.getDiscord().showFactionLevel) return;
 
         lastLevel = level;
         String faction = "";
@@ -73,7 +74,7 @@ public class DiscordPresenceUpdator {
 
     public static void updatePlace() {
         if (activity == null) return;
-        if (!IslandOptions.getOptions().showGame) return;
+        if (!IslandOptions.getDiscord().showGame) return;
 
         try {
             activity.assets().setLargeImage(MccIslandState.getGame().name().toLowerCase());
@@ -111,7 +112,7 @@ public class DiscordPresenceUpdator {
     static String REMAIN_STATE;
     public static void remainScoreboardUpdate(String value, Boolean set) {
         if (activity == null) return;
-        if (!IslandOptions.getOptions().showGameInfo || !IslandOptions.getOptions().showGame) return;
+        if (!IslandOptions.getDiscord().showGameInfo || !IslandOptions.getDiscord().showGame) return;
 
         if (set) REMAIN_STATE = "Remaining: " + value;
         if (MccIslandState.getGame() != GAME.HITW && MccIslandState.getGame() != GAME.SKY_BATTLE) return;
@@ -124,7 +125,7 @@ public class DiscordPresenceUpdator {
     static String ROUND_STATE;
     public static void roundScoreboardUpdate(String value, Boolean set) {
         if (activity == null) return;
-        if (!IslandOptions.getOptions().showGameInfo || !IslandOptions.getOptions().showGame) return;
+        if (!IslandOptions.getDiscord().showGameInfo || !IslandOptions.getDiscord().showGame) return;
 
         if (set) ROUND_STATE = "Round: " + value;
         if (MccIslandState.getGame() != GAME.TGTTOS && MccIslandState.getGame() != GAME.BATTLE_BOX) return;
@@ -138,7 +139,7 @@ public class DiscordPresenceUpdator {
     static String COURSE_STATE;
     public static void courseScoreboardUpdate(String value, Boolean set) {
         if (activity == null) return;
-        if (!IslandOptions.getOptions().showGameInfo || !IslandOptions.getOptions().showGame) return;
+        if (!IslandOptions.getDiscord().showGameInfo || !IslandOptions.getDiscord().showGame) return;
 
         if (set) COURSE_STATE = value;
         if (MccIslandState.getGame() != GAME.PARKOUR_WARRIOR_DOJO) return;
@@ -152,7 +153,7 @@ public class DiscordPresenceUpdator {
     static String LEAP_STATE;
     public static void leapScoreboardUpdate(String value, Boolean set) {
         if (activity == null) return;
-        if (!IslandOptions.getOptions().showGameInfo || !IslandOptions.getOptions().showGame) return;
+        if (!IslandOptions.getDiscord().showGameInfo || !IslandOptions.getDiscord().showGame) return;
 
         if (set) LEAP_STATE = "Leap: " + value;
         if (MccIslandState.getGame() != GAME.PARKOUR_WARRIOR_SURVIVOR) return;
@@ -165,7 +166,7 @@ public class DiscordPresenceUpdator {
 
     public static void updateActivity() {
         if (activity == null) return;
-        if (!IslandOptions.getOptions().discordPresence) return;
+        if (!IslandOptions.getDiscord().discordPresence) return;
         Core core = DiscordPresence.core;
         if (core == null || !core.isOpen()) return;
 
@@ -177,7 +178,7 @@ public class DiscordPresenceUpdator {
         DiscordPresence.clear();
     }
 
-    public static void updateFromConfig(IslandOptions options) {
+    public static void updateFromConfig(DiscordOptions options) {
         try {
             if (!MccIslandState.isOnline()) { clear(); return; }
 

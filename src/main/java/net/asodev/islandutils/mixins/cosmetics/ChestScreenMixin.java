@@ -86,7 +86,7 @@ public abstract class ChestScreenMixin extends Screen {
 
         if (hoveredSlot != null && hoveredSlot.hasItem()) {
             ItemStack hoveredItem = hoveredSlot.getItem();
-            if (IslandOptions.getOptions().isShowCosmeticsOnHover()) {
+            if (IslandOptions.getCosmetics().isShowOnHover()) {
                 COSMETIC_TYPE changedType = setHovered(hoveredItem);
                 if (changedType != COSMETIC_TYPE.HAT) CosmeticState.hatSlot.hover = null;
                 if (changedType != COSMETIC_TYPE.ACCESSORY) CosmeticState.accessorySlot.hover = null;
