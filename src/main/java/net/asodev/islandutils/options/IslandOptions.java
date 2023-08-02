@@ -28,6 +28,7 @@ public class IslandOptions {
     private static final DiscordOptions discord = new DiscordOptions();
     private static final ClassicOptions classicHITW = new ClassicOptions();
     private static final CraftingOptions crafting = new CraftingOptions();
+    private static final SplitsCategory splits = new SplitsCategory();
     private static final MiscOptions misc = new MiscOptions();
 
     public static void init() {
@@ -36,6 +37,7 @@ public class IslandOptions {
         categories.add(discord);
         categories.add(classicHITW);
         categories.add(crafting);
+        categories.add(splits);
         categories.add(misc);
         load();
     }
@@ -91,6 +93,9 @@ public class IslandOptions {
     }
     public static CraftingOptions getCrafting() {
         return crafting;
+    }
+    public static SplitsCategory getSplits() {
+        return splits;
     }
     public static MiscOptions getMisc() {
         return misc;

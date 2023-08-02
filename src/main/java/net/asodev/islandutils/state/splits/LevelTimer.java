@@ -1,6 +1,7 @@
 package net.asodev.islandutils.state.splits;
 
 import net.asodev.islandutils.options.IslandOptions;
+import net.asodev.islandutils.options.categories.SplitsCategory;
 import net.asodev.islandutils.state.GAME;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.state.splits.ui.DojoSplitUI;
@@ -31,11 +32,11 @@ public class LevelTimer {
     private String levelUid = "";
 
     private boolean isBetween = true; // If the player is inbetween levels;
-    public final IslandOptions options = IslandOptions.getOptions();
+    public final SplitsCategory options = IslandOptions.getSplits();
 
     public LevelTimer(LevelSplits splits) {
         this.splits = splits;
-        if (options.isShowPKWTimer()) {
+        if (options.isShowTimer()) {
             this.splitUI = new DojoSplitUI(this);
         }
     }
@@ -144,7 +145,7 @@ public class LevelTimer {
     }
 
     public static void onSound(ClientboundSoundPacket clientboundSoundPacket) {
-        if (!IslandOptions.getOptions().isEnablePkwSplits()) return;
+        if (!IslandOptions.getSplits().isEnablePkwSplits()) return;
         ResourceLocation soundLoc = clientboundSoundPacket.getSound().value().getLocation();
         String path = soundLoc.getPath();
         boolean isRoundEnd = path.equals("games.global.timer.round_end");
