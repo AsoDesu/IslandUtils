@@ -44,7 +44,7 @@ public class LevelSplits {
     }
     public Double getSplit(String level) {
         if (!splits.containsKey(level)) return null;
-        SplitType type = IslandOptions.getOptions().getSaveMode();
+        SplitType type = IslandOptions.getSplits().getSaveMode();
         double value = 0.0;
         switch (type) {
             case BEST -> value = splits.get(level).best();
