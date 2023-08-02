@@ -15,7 +15,7 @@ public class SoundOptionsMixin {
     @Redirect(method = "getAllSoundOptionsExceptMaster",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/sounds/SoundSource;values()[Lnet/minecraft/sounds/SoundSource;"))
     private SoundSource[] values() {
-        if (!MccIslandState.isOnline() && IslandOptions.getOptions().isHideSliders()) {
+        if (!MccIslandState.isOnline()) {
             return IslandSoundCategories.before;
         }
         return SoundSource.values();

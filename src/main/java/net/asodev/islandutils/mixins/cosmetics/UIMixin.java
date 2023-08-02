@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.asodev.islandutils.mixins.accessors.WalkAnimStateAccessor;
 import net.asodev.islandutils.options.IslandOptions;
+import net.asodev.islandutils.options.categories.CosmeticsOptions;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.state.cosmetics.CosmeticState;
 import net.minecraft.client.Minecraft;
@@ -42,7 +43,7 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
     public void renderBg(GuiGraphics guiGraphics, float f, int i, int j, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
 
-        IslandOptions options = IslandOptions.getOptions();
+        CosmeticsOptions options = IslandOptions.getCosmetics();
         if (!options.isShowPlayerPreview()) return;
         if (options.isShowOnOnlyCosmeticMenus() && !CosmeticState.isCosmeticMenu(this.menu)) return;
 

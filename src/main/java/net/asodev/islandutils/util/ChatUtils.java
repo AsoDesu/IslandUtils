@@ -24,12 +24,12 @@ public class ChatUtils {
     }
 
     public static void debug(String s) {
-        if (!IslandOptions.getOptions().isDebugMode()) return;
+        if (!IslandOptions.getMisc().isDebugMode()) return;
         send(Component.literal(translate("&7[IslandUtils] " + s)));
     }
 
     public static void debug(Component component) {
-        if (!IslandOptions.getOptions().isDebugMode()) return;
+        if (!IslandOptions.getMisc().isDebugMode()) return;
         send(Component.literal(translate("&7[IslandUtils] ")).append(component));
     }
 

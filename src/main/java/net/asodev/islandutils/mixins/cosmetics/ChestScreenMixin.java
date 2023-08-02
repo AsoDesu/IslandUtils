@@ -22,6 +22,7 @@ import net.minecraft.world.item.Items;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -85,11 +86,10 @@ public abstract class ChestScreenMixin extends Screen {
 
         if (hoveredSlot != null && hoveredSlot.hasItem()) {
             ItemStack hoveredItem = hoveredSlot.getItem();
-            if (IslandOptions.getOptions().isShowCosmeticsOnHover()) {
-                if (!CosmeticState.canPreviewItem(hoveredItem) || !setHovered(hoveredItem)) {
-                    CosmeticState.hatSlot.hover = null;
-                    CosmeticState.accessorySlot.hover = null;
-                }
+            if (IslandOptions.getCosmetics().isShowOnHover()) {
+                COSMETIC_TYPE changedType = setHovered(hoveredItem);
+                if (changedType != COSMETIC_TYPE.HAT) CosmeticState.hatSlot.hover = null;
+                if (changedType != COSMETIC_TYPE.ACCESSORY) CosmeticState.accessorySlot.hover = null;
             }
 
             if (CosmeticState.isColoredItem(hoveredItem)) {
@@ -99,17 +99,20 @@ public abstract class ChestScreenMixin extends Screen {
                     return;
                 }
             }
+        } else {
+            CosmeticState.hatSlot.hover = null;
+            CosmeticState.accessorySlot.hover = null;
         }
         CosmeticState.hoveredColor = null;
     }
 
-    private boolean setHovered(ItemStack item) {
+    private COSMETIC_TYPE setHovered(ItemStack item) {
         COSMETIC_TYPE type = CosmeticState.getType(item);
-        if (type == null) return false;
+        if (type == null) return null;
         Cosmetic cosmeticByType = CosmeticState.getCosmeticByType(type);
-        if (cosmeticByType == null) return false;
+        if (cosmeticByType == null) return null;
         cosmeticByType.hover = new CosmeticSlot(item, hoveredSlot);
-        return true;
+        return type;
     }
 
     @Inject(method = "mouseDragged", at = @At("HEAD"))
@@ -151,12 +154,12 @@ public abstract class ChestScreenMixin extends Screen {
         if (keyCode == previewBind.getValue()) {
             ItemStack item = hoveredSlot.getItem();
             if (item.is(Items.GHAST_TEAR) || item.is(Items.AIR)) return;
-            if (CosmeticState.canPreviewItem(item))
-                setPreview(item);
+            setPreview(item);
         }
     }
 
 
+    @Unique
     private void setPreview(ItemStack item) {
         COSMETIC_TYPE type = CosmeticState.getType(item);
         int hoverCMD = customModelData(item);
@@ -164,6 +167,7 @@ public abstract class ChestScreenMixin extends Screen {
         else if (type == COSMETIC_TYPE.ACCESSORY) setOrNotSet(CosmeticState.accessorySlot, hoverCMD);
     }
 
+    @Unique
     private void setOrNotSet(Cosmetic cosmetic, int itemCMD) {
         if (cosmetic.preview == null || itemCMD != customModelData(cosmetic.preview.item))
             cosmetic.preview = new CosmeticSlot(hoveredSlot);

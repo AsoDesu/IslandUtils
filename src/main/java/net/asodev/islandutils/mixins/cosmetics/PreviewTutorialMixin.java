@@ -40,7 +40,7 @@ public class PreviewTutorialMixin {
             locals = LocalCapture.CAPTURE_FAILEXCEPTION
     )
     private void injectedTooltipLines(@Nullable Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir, List<Component> list, MutableComponent mutableComponent) {
-        if (CosmeticState.isLoreLockedItem(list) || CosmeticState.getType(list) == null) return;
+        if (CosmeticState.getType((ItemStack)(Object)this) == null) return;
         list.add(previewComponent);
     }
 

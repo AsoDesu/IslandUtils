@@ -51,4 +51,12 @@ public class Utils {
         CompoundTag itemTag = item.getTag();
         return itemTag == null ? 0 : itemTag.getInt("CustomModelData");
     }
+
+    public static ResourceLocation getCustomItemID(ItemStack item) {
+        CompoundTag publicBukkitValues = item.getTagElement("PublicBukkitValues");
+        if (publicBukkitValues == null) return null;
+        String customItemId = publicBukkitValues.getString("mcc:custom_item_id");
+        if (customItemId.equals("")) return null;
+        return new ResourceLocation(customItemId);
+    }
 }

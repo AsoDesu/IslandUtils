@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static net.minecraft.world.item.DyeableLeatherItem.TAG_COLOR;
 import static net.minecraft.world.item.DyeableLeatherItem.TAG_DISPLAY;
@@ -47,16 +48,6 @@ public class CosmeticState {
         return (inspectingPlayer == null) ? Minecraft.getInstance().player : inspectingPlayer;
     }
 
-    // Locked items have a lore called "Right-Click to preview"
-    public static boolean canPreviewItem(ItemStack item) {
-        List<Component> lores = Utils.getLores(item);
-        if (lores == null) return false;
-        return !isLoreLockedItem(lores);
-    }
-    public static boolean isLoreLockedItem(List<Component> lores) {
-        return lores.stream().anyMatch(p -> p.getString().contains("Right-Click to preview"));
-    }
-
     public static boolean canBeEquipped(ItemStack stack) {
         List<Component> lores = Utils.getLores(stack);
         if (lores == null) return false;
@@ -66,9 +57,9 @@ public class CosmeticState {
     // Color items do not have lore
     public static boolean isColoredItem(ItemStack item) {
         if (!item.is(Items.LEATHER_HORSE_ARMOR)) return false;
-        CompoundTag displayTag = item.getTagElement("display");
-        if (displayTag == null) return false;
-        return !displayTag.getAllKeys().contains("Lore");
+        ResourceLocation customItemID = Utils.getCustomItemID(item);
+        if (customItemID == null) return false;
+        return customItemID.getPath().equals("island_interface.misc.color");
     }
 
     public static Integer getColor(ItemStack itemStack) {
@@ -88,17 +79,10 @@ public class CosmeticState {
     }
 
     public static COSMETIC_TYPE getType(ItemStack item) {
-        return getType(Utils.getLores(item));
-    }
-    public static COSMETIC_TYPE getType(List<Component> lores) {
-        if (lores == null) return null;
-        if (lores.size() > 1) {
-            Component line2 = lores.get(1);
-            for (Component c : line2.toFlatList()) {
-                if (c.contains(HAT_COMP) || c.contains(HAIR_COMP)) { return COSMETIC_TYPE.HAT;  }
-                if (c.contains(ACCESSORY_COMP)) { return COSMETIC_TYPE.ACCESSORY; }
-            }
-        }
+        ResourceLocation itemId = Utils.getCustomItemID(item);
+        if (itemId == null) return null;
+        if (itemId.getPath().contains("hat.") || itemId.getPath().contains("hair.")) return COSMETIC_TYPE.HAT;
+        if (itemId.getPath().contains("accessory.")) return COSMETIC_TYPE.ACCESSORY;
         return null;
     }
 
@@ -116,10 +100,10 @@ public class CosmeticState {
         ItemStack item1 = item != null ? item : ItemStack.EMPTY;
         ItemStack item2 = compare != null ? compare : ItemStack.EMPTY;
 
-        int item1CMD = Utils.customModelData(item1);
-        int item2CMD = Utils.customModelData(item2);
+        ResourceLocation item1ID = Utils.getCustomItemID(item1);
+        ResourceLocation item2ID = Utils.getCustomItemID(item2);
 
-        return item1.is(item2.getItem()) && item1CMD == item2CMD;
+        return Objects.equals(item1ID, item2ID);
     }
 
 }

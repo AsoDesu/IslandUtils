@@ -39,7 +39,7 @@ public abstract class ItemIDMixin {
             locals = LocalCapture.CAPTURE_FAILEXCEPTION
     )
     private void addTooltipLines(@Nullable Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir, List<Component> list) {
-        if (!MccIslandState.isOnline() || !IslandOptions.getOptions().isDebugMode()) return;
+        if (!MccIslandState.isOnline() || !IslandOptions.getMisc().isDebugMode()) return;
         if (!InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), InputConstants.KEY_LCONTROL)) return;
         if (!this.hasTag()) return;
 
