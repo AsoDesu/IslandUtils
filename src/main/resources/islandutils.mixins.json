@@ -27,6 +27,8 @@
     "resources.MultiplayerJoinMixin",
     "resources.ProgressScreenAccessor",
     "sounds.SoundOptionsMixin",
+    "splits.HologramMixin",
+    "splits.SplitUIMixin",
     "ui.ChatScreenMixin",
     "ui.CommandSuggestionsAccessor",
     "ui.OptionsMixin",

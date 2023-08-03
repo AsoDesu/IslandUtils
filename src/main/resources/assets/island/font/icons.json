@@ -52,6 +52,20 @@
             "chars": ["\ue007"],
             "ascent": 8,
             "height": 24
+        },
+        {
+            "type": "bitmap",
+            "file": "island:chat_buttons/view.png",
+            "chars": ["\ue008"],
+            "ascent": 7,
+            "height": 7
+        },
+        {
+            "type": "bitmap",
+            "file": "mcc:_fonts/tick_small.png",
+            "chars": ["\ue009"],
+            "ascent": 8,
+            "height": 8
         }
     ]
 }

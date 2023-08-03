@@ -27,7 +27,6 @@ public class CraftingItems {
     private static final List<CraftingItem> items = new ArrayList<>();
 
     private static boolean saveQueued = false;
-    private static final ExecutorService craftingQueue = Executors.newFixedThreadPool(2);
 
     /**
      * Adds an item into the items
@@ -52,7 +51,7 @@ public class CraftingItems {
     }
 
     public static <T> void submit(Runnable task) {
-        craftingQueue.submit(task);
+        Utils.savingQueue.submit(task);
     }
     public static List<CraftingItem> getItems() {
         return items;
@@ -73,7 +72,7 @@ public class CraftingItems {
 
         saveQueued = true;
         Scheduler.schedule(3, (client) -> {
-            craftingQueue.submit(CraftingItems::saveSync);
+            Utils.savingQueue.submit(CraftingItems::saveSync);
             saveQueued = false;
         });
     }

@@ -12,8 +12,11 @@ import net.minecraft.world.item.TooltipFlag;
 
 import java.io.*;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Utils {
+    public static final ExecutorService savingQueue = Executors.newFixedThreadPool(2);
     public static final Style MCC_HUD_FONT = Style.EMPTY.withFont(new ResourceLocation("mcc", "hud"));
 
     public static List<Component> getLores(ItemStack item) {
