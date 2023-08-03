@@ -5,10 +5,12 @@ import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionDescription;
 import dev.isxander.yacl3.api.controller.*;
 import dev.isxander.yacl3.gui.controllers.slider.SliderControllerElement;
+import net.asodev.islandutils.options.saving.Ignore;
 import net.asodev.islandutils.state.splits.SplitType;
 import net.minecraft.network.chat.Component;
 
 public class SplitsCategory implements OptionsCategory {
+    @Ignore
     private static final SplitsCategory defaults = new SplitsCategory();
 
     boolean enablePkwSplits = false;
