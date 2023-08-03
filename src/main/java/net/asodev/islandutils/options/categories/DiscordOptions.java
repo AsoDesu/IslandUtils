@@ -4,9 +4,12 @@ import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionDescription;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
+import net.asodev.islandutils.options.saving.Ignore;
 import net.minecraft.network.chat.Component;
 
 public class DiscordOptions implements OptionsCategory {
+    @Ignore
+    private static final DiscordOptions defaults = new DiscordOptions();
 
     public boolean discordPresence = true;
     public boolean showGame = true;
@@ -21,31 +24,31 @@ public class DiscordOptions implements OptionsCategory {
                 .name(Component.translatable("text.autoconfig.islandutils.option.showGame"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.showGame.@Tooltip")))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(showGame, () -> showGame, value -> this.showGame = value)
+                .binding(defaults.showGame, () -> showGame, value -> this.showGame = value)
                 .build();
         Option<Boolean> showGameInfoOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.showGameInfo"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.showGameInfo.@Tooltip")))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(showGameInfo, () -> showGameInfo, value -> this.showGameInfo = value)
+                .binding(defaults.showGameInfo, () -> showGameInfo, value -> this.showGameInfo = value)
                 .build();
         Option<Boolean> showTimeRemainOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.showTimeRemaining"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.showTimeRemaining.@Tooltip")))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(showTimeRemaining, () -> showTimeRemaining, value -> this.showTimeRemaining = value)
+                .binding(defaults.showTimeRemaining, () -> showTimeRemaining, value -> this.showTimeRemaining = value)
                 .build();
         Option<Boolean> showTimeElapsedOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.showTimeElapsed"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.showTimeElapsed.@Tooltip")))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(showTimeElapsed, () -> showTimeElapsed, value -> this.showTimeElapsed = value)
+                .binding(defaults.showTimeElapsed, () -> showTimeElapsed, value -> this.showTimeElapsed = value)
                 .build();
         Option<Boolean> showFactionOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.showFactionLevel"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.showFactionLevel.@Tooltip")))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(showFactionLevel, () -> showFactionLevel, value -> this.showFactionLevel = value)
+                .binding(defaults.showFactionLevel, () -> showFactionLevel, value -> this.showFactionLevel = value)
                 .build();
 
         return ConfigCategory.createBuilder()
