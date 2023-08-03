@@ -4,9 +4,11 @@ import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionDescription;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
+import net.asodev.islandutils.options.saving.Ignore;
 import net.minecraft.network.chat.Component;
 
 public class DiscordOptions implements OptionsCategory {
+    @Ignore
     private static final DiscordOptions defaults = new DiscordOptions();
 
     public boolean discordPresence = true;

@@ -3,9 +3,11 @@ package net.asodev.islandutils.options.categories;
 import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
+import net.asodev.islandutils.options.saving.Ignore;
 import net.minecraft.network.chat.Component;
 
 public class CosmeticsOptions implements OptionsCategory {
+    @Ignore
     private static final CosmeticsOptions defaults = new CosmeticsOptions();
 
     boolean showPlayerPreview = true;

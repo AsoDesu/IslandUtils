@@ -6,9 +6,11 @@ import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionGroup;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
 import dev.isxander.yacl3.gui.controllers.BooleanController;
+import net.asodev.islandutils.options.saving.Ignore;
 import net.minecraft.network.chat.Component;
 
 public class MusicOptions implements OptionsCategory {
+    @Ignore
     private static final MusicOptions defaults = new MusicOptions();
 
     boolean hitwMusic = true;

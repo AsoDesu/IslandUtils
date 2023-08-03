@@ -1,9 +1,10 @@
-package net.asodev.islandutils.options;
+package net.asodev.islandutils.options.saving;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.OptionsCategory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ public class IslandUtilsSaveHandler {
 
     public void save(OptionsCategory category, JsonObject object) throws IllegalAccessException {
         for (Field declaredField : category.getClass().getDeclaredFields()) {
+            if (declaredField.isAnnotationPresent(Ignore.class)) continue;
             declaredField.trySetAccessible();
 
             String name = declaredField.getName();
@@ -28,6 +30,7 @@ public class IslandUtilsSaveHandler {
 
     public void load(OptionsCategory category, JsonObject object) {
         for (Field field : category.getClass().getDeclaredFields()) {
+            if (field.isAnnotationPresent(Ignore.class)) continue;
             String name = field.getName();
             JsonElement jsonElement = object.get(name);
             if (jsonElement == null) continue;
