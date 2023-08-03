@@ -7,12 +7,11 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 
+import java.util.List;
+
 public class MCCSoundInstance extends AbstractTickableSoundInstance {
 
     public static ResourceLocation location;
-
-    public float ticksRemaining;
-    public boolean hasLooped;
 
     public float totalVolume;
     public float totalFadeTicks = 20f;
@@ -28,11 +27,10 @@ public class MCCSoundInstance extends AbstractTickableSoundInstance {
         this.x = d;
         this.y = e;
         this.z = h;
-        this.looping = bl;
+        this.looping = shouldLoop(location);
         this.delay = i;
         this.attenuation = attenuation;
         this.relative = bl2;
-        this.ticksRemaining = ticksBeforeLoop(location);
     }
 
     public void fade(float ticks) {
@@ -46,18 +44,6 @@ public class MCCSoundInstance extends AbstractTickableSoundInstance {
 
     @Override
     public void tick() {
-        if (ticksRemaining != -1 && !hasLooped) {
-            if (ticksRemaining <= 0) {
-                MCCSoundInstance newInstance = this.copy();
-                Minecraft.getInstance().getSoundManager().queueTickingSound(newInstance);
-                MusicUtil.currentlyPlayingSound = newInstance;
-                hasLooped = true;
-                ChatUtils.debug("Looping sound...");
-                return;
-            }
-            ticksRemaining--;
-        }
-
         if (!isFading) return;
         if (fadeTicks <= 0) {
             this.volume = totalVolume * (fadeTicks/totalFadeTicks);
@@ -75,27 +61,11 @@ public class MCCSoundInstance extends AbstractTickableSoundInstance {
                 '}';
     }
 
-    public MCCSoundInstance copy() {
-        return new MCCSoundInstance(
-                SoundEvent.createVariableRangeEvent(this.getLocation()),
-                this.source,
-                this.totalVolume,
-                this.pitch,
-                this.random,
-                this.looping,
-                this.delay,
-                this.attenuation,
-                this.x,
-                this.y,
-                this.z,
-                this.relative
-        );
-    }
-
-    static int ticksBeforeLoop(ResourceLocation sound) {
-        if (sound.getPath().equals("island.music.parkour_warrior")) {
-            return 2400;
-        }
-        return -1;
+    static List<String> loopingSounds = List.of(
+            "island.music.parkour_warrior",
+            "island.music.classic_hitw"
+    );
+    static boolean shouldLoop(ResourceLocation sound) {
+        return loopingSounds.contains(sound.getPath());
     }
 }
