@@ -58,6 +58,8 @@
   "text.autoconfig.islandutils.option.showSplitImprovements.@Tooltip": "Shows your improvement over a saved segment in the timer bar, medal title and in chat",
   "text.autoconfig.islandutils.option.showTimerImprovementAt": "Show segment improvement at",
   "text.autoconfig.islandutils.option.showTimerImprovementAt.@Tooltip": "At what time should the segment improvement time start showing in the timer bar",
+  "text.autoconfig.islandutils.option.clearSplits": "Clear Saved Splits",
+  "text.autoconfig.islandutils.option.clearSplits.@Tooltip": "This will clear all of your saved segments. These can not be recovered.",
   "text.autoconfig.islandutils.option.saveMode": "Split save mode",
   "text.autoconfig.islandutils.option.saveMode.@Tooltip": "How to save splits\n\n§lBest Time§r: Uses your best time on each segment\n\n§lAverage Time§r: Uses your average time on a segment",
   "islandutils.splittype.best": "Best Time",

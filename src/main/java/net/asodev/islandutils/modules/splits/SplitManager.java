@@ -48,6 +48,11 @@ public class SplitManager {
         return levelSplits;
     }
 
+    public static void clearSplits() {
+        courseSplits.clear();
+        saveAsync();
+    }
+
     public static void saveAsync() {
         Utils.savingQueue.submit(() -> {
             try {

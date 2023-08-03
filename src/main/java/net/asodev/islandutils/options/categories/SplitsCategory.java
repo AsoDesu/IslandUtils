@@ -1,11 +1,19 @@
 package net.asodev.islandutils.options.categories;
 
+import dev.isxander.yacl3.api.ButtonOption;
 import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionDescription;
 import dev.isxander.yacl3.api.controller.*;
+import dev.isxander.yacl3.gui.controllers.ActionController;
+import net.asodev.islandutils.modules.splits.SplitManager;
+import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.saving.Ignore;
 import net.asodev.islandutils.modules.splits.SplitType;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.ConfirmScreen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
 public class SplitsCategory implements OptionsCategory {
@@ -56,6 +64,12 @@ public class SplitsCategory implements OptionsCategory {
                 .controller((opt) -> EnumControllerBuilder.create(opt).enumClass(SplitType.class))
                 .binding(defaults.saveMode, () -> saveMode, value -> this.saveMode = value)
                 .build();
+
+        Option<?> clearSplits = ButtonOption.createBuilder()
+                .name(Component.translatable("text.autoconfig.islandutils.option.clearSplits"))
+                .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.clearSplits.@Tooltip")))
+                .action((screen, b) -> doClearSplits(screen))
+                .build();
         return ConfigCategory.createBuilder()
                 .name(Component.literal("Parkour Warrior Splits"))
                 .option(enableOption)
@@ -64,7 +78,17 @@ public class SplitsCategory implements OptionsCategory {
                 .option(showImprovesOption)
                 .option(showImprovesAtOption)
                 .option(saveOption)
+                .option(clearSplits)
                 .build();
+    }
+
+    private void doClearSplits(Screen parent) {
+        ConfirmScreen confirmScreen = new ConfirmScreen((bl) -> {
+            if (bl) SplitManager.clearSplits();
+            Minecraft.getInstance().setScreen(parent);
+        }, Component.literal("Are you sure you want to clear your splits?").withStyle(ChatFormatting.RED),
+                Component.literal("This action is irreversible").withStyle(ChatFormatting.YELLOW));
+        Minecraft.getInstance().setScreen(confirmScreen);
     }
 
     public boolean isEnablePkwSplits() {
