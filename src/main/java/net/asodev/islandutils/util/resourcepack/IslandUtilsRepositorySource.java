@@ -1,4 +1,4 @@
-package net.asodev.islandutils.resourcepack;
+package net.asodev.islandutils.util.resourcepack;
 
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.RepositorySource;

@@ -1,4 +1,4 @@
-package net.asodev.islandutils.resourcepack.schema;
+package net.asodev.islandutils.util.resourcepack.schema;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;

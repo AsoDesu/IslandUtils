@@ -1,5 +1,6 @@
 package net.asodev.islandutils.state;
 
+import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.mixins.accessors.TabListAccessor;
 import net.asodev.islandutils.options.IslandOptions;
@@ -28,13 +29,10 @@ import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 
 public class MccIslandState {
 
-    public static final int TRANSACTION_ID = 6775161;
-
     private static GAME game = GAME.HUB;
     private static String modifier = "INACTIVE";
     private static String map = "UNKNOWN";
     private static FACTION faction;
-    private static List<String> friends = new ArrayList<>();
 
     public static String getModifier() {
         return modifier;
@@ -49,13 +47,7 @@ public class MccIslandState {
     public static void setGame(GAME game) {
         if (MccIslandState.game != game) {
             ChatUtils.debug("MccIslandState - Changed game to: " + game);
-
-            if (game != GAME.HUB) {
-                friends.clear();
-                ServerboundCommandSuggestionPacket packet = new ServerboundCommandSuggestionPacket(TRANSACTION_ID, "/friend remove ");
-                ClientPacketListener connection = Minecraft.getInstance().getConnection();
-                if (connection != null) connection.send(packet);
-            }
+            IslandUtilsEvents.GAME_CHANGE.invoker().onGameChange(game);
         }
         MccIslandState.game = game;
     }
@@ -112,38 +104,6 @@ public class MccIslandState {
         //ChatUtils.debug("Detected Faction: " + faction);
         DiscordPresenceUpdator.setLevel(DiscordPresenceUpdator.lastLevel);
         MccIslandState.faction = faction;
-    }
-
-    public static List<String> getFriends() {
-        return friends;
-    }
-    public static void setFriends(List<String> friends) {
-        MccIslandState.friends = friends;
-        Scheduler.schedule(25, MccIslandState::sendFriendsInGame);
-    }
-
-    public static void sendFriendsInGame(Minecraft client) {
-        if (!IslandOptions.getMisc().isShowFriendsInGame()) return;
-        StringBuilder friendsInThisGame = new StringBuilder();
-        boolean hasFriends = false;
-
-        ClientPacketListener connection = client.getConnection();
-        if (connection == null) return;
-        for (PlayerInfo p : connection.getOnlinePlayers()) {
-            String name = p.getProfile().getName();
-            if (friends.contains(name)) {
-                hasFriends = true;
-                friendsInThisGame.append(", ").append(name);
-            }
-        }
-        if (!hasFriends) return;
-        String friendString = friendsInThisGame.toString().replaceFirst(", ","");
-
-        Component component = Component.literal("[").withStyle(ChatFormatting.GREEN)
-                .append(Component.literal("\ue001").withStyle(iconsFontStyle))
-                .append(Component.literal("] Friends in this game: ").withStyle(ChatFormatting.GREEN))
-                .append(Component.literal(friendString).withStyle(ChatFormatting.YELLOW));
-        ChatUtils.send(component);
     }
 
     public static boolean isOnline() {

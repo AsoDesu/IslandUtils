@@ -1,6 +1,6 @@
-package net.asodev.islandutils.resourcepack;
+package net.asodev.islandutils.util.resourcepack;
 
-import net.asodev.islandutils.resourcepack.schema.ResourcePack;
+import net.asodev.islandutils.util.resourcepack.schema.ResourcePack;
 import net.asodev.islandutils.util.Utils;
 import net.fabricmc.loader.api.FabricLoader;
 

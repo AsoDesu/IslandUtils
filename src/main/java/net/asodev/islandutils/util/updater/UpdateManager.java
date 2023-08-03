@@ -1,9 +1,9 @@
-package net.asodev.islandutils.updater;
+package net.asodev.islandutils.util.updater;
 
 import com.google.gson.Gson;
 import net.asodev.islandutils.IslandUtils;
-import net.asodev.islandutils.updater.schema.AvailableUpdate;
-import net.asodev.islandutils.updater.schema.GithubRelease;
+import net.asodev.islandutils.util.updater.schema.AvailableUpdate;
+import net.asodev.islandutils.util.updater.schema.GithubRelease;
 
 import java.net.URI;
 import java.net.http.HttpClient;

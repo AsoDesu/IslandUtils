@@ -1,6 +1,6 @@
 package net.asodev.islandutils.mixins.resources;
 
-import net.asodev.islandutils.resourcepack.IslandUtilsRepositorySource;
+import net.asodev.islandutils.util.resourcepack.IslandUtilsRepositorySource;
 import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.server.packs.repository.RepositorySource;
 import org.spongepowered.asm.mixin.Final;

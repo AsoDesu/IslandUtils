@@ -1,11 +1,12 @@
 package net.asodev.islandutils;
 
+import net.asodev.islandutils.modules.FriendsInGame;
 import net.asodev.islandutils.options.IslandOptions;
-import net.asodev.islandutils.resourcepack.ResourcePackUpdater;
+import net.asodev.islandutils.util.resourcepack.ResourcePackUpdater;
 import net.asodev.islandutils.state.crafting.state.CraftingItems;
 import net.asodev.islandutils.state.crafting.state.CraftingNotifier;
-import net.asodev.islandutils.updater.UpdateManager;
-import net.asodev.islandutils.updater.schema.AvailableUpdate;
+import net.asodev.islandutils.util.updater.UpdateManager;
+import net.asodev.islandutils.util.updater.schema.AvailableUpdate;
 import net.asodev.islandutils.util.Scheduler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -16,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Optional;
 
 public class IslandUtils implements ModInitializer {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private static final Logger logger = LoggerFactory.getLogger(IslandUtils.class);
     public static UpdateManager updater;
     public static ResourcePackUpdater packUpdater;
 
@@ -27,6 +28,7 @@ public class IslandUtils implements ModInitializer {
     @Override
     public void onInitialize() {
         IslandOptions.init();
+        FriendsInGame.init();
 
         Optional<ModContainer> container = FabricLoader.getInstance().getModContainer("islandutils");
         container.ifPresent(modContainer -> version = modContainer.getMetadata().getVersion().getFriendlyString());

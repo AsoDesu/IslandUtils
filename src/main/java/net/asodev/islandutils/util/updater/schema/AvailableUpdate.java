@@ -1,3 +1,3 @@
-package net.asodev.islandutils.updater.schema;
+package net.asodev.islandutils.util.updater.schema;
 
 public record AvailableUpdate(String title, String version, String releaseUrl) {}

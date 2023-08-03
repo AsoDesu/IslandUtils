@@ -8,6 +8,7 @@ import com.mojang.brigadier.suggestion.Suggestion;
 import net.asodev.islandutils.IslandUtilsClient;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.mixins.accessors.TabListAccessor;
+import net.asodev.islandutils.modules.FriendsInGame;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.IslandSoundCategories;
 import net.asodev.islandutils.state.HITWTrapState;
@@ -50,7 +51,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static net.asodev.islandutils.state.MccIslandState.TRANSACTION_ID;
+import static net.asodev.islandutils.modules.FriendsInGame.TRANSACTION_ID;
 import static net.minecraft.network.chat.Component.literal;
 
 @Mixin(ClientPacketListener.class)
@@ -263,7 +264,7 @@ public abstract class PacketListenerMixin {
                     .getList() // a list of suggestions
                     .stream().map(Suggestion::getText) // the text of the suggestions
                     .collect(Collectors.toList()); // a list of the suggestions
-            MccIslandState.setFriends(friends); // Set our friends!
+            FriendsInGame.setFriends(friends); // Set our friends!
         }
     }
 

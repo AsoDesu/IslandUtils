@@ -1,7 +1,7 @@
 package net.asodev.islandutils.mixins.resources;
 
 import net.asodev.islandutils.IslandUtils;
-import net.asodev.islandutils.resourcepack.ResourcePackUpdater;
+import net.asodev.islandutils.util.resourcepack.ResourcePackUpdater;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.gui.screens.ConnectScreen;
