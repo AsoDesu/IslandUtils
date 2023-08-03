@@ -80,7 +80,6 @@ public class MccIslandState {
                 MccIslandState.setGame(GAME.HUB); // Somehow we're in a game, but not soooo hub it is!!
             }
         }
-        DiscordPresenceUpdator.updatePlace(); // Update where we are on discord presence
     }
     static TextColor aqua = TextColor.fromLegacyFormat(ChatFormatting.AQUA);
     private static boolean isGameDisplayName(Component component) {
