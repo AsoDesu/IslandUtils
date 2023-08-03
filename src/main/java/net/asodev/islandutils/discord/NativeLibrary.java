@@ -1,6 +1,6 @@
 package net.asodev.islandutils.discord;
 
-import net.asodev.islandutils.resourcepack.ResourcePackOptions;
+import net.asodev.islandutils.util.resourcepack.ResourcePackOptions;
 
 import java.io.File;
 import java.io.IOException;

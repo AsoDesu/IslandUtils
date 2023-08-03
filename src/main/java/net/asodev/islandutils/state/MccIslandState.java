@@ -1,5 +1,6 @@
 package net.asodev.islandutils.state;
 
+import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.mixins.accessors.TabListAccessor;
 import net.asodev.islandutils.options.IslandOptions;
@@ -8,7 +9,9 @@ import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.Scheduler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.PlayerTabOverlay;
 import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -26,13 +29,10 @@ import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 
 public class MccIslandState {
 
-    public static final int TRANSACTION_ID = 6775161;
-
     private static GAME game = GAME.HUB;
     private static String modifier = "INACTIVE";
     private static String map = "UNKNOWN";
     private static FACTION faction;
-    private static List<String> friends = new ArrayList<>();
 
     public static String getModifier() {
         return modifier;
@@ -47,13 +47,7 @@ public class MccIslandState {
     public static void setGame(GAME game) {
         if (MccIslandState.game != game) {
             ChatUtils.debug("MccIslandState - Changed game to: " + game);
-
-            if (game != GAME.HUB) {
-                friends.clear();
-                ServerboundCommandSuggestionPacket packet = new ServerboundCommandSuggestionPacket(TRANSACTION_ID, "/friend remove ");
-                ClientPacketListener connection = Minecraft.getInstance().getConnection();
-                if (connection != null) connection.send(packet);
-            }
+            IslandUtilsEvents.GAME_CHANGE.invoker().onGameChange(game);
         }
         MccIslandState.game = game;
     }
@@ -61,10 +55,16 @@ public class MccIslandState {
     public static void updateGame(Component displayName, String tablistTitle) {
         String title = displayName.getString();
 
-        // Check if the name of the game is not the aqua color, then we check if we are not in parkour warrior
-        // Parkour Warrior (at least solo mode) is exception and has white name in the scoreboard title
-        // if both checks are false, we are in hub!
-        if (!isGameDisplayName(displayName) && !title.contains("PARKOUR WARRIOR")) {
+        // Check for PKW Tablist Titles
+        if (tablistTitle.contains("PARKOUR WARRIOR SURVIVOR")) {
+            MccIslandState.setGame(GAME.PARKOUR_WARRIOR_SURVIVOR);
+            return;
+        } else if (tablistTitle.contains("Parkour Warrior - ")) {
+            MccIslandState.setGame(GAME.PARKOUR_WARRIOR_DOJO);
+            return;
+        }
+
+        if (!isGameDisplayName(displayName)) {
             MccIslandState.setGame(GAME.HUB);
         } else { // We're in a game!!!
             // These checks are pretty self-explanatory
@@ -76,14 +76,6 @@ public class MccIslandState {
                 MccIslandState.setGame(GAME.SKY_BATTLE);
             } else if (title.contains("BATTLE BOX")) {
                 MccIslandState.setGame(GAME.BATTLE_BOX);
-            } else if (title.contains("PARKOUR WARRIOR")) {
-                if (tablistTitle.contains("PARKOUR WARRIOR SURVIVOR")) {
-                    MccIslandState.setGame(GAME.PARKOUR_WARRIOR_SURVIVOR);
-                } else if (tablistTitle.contains("Parkour Warrior - ")) {
-                    MccIslandState.setGame(GAME.PARKOUR_WARRIOR_DOJO);
-                } else {
-                    MccIslandState.setGame(GAME.HUB);
-                }
             } else {
                 MccIslandState.setGame(GAME.HUB); // Somehow we're in a game, but not soooo hub it is!!
             }
@@ -112,38 +104,6 @@ public class MccIslandState {
         //ChatUtils.debug("Detected Faction: " + faction);
         DiscordPresenceUpdator.setLevel(DiscordPresenceUpdator.lastLevel);
         MccIslandState.faction = faction;
-    }
-
-    public static List<String> getFriends() {
-        return friends;
-    }
-    public static void setFriends(List<String> friends) {
-        MccIslandState.friends = friends;
-        Scheduler.schedule(20, MccIslandState::sendFriendsInGame);
-    }
-
-    public static void sendFriendsInGame(Minecraft client) {
-        if (!IslandOptions.getMisc().isShowFriendsInGame()) return;
-        StringBuilder friendsInThisGame = new StringBuilder();
-        boolean hasFriends = false;
-
-        ClientPacketListener connection = client.getConnection();
-        if (connection == null) return;
-        for (Player p : connection.getLevel().players()) {
-            String name = p.getName().getString();
-            if (friends.contains(name)) {
-                hasFriends = true;
-                friendsInThisGame.append(", ").append(name);
-            }
-        }
-        if (!hasFriends) return;
-        String friendString = friendsInThisGame.toString().replaceFirst(", ","");
-
-        Component component = Component.literal("[").withStyle(ChatFormatting.GREEN)
-                .append(Component.literal("\ue001").withStyle(iconsFontStyle))
-                .append(Component.literal("] Friends in this game: ").withStyle(ChatFormatting.GREEN))
-                .append(Component.literal(friendString).withStyle(ChatFormatting.YELLOW));
-        ChatUtils.send(component);
     }
 
     public static boolean isOnline() {

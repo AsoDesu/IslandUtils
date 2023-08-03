@@ -1,6 +1,6 @@
 package net.asodev.islandutils.util;
 
-import net.asodev.islandutils.resourcepack.ResourcePackOptions;
+import net.asodev.islandutils.util.resourcepack.ResourcePackOptions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;

@@ -1,10 +1,9 @@
 
-package net.asodev.islandutils.updater.schema;
+package net.asodev.islandutils.util.updater.schema;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-public class Author {
+public class Uploader {
 
     @SerializedName("login")
     @Expose

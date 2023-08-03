@@ -1,7 +1,7 @@
-package net.asodev.islandutils.resourcepack;
+package net.asodev.islandutils.util.resourcepack;
 
 import com.google.gson.Gson;
-import net.asodev.islandutils.resourcepack.schema.ResourcePack;
+import net.asodev.islandutils.util.resourcepack.schema.ResourcePack;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ProgressScreen;
