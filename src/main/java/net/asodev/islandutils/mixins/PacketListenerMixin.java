@@ -81,6 +81,7 @@ public abstract class PacketListenerMixin {
 
     @Inject(method = "handleTabListCustomisation", at = @At("TAIL"))
     private void updateTablist(ClientboundTabListPacket clientboundTabListPacket, CallbackInfo ci) {
+        if (!MccIslandState.isOnline()) return; // We have to be online
         String string = clientboundTabListPacket.getHeader().getString();
         if (tablistHeader.equals(string)) return;
 

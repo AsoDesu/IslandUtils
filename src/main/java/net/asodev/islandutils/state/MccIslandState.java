@@ -8,7 +8,9 @@ import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.Scheduler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.PlayerTabOverlay;
 import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -61,10 +63,16 @@ public class MccIslandState {
     public static void updateGame(Component displayName, String tablistTitle) {
         String title = displayName.getString();
 
-        // Check if the name of the game is not the aqua color, then we check if we are not in parkour warrior
-        // Parkour Warrior (at least solo mode) is exception and has white name in the scoreboard title
-        // if both checks are false, we are in hub!
-        if (!isGameDisplayName(displayName) && !title.contains("PARKOUR WARRIOR")) {
+        // Check for PKW Tablist Titles
+        if (tablistTitle.contains("PARKOUR WARRIOR SURVIVOR")) {
+            MccIslandState.setGame(GAME.PARKOUR_WARRIOR_SURVIVOR);
+            return;
+        } else if (tablistTitle.contains("Parkour Warrior - ")) {
+            MccIslandState.setGame(GAME.PARKOUR_WARRIOR_DOJO);
+            return;
+        }
+
+        if (!isGameDisplayName(displayName)) {
             MccIslandState.setGame(GAME.HUB);
         } else { // We're in a game!!!
             // These checks are pretty self-explanatory
@@ -76,14 +84,6 @@ public class MccIslandState {
                 MccIslandState.setGame(GAME.SKY_BATTLE);
             } else if (title.contains("BATTLE BOX")) {
                 MccIslandState.setGame(GAME.BATTLE_BOX);
-            } else if (title.contains("PARKOUR WARRIOR")) {
-                if (tablistTitle.contains("PARKOUR WARRIOR SURVIVOR")) {
-                    MccIslandState.setGame(GAME.PARKOUR_WARRIOR_SURVIVOR);
-                } else if (tablistTitle.contains("Parkour Warrior - ")) {
-                    MccIslandState.setGame(GAME.PARKOUR_WARRIOR_DOJO);
-                } else {
-                    MccIslandState.setGame(GAME.HUB);
-                }
             } else {
                 MccIslandState.setGame(GAME.HUB); // Somehow we're in a game, but not soooo hub it is!!
             }
@@ -119,7 +119,7 @@ public class MccIslandState {
     }
     public static void setFriends(List<String> friends) {
         MccIslandState.friends = friends;
-        Scheduler.schedule(20, MccIslandState::sendFriendsInGame);
+        Scheduler.schedule(25, MccIslandState::sendFriendsInGame);
     }
 
     public static void sendFriendsInGame(Minecraft client) {
@@ -129,8 +129,8 @@ public class MccIslandState {
 
         ClientPacketListener connection = client.getConnection();
         if (connection == null) return;
-        for (Player p : connection.getLevel().players()) {
-            String name = p.getName().getString();
+        for (PlayerInfo p : connection.getOnlinePlayers()) {
+            String name = p.getProfile().getName();
             if (friends.contains(name)) {
                 hasFriends = true;
                 friendsInThisGame.append(", ").append(name);
