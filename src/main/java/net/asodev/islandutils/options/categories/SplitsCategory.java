@@ -87,7 +87,7 @@ public class SplitsCategory implements OptionsCategory {
             if (bl) SplitManager.clearSplits();
             Minecraft.getInstance().setScreen(parent);
         }, Component.literal("Are you sure you want to clear your splits?").withStyle(ChatFormatting.RED),
-                Component.literal("This action is irreversible").withStyle(ChatFormatting.YELLOW));
+                Component.literal("This action is irreversible").withStyle(ChatFormatting.DARK_RED));
         Minecraft.getInstance().setScreen(confirmScreen);
     }
 
