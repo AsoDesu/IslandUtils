@@ -49,7 +49,7 @@ public class DiscordPresenceUpdator {
     }
 
     public static void init() {
-        IslandUtilsEvents.GAME_CHANGE.register(DiscordPresenceUpdator::updatePlace);
+        IslandUtilsEvents.GAME_UPDATE.register(DiscordPresenceUpdator::updatePlace);
     }
 
     public static void updateTimeLeft(Long endTimestamp) {

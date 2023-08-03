@@ -43,6 +43,7 @@ public class IslandUtilsClient implements ClientModInitializer {
         ));
         DisguiseUtil.registerDisguiseInput();
         IslandUtilsCommand.register();
+        DiscordPresenceUpdator.init();
     }
 
     public static void onJoinMCCI() {
