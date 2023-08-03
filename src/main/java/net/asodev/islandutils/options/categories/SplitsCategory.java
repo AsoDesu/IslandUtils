@@ -3,17 +3,19 @@ package net.asodev.islandutils.options.categories;
 import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionDescription;
-import dev.isxander.yacl3.api.controller.EnumControllerBuilder;
-import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
+import dev.isxander.yacl3.api.controller.*;
+import dev.isxander.yacl3.gui.controllers.slider.SliderControllerElement;
 import net.asodev.islandutils.state.splits.SplitType;
 import net.minecraft.network.chat.Component;
 
 public class SplitsCategory implements OptionsCategory {
     private static final SplitsCategory defaults = new SplitsCategory();
+
     boolean enablePkwSplits = false;
     boolean sendSplitTime = true;
     boolean showTimer = true;
     boolean showSplitImprovements = true;
+    int showTimerImprovementAt = -3;
     SplitType saveMode = SplitType.BEST;
 
     @Override
@@ -41,6 +43,12 @@ public class SplitsCategory implements OptionsCategory {
                 .controller(TickBoxControllerBuilder::create)
                 .binding(defaults.showSplitImprovements, () -> showSplitImprovements, value -> this.showSplitImprovements = value)
                 .build();
+        Option<Integer> showImprovesAtOption = Option.<Integer>createBuilder()
+                .name(Component.translatable("text.autoconfig.islandutils.option.showTimerImprovementAt"))
+                .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.showTimerImprovementAt.@Tooltip")))
+                .controller(IntegerFieldControllerBuilder::create)
+                .binding(defaults.showTimerImprovementAt, () -> showTimerImprovementAt, value -> this.showTimerImprovementAt = value)
+                .build();
         Option<SplitType> saveOption = Option.<SplitType>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.saveMode"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.saveMode.@Tooltip")))
@@ -53,6 +61,7 @@ public class SplitsCategory implements OptionsCategory {
                 .option(sendOption)
                 .option(showOption)
                 .option(showImprovesOption)
+                .option(showImprovesAtOption)
                 .option(saveOption)
                 .build();
     }
@@ -68,6 +77,9 @@ public class SplitsCategory implements OptionsCategory {
     }
     public boolean isShowSplitImprovements() {
         return enablePkwSplits && showSplitImprovements;
+    }
+    public int getShowTimerImprovementAt() {
+        return showTimerImprovementAt;
     }
     public SplitType getSaveMode() {
         return saveMode;

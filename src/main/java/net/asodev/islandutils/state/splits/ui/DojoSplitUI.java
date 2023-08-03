@@ -59,7 +59,7 @@ public class DojoSplitUI implements SplitUI {
 
         Double splitImprovement = timer.getSplitImprovement();
         if (splitImprovement == null) return;
-        if (splitImprovement < -3) return;
+        if (splitImprovement < timer.options.getShowTimerImprovementAt()) return;
 
         String formattedTime = String.format("%.2fs", splitImprovement);
         ChatFormatting color = ChatFormatting.GREEN;
