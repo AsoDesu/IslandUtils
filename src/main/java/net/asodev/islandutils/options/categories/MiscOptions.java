@@ -11,6 +11,7 @@ import net.asodev.islandutils.state.GAME;
 import net.minecraft.network.chat.Component;
 
 public class MiscOptions implements OptionsCategory {
+    private static final MiscOptions defaults = new MiscOptions();
 
     boolean pauseConfirm = true;
     boolean showFriendsInGame = true;
@@ -39,25 +40,25 @@ public class MiscOptions implements OptionsCategory {
                 .name(Component.translatable("text.autoconfig.islandutils.option.pauseConfirm"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.pauseConfirm.@Tooltip")))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(pauseConfirm, () -> pauseConfirm, value -> this.pauseConfirm = value)
+                .binding(defaults.pauseConfirm, () -> pauseConfirm, value -> this.pauseConfirm = value)
                 .build();
         Option<Boolean> showFriendsOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.showFriendsInGame"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.showFriendsInGame.@Tooltip")))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(showFriendsInGame, () -> showFriendsInGame, value -> this.showFriendsInGame = value)
+                .binding(defaults.showFriendsInGame, () -> showFriendsInGame, value -> this.showFriendsInGame = value)
                 .build();
         Option<Boolean> buttonOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.enableConfigButton"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.enableConfigButton.@Tooltip")))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(enableConfigButton, () -> enableConfigButton, value -> this.enableConfigButton = value)
+                .binding(defaults.enableConfigButton, () -> enableConfigButton, value -> this.enableConfigButton = value)
                 .build();
         Option<Boolean> debugOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.debugMode"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.debugMode.@Tooltip")))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(debugMode, () -> debugMode, value -> this.debugMode = value)
+                .binding(defaults.debugMode, () -> debugMode, value -> this.debugMode = value)
                 .build();
 
         return ConfigCategory.createBuilder()

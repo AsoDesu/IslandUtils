@@ -6,6 +6,7 @@ import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
 import net.minecraft.network.chat.Component;
 
 public class CosmeticsOptions implements OptionsCategory {
+    private static final CosmeticsOptions defaults = new CosmeticsOptions();
 
     boolean showPlayerPreview = true;
     boolean showOnHover = true;
@@ -28,17 +29,17 @@ public class CosmeticsOptions implements OptionsCategory {
         Option<Boolean> showPreviewOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.showPlayerPreview"))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(showPlayerPreview, () -> showPlayerPreview, value -> this.showPlayerPreview = value)
+                .binding(defaults.showPlayerPreview, () -> showPlayerPreview, value -> this.showPlayerPreview = value)
                 .build();
         Option<Boolean> showHoverOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.showOnHover"))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(showOnHover, () -> showOnHover, value -> this.showOnHover = value)
+                .binding(defaults.showOnHover, () -> showOnHover, value -> this.showOnHover = value)
                 .build();
         Option<Boolean> showInOnlyCosmeticMenu = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.showOnOnlyCosmeticMenus"))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(showOnOnlyCosmeticMenus, () -> showOnOnlyCosmeticMenus, value -> this.showOnOnlyCosmeticMenus = value)
+                .binding(defaults.showOnOnlyCosmeticMenus, () -> showOnOnlyCosmeticMenus, value -> this.showOnOnlyCosmeticMenus = value)
                 .build();
         return ConfigCategory.createBuilder()
                 .name(Component.literal("Cosmetics"))

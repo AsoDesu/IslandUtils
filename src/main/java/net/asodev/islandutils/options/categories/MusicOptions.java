@@ -9,6 +9,7 @@ import dev.isxander.yacl3.gui.controllers.BooleanController;
 import net.minecraft.network.chat.Component;
 
 public class MusicOptions implements OptionsCategory {
+    private static final MusicOptions defaults = new MusicOptions();
 
     boolean hitwMusic = true;
     boolean bbMusic = true;
@@ -51,42 +52,42 @@ public class MusicOptions implements OptionsCategory {
         Option<Boolean> hitwOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.hitwMusic"))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(hitwMusic, () -> hitwMusic, value -> this.hitwMusic = value)
+                .binding(defaults.hitwMusic, () -> hitwMusic, value -> this.hitwMusic = value)
                 .build();
         Option<Boolean> bbOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.bbMusic"))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(bbMusic, () -> bbMusic, value -> this.bbMusic = value)
+                .binding(defaults.bbMusic, () -> bbMusic, value -> this.bbMusic = value)
                 .build();
         Option<Boolean> sbOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.sbMusic"))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(sbMusic, () -> sbMusic, value -> this.sbMusic = value)
+                .binding(defaults.sbMusic, () -> sbMusic, value -> this.sbMusic = value)
                 .build();
         Option<Boolean> tgttosOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.tgttosMusic"))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(tgttosMusic, () -> tgttosMusic, value -> this.tgttosMusic = value)
+                .binding(defaults.tgttosMusic, () -> tgttosMusic, value -> this.tgttosMusic = value)
                 .build();
         Option<Boolean> tgttosDoubleOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.tgttosDoubleTime"))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(tgttosDoubleTime, () -> tgttosDoubleTime, value -> this.tgttosDoubleTime = value)
+                .binding(defaults.tgttosDoubleTime, () -> tgttosDoubleTime, value -> this.tgttosDoubleTime = value)
                 .build();
         Option<Boolean> tgttosToDomeOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.tgttosToTheDome"))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(tgttosToTheDome, () -> tgttosToTheDome, value -> this.tgttosToTheDome = value)
+                .binding(defaults.tgttosToTheDome, () -> tgttosToTheDome, value -> this.tgttosToTheDome = value)
                 .build();
         Option<Boolean> pkwDojoOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.pkwMusic"))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(pkwMusic, () -> pkwMusic, value -> this.pkwMusic = value)
+                .binding(defaults.pkwMusic, () -> pkwMusic, value -> this.pkwMusic = value)
                 .build();
         Option<Boolean> pkwSurviorOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.pkwsMusic"))
                 .controller(TickBoxControllerBuilder::create)
-                .binding(pkwsMusic, () -> pkwsMusic, value -> this.pkwsMusic = value)
+                .binding(defaults.pkwsMusic, () -> pkwsMusic, value -> this.pkwsMusic = value)
                 .build();
 
         return ConfigCategory.createBuilder()
