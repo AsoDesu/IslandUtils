@@ -51,7 +51,7 @@ public class CraftingItems {
     }
 
     public static <T> void submit(Runnable task) {
-        savingQueue.submit(task);
+        Utils.savingQueue.submit(task);
     }
     public static List<CraftingItem> getItems() {
         return items;
@@ -72,7 +72,7 @@ public class CraftingItems {
 
         saveQueued = true;
         Scheduler.schedule(3, (client) -> {
-            savingQueue.submit(CraftingItems::saveSync);
+            Utils.savingQueue.submit(CraftingItems::saveSync);
             saveQueued = false;
         });
     }
