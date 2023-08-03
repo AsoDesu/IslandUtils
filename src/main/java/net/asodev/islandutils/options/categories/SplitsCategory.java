@@ -20,7 +20,7 @@ public class SplitsCategory implements OptionsCategory {
     @Ignore
     private static final SplitsCategory defaults = new SplitsCategory();
 
-    boolean enablePkwSplits = false;
+    boolean enablePkwSplits = true;
     boolean sendSplitTime = true;
     boolean showTimer = true;
     boolean showSplitImprovements = true;
