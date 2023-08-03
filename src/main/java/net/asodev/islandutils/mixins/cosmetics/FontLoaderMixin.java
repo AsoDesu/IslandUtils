@@ -4,7 +4,7 @@ import net.asodev.islandutils.state.cosmetics.CosmeticState;
 import net.asodev.islandutils.state.crafting.CraftingUI;
 import net.asodev.islandutils.state.faction.FACTION;
 import net.asodev.islandutils.state.faction.FactionComponents;
-import net.asodev.islandutils.state.splits.LevelTimer;
+import net.asodev.islandutils.modules.splits.LevelTimer;
 import net.minecraft.client.gui.font.providers.BitmapProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;

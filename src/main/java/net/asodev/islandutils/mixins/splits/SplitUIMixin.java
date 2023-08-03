@@ -1,6 +1,6 @@
 package net.asodev.islandutils.mixins.splits;
 
-import net.asodev.islandutils.state.splits.LevelTimer;
+import net.asodev.islandutils.modules.splits.LevelTimer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.BossHealthOverlay;
 import org.spongepowered.asm.mixin.Mixin;

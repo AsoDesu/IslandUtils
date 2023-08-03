@@ -1,4 +1,4 @@
-package net.asodev.islandutils.state.splits;
+package net.asodev.islandutils.modules.splits;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -11,7 +11,7 @@ import java.util.*;
 public class LevelSplits {
 
     private String name;
-    private Long expires;
+    private Long expires = null;
     private Map<String, Split> splits = new HashMap<>();
     private Map<String, String> levelNames = new HashMap<>();
 
@@ -20,7 +20,9 @@ public class LevelSplits {
     }
     public LevelSplits(JsonObject json) {
         name = json.get("name").getAsString();
-        expires = json.get("expires").getAsLong();
+        JsonElement expiresElement = json.get("expires");
+        if (!expiresElement.isJsonNull())
+            expires = expiresElement.getAsLong();
 
         Map<String, JsonElement> splitMap = json.getAsJsonObject("splits").asMap();
         splitMap.forEach((hash, element) -> splits.put(hash, Split.fromJson(element)));

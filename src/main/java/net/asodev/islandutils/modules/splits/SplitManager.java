@@ -1,4 +1,4 @@
-package net.asodev.islandutils.state.splits;
+package net.asodev.islandutils.modules.splits;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -6,7 +6,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.state.GAME;
-import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.Utils;
 import org.slf4j.Logger;
@@ -38,7 +37,7 @@ public class SplitManager {
         String name = courseName.toLowerCase().contains("daily challenge") ? "daily" : courseName;
         LevelSplits levelSplits = courseSplits.get(name);
 
-        if (levelSplits == null || System.currentTimeMillis() >= levelSplits.getExpires()) {
+        if (levelSplits == null || (levelSplits.getExpires() != null && System.currentTimeMillis() >= levelSplits.getExpires())) {
             levelSplits = new LevelSplits(name);
             levelSplits.setExpires(currentCourseExpiry);
             courseSplits.put(name, levelSplits);

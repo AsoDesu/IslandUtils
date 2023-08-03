@@ -1,4 +1,4 @@
-package net.asodev.islandutils.state.splits;
+package net.asodev.islandutils.modules.splits;
 
 import dev.isxander.yacl3.api.NameableEnum;
 import net.minecraft.network.chat.Component;

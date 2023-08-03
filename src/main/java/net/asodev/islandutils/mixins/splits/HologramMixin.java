@@ -2,7 +2,7 @@ package net.asodev.islandutils.mixins.splits;
 
 import net.asodev.islandutils.state.GAME;
 import net.asodev.islandutils.state.MccIslandState;
-import net.asodev.islandutils.state.splits.SplitManager;
+import net.asodev.islandutils.modules.splits.SplitManager;
 import net.asodev.islandutils.util.ChatUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -17,7 +17,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.Objects;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

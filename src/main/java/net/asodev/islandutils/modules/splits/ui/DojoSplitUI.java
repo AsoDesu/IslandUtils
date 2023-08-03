@@ -1,7 +1,6 @@
-package net.asodev.islandutils.state.splits.ui;
+package net.asodev.islandutils.modules.splits.ui;
 
-import net.asodev.islandutils.options.IslandOptions;
-import net.asodev.islandutils.state.splits.LevelTimer;
+import net.asodev.islandutils.modules.splits.LevelTimer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;

@@ -7,7 +7,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestion;
 import net.asodev.islandutils.IslandUtilsClient;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
-import net.asodev.islandutils.mixins.accessors.TabListAccessor;
 import net.asodev.islandutils.modules.FriendsInGame;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.IslandSoundCategories;
@@ -17,7 +16,7 @@ import net.asodev.islandutils.state.GAME;
 import net.asodev.islandutils.state.cosmetics.CosmeticSlot;
 import net.asodev.islandutils.state.cosmetics.CosmeticState;
 import net.asodev.islandutils.state.faction.FactionComponents;
-import net.asodev.islandutils.state.splits.LevelTimer;
+import net.asodev.islandutils.modules.splits.LevelTimer;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
 import net.minecraft.client.Minecraft;
@@ -50,7 +49,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static net.asodev.islandutils.modules.FriendsInGame.TRANSACTION_ID;
-import static net.minecraft.network.chat.Component.literal;
 
 @Mixin(ClientPacketListener.class)
 public abstract class PacketListenerMixin {

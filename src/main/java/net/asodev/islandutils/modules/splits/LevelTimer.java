@@ -1,11 +1,11 @@
-package net.asodev.islandutils.state.splits;
+package net.asodev.islandutils.modules.splits;
 
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.SplitsCategory;
 import net.asodev.islandutils.state.GAME;
 import net.asodev.islandutils.state.MccIslandState;
-import net.asodev.islandutils.state.splits.ui.DojoSplitUI;
-import net.asodev.islandutils.state.splits.ui.SplitUI;
+import net.asodev.islandutils.modules.splits.ui.DojoSplitUI;
+import net.asodev.islandutils.modules.splits.ui.SplitUI;
 import net.asodev.islandutils.util.ChatUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -36,6 +36,9 @@ public class LevelTimer {
 
     public LevelTimer(LevelSplits splits) {
         this.splits = splits;
+        if (splits != null && splits.getExpires() == null) {
+            splits.setExpires(SplitManager.getCurrentCourseExpiry());
+        }
         if (options.isShowTimer()) {
             this.splitUI = new DojoSplitUI(this);
         }

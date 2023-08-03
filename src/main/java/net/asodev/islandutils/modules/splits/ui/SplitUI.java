@@ -1,4 +1,4 @@
-package net.asodev.islandutils.state.splits.ui;
+package net.asodev.islandutils.modules.splits.ui;
 
 import net.minecraft.client.gui.GuiGraphics;
 
