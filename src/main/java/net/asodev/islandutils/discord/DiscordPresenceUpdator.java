@@ -3,6 +3,7 @@ package net.asodev.islandutils.discord;
 import de.jcm.discordgamesdk.Core;
 import de.jcm.discordgamesdk.activity.Activity;
 import de.jcm.discordgamesdk.activity.ActivityType;
+import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.DiscordOptions;
 import net.asodev.islandutils.state.MccIslandState;
@@ -47,6 +48,10 @@ public class DiscordPresenceUpdator {
         }
     }
 
+    public static void init() {
+        IslandUtilsEvents.GAME_CHANGE.register(DiscordPresenceUpdator::updatePlace);
+    }
+
     public static void updateTimeLeft(Long endTimestamp) {
         if (activity == null) return;
         if (!IslandOptions.getDiscord().showTimeRemaining || !IslandOptions.getDiscord().showGame) return;
@@ -72,17 +77,17 @@ public class DiscordPresenceUpdator {
         catch (Exception e) { e.printStackTrace(); }
     }
 
-    public static void updatePlace() {
+    public static void updatePlace(GAME game) {
         if (activity == null) return;
         if (!IslandOptions.getDiscord().showGame) return;
 
         try {
-            activity.assets().setLargeImage(MccIslandState.getGame().name().toLowerCase());
-            activity.assets().setLargeText(MccIslandState.getGame().getName());
+            activity.assets().setLargeImage(game.name().toLowerCase());
+            activity.assets().setLargeText(game.getName());
             activity.assets().setSmallImage("mcci");
 
-            if (MccIslandState.getGame() != GAME.HUB)
-                activity.setDetails("Playing " + MccIslandState.getGame().getName());
+            if (game != GAME.HUB)
+                activity.setDetails("Playing " + game.getName());
             else {
                 activity.setDetails("In the Hub");
                 REMAIN_STATE = null;
@@ -94,15 +99,15 @@ public class DiscordPresenceUpdator {
             e.printStackTrace();
         }
 
-        if (MccIslandState.getGame() == GAME.TGTTOS || MccIslandState.getGame() == GAME.BATTLE_BOX)
+        if (game == GAME.TGTTOS || game == GAME.BATTLE_BOX)
             if (ROUND_STATE != null) roundScoreboardUpdate(ROUND_STATE, false);
-        if (MccIslandState.getGame() == GAME.HITW || MccIslandState.getGame() == GAME.SKY_BATTLE)
+        if (game == GAME.HITW || game == GAME.SKY_BATTLE)
             if (REMAIN_STATE != null) remainScoreboardUpdate(REMAIN_STATE, false);
-        if (MccIslandState.getGame() == GAME.PARKOUR_WARRIOR_DOJO)
+        if (game == GAME.PARKOUR_WARRIOR_DOJO)
             if (COURSE_STATE != null) courseScoreboardUpdate(COURSE_STATE, false);
-        if (MccIslandState.getGame() == GAME.PARKOUR_WARRIOR_SURVIVOR)
+        if (game == GAME.PARKOUR_WARRIOR_SURVIVOR)
             if (LEAP_STATE != null) leapScoreboardUpdate(LEAP_STATE, false);
-        if (MccIslandState.getGame() == GAME.HUB) {
+        if (game == GAME.HUB) {
             activity.setState("");
         }
 
@@ -205,13 +210,13 @@ public class DiscordPresenceUpdator {
                 activity.setDetails("");
                 activity.setState("");
                 activity.timestamps().setEnd(Instant.ofEpochSecond(0));
-            } else updatePlace();
+            } else updatePlace(MccIslandState.getGame());
 
             if (!options.showFactionLevel) activity.assets().setSmallText("");
             else setLevel(lastLevel);
 
             if (!options.showGameInfo) activity.setState("");
-            else updatePlace();
+            else updatePlace(MccIslandState.getGame());
 
             if (!options.discordPresence) clear();
         } catch (Exception e) { e.printStackTrace(); }
