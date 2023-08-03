@@ -12,10 +12,20 @@ public class IslandUtilsEvents {
             callback.onGameChange(game);
         }
     });
+    public static Event<GameUpdateCallback> GAME_UPDATE = EventFactory.createArrayBacked(GameUpdateCallback.class, callbacks -> game -> {
+        for (GameUpdateCallback callback : callbacks) {
+            callback.onGameUpdate(game);
+        }
+    });
 
     @FunctionalInterface
     public interface GameChangeCallback {
         void onGameChange(GAME to);
+    }
+
+    @FunctionalInterface
+    public interface GameUpdateCallback {
+        void onGameUpdate(GAME to);
     }
 
 }

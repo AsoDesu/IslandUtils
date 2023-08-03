@@ -50,6 +50,7 @@ public class MccIslandState {
             IslandUtilsEvents.GAME_CHANGE.invoker().onGameChange(game);
         }
         MccIslandState.game = game;
+        IslandUtilsEvents.GAME_UPDATE.invoker().onGameUpdate(game);
     }
 
     public static void updateGame(Component displayName, String tablistTitle) {

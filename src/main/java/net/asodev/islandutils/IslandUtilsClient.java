@@ -45,6 +45,7 @@ public class IslandUtilsClient implements ClientModInitializer {
         SplitManager.init();
         DisguiseUtil.registerDisguiseInput();
         IslandUtilsCommand.register();
+        DiscordPresenceUpdator.init();
     }
 
     public static void onJoinMCCI() {
