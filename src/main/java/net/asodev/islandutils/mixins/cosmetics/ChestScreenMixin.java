@@ -149,6 +149,7 @@ public abstract class ChestScreenMixin extends Screen {
 
     private void triggerPreviewClicked(int keyCode) {
         if (!MccIslandState.isOnline()) return;
+        if (!IslandOptions.getCosmetics().isShowPlayerPreview()) return;
         if (hoveredSlot == null || !hoveredSlot.hasItem()) return;
         InputConstants.Key previewBind = KeyBindingHelper.getBoundKeyOf(minecraft.options.keyPickItem);
         if (keyCode == previewBind.getValue()) {
