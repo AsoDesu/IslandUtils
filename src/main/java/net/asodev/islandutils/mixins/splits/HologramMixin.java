@@ -1,6 +1,6 @@
 package net.asodev.islandutils.mixins.splits;
 
-import net.asodev.islandutils.state.GAME;
+import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.modules.splits.SplitManager;
 import net.asodev.islandutils.util.ChatUtils;
@@ -30,7 +30,7 @@ public class HologramMixin {
     @Inject(method = "handleSetEntityData", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
     private void handleEntityData(ClientboundSetEntityDataPacket clientboundSetEntityDataPacket, CallbackInfo ci, Entity entity) {
         if (!(entity instanceof AreaEffectCloud hologram)) return;
-        if (!MccIslandState.isOnline() || MccIslandState.getGame() != GAME.PARKOUR_WARRIOR_DOJO) return;
+        if (!MccIslandState.isOnline() || MccIslandState.getGame() != Game.PARKOUR_WARRIOR_DOJO) return;
 
         Component customName = hologram.getCustomName();
         if (customName == null) return;

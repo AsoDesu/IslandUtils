@@ -1,9 +1,8 @@
 package net.asodev.islandutils;
 
-import net.asodev.islandutils.state.GAME;
+import net.asodev.islandutils.state.Game;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.client.Minecraft;
 
 public class IslandUtilsEvents {
 
@@ -20,12 +19,12 @@ public class IslandUtilsEvents {
 
     @FunctionalInterface
     public interface GameChangeCallback {
-        void onGameChange(GAME to);
+        void onGameChange(Game to);
     }
 
     @FunctionalInterface
     public interface GameUpdateCallback {
-        void onGameUpdate(GAME to);
+        void onGameUpdate(Game to);
     }
 
 }

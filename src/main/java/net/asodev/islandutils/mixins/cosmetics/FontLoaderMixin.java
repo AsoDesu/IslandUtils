@@ -1,8 +1,8 @@
 package net.asodev.islandutils.mixins.cosmetics;
 
-import net.asodev.islandutils.state.cosmetics.CosmeticState;
-import net.asodev.islandutils.state.crafting.CraftingUI;
-import net.asodev.islandutils.state.faction.FACTION;
+import net.asodev.islandutils.modules.cosmetics.CosmeticState;
+import net.asodev.islandutils.modules.crafting.CraftingUI;
+import net.asodev.islandutils.state.faction.Faction;
 import net.asodev.islandutils.state.faction.FactionComponents;
 import net.asodev.islandutils.modules.splits.LevelTimer;
 import net.minecraft.client.gui.font.providers.BitmapProvider;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static net.asodev.islandutils.state.cosmetics.CosmeticState.MCC_ICONS;
+import static net.asodev.islandutils.modules.cosmetics.CosmeticState.MCC_ICONS;
 import static net.asodev.islandutils.state.faction.FactionComponents.MCC_ICONS_19;
 
 @Mixin(BitmapProvider.Definition.class)
@@ -42,16 +42,16 @@ public class FontLoaderMixin {
                 case "_fonts/split_up.png" -> LevelTimer.splitUpComponent = comp;
                 case "_fonts/split_down.png" -> LevelTimer.splitDownComponent = comp;
 
-                case "_fonts/team/aqua_big.png" -> FactionComponents.setComponent(FACTION.AQUA, factionComp);
-                case "_fonts/team/blue_big.png" -> FactionComponents.setComponent(FACTION.BLUE, factionComp);
-                case "_fonts/team/cyan_big.png" -> FactionComponents.setComponent(FACTION.CYAN, factionComp);
-                case "_fonts/team/green_big.png" -> FactionComponents.setComponent(FACTION.GREEN, factionComp);
-                case "_fonts/team/lime_big.png" -> FactionComponents.setComponent(FACTION.LIME, factionComp);
-                case "_fonts/team/orange_big.png" -> FactionComponents.setComponent(FACTION.ORANGE, factionComp);
-                case "_fonts/team/pink_big.png" -> FactionComponents.setComponent(FACTION.PINK, factionComp);
-                case "_fonts/team/purple_big.png" -> FactionComponents.setComponent(FACTION.PURPLE, factionComp);
-                case "_fonts/team/red_big.png" -> FactionComponents.setComponent(FACTION.RED, factionComp);
-                case "_fonts/team/yellow_big.png" -> FactionComponents.setComponent(FACTION.YELLOW, factionComp);
+                case "_fonts/team/aqua_big.png" -> FactionComponents.setComponent(Faction.AQUA, factionComp);
+                case "_fonts/team/blue_big.png" -> FactionComponents.setComponent(Faction.BLUE, factionComp);
+                case "_fonts/team/cyan_big.png" -> FactionComponents.setComponent(Faction.CYAN, factionComp);
+                case "_fonts/team/green_big.png" -> FactionComponents.setComponent(Faction.GREEN, factionComp);
+                case "_fonts/team/lime_big.png" -> FactionComponents.setComponent(Faction.LIME, factionComp);
+                case "_fonts/team/orange_big.png" -> FactionComponents.setComponent(Faction.ORANGE, factionComp);
+                case "_fonts/team/pink_big.png" -> FactionComponents.setComponent(Faction.PINK, factionComp);
+                case "_fonts/team/purple_big.png" -> FactionComponents.setComponent(Faction.PURPLE, factionComp);
+                case "_fonts/team/red_big.png" -> FactionComponents.setComponent(Faction.RED, factionComp);
+                case "_fonts/team/yellow_big.png" -> FactionComponents.setComponent(Faction.YELLOW, factionComp);
             }
         }
     }

@@ -1,6 +1,5 @@
-package net.asodev.islandutils.state.cosmetics;
+package net.asodev.islandutils.modules.cosmetics;
 
-import net.asodev.islandutils.state.COSMETIC_TYPE;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -10,13 +9,13 @@ public class Cosmetic {
     @Nullable private CosmeticSlot original;
     @Nullable public CosmeticSlot preview;
 
-    public COSMETIC_TYPE type;
+    public CosmeticType type;
 
     public void setOriginal(CosmeticSlot original) {
         this.original = original;
     }
 
-    public Cosmetic(COSMETIC_TYPE type) {
+    public Cosmetic(CosmeticType type) {
         this.type = type;
     }
 

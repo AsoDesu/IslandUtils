@@ -1,12 +1,11 @@
-package net.asodev.islandutils.state.crafting;
+package net.asodev.islandutils.modules.crafting;
 
-import net.asodev.islandutils.state.crafting.state.CraftingItem;
+import net.asodev.islandutils.modules.crafting.state.CraftingItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.toasts.Toast;
 import net.minecraft.client.gui.components.toasts.ToastComponent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 

@@ -1,4 +1,4 @@
-package net.asodev.islandutils.state;
+package net.asodev.islandutils.modules;
 
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.util.MusicUtil;
@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static net.minecraft.network.chat.Component.literal;
 
-public class HITWTrapState {
+public class ClassicAnnouncer {
 
     public static long lastTrapTimestamp = 0;
     public static String trap;
@@ -38,13 +38,13 @@ public class HITWTrapState {
         }
 
         long timestamp = System.currentTimeMillis(); // This just ensures we don't play the sound twice
-        if ((timestamp - HITWTrapState.lastTrapTimestamp) < 50) return; // 50ms delay
-        HITWTrapState.lastTrapTimestamp = timestamp;
+        if ((timestamp - ClassicAnnouncer.lastTrapTimestamp) < 50) return; // 50ms delay
+        ClassicAnnouncer.lastTrapTimestamp = timestamp;
 
         trap = trap.replaceAll("([ \\-!])","").toLowerCase(); // Convert the trap to a lowercase space-less string
 
         try {
-            HITWTrapState.trap = trap; // Set the trap to the one we just found
+            ClassicAnnouncer.trap = trap; // Set the trap to the one we just found
             ResourceLocation sound = new ResourceLocation("island", "announcer." + trap); // island:announcer.(trap) -> The sound location
             Minecraft.getInstance().getSoundManager().play(MusicUtil.createSoundInstance(sound)); // Play the sound!!
         } catch (Exception e) {

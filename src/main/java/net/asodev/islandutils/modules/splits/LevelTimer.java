@@ -2,7 +2,7 @@ package net.asodev.islandutils.modules.splits;
 
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.SplitsCategory;
-import net.asodev.islandutils.state.GAME;
+import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.modules.splits.ui.DojoSplitUI;
 import net.asodev.islandutils.modules.splits.ui.SplitUI;
@@ -165,7 +165,7 @@ public class LevelTimer {
             ChatUtils.debug("LevelTimer - Ended timer");
         } else if (path.equals("games.global.countdown.go")) {
             LevelSplits splits = null;
-            if (MccIslandState.getGame() == GAME.PARKOUR_WARRIOR_DOJO) {
+            if (MccIslandState.getGame() == Game.PARKOUR_WARRIOR_DOJO) {
                 splits = SplitManager.getCourseSplits(MccIslandState.getMap());
             }
             setInstance(new LevelTimer(splits));

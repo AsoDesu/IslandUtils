@@ -1,18 +1,15 @@
-package net.asodev.islandutils.state.crafting.state;
+package net.asodev.islandutils.modules.crafting.state;
 
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.CraftingOptions;
 import net.asodev.islandutils.state.MccIslandState;
-import net.asodev.islandutils.state.crafting.CraftingMenuType;
-import net.asodev.islandutils.state.crafting.CraftingToast;
+import net.asodev.islandutils.modules.crafting.CraftingToast;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
 import net.asodev.islandutils.util.Scheduler;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.toasts.SystemToast;
-import net.minecraft.client.gui.components.toasts.Toast;
 import net.minecraft.client.gui.screens.LoadingOverlay;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
@@ -21,10 +18,8 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
-import java.util.Date;
 import java.util.List;
 
-import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 import static net.asodev.islandutils.util.Utils.MCC_HUD_FONT;
 
 public class CraftingNotifier implements ClientTickEvents.EndTick {

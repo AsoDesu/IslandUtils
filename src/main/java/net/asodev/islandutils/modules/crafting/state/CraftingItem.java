@@ -1,15 +1,13 @@
-package net.asodev.islandutils.state.crafting.state;
+package net.asodev.islandutils.modules.crafting.state;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.asodev.islandutils.state.crafting.CraftingMenuType;
+import net.asodev.islandutils.modules.crafting.CraftingMenuType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-
-import java.util.Date;
 
 import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 

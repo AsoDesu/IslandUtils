@@ -1,19 +1,13 @@
 package net.asodev.islandutils.mixins.crafting;
 
-import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.MccIslandState;
-import net.asodev.islandutils.state.crafting.CraftingMenuType;
-import net.asodev.islandutils.state.crafting.CraftingUI;
-import net.asodev.islandutils.util.ChatUtils;
+import net.asodev.islandutils.modules.crafting.CraftingMenuType;
+import net.asodev.islandutils.modules.crafting.CraftingUI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

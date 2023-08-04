@@ -1,7 +1,7 @@
-package net.asodev.islandutils.state.crafting;
+package net.asodev.islandutils.modules.crafting;
 
-import net.asodev.islandutils.state.crafting.state.CraftingItem;
-import net.asodev.islandutils.state.crafting.state.CraftingItems;
+import net.asodev.islandutils.modules.crafting.state.CraftingItem;
+import net.asodev.islandutils.modules.crafting.state.CraftingItems;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.ChatFormatting;
@@ -9,8 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;

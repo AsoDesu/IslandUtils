@@ -1,6 +1,5 @@
-package net.asodev.islandutils.state.cosmetics;
+package net.asodev.islandutils.modules.cosmetics;
 
-import net.asodev.islandutils.state.COSMETIC_TYPE;
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
@@ -32,11 +31,11 @@ public class CosmeticState {
     public static float yRot = 155;
     public static float xRot = -5;
 
-    public static Cosmetic hatSlot = new Cosmetic(COSMETIC_TYPE.HAT);
-    public static Cosmetic accessorySlot = new Cosmetic(COSMETIC_TYPE.ACCESSORY);
+    public static Cosmetic hatSlot = new Cosmetic(CosmeticType.HAT);
+    public static Cosmetic accessorySlot = new Cosmetic(CosmeticType.ACCESSORY);
     @Nullable public static Integer hoveredColor;
 
-    public static Cosmetic getCosmeticByType(COSMETIC_TYPE type) {
+    public static Cosmetic getCosmeticByType(CosmeticType type) {
         switch (type) {
             case HAT -> { return hatSlot; }
             case ACCESSORY -> { return accessorySlot; }
@@ -78,11 +77,11 @@ public class CosmeticState {
         return itemStack;
     }
 
-    public static COSMETIC_TYPE getType(ItemStack item) {
+    public static CosmeticType getType(ItemStack item) {
         ResourceLocation itemId = Utils.getCustomItemID(item);
         if (itemId == null) return null;
-        if (itemId.getPath().contains("hat.") || itemId.getPath().contains("hair.")) return COSMETIC_TYPE.HAT;
-        if (itemId.getPath().contains("accessory.")) return COSMETIC_TYPE.ACCESSORY;
+        if (itemId.getPath().contains("hat.") || itemId.getPath().contains("hair.")) return CosmeticType.HAT;
+        if (itemId.getPath().contains("accessory.")) return CosmeticType.ACCESSORY;
         return null;
     }
 
@@ -90,7 +89,7 @@ public class CosmeticState {
         List<ItemStack> slots = new ArrayList<>(menu.slots.stream().map(Slot::getItem).toList());
         slots.add(menu.getCarried());
         for (ItemStack slot : slots){
-            COSMETIC_TYPE type = CosmeticState.getType(slot);
+            CosmeticType type = CosmeticState.getType(slot);
             if (type != null) return true;
         }
         return false;

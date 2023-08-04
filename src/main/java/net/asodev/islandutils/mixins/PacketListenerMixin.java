@@ -10,11 +10,11 @@ import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.modules.FriendsInGame;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.IslandSoundCategories;
-import net.asodev.islandutils.state.HITWTrapState;
+import net.asodev.islandutils.modules.ClassicAnnouncer;
 import net.asodev.islandutils.state.MccIslandState;
-import net.asodev.islandutils.state.GAME;
-import net.asodev.islandutils.state.cosmetics.CosmeticSlot;
-import net.asodev.islandutils.state.cosmetics.CosmeticState;
+import net.asodev.islandutils.state.Game;
+import net.asodev.islandutils.modules.cosmetics.CosmeticSlot;
+import net.asodev.islandutils.modules.cosmetics.CosmeticState;
 import net.asodev.islandutils.state.faction.FactionComponents;
 import net.asodev.islandutils.modules.splits.LevelTimer;
 import net.asodev.islandutils.util.ChatUtils;
@@ -152,20 +152,20 @@ public abstract class PacketListenerMixin {
         // Previously this was obfuscated by noxcrew, but not anymore yayyyyy :D
         ResourceLocation soundLoc = clientboundCustomSoundPacket.getSound().value().getLocation();
 
-        if (MccIslandState.getGame() == GAME.PARKOUR_WARRIOR_DOJO) {
+        if (MccIslandState.getGame() == Game.PARKOUR_WARRIOR_DOJO) {
             LevelTimer.onSound(clientboundCustomSoundPacket);
         }
 
         // If we aren't in a game, don't play music
-        if (MccIslandState.getGame() != GAME.HUB) {
+        if (MccIslandState.getGame() != Game.HUB) {
             // Use the sound files above to determine what just happened in the game
-            if (MccIslandState.getGame() != GAME.BATTLE_BOX) {
+            if (MccIslandState.getGame() != Game.BATTLE_BOX) {
 
                 // Stop the music if you restart the course or switch game mode in Parkour Warrior
                 if(soundLoc.getPath().contains("games.parkour_warrior.mode_swap") || soundLoc.getPath().contains("games.parkour_warrior.restart_course")) {
                     MusicUtil.stopMusic(false);
                 }
-                if (MccIslandState.getGame() == GAME.PARKOUR_WARRIOR_SURVIVOR && Objects.equals(soundLoc.getPath(), "games.global.early_elimination")) {
+                if (MccIslandState.getGame() == Game.PARKOUR_WARRIOR_SURVIVOR && Objects.equals(soundLoc.getPath(), "games.global.early_elimination")) {
                     MusicUtil.startMusic(clientboundCustomSoundPacket, true); // The game started. Start the music!!
                 } else if (Objects.equals(soundLoc.getPath(), "games.global.countdown.go")) {
                     MusicUtil.startMusic(clientboundCustomSoundPacket); // The game started. Start the music!!
@@ -275,9 +275,9 @@ public abstract class PacketListenerMixin {
     Style style = Style.EMPTY.withColor(textColor); // Style for the trap color
     @Inject(method = "setSubtitleText", at = @At("HEAD"), cancellable = true)
     private void titleText(ClientboundSetSubtitleTextPacket clientboundSetSubtitleTextPacket, CallbackInfo ci) {
-        if (MccIslandState.getGame() == GAME.HITW) {
-            HITWTrapState.handleTrap(clientboundSetSubtitleTextPacket, ci);
-        } else if (MccIslandState.getGame() == GAME.PARKOUR_WARRIOR_DOJO) {
+        if (MccIslandState.getGame() == Game.HITW) {
+            ClassicAnnouncer.handleTrap(clientboundSetSubtitleTextPacket, ci);
+        } else if (MccIslandState.getGame() == Game.PARKOUR_WARRIOR_DOJO) {
             LevelTimer instance = LevelTimer.getInstance();
             if (instance == null) return;
             instance.handleSubtitle(clientboundSetSubtitleTextPacket, ci);
@@ -286,7 +286,7 @@ public abstract class PacketListenerMixin {
 
     @Inject(method = "setTitleText", at = @At("HEAD")) // Game Over Sound Effect
     private void gameOver(ClientboundSetTitleTextPacket clientboundSetTitleTextPacket, CallbackInfo ci) {
-        if (MccIslandState.getGame() != GAME.HITW) return; // Make sure we're playing HITW
+        if (MccIslandState.getGame() != Game.HITW) return; // Make sure we're playing HITW
         if (!IslandOptions.getClassicHITW().isClassicHITW()) return; // Requires isClassicHITW
         String title = clientboundSetTitleTextPacket.getText().getString().toUpperCase(); // Get the title in upper case
 

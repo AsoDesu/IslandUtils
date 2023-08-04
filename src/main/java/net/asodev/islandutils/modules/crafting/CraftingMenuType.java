@@ -1,4 +1,4 @@
-package net.asodev.islandutils.state.crafting;
+package net.asodev.islandutils.modules.crafting;
 
 public enum CraftingMenuType {
     FORGE,

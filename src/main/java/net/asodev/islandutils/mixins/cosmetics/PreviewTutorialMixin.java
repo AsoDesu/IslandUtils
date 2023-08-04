@@ -1,6 +1,6 @@
 package net.asodev.islandutils.mixins.cosmetics;
 
-import net.asodev.islandutils.state.cosmetics.CosmeticState;
+import net.asodev.islandutils.modules.cosmetics.CosmeticState;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.*;
 import net.minecraft.world.entity.player.Player;

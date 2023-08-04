@@ -1,21 +1,15 @@
 package net.asodev.islandutils.util;
 
-import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.asodev.islandutils.IslandUtils;
 import net.asodev.islandutils.options.IslandOptions;
-import net.asodev.islandutils.state.crafting.CraftingMenuType;
-import net.asodev.islandutils.state.crafting.state.CraftingItem;
-import net.asodev.islandutils.state.crafting.state.CraftingItems;
-import net.asodev.islandutils.state.crafting.state.CraftingNotifier;
+import net.asodev.islandutils.modules.crafting.state.CraftingItems;
+import net.asodev.islandutils.modules.crafting.state.CraftingNotifier;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.world.item.Items;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;

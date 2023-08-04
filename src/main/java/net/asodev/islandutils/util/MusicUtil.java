@@ -8,15 +8,12 @@ import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.IslandSoundCategories;
 import net.asodev.islandutils.options.categories.MusicOptions;
 import net.asodev.islandutils.state.MccIslandState;
-import net.asodev.islandutils.state.GAME;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.asodev.islandutils.state.Game;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
-import net.minecraft.client.sounds.SoundEngine;
 import net.minecraft.client.sounds.SoundManager;
-import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -51,7 +48,7 @@ public class MusicUtil {
         }
 
         ResourceLocation location = MccIslandState.getGame().getMusicLocation();
-        if (MccIslandState.getGame() == GAME.HITW && IslandOptions.getClassicHITW().isClassicHITWMusic()) {
+        if (MccIslandState.getGame() == Game.HITW && IslandOptions.getClassicHITW().isClassicHITWMusic()) {
             location = new ResourceLocation("island","island.music.classic_hitw");
             ChatUtils.send(literal("Now playing: ").withStyle(ChatFormatting.GREEN)
                             .append(literal("Spacewall - Taylor Grover").withStyle(ChatFormatting.AQUA))
@@ -60,12 +57,12 @@ public class MusicUtil {
         if (location == null) return;
 
         float pitch = 1f;
-        if (options.isTgttosDoubleTime() && MccIslandState.getGame() == GAME.TGTTOS &&
+        if (options.isTgttosDoubleTime() && MccIslandState.getGame() == Game.TGTTOS &&
             Objects.equals(MccIslandState.getModifier(), "DOUBLE TIME")) {
                 pitch = 1.2f;
                 ChatUtils.debug("[MusicUtil] Double Time on TGTTOS active! (Pitch: %s)", pitch);
         }
-        if (options.isTgttosToTheDome() && MccIslandState.getGame() == GAME.TGTTOS &&
+        if (options.isTgttosToTheDome() && MccIslandState.getGame() == Game.TGTTOS &&
                 Objects.equals(MccIslandState.getMap(), "TO THE DOME")) {
             location = new ResourceLocation("island", "island.music.to_the_dome");
             ChatUtils.debug("[MusicUtil] To The Dome on TGTTOS active!");

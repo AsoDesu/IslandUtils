@@ -1,6 +1,6 @@
 package net.asodev.islandutils.state.faction;
 
-public enum FACTION {
+public enum Faction {
     AQUA("Aqua Axolotls"),
     BLUE("Blue Bats"),
     CYAN("Cyan Coyotes"),
@@ -13,7 +13,7 @@ public enum FACTION {
     YELLOW("Yellow Yaks");
 
     private final String title;
-    FACTION(String title) {
+    Faction(String title) {
         this.title = title;
     }
     public String getTitle() {

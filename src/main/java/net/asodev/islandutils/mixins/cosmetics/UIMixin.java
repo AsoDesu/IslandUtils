@@ -7,7 +7,7 @@ import net.asodev.islandutils.mixins.accessors.WalkAnimStateAccessor;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.CosmeticsOptions;
 import net.asodev.islandutils.state.MccIslandState;
-import net.asodev.islandutils.state.cosmetics.CosmeticState;
+import net.asodev.islandutils.modules.cosmetics.CosmeticState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -30,8 +30,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.UUID;
 
-import static net.asodev.islandutils.state.cosmetics.CosmeticState.applyColor;
-import static net.asodev.islandutils.state.cosmetics.CosmeticState.isCosmeticMenu;
+import static net.asodev.islandutils.modules.cosmetics.CosmeticState.applyColor;
+import static net.asodev.islandutils.modules.cosmetics.CosmeticState.isCosmeticMenu;
 
 @Mixin(ContainerScreen.class)
 public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {

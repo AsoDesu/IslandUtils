@@ -2,11 +2,11 @@ package net.asodev.islandutils.mixins.cosmetics;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.asodev.islandutils.options.IslandOptions;
-import net.asodev.islandutils.state.COSMETIC_TYPE;
+import net.asodev.islandutils.modules.cosmetics.CosmeticType;
 import net.asodev.islandutils.state.MccIslandState;
-import net.asodev.islandutils.state.cosmetics.Cosmetic;
-import net.asodev.islandutils.state.cosmetics.CosmeticSlot;
-import net.asodev.islandutils.state.cosmetics.CosmeticState;
+import net.asodev.islandutils.modules.cosmetics.Cosmetic;
+import net.asodev.islandutils.modules.cosmetics.CosmeticSlot;
+import net.asodev.islandutils.modules.cosmetics.CosmeticState;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -87,9 +87,9 @@ public abstract class ChestScreenMixin extends Screen {
         if (hoveredSlot != null && hoveredSlot.hasItem()) {
             ItemStack hoveredItem = hoveredSlot.getItem();
             if (IslandOptions.getCosmetics().isShowOnHover()) {
-                COSMETIC_TYPE changedType = setHovered(hoveredItem);
-                if (changedType != COSMETIC_TYPE.HAT) CosmeticState.hatSlot.hover = null;
-                if (changedType != COSMETIC_TYPE.ACCESSORY) CosmeticState.accessorySlot.hover = null;
+                CosmeticType changedType = setHovered(hoveredItem);
+                if (changedType != CosmeticType.HAT) CosmeticState.hatSlot.hover = null;
+                if (changedType != CosmeticType.ACCESSORY) CosmeticState.accessorySlot.hover = null;
             }
 
             if (CosmeticState.isColoredItem(hoveredItem)) {
@@ -106,8 +106,8 @@ public abstract class ChestScreenMixin extends Screen {
         CosmeticState.hoveredColor = null;
     }
 
-    private COSMETIC_TYPE setHovered(ItemStack item) {
-        COSMETIC_TYPE type = CosmeticState.getType(item);
+    private CosmeticType setHovered(ItemStack item) {
+        CosmeticType type = CosmeticState.getType(item);
         if (type == null) return null;
         Cosmetic cosmeticByType = CosmeticState.getCosmeticByType(type);
         if (cosmeticByType == null) return null;
@@ -138,7 +138,7 @@ public abstract class ChestScreenMixin extends Screen {
         if (slot == null || !slot.hasItem()) return;
         ItemStack stack = slot.getItem();
         if (CosmeticState.canBeEquipped(stack)) {
-            COSMETIC_TYPE type = CosmeticState.getType(stack);
+            CosmeticType type = CosmeticState.getType(stack);
             if (type == null) return;
             Cosmetic cosmeticByType = CosmeticState.getCosmeticByType(type);
             if (cosmeticByType == null) return;
@@ -161,10 +161,10 @@ public abstract class ChestScreenMixin extends Screen {
 
     @Unique
     private void setPreview(ItemStack item) {
-        COSMETIC_TYPE type = CosmeticState.getType(item);
+        CosmeticType type = CosmeticState.getType(item);
         int hoverCMD = customModelData(item);
-        if (type == COSMETIC_TYPE.HAT) setOrNotSet(CosmeticState.hatSlot, hoverCMD);
-        else if (type == COSMETIC_TYPE.ACCESSORY) setOrNotSet(CosmeticState.accessorySlot, hoverCMD);
+        if (type == CosmeticType.HAT) setOrNotSet(CosmeticState.hatSlot, hoverCMD);
+        else if (type == CosmeticType.ACCESSORY) setOrNotSet(CosmeticState.accessorySlot, hoverCMD);
     }
 
     @Unique
@@ -177,8 +177,8 @@ public abstract class ChestScreenMixin extends Screen {
 
     @Inject(method = "onClose", at = @At("TAIL"))
     private void onClose(CallbackInfo ci) {
-        CosmeticState.hatSlot = new Cosmetic(COSMETIC_TYPE.HAT);
-        CosmeticState.accessorySlot = new Cosmetic(COSMETIC_TYPE.ACCESSORY);
+        CosmeticState.hatSlot = new Cosmetic(CosmeticType.HAT);
+        CosmeticState.accessorySlot = new Cosmetic(CosmeticType.ACCESSORY);
 
         CosmeticState.inspectingPlayer = null;
 

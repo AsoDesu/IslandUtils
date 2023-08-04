@@ -1,9 +1,9 @@
-package net.asodev.islandutils.state.crafting.state;
+package net.asodev.islandutils.modules.crafting.state;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.asodev.islandutils.state.crafting.CraftingMenuType;
+import net.asodev.islandutils.modules.crafting.CraftingMenuType;
 import net.asodev.islandutils.util.Scheduler;
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.network.chat.Component;
@@ -16,8 +16,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static net.asodev.islandutils.util.resourcepack.ResourcePackOptions.islandFolder;
 

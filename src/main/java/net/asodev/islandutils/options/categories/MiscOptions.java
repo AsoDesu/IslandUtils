@@ -4,11 +4,8 @@ import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionDescription;
 import dev.isxander.yacl3.api.OptionGroup;
-import dev.isxander.yacl3.api.controller.EnumControllerBuilder;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
-import dev.isxander.yacl3.gui.controllers.cycling.EnumController;
 import net.asodev.islandutils.options.saving.Ignore;
-import net.asodev.islandutils.state.GAME;
 import net.minecraft.network.chat.Component;
 
 public class MiscOptions implements OptionsCategory {

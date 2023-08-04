@@ -1,4 +1,4 @@
-package net.asodev.islandutils.state.cosmetics;
+package net.asodev.islandutils.modules.cosmetics;
 
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.Slot;
@@ -6,7 +6,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
 
-import static net.asodev.islandutils.state.cosmetics.CosmeticState.itemsMatch;
+import static net.asodev.islandutils.modules.cosmetics.CosmeticState.itemsMatch;
 
 public class CosmeticSlot {
 

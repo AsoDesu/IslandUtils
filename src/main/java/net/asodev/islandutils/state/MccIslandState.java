@@ -2,37 +2,20 @@ package net.asodev.islandutils.state;
 
 import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
-import net.asodev.islandutils.mixins.accessors.TabListAccessor;
-import net.asodev.islandutils.options.IslandOptions;
-import net.asodev.islandutils.state.faction.FACTION;
+import net.asodev.islandutils.state.faction.Faction;
 import net.asodev.islandutils.util.ChatUtils;
-import net.asodev.islandutils.util.Scheduler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.PlayerTabOverlay;
-import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.protocol.game.ServerboundCommandSuggestionPacket;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
-
-import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 
 public class MccIslandState {
 
-    private static GAME game = GAME.HUB;
+    private static Game game = Game.HUB;
     private static String modifier = "INACTIVE";
     private static String map = "UNKNOWN";
-    private static FACTION faction;
+    private static Faction faction;
 
     public static String getModifier() {
         return modifier;
@@ -41,10 +24,10 @@ public class MccIslandState {
         MccIslandState.modifier = modifier;
     }
 
-    public static GAME getGame() {
+    public static Game getGame() {
         return game;
     }
-    public static void setGame(GAME game) {
+    public static void setGame(Game game) {
         if (MccIslandState.game != game) {
             ChatUtils.debug("MccIslandState - Changed game to: " + game);
             IslandUtilsEvents.GAME_CHANGE.invoker().onGameChange(game);
@@ -58,27 +41,27 @@ public class MccIslandState {
 
         // Check for PKW Tablist Titles
         if (tablistTitle.contains("PARKOUR WARRIOR SURVIVOR")) {
-            MccIslandState.setGame(GAME.PARKOUR_WARRIOR_SURVIVOR);
+            MccIslandState.setGame(Game.PARKOUR_WARRIOR_SURVIVOR);
             return;
         } else if (tablistTitle.contains("Parkour Warrior - ")) {
-            MccIslandState.setGame(GAME.PARKOUR_WARRIOR_DOJO);
+            MccIslandState.setGame(Game.PARKOUR_WARRIOR_DOJO);
             return;
         }
 
         if (!isGameDisplayName(displayName)) {
-            MccIslandState.setGame(GAME.HUB);
+            MccIslandState.setGame(Game.HUB);
         } else { // We're in a game!!!
             // These checks are pretty self-explanatory
             if (title.contains("HOLE IN THE WALL")) {
-                MccIslandState.setGame(GAME.HITW);
+                MccIslandState.setGame(Game.HITW);
             } else if (title.contains("TGTTOS")) {
-                MccIslandState.setGame(GAME.TGTTOS);
+                MccIslandState.setGame(Game.TGTTOS);
             } else if (title.contains("SKY BATTLE")) {
-                MccIslandState.setGame(GAME.SKY_BATTLE);
+                MccIslandState.setGame(Game.SKY_BATTLE);
             } else if (title.contains("BATTLE BOX")) {
-                MccIslandState.setGame(GAME.BATTLE_BOX);
+                MccIslandState.setGame(Game.BATTLE_BOX);
             } else {
-                MccIslandState.setGame(GAME.HUB); // Somehow we're in a game, but not soooo hub it is!!
+                MccIslandState.setGame(Game.HUB); // Somehow we're in a game, but not soooo hub it is!!
             }
         }
     }
@@ -97,10 +80,10 @@ public class MccIslandState {
         return map;
     }
 
-    public static FACTION getFaction() {
+    public static Faction getFaction() {
         return faction;
     }
-    public static void setFaction(FACTION faction) {
+    public static void setFaction(Faction faction) {
         //ChatUtils.debug("Detected Faction: " + faction);
         DiscordPresenceUpdator.setLevel(DiscordPresenceUpdator.lastLevel);
         MccIslandState.faction = faction;

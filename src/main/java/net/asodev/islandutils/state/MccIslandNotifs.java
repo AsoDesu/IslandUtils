@@ -2,15 +2,14 @@ package net.asodev.islandutils.state;
 
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.CraftingOptions;
-import net.asodev.islandutils.state.crafting.state.CraftingItem;
-import net.asodev.islandutils.state.crafting.state.CraftingItems;
+import net.asodev.islandutils.modules.crafting.state.CraftingItem;
+import net.asodev.islandutils.modules.crafting.state.CraftingItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MccIslandNotifs {
     private static Component completedCrafts = Component.literal("Completed Crafts:").setStyle(Style.EMPTY.withBold(true).withColor(ChatFormatting.WHITE));

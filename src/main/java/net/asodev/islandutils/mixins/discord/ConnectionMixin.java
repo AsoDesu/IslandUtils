@@ -1,7 +1,7 @@
 package net.asodev.islandutils.mixins.discord;
 
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
-import net.asodev.islandutils.state.GAME;
+import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
@@ -29,7 +29,7 @@ public abstract class ConnectionMixin {
             if (hostName.contains("mccisland.net")) {
                 DiscordPresenceUpdator.started = null;
                 DiscordPresenceUpdator.clear();
-                MccIslandState.setGame(GAME.HUB);
+                MccIslandState.setGame(Game.HUB);
             }
         }
     }
