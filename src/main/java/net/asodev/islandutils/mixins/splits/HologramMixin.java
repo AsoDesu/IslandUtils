@@ -4,6 +4,7 @@ import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.modules.splits.SplitManager;
 import net.asodev.islandutils.util.ChatUtils;
+import net.asodev.islandutils.util.TimeUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.chat.Component;
@@ -23,7 +24,6 @@ import java.util.regex.Pattern;
 
 @Mixin(ClientPacketListener.class)
 public class HologramMixin {
-    Pattern timeRegex = Pattern.compile("(\\d*)([dhm])");
     TextColor redColor = TextColor.fromLegacyFormat(ChatFormatting.RED);
     TextColor yellowColor = TextColor.fromLegacyFormat(ChatFormatting.YELLOW);
 
@@ -39,23 +39,7 @@ public class HologramMixin {
         if (!color.equals(redColor) && !color.equals(yellowColor)) return;
 
         String name = customName.getString();
-
-        Matcher matcher = timeRegex.matcher(name);
-
-        long seconds = 0L;
-        while (matcher.find()) {
-            MatchResult result = matcher.toMatchResult();
-
-            int value;
-            try { value = Integer.parseInt(result.group(1)); }
-            catch (Exception e) { continue; }
-            String time = result.group(2);
-            switch (time) {
-                case "d" -> seconds += value * 86400L;
-                case "h" -> seconds += value * 3600L;
-                case "m" -> seconds += value * 60L;
-            }
-        }
+        long seconds = TimeUtil.getTimeSeconds(name);
 
         ChatUtils.debug("Found course expiry: " + name + " (" + seconds + ")");
         SplitManager.setCurrentCourseExpiry(System.currentTimeMillis() + (seconds * 1000L));
