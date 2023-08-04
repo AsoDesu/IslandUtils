@@ -14,21 +14,22 @@ public class MiscOptions implements OptionsCategory {
 
     boolean pauseConfirm = true;
     boolean showFriendsInGame = true;
+    boolean silverPreview = true;
     boolean enableConfigButton = true;
     boolean debugMode = false;
 
     public boolean isPauseConfirm() {
         return pauseConfirm;
     }
-
     public boolean isShowFriendsInGame() {
         return showFriendsInGame;
     }
-
+    public boolean isSilverPreview() {
+        return silverPreview;
+    }
     public boolean isEnableConfigButton() {
         return enableConfigButton;
     }
-
     public boolean isDebugMode() {
         return debugMode;
     }
@@ -47,6 +48,12 @@ public class MiscOptions implements OptionsCategory {
                 .controller(TickBoxControllerBuilder::create)
                 .binding(defaults.showFriendsInGame, () -> showFriendsInGame, value -> this.showFriendsInGame = value)
                 .build();
+        Option<Boolean> silverOption = Option.<Boolean>createBuilder()
+                .name(Component.translatable("text.autoconfig.islandutils.option.silverPreview"))
+                .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.silverPreview.@Tooltip")))
+                .controller(TickBoxControllerBuilder::create)
+                .binding(defaults.silverPreview, () -> silverPreview, value -> this.silverPreview = value)
+                .build();
         Option<Boolean> buttonOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.enableConfigButton"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.enableConfigButton.@Tooltip")))
@@ -64,6 +71,7 @@ public class MiscOptions implements OptionsCategory {
                 .name(Component.literal("Miscellaneous"))
                 .option(pauseOption)
                 .option(showFriendsOption)
+                .option(silverOption)
                 .option(buttonOption)
                 .group(OptionGroup.createBuilder()
                         .name(Component.literal("Debug Options"))

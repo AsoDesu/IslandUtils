@@ -1,5 +1,6 @@
 package net.asodev.islandutils.mixins.cosmetics;
 
+import net.asodev.islandutils.modules.Scavenging;
 import net.asodev.islandutils.modules.cosmetics.CosmeticState;
 import net.asodev.islandutils.modules.crafting.CraftingUI;
 import net.asodev.islandutils.state.faction.Faction;
@@ -34,6 +35,8 @@ public class FontLoaderMixin {
             switch (file.getPath()) {
                 case "_fonts/framework_assembler.png" -> CraftingUI.setAssemblerCharacter(character);
                 case "_fonts/header/fusion_crafting_tab_1.png" -> CraftingUI.setForgeCharacter(character);
+                case "_fonts/header/scavenging.png" -> Scavenging.setTitleCharacter(character);
+                case "_fonts/silver.png" -> Scavenging.setSilverCharacter(character);
 
                 case "_fonts/tooltips/hat.png" -> CosmeticState.HAT_COMP = comp;
                 case "_fonts/tooltips/accessory.png" -> CosmeticState.ACCESSORY_COMP = comp;

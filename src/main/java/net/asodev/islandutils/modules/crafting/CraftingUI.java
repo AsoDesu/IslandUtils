@@ -28,7 +28,7 @@ public class CraftingUI {
 
     private static TextColor timeLeftColor = TextColor.fromLegacyFormat(ChatFormatting.RED);
     public static void analyseCraftingItem(CraftingMenuType type, ItemStack item, int slot) {
-        if (!isInCraftingSlot(slot)) return;
+        if (!isInputSlot(slot)) return;
 
         List<Component> lores = Utils.getLores(item);
         if (lores != null && isActive(lores)) {
@@ -66,7 +66,7 @@ public class CraftingUI {
     private static boolean isActive(List<Component> lores) {
         return lores.stream().anyMatch(p -> p.getString().contains("Shift-Click to Cancel"));
     }
-    private static boolean isInCraftingSlot(int slot) {
+    private static boolean isInputSlot(int slot) {
         return slot >= 37 && slot < 42;
     }
 
