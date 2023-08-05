@@ -3,6 +3,7 @@ package net.asodev.islandutils.modules.crafting;
 import net.asodev.islandutils.modules.crafting.state.CraftingItem;
 import net.asodev.islandutils.modules.crafting.state.CraftingItems;
 import net.asodev.islandutils.util.ChatUtils;
+import net.asodev.islandutils.util.TimeUtil;
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -10,9 +11,6 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class CraftingUI {
 
@@ -40,8 +38,7 @@ public class CraftingUI {
                 break;
             }
             if (timeLeftString != null) {
-                long timeLeft = getTimeLeft(timeLeftString) + 30;
-
+                long timeLeft = TimeUtil.getTimeSeconds(timeLeftString) + 30;
                 long finishTimestamp = System.currentTimeMillis() + (timeLeft * 1000);
 
                 CraftingItem craftingItem = new CraftingItem();
@@ -68,31 +65,6 @@ public class CraftingUI {
     }
     private static boolean isInputSlot(int slot) {
         return slot >= 37 && slot < 42;
-    }
-
-    private static Map<String, Pattern> patternMap = Map.of(
-            "hours", Pattern.compile("(\\d+)h"),
-            "mins", Pattern.compile("(\\d+)m"),
-            "seconds", Pattern.compile("(\\d+)s")
-    );
-    private static long getTimeLeft(String string) {
-        long timeLeft = 0;
-        for (Map.Entry<String, Pattern> entry : patternMap.entrySet()) {
-            Matcher matcher = entry.getValue().matcher(string);
-            if (!matcher.find()) continue;
-
-            String stringValue = matcher.group(1);
-            int value;
-            try { value = Integer.parseInt(stringValue); }
-            catch (Exception e) { continue; }
-
-            switch (entry.getKey()) {
-                case "hours" -> timeLeft += (value * 3600L);
-                case "mins"  -> timeLeft += (value * 60L);
-                case "seconds"  -> timeLeft += value;
-            }
-        }
-        return timeLeft;
     }
 
     public static void setAssemblerCharacter(String assemblerCharacter) {
