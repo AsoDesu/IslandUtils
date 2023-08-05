@@ -7,20 +7,21 @@ import net.asodev.islandutils.util.TimeUtil;
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
 public class CraftingUI {
-
-    private static String assemblerCharacter;
-    private static String forgeCharacter;
+    private static Style CHEST_BACKGROUND_STYLE = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(new ResourceLocation("mcc", "chest_backgrounds"));
+    private static Component assemblerComponent;
+    private static Component forgeComponent;
 
     public static CraftingMenuType craftingMenuType(Component component) {
-        String string = component.getString();
-        if (string.contains(assemblerCharacter)) return CraftingMenuType.ASSEMBLER;
-        if (string.contains(forgeCharacter)) return CraftingMenuType.FORGE;
+        if (component.contains(assemblerComponent)) return CraftingMenuType.ASSEMBLER;
+        if (component.contains(forgeComponent)) return CraftingMenuType.FORGE;
         return null;
     }
 
@@ -38,7 +39,7 @@ public class CraftingUI {
                 break;
             }
             if (timeLeftString != null) {
-                long timeLeft = TimeUtil.getTimeSeconds(timeLeftString) + 30;
+                long timeLeft = TimeUtil.getTimeSeconds(timeLeftString) + 60;
                 long finishTimestamp = System.currentTimeMillis() + (timeLeft * 1000);
 
                 CraftingItem craftingItem = new CraftingItem();
@@ -68,9 +69,9 @@ public class CraftingUI {
     }
 
     public static void setAssemblerCharacter(String assemblerCharacter) {
-        CraftingUI.assemblerCharacter = assemblerCharacter;
+        CraftingUI.assemblerComponent = Component.literal(assemblerCharacter).withStyle(CHEST_BACKGROUND_STYLE);
     }
     public static void setForgeCharacter(String forgeCharacter) {
-        CraftingUI.forgeCharacter = forgeCharacter;
+        CraftingUI.forgeComponent = Component.literal(forgeCharacter).withStyle(CHEST_BACKGROUND_STYLE);
     }
 }
