@@ -3,6 +3,7 @@ package net.asodev.islandutils.options.categories;
 import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionDescription;
+import dev.isxander.yacl3.api.OptionGroup;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
 import net.asodev.islandutils.options.saving.Ignore;
 import net.minecraft.network.chat.Component;
@@ -20,6 +21,12 @@ public class DiscordOptions implements OptionsCategory {
 
     @Override
     public ConfigCategory getCategory() {
+        Option<Boolean> discordPresenceOption = Option.<Boolean>createBuilder()
+                .name(Component.translatable("text.autoconfig.islandutils.option.discordPresence"))
+                .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.discordPresence.@Tooltip")))
+                .controller(TickBoxControllerBuilder::create)
+                .binding(defaults.discordPresence, () -> discordPresence, value -> this.discordPresence = value)
+                .build();
         Option<Boolean> showGameOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.showGame"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.showGame.@Tooltip")))
@@ -53,11 +60,16 @@ public class DiscordOptions implements OptionsCategory {
 
         return ConfigCategory.createBuilder()
                 .name(Component.literal("Discord Presence"))
-                .option(showGameOption)
-                .option(showGameInfoOption)
-                .option(showTimeRemainOption)
-                .option(showTimeElapsedOption)
-                .option(showFactionOption)
+                .option(discordPresenceOption)
+                .group(OptionGroup.createBuilder()
+                        .name(Component.literal("Presence Display Options"))
+                        .collapsed(false)
+                        .option(showGameOption)
+                        .option(showGameInfoOption)
+                        .option(showTimeRemainOption)
+                        .option(showTimeElapsedOption)
+                        .option(showFactionOption)
+                        .build())
                 .build();
     }
 }
