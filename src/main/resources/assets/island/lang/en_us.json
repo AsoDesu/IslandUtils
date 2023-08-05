@@ -85,6 +85,8 @@
 
   "text.autoconfig.islandutils.option.debugMode": "Debug Mode",
   "text.autoconfig.islandutils.option.debugMode.@Tooltip": "Enables: Chat debug logs, Custom Item ID tooltips & Other debug features",
+  "text.autoconfig.islandutils.option.debugActivityUi": "Activity Debug UI",
+  "text.autoconfig.islandutils.option.debugActivityUi.@Tooltip": "Adds a debug preview that shows what the Discord Presence displays\nShows: Details, State, Small Text and Image, Large Text and Image",
 
   "modmenu.descriptionTranslation.islandutils": "A Utility Mod for MCC Island!",
   "modmenu.summaryTranslation.islandutils": "A Utility Mod for MCC Island!"

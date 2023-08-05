@@ -19,9 +19,12 @@ public class DiscordPresenceUpdator {
     // Discord GameSDK sometimes likes to not work whenever you ask it to do something
     // So we have to be sure we don't crash when that happens.
 
-    @Nullable static Activity activity;
+    @Nullable
+    public static Activity activity;
+
     public static UUID timeLeftBossbar = null;
     public static Instant started;
+
     public static void create() {
         if (!IslandOptions.getDiscord().discordPresence) return;
 

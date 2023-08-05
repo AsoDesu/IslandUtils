@@ -42,6 +42,7 @@ public class IslandUtilsClient implements ClientModInitializer {
                 GLFW.GLFW_KEY_N, // The keycode of the key
                 "category.islandutils.keys" // The translation key of the keybinding's category.
         ));
+
         SplitManager.init();
         DisguiseUtil.registerDisguiseInput();
         IslandUtilsCommand.register();

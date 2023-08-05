@@ -17,6 +17,7 @@ public class MiscOptions implements OptionsCategory {
     boolean silverPreview = true;
     boolean enableConfigButton = true;
     boolean debugMode = false;
+    boolean debugActivityUi = false;
 
     public boolean isPauseConfirm() {
         return pauseConfirm;
@@ -32,6 +33,10 @@ public class MiscOptions implements OptionsCategory {
     }
     public boolean isDebugMode() {
         return debugMode;
+    }
+
+    public boolean isDebugActivityUi() {
+        return debugActivityUi;
     }
 
     @Override
@@ -66,6 +71,12 @@ public class MiscOptions implements OptionsCategory {
                 .controller(TickBoxControllerBuilder::create)
                 .binding(defaults.debugMode, () -> debugMode, value -> this.debugMode = value)
                 .build();
+        Option<Boolean> debugActivityUiOption = Option.<Boolean>createBuilder()
+                .name(Component.translatable("text.autoconfig.islandutils.option.debugActivityUi"))
+                .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.debugActivityUi.@Tooltip")))
+                .controller(TickBoxControllerBuilder::create)
+                .binding(defaults.debugActivityUi, () -> debugActivityUi, value -> this.debugActivityUi = value)
+                .build();
 
         return ConfigCategory.createBuilder()
                 .name(Component.literal("Miscellaneous"))
@@ -77,6 +88,7 @@ public class MiscOptions implements OptionsCategory {
                         .name(Component.literal("Debug Options"))
                         .collapsed(true)
                         .option(debugOption)
+                        .option(debugActivityUiOption)
                         .build())
                 .build();
     }
