@@ -5,9 +5,16 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.LerpingBossEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class DojoSplitUI implements SplitUI {
     private static final ResourceLocation BAR_TEXTURE = new ResourceLocation("island", "textures/gui/pkw_splits.png");
@@ -21,10 +28,17 @@ public class DojoSplitUI implements SplitUI {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics) {
-        int x = (guiGraphics.guiWidth() / 2) - (MCC_BAR_WIDTH / 2);
+    public void render(GuiGraphics guiGraphics, Collection<LerpingBossEvent> events) {
+        List<LerpingBossEvent> list = new ArrayList<>(events.stream().toList());
+        Collections.reverse(list);
+        int size = list.size();
+        for (LerpingBossEvent event : list) {
+            if (!event.getName().getString().equals("")) break;
+            size--;
+        }
 
-        int y = 16 + 2;
+        int x = (guiGraphics.guiWidth() / 2) - (MCC_BAR_WIDTH / 2);
+        int y = Double.valueOf((size * 18.5)).intValue();
         guiGraphics.blit(BAR_TEXTURE, x, y, 0, 0, this.width(), this.height());
 
         renderLevelName(guiGraphics, x, y);
