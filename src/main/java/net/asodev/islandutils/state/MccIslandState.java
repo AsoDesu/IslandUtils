@@ -91,6 +91,8 @@ public class MccIslandState {
 
     public static boolean isOnline() {
         ServerData currentServer = Minecraft.getInstance().getCurrentServer();
-        return currentServer != null && currentServer.ip.toLowerCase().contains("mccisland.net");
+        if (currentServer == null) return false;
+        String ip = currentServer.ip.toLowerCase();
+        return ip.contains("mccisland.net") || ip.contains("mccisland.com");
     }
 }
