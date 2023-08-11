@@ -1,4 +1,4 @@
-package net.asodev.islandutils.mixins;
+package net.asodev.islandutils.mixins.network;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.ParseResults;
@@ -58,33 +58,6 @@ public abstract class PacketListenerMixin {
     @Shadow @Final private Minecraft minecraft; // I love minecraft
 
     @Shadow private CommandDispatcher<CommandSourceStack> commands;
-
-    @Shadow public abstract ClientSuggestionProvider getSuggestionsProvider();
-
-    @Shadow public abstract void sendCommand(String string2);
-
-    @Shadow protected abstract ParseResults<SharedSuggestionProvider> parseCommand(String string);
-
-    Component objectiveName = Component.empty();
-    String tablistHeader = "";
-    @Inject(method = "handleAddObjective", at = @At("TAIL")) // Checks which game we're playing!
-    public void handleAddObjective(ClientboundSetObjectivePacket clientboundSetObjectivePacket, CallbackInfo ci) {
-        if (!MccIslandState.isOnline()) return; // We have to be online
-        Component displayName = clientboundSetObjectivePacket.getDisplayName(); // Get the title of the scoreboard
-
-        objectiveName = displayName;
-        MccIslandState.updateGame(displayName, tablistHeader);
-    }
-
-    @Inject(method = "handleTabListCustomisation", at = @At("TAIL"))
-    private void updateTablist(ClientboundTabListPacket clientboundTabListPacket, CallbackInfo ci) {
-        if (!MccIslandState.isOnline()) return; // We have to be online
-        String string = clientboundTabListPacket.getHeader().getString();
-        if (tablistHeader.equals(string)) return;
-
-        tablistHeader = string;
-        MccIslandState.updateGame(objectiveName, tablistHeader);
-    }
 
     @Inject(method = "handleSetExperience", at = @At("TAIL")) // Get our faction level
     public void handleSetExperience(ClientboundSetExperiencePacket clientboundSetExperiencePacket, CallbackInfo ci) {

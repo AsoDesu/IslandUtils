@@ -1,5 +1,6 @@
 package net.asodev.islandutils;
 
+import com.noxcrew.noxesium.network.clientbound.ClientboundMccGameStatePacket;
 import net.asodev.islandutils.state.Game;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
@@ -16,6 +17,11 @@ public class IslandUtilsEvents {
             callback.onGameUpdate(game);
         }
     });
+    public static Event<GameStateChange> GAME_STATE_CHANGE = EventFactory.createArrayBacked(GameStateChange.class, callbacks -> state -> {
+        for (GameStateChange callback : callbacks) {
+            callback.onGameUpdate(state);
+        }
+    });
 
     @FunctionalInterface
     public interface GameChangeCallback {
@@ -25,6 +31,11 @@ public class IslandUtilsEvents {
     @FunctionalInterface
     public interface GameUpdateCallback {
         void onGameUpdate(Game to);
+    }
+
+    @FunctionalInterface
+    public interface GameStateChange {
+        void onGameUpdate(ClientboundMccGameStatePacket state);
     }
 
 }

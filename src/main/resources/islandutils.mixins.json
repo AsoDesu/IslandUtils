@@ -11,12 +11,13 @@
     "cosmetics.PreviewTutorialMixin",
     "discord.ConnectionMixin",
     "discord.PlayerTeamMixin",
+    "network.GamePacketMixin",
+    "network.ServerPacketMixin",
     "resources.PackRepositoryMixin",
     "sounds.SoundSourceMixin"
   ],
   "client": [
     "MainScreenMixin",
-    "PacketListenerMixin",
     "accessors.SoundEngineAccessor",
     "accessors.SoundManagerAccessor",
     "accessors.TabListAccessor",
@@ -24,6 +25,7 @@
     "crafting.CraftingPacketMixin",
     "crafting.ScavengingScreenMixin",
     "discord.JoinMCCIMixin",
+    "network.PacketListenerMixin",
     "notif.ServerSelectionMixin",
     "resources.MultiplayerJoinMixin",
     "resources.ProgressScreenAccessor",

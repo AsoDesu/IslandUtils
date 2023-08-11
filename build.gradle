@@ -18,17 +18,23 @@ static def extraVersion() {
 }
 
 repositories {
-    // Add repositories to retrieve artifacts from in here.
-    // You should only use this when depending on other mods because
-    // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-    // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-    // for more information about repositories.
     mavenCentral()
     maven { url "https://maven.shedaniel.me/" }
     maven { url 'https://jitpack.io' }
     maven { url "https://maven.terraformersmc.com/releases/" }
     maven { url = "https://maven.isxander.dev/releases" }
     maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 
 dependencies {
@@ -44,6 +50,7 @@ dependencies {
     modApi("com.terraformersmc:modmenu:7.0.1")
 
     implementation include('com.github.JnCrMx:discord-game-sdk4j:v0.5.5')
+    modCompileOnly "maven.modrinth:noxesium:1.0.1"
 }
 
 processResources {
