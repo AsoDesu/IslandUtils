@@ -37,7 +37,7 @@ public class FriendsInGame {
     }
     public static void setFriends(List<String> friends) {
         FriendsInGame.friends = friends;
-        Scheduler.schedule(25, FriendsInGame::sendFriendsInGame);
+        Scheduler.schedule(45, FriendsInGame::sendFriendsInGame);
     }
 
     public static void sendFriendsInGame(Minecraft client) {
