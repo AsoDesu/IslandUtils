@@ -12,6 +12,8 @@ import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.util.HttpUtil;
 import net.minecraft.world.flag.FeatureFlagSet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +29,9 @@ import java.util.concurrent.CompletableFuture;
 import static net.asodev.islandutils.util.ChatUtils.translate;
 
 public class ResourcePackUpdater {
-    private static final String url = "http://static.islandutils.asodev.net/pack_3.json";
+    public static final Logger logger = LoggerFactory.getLogger(ResourcePackUpdater.class);
+
+    private static final String url = "https://raw.githubusercontent.com/AsoDesu/islandutils-assets/master/pack.json";
     private static final Component title = Component.literal(translate("Island Utils"));
     private static final Component desc = Component.literal(translate("&6Music Resources"));
     HttpClient client;
@@ -44,14 +48,14 @@ public class ResourcePackUpdater {
     }
 
     public void downloadAndApply() throws Exception {
-        System.out.println("Downloading resource pack...");
+        logger.info("Downloading resource pack...");
 
         state = new ProgressScreen(false);
 
         File file = new File(ResourcePackOptions.packZip);
         CompletableFuture<?> future = HttpUtil.downloadTo(file, new URL(ResourcePackOptions.data.url), new HashMap<>(), 0xFA00000, state, Minecraft.getInstance().getProxy());
         future.thenAccept(obj -> {
-            System.out.println("Applying resource pack...");
+            logger.info("Applying resource pack...");
             apply(file, true);
         });
     }
@@ -82,13 +86,13 @@ public class ResourcePackUpdater {
         File file = new File(ResourcePackOptions.packZip);
         if (file.exists()) apply(file, false);
 
-        System.out.println("Requesting resource pack...");
+        logger.info("Requesting resource pack...");
         try {
             ResourcePack current = ResourcePackOptions.get();
             requestUpdate().thenAccept(rp -> {
-                System.out.println("Received Resource Pack: " + rp.hash);
-                if (current != null && Objects.equals(current.hash, rp.hash) && file.exists()) {
-                    System.out.println("Resource pack has not changed. Not downloading!");
+                logger.info("Received Resource Pack: " + rp.rev);
+                if (current != null && Objects.equals(current.rev, rp.rev) && file.exists()) {
+                    logger.info("Resource pack has not changed. Not downloading!");
                     apply(file, false);
                     return;
                 }
@@ -98,12 +102,12 @@ public class ResourcePackUpdater {
                     downloadAndApply();
                 } catch (Exception e) {
                     getting = false;
-                    System.err.println("Failed to download resource pack!");
+                    logger.error("Failed to download resource pack!", e);
                 }
             });
         } catch (Exception e) {
             getting = false;
-            System.err.println("Failed to get IslandUtils resource pack info! " + e.getMessage());
+            logger.error("Failed to get IslandUtils resource pack info!", e);
         }
     }
 
