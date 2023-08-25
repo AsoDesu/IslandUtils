@@ -3,6 +3,7 @@ package net.asodev.islandutils.options.categories;
 import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionDescription;
+import dev.isxander.yacl3.api.OptionGroup;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
 import net.asodev.islandutils.options.saving.Ignore;
 import net.minecraft.network.chat.Component;
@@ -32,8 +33,11 @@ public class PlobbyOptions implements OptionsCategory {
 
         return ConfigCategory.createBuilder()
                 .name(Component.literal("Plobby Integration"))
-                .option(showOption)
-                .option(inGameOption)
+                .group(OptionGroup.createBuilder()
+                        .name(Component.literal("On-Screen code"))
+                        .option(showOption)
+                        .option(inGameOption)
+                        .build())
                 .build();
     }
 
