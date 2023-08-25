@@ -2,6 +2,9 @@ package net.asodev.islandutils.modules.plobby;
 
 import net.asodev.islandutils.modules.plobby.state.PlobbyStateProvider;
 import net.asodev.islandutils.options.IslandOptions;
+import net.asodev.islandutils.options.categories.PlobbyOptions;
+import net.asodev.islandutils.state.Game;
+import net.asodev.islandutils.state.MccIslandState;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -25,7 +28,9 @@ public class PlobbyUI {
     }
 
     public void render(GuiGraphics guiGraphics) {
-        if (!IslandOptions.getPlobby().showOnScreen()) return;
+        PlobbyOptions options = IslandOptions.getPlobby();
+        if (!options.showOnScreen()) return;
+        if (!options.showInGame() && MccIslandState.getGame() != Game.HUB) return;
         if (!stateProvider.hasJoinCode()) return;
 
         Style lockedComponentStyle = Style.EMPTY.withFont(Style.DEFAULT_FONT).withColor(ChatFormatting.WHITE).withBold(true);
