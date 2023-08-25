@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
+import net.asodev.islandutils.modules.plobby.PlobbyUI;
 import net.asodev.islandutils.modules.splits.SplitManager;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.DisguiseUtil;

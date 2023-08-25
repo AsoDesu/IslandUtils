@@ -31,7 +31,7 @@
     "resources.ProgressScreenAccessor",
     "sounds.SoundOptionsMixin",
     "splits.HologramMixin",
-    "splits.SplitUIMixin",
+    "BossUIMixin",
     "ui.ChatScreenMixin",
     "ui.CommandSuggestionsAccessor",
     "ui.OptionsMixin",

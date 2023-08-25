@@ -66,6 +66,13 @@
             "chars": ["\ue009"],
             "ascent": 8,
             "height": 8
+        },
+        {
+            "type": "bitmap",
+            "file": "mcc:_fonts/cancel.png",
+            "chars": ["\ue010"],
+            "ascent": 8,
+            "height": 8
         }
     ]
 }
