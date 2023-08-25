@@ -1,5 +1,6 @@
 package net.asodev.islandutils.modules.plobby;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.asodev.islandutils.modules.plobby.state.PlobbyStateProvider;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.PlobbyOptions;
@@ -41,7 +42,7 @@ public class PlobbyUI {
         int width = 130;
         int screenWidth = guiGraphics.guiWidth();
         guiGraphics.pose().pushPose();
-        guiGraphics.pose().translate(screenWidth - width - 8, 6, 100);
+        guiGraphics.pose().translate(screenWidth - width - 8, 6, 0f);
 
         int x = 0;
         int y = 0;
