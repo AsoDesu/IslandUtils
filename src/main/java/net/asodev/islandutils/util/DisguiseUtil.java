@@ -11,24 +11,24 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class DisguiseUtil {
-    private static HashMap<UUID, Long> disguiseCooldownMap = new HashMap<>();
     private static final Long disguiseCooldownTime = 1000L;
+    private static long lastDisguiseUseTimestamp = -1;
+
     public static void registerDisguiseInput() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if(IslandUtilsClient.disguiseKeyBind.isDown() && client.player != null) {
-                if(attemptUseDisguiseKey(client.player) && MccIslandState.isOnline()) {
+            if (IslandUtilsClient.disguiseKeyBind.isDown() && client.player != null) {
+                if (attemptUseDisguiseKey() && MccIslandState.isOnline()) {
                     client.player.connection.sendCommand("disguise");
                 }
             }
         });
     }
 
-    private static Boolean attemptUseDisguiseKey(LocalPlayer player) {
-        if(!disguiseCooldownMap.containsKey(player.getUUID()) || System.currentTimeMillis() - disguiseCooldownMap.get(player.getUUID()) > disguiseCooldownTime) {
-            disguiseCooldownMap.put(player.getUUID(), System.currentTimeMillis());
-            return true;
-        } else {
-            return false;
-        }
+    private static Boolean attemptUseDisguiseKey() {
+        long currentTimestamp = System.currentTimeMillis();
+            if (currentTimestamp - lastDisguiseUseTimestamp < disguiseCooldownTime)
+                return false;
+        lastDisguiseUseTimestamp = currentTimestamp;
+        return true;
     }
 }
