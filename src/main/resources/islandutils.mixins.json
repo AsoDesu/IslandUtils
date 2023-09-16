@@ -18,6 +18,7 @@
   ],
   "client": [
     "MainScreenMixin",
+    "accessors.ContainerScreenAccessor",
     "accessors.SoundEngineAccessor",
     "accessors.SoundManagerAccessor",
     "accessors.TabListAccessor",

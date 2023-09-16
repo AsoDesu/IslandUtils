@@ -13,6 +13,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 public class CraftingUI {
     private static Style CHEST_BACKGROUND_STYLE = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(new ResourceLocation("mcc", "chest_backgrounds"));
@@ -25,7 +27,7 @@ public class CraftingUI {
         return null;
     }
 
-    private static TextColor timeLeftColor = TextColor.fromLegacyFormat(ChatFormatting.RED);
+    private static TextColor timeLeftColor = TextColor.parseColor("#FF5556");
     public static void analyseCraftingItem(CraftingMenuType type, ItemStack item, int slot) {
         if (!isInputSlot(slot)) return;
 
@@ -33,8 +35,9 @@ public class CraftingUI {
         if (lores != null && isActive(lores)) {
             String timeLeftString = null;
             for (Component line : lores) {
-                TextColor color = line.getStyle().getColor();
-                if (color != timeLeftColor) continue;
+                Component firstComponent = line.getSiblings().stream().findFirst().orElse(null);
+                TextColor color = firstComponent == null ? null : firstComponent.getStyle().getColor();
+                if (Objects.equals(color, timeLeftColor)) continue;
                 timeLeftString = line.getString();
                 break;
             }
