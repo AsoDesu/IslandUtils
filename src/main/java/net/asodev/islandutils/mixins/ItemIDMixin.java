@@ -66,6 +66,7 @@ public abstract class ItemIDMixin {
         toAppend.append(Component.literal(customItemId).withStyle(ChatFormatting.AQUA));
     }
 
+    @Unique
     private void tryAddSlotNumber(MutableComponent toAppend) {
         ItemStack me = (ItemStack)(Object)this;
         Screen screen = Minecraft.getInstance().screen;
