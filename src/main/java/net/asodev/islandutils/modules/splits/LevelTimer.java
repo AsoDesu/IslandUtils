@@ -173,6 +173,10 @@ public class LevelTimer {
         }
     }
 
+    public static void updateFromConfig(SplitsCategory options) {
+        if (!options.isEnablePkwSplits()) setInstance(null);
+    }
+
     public SplitUI getUI() {
         return splitUI;
     }

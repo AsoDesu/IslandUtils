@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.YetAnotherConfigLib;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
+import net.asodev.islandutils.modules.splits.LevelTimer;
 import net.asodev.islandutils.options.categories.*;
 import net.asodev.islandutils.options.saving.IslandUtilsSaveHandler;
 import net.asodev.islandutils.util.Utils;
@@ -61,6 +62,7 @@ public class IslandOptions {
 
     public static void save() {
         DiscordPresenceUpdator.updateFromConfig(discord);
+        LevelTimer.updateFromConfig(splits);
 
         JsonObject object = new JsonObject();
         for (OptionsCategory category : categories) {
