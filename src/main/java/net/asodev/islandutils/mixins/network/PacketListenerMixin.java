@@ -152,14 +152,8 @@ public abstract class PacketListenerMixin {
                     return;
                 }
             }
-            if (Objects.equals(soundLoc.getPath(), "games.global.timer.round_end") ||
-                    Objects.equals(soundLoc.getPath(), "music.global.roundendmusic") ||
-                    Objects.equals(soundLoc.getPath(), "music.global.overtime_intro_music") ||
-                    Objects.equals(soundLoc.getPath(), "music.global.overtime_loop_music") ||
-                    Objects.equals(soundLoc.getPath(), "music.global.gameintro") ||
-                    Objects.equals(soundLoc.getPath(), "music.global.game_small_success") ||
-                    Objects.equals(soundLoc.getPath(), "music.global.game_big_success")
-            ) {
+            if (Objects.equals(soundLoc.getPath(), "games.global.timer.round_end")
+                    || soundLoc.getPath().startsWith("music.global.")) {
                 // The game ended or is about to end. Stop the music!!
                 MusicUtil.stopMusic();
             }
