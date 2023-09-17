@@ -14,13 +14,10 @@ public class Plobby {
     }
 
     public void onOpen(String code) {
-
     }
     public void onLockStateChange(Boolean state) {
-
     }
     public void onDisband() {
-
     }
 
     public PlobbyUI getUi() {

@@ -4,10 +4,10 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
-import net.asodev.islandutils.modules.plobby.PlobbyUI;
+import net.asodev.islandutils.modules.plobby.PlobbyKeybind;
 import net.asodev.islandutils.modules.splits.SplitManager;
 import net.asodev.islandutils.util.ChatUtils;
-import net.asodev.islandutils.util.DisguiseUtil;
+import net.asodev.islandutils.modules.DisguiseKeybind;
 import net.asodev.islandutils.util.IslandUtilsCommand;
 import net.asodev.islandutils.util.MusicUtil;
 
@@ -25,26 +25,26 @@ import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
 public class IslandUtilsClient implements ClientModInitializer {
-    public static KeyMapping previewKeyBind;
+    public static KeyMapping openPlobbyKey;
     public static KeyMapping disguiseKeyBind;
 
     @Override
     public void onInitializeClient() {
-
-        previewKeyBind = KeyBindingHelper.registerKeyBinding(new KeyMapping(
-                "key.islandutils.preview", // The translation key of the keybinding's name
-                InputConstants.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
-                GLFW.GLFW_KEY_P, // The keycode of the key
-                "category.islandutils.keys" // The translation key of the keybinding's category.
+        openPlobbyKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+                "key.islandutils.plobbymenu",
+                InputConstants.Type.KEYSYM,
+                GLFW.GLFW_KEY_K,
+                "category.islandutils.keys"
         ));
         disguiseKeyBind = KeyBindingHelper.registerKeyBinding(new KeyMapping(
-                "key.islandutils.disguise", // The translation key of the keybinding's name
-                InputConstants.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
-                GLFW.GLFW_KEY_N, // The keycode of the key
-                "category.islandutils.keys" // The translation key of the keybinding's category.
+                "key.islandutils.disguise",
+                InputConstants.Type.KEYSYM,
+                GLFW.GLFW_KEY_N,
+                "category.islandutils.keys"
         ));
         SplitManager.init();
-        DisguiseUtil.registerDisguiseInput();
+        DisguiseKeybind.registerDisguiseInput();
+        PlobbyKeybind.registerKeybind();
         IslandUtilsCommand.register();
         DiscordPresenceUpdator.init();
     }
