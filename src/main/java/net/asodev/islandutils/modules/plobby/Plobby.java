@@ -1,6 +1,10 @@
 package net.asodev.islandutils.modules.plobby;
 
+import net.asodev.islandutils.modules.crafting.CraftingUI;
 import net.asodev.islandutils.modules.plobby.state.PlobbyStateProvider;
+import net.minecraft.network.chat.Component;
+
+import static net.asodev.islandutils.modules.crafting.CraftingUI.CHEST_BACKGROUND_STYLE;
 
 public class Plobby {
     PlobbyStateProvider stateProvider;
@@ -35,5 +39,13 @@ public class Plobby {
 
     public static Plobby getInstance() {
         return instance;
+    }
+
+    private static Component titleComponent;
+    public static Component getTitleComponent() {
+        return titleComponent;
+    }
+    public static void setTitleCharacter(String titleCharacter) {
+        titleComponent = Component.literal(titleCharacter).withStyle(CHEST_BACKGROUND_STYLE);
     }
 }

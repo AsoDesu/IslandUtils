@@ -17,6 +17,7 @@
     "sounds.SoundSourceMixin"
   ],
   "client": [
+    "BossUIMixin",
     "MainScreenMixin",
     "accessors.ContainerScreenAccessor",
     "accessors.SoundEngineAccessor",
@@ -28,11 +29,11 @@
     "discord.JoinMCCIMixin",
     "network.PacketListenerMixin",
     "notif.ServerSelectionMixin",
+    "plobby.PlobbyChestMixin",
     "resources.MultiplayerJoinMixin",
     "resources.ProgressScreenAccessor",
     "sounds.SoundOptionsMixin",
     "splits.HologramMixin",
-    "BossUIMixin",
     "ui.ChatScreenMixin",
     "ui.CommandSuggestionsAccessor",
     "ui.OptionsMixin",
