@@ -1,5 +1,6 @@
 package net.asodev.islandutils.mixins.plobby;
 
+import com.sun.net.httpserver.HttpServer;
 import net.asodev.islandutils.modules.plobby.Plobby;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.Utils;
@@ -37,7 +38,7 @@ public class PlobbyChestMixin extends Screen {
             Matcher matcher = codePattern.matcher(loreString);
             if (!matcher.find()) continue;
             String code = matcher.group(1);
-            ChatUtils.debug("Code: " + code);
+            this.minecraft.keyboardHandler.setClipboard(code);
             break;
         }
     }
