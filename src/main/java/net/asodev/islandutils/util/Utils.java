@@ -43,7 +43,7 @@ public class Utils {
     }
 
     public static void assertIslandFolder() {
-        File folder = new File(ResourcePackOptions.islandFolder);
+        File folder = ResourcePackOptions.islandFolder.toFile();
         if (!folder.exists()) folder.mkdir();
     }
 

@@ -1,5 +1,8 @@
 package net.asodev.islandutils.modules.crafting.state;
 
+import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.CraftingOptions;
 import net.asodev.islandutils.state.MccIslandState;
@@ -7,6 +10,7 @@ import net.asodev.islandutils.modules.crafting.CraftingToast;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
 import net.asodev.islandutils.util.Scheduler;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -20,7 +24,10 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 
 import java.util.List;
 
+import static net.asodev.islandutils.util.IslandUtilsCommand.cantUseDebugError;
 import static net.asodev.islandutils.util.Utils.MCC_HUD_FONT;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 
 public class CraftingNotifier implements ClientTickEvents.EndTick {
     private int tick = 0;
@@ -119,5 +126,23 @@ public class CraftingNotifier implements ClientTickEvents.EndTick {
             update(client);
             tick = 0;
         }
+    }
+
+    public static LiteralArgumentBuilder<FabricClientCommandSource> getDebugCommand() {
+        return literal("add_craft")
+                .then(argument("color", StringArgumentType.string())
+                .then(argument("slot", IntegerArgumentType.integer())
+                .then(argument("delay", IntegerArgumentType.integer())
+                .executes(ctx -> {
+                    if (!IslandOptions.getMisc().isDebugMode()) {
+                        ctx.getSource().sendError(cantUseDebugError);
+                        return 0;
+                    }
+                    String color = ctx.getArgument("color", String.class);
+                    Integer slot = ctx.getArgument("slot", Integer.class);
+                    Integer delay = ctx.getArgument("delay", Integer.class);
+                    CraftingItems.addDebugItem(color, slot, delay);
+                    return 1;
+                }))));
     }
 }

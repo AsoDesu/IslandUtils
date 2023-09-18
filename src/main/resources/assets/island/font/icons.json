@@ -66,6 +66,20 @@
             "chars": ["\ue009"],
             "ascent": 8,
             "height": 8
+        },
+        {
+            "type": "bitmap",
+            "file": "mcc:_fonts/cancel.png",
+            "chars": ["\ue010"],
+            "ascent": 8,
+            "height": 8
+        },
+        {
+            "type": "bitmap",
+            "file": "island:chat_channels/plobby.png",
+            "chars": ["\ue011"],
+            "ascent": 8,
+            "height": 9
         }
     ]
 }

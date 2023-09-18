@@ -1,5 +1,6 @@
 package net.asodev.islandutils.mixins.discord;
 
+import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
@@ -29,6 +30,7 @@ public abstract class ConnectionMixin {
             if (hostName.contains("mccisland.net")) {
                 DiscordPresenceUpdator.started = null;
                 DiscordPresenceUpdator.clear();
+                IslandUtilsEvents.QUIT_MCCI.invoker().onEvent();
                 MccIslandState.setGame(Game.HUB);
             }
         }

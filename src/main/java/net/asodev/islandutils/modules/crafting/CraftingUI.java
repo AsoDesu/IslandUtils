@@ -17,7 +17,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class CraftingUI {
-    private static Style CHEST_BACKGROUND_STYLE = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(new ResourceLocation("mcc", "chest_backgrounds"));
+    public static Style CHEST_BACKGROUND_STYLE = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(new ResourceLocation("mcc", "chest_backgrounds"));
     private static Component assemblerComponent;
     private static Component forgeComponent;
 
@@ -37,7 +37,7 @@ public class CraftingUI {
             for (Component line : lores) {
                 Component firstComponent = line.getSiblings().stream().findFirst().orElse(null);
                 TextColor color = firstComponent == null ? null : firstComponent.getStyle().getColor();
-                if (Objects.equals(color, timeLeftColor)) continue;
+                if (!Objects.equals(color, timeLeftColor)) continue;
                 timeLeftString = line.getString();
                 break;
             }

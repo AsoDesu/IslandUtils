@@ -5,7 +5,7 @@
   "soundCategory.core_music":  "§cMCCI: Core Music",
   "soundCategory.sound_effects":  "§aMCCI: Sound Effects",
 
-  "key.islandutils.preview": "Preview Cosmetic",
+  "key.islandutils.plobbymenu": "Open Plobby Menu",
   "key.islandutils.disguise": "Toggle Disguise",
   "category.islandutils.keys": "IslandUtils",
   "category.islandutils": "Island Utils",
@@ -82,6 +82,14 @@
   "text.autoconfig.islandutils.option.classicHITWMusic.@Tooltip": "Adds back the music from the original HITW map by Noxcrew!",
   "text.autoconfig.islandutils.option.enableConfigButton": "Enable Config Button in options",
   "text.autoconfig.islandutils.option.enableConfigButton.@Tooltip": "Enables the Config Button in the top left of the options menu\n\n§c§lWARNING! §rIf you disable this and you don't have another way to access the config (ModMenu), you will be unable to access the config in-game!",
+
+  "text.autoconfig.islandutils.option.showOnScreen": "Show on-screen code",
+  "text.autoconfig.islandutils.option.showOnScreen.@Tooltip": "Shows the lobby code on-screen when the lobby is unlocked an in 'Join Code' mode",
+  "text.autoconfig.islandutils.option.showInGame": "Show in games",
+  "text.autoconfig.islandutils.option.showInGame.@Tooltip": "Shows the lobby code while in games",
+
+  "text.autoconfig.islandutils.option.showFolder": "Open text source folder",
+  "text.autoconfig.islandutils.option.showFolder.@Tooltip": "Opens the text sources folder\n\nContents:\ncode.txt -> Auto-updates with the current plobby join code",
 
   "text.autoconfig.islandutils.option.debugMode": "Debug Mode",
   "text.autoconfig.islandutils.option.debugMode.@Tooltip": "Enables: Chat debug logs, Custom Item ID tooltips & Other debug features",

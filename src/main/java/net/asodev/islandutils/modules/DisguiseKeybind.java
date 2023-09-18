@@ -1,16 +1,11 @@
-package net.asodev.islandutils.util;
+package net.asodev.islandutils.modules;
 
 import net.asodev.islandutils.IslandUtilsClient;
 import net.asodev.islandutils.state.MccIslandState;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
-import net.minecraft.client.player.LocalPlayer;
-
-import java.util.HashMap;
-import java.util.UUID;
-
-public class DisguiseUtil {
+public class DisguiseKeybind {
     private static final Long disguiseCooldownTime = 1000L;
     private static long lastDisguiseUseTimestamp = -1;
 

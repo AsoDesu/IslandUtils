@@ -4,6 +4,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.asodev.islandutils.IslandUtils;
+import net.asodev.islandutils.modules.plobby.state.DebugPlobbyState;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.modules.crafting.state.CraftingItems;
 import net.asodev.islandutils.modules.crafting.state.CraftingNotifier;
@@ -15,7 +16,7 @@ import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.arg
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 
 public class IslandUtilsCommand {
-    private static final Component cantUseDebugError =
+    public static final Component cantUseDebugError =
             Component.literal(ChatUtils.translate("You must be in debug mode to use the debug command."));
 
     public static LiteralArgumentBuilder<FabricClientCommandSource> craftsCommand = literal("crafting")
@@ -24,21 +25,8 @@ public class IslandUtilsCommand {
                return 0;
             });
     public static LiteralArgumentBuilder<FabricClientCommandSource> debugSubcommand = literal("debug")
-            .then(literal("add_craft")
-            .then(argument("color", StringArgumentType.string())
-            .then(argument("slot", IntegerArgumentType.integer())
-            .then(argument("delay", IntegerArgumentType.integer())
-            .executes(ctx -> {
-                if (!IslandOptions.getMisc().isDebugMode()) {
-                    ctx.getSource().sendError(cantUseDebugError);
-                    return 0;
-                }
-                String color = ctx.getArgument("color", String.class);
-                Integer slot = ctx.getArgument("slot", Integer.class);
-                Integer delay = ctx.getArgument("delay", Integer.class);
-                CraftingItems.addDebugItem(color, slot, delay);
-                return 1;
-            })))));
+            .then(CraftingNotifier.getDebugCommand())
+            .then(DebugPlobbyState.getDebugCommand());
     public static LiteralArgumentBuilder<FabricClientCommandSource> islandCommand = literal("islandutils")
             .then(craftsCommand);
 

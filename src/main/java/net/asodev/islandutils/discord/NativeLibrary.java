@@ -69,7 +69,7 @@ public class NativeLibrary {
 
         String libIndex = "native/"+osName+"/"+architecture+"/"+fileName;
 
-        File outFile = new File(ResourcePackOptions.islandFolder + libIndex);
+        File outFile = ResourcePackOptions.islandFolder.resolve(libIndex).toFile();
         if (!outFile.exists()) {
             InputStream stream = NativeLibrary.class.getResourceAsStream("/" + libIndex);
             if (stream == null) throw new IOException("JNI couldn't be found in the resources. (" + libIndex + ")");
