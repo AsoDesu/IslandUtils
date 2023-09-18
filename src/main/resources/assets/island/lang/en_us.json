@@ -84,7 +84,7 @@
   "text.autoconfig.islandutils.option.enableConfigButton.@Tooltip": "Enables the Config Button in the top left of the options menu\n\n§c§lWARNING! §rIf you disable this and you don't have another way to access the config (ModMenu), you will be unable to access the config in-game!",
 
   "text.autoconfig.islandutils.option.showOnScreen": "Show on-screen code",
-  "text.autoconfig.islandutils.option.showOnScreen.@Tooltip": "Shows the lobby code on-screen when the lobby is unlocked an in 'Join Code' mode",
+  "text.autoconfig.islandutils.option.showOnScreen.@Tooltip": "Shows the plobby join code on-screen",
   "text.autoconfig.islandutils.option.showInGame": "Show in games",
   "text.autoconfig.islandutils.option.showInGame.@Tooltip": "Shows the lobby code while in games",
 
