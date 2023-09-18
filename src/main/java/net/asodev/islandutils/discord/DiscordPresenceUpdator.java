@@ -101,7 +101,7 @@ public class DiscordPresenceUpdator {
 
         if (game == Game.TGTTOS || game == Game.BATTLE_BOX)
             if (ROUND_STATE != null) roundScoreboardUpdate(ROUND_STATE, false);
-        if (game == Game.HITW || game == Game.SKY_BATTLE || game == Game.SKY_BATTLE_WATERFIGHT)
+        if (game == Game.HITW || game == Game.SKY_BATTLE)
             if (REMAIN_STATE != null) remainScoreboardUpdate(REMAIN_STATE, false);
         if (game == Game.PARKOUR_WARRIOR_DOJO)
             if (COURSE_STATE != null) courseScoreboardUpdate(COURSE_STATE, false);
@@ -120,7 +120,7 @@ public class DiscordPresenceUpdator {
         if (!IslandOptions.getDiscord().showGameInfo || !IslandOptions.getDiscord().showGame) return;
 
         if (set) REMAIN_STATE = "Remaining: " + value;
-        if (MccIslandState.getGame() != Game.HITW && MccIslandState.getGame() != Game.SKY_BATTLE && MccIslandState.getGame() != Game.SKY_BATTLE_WATERFIGHT) return;
+        if (MccIslandState.getGame() != Game.HITW && MccIslandState.getGame() != Game.SKY_BATTLE) return;
 
         try { activity.setState(REMAIN_STATE); }
         catch (Exception e) { e.printStackTrace(); }
