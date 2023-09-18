@@ -37,7 +37,7 @@ public class CraftingUI {
             for (Component line : lores) {
                 Component firstComponent = line.getSiblings().stream().findFirst().orElse(null);
                 TextColor color = firstComponent == null ? null : firstComponent.getStyle().getColor();
-                if (Objects.equals(color, timeLeftColor)) continue;
+                if (!Objects.equals(color, timeLeftColor)) continue;
                 timeLeftString = line.getString();
                 break;
             }
