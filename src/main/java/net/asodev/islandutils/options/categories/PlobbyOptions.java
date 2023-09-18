@@ -11,8 +11,8 @@ public class PlobbyOptions implements OptionsCategory {
     @Ignore
     private static final PlobbyOptions defaults = new PlobbyOptions();
 
-    private boolean showOnScreen = false;
-    private boolean showInGame = false;
+    private boolean showOnScreen = true;
+    private boolean showInGame = true;
 
     @Override
     public ConfigCategory getCategory() {
