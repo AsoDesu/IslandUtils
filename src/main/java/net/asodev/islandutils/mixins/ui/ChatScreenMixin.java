@@ -2,8 +2,11 @@ package net.asodev.islandutils.mixins.ui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.asodev.islandutils.mixins.ui.CommandSuggestionsAccessor;
+import net.asodev.islandutils.state.Game;
+import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.PlainTextButtonNoShadow;
+import net.asodev.islandutils.util.Sidebar;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -17,6 +20,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -24,6 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static net.asodev.islandutils.state.MccIslandState.isOnline;
 import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
@@ -36,6 +41,8 @@ public abstract class ChatScreenMixin extends Screen {
 
     private final List<PlainTextButtonNoShadow> buttons = new ArrayList<>();
     private int nextPress = 0;
+    @Unique
+    private Pattern plobbySidebarLine = Pattern.compile("PLOBBY.\\(.");
 
     @Inject(method = "init", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
@@ -62,16 +69,33 @@ public abstract class ChatScreenMixin extends Screen {
                 (d) -> Minecraft.getInstance().getConnection().sendCommand("chat party"),
                 Minecraft.getInstance().font
         ));
-        x += 43 + 3;
-        buttons.add(new PlainTextButtonNoShadow(
-                x,
-                this.height - 14 - 9 - 2,
-                43,
-                9,
-                Component.literal("\ue004").withStyle(iconsFontStyle),
-                (d) -> Minecraft.getInstance().getConnection().sendCommand("chat team"),
-                Minecraft.getInstance().font
-        ));
+        if (MccIslandState.getGame().hasTeamChat()) {
+            x += 43 + 3;
+            buttons.add(new PlainTextButtonNoShadow(
+                    x,
+                    this.height - 14 - 9 - 2,
+                    43,
+                    9,
+                    Component.literal("\ue004").withStyle(iconsFontStyle),
+                    (d) -> Minecraft.getInstance().getConnection().sendCommand("chat team"),
+                    Minecraft.getInstance().font
+            ));
+        }
+
+        // Test sidebar lines with the regex to see if we find the "PLOBBY (*/50):" line
+        int lineNumber = Sidebar.findLine((line) -> plobbySidebarLine.matcher(line.getString()).find());
+        if (lineNumber != -1) {
+            x += 43 + 3;
+            buttons.add(new PlainTextButtonNoShadow(
+                    x,
+                    this.height - 14 - 9 - 2,
+                    43,
+                    9,
+                    Component.literal("\ue011").withStyle(iconsFontStyle),
+                    (d) -> Minecraft.getInstance().getConnection().sendCommand("chat plobby"),
+                    Minecraft.getInstance().font
+            ));
+        }
     }
 
     @Inject(method = "render", at = @At("TAIL"))

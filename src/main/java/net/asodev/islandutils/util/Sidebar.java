@@ -37,6 +37,9 @@ public class Sidebar {
         }).collect(Collectors.toList());
     }
 
+    public static int findLine(Predicate<Component> predicate) {
+        return findLine(predicate, getSidebarLines());
+    }
     public static int findLine(Predicate<Component> predicate, List<Component> lines) {
         int i = 0;
         for (Component line : lines) {
