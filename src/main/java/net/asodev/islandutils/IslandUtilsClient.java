@@ -5,6 +5,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.modules.plobby.PlobbyFeatures;
+import net.asodev.islandutils.modules.plobby.state.GlobalPlobbyState;
 import net.asodev.islandutils.modules.splits.SplitManager;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.modules.DisguiseKeybind;
@@ -47,6 +48,7 @@ public class IslandUtilsClient implements ClientModInitializer {
         PlobbyFeatures.registerEvents();
         IslandUtilsCommand.register();
         DiscordPresenceUpdator.init();
+        GlobalPlobbyState.register();
     }
 
     public static void onJoinMCCI() {
@@ -63,6 +65,7 @@ public class IslandUtilsClient implements ClientModInitializer {
             ChatUtils.send("&cYou are using a pre-release version of IslandUtils! Expect things to be broken and buggy, and report to #test-feedback!");
         }
         DiscordPresenceUpdator.create();
+        IslandUtilsEvents.JOIN_MCCI.invoker().onEvent();
     }
 
     public static class Commands {

@@ -30,6 +30,7 @@
     "network.PacketListenerMixin",
     "notif.ServerSelectionMixin",
     "plobby.PlobbyChestMixin",
+    "plobby.PlobbyItemAnalysisMixin",
     "resources.MultiplayerJoinMixin",
     "resources.ProgressScreenAccessor",
     "sounds.SoundOptionsMixin",

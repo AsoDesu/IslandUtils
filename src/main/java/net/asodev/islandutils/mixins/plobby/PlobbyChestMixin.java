@@ -26,24 +26,18 @@ public class PlobbyChestMixin extends Screen {
         super(component);
     }
 
-    @Unique
-    private final static Pattern codePattern = Pattern.compile(".•.([A-Za-z]{2}\\d{4})");
+
     @Inject(method = "slotClicked", at = @At("HEAD"))
     private void slotClicked(Slot slot, int index, int j, ClickType clickType, CallbackInfo ci) {
         if (!this.getTitle().contains(Plobby.getTitleComponent())) return;
+        if (slot == null) return;
         if (index != 8 && slot.hasItem()) return;
 
-        List<Component> lores = Utils.getLores(slot.getItem());
-        for (Component lore : lores) {
-            String loreString = lore.getString();
-            Matcher matcher = codePattern.matcher(loreString);
-            if (!matcher.find()) continue;
-            String code = matcher.group(1);
+        String code = PlobbyFeatures.getJoinCodeFromItem(slot.getItem());
+        if (code == null) return;
 
-            PlobbyFeatures.lastCopy = System.currentTimeMillis(); // We copied rn
-            this.minecraft.keyboardHandler.setClipboard(code);
-            break;
-        }
+        PlobbyFeatures.lastCopy = System.currentTimeMillis(); // We copied rn
+        this.minecraft.keyboardHandler.setClipboard(code);
     }
 
 }

@@ -52,7 +52,7 @@ public class ResourcePackUpdater {
 
         state = new ProgressScreen(false);
 
-        File file = new File(ResourcePackOptions.packZip);
+        File file = ResourcePackOptions.packZip.toFile();
         CompletableFuture<?> future = HttpUtil.downloadTo(file, new URL(ResourcePackOptions.data.url), new HashMap<>(), 0xFA00000, state, Minecraft.getInstance().getProxy());
         future.thenAccept(obj -> {
             logger.info("Applying resource pack...");
@@ -83,7 +83,7 @@ public class ResourcePackUpdater {
     }
 
     public void get() {
-        File file = new File(ResourcePackOptions.packZip);
+        File file = ResourcePackOptions.packZip.toFile();
         if (file.exists()) apply(file, false);
 
         logger.info("Requesting resource pack...");

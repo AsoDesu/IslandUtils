@@ -27,6 +27,18 @@ public class IslandUtilsEvents {
         }
     });
 
+    public static Event<ConnectionCallback> JOIN_MCCI = EventFactory.createArrayBacked(ConnectionCallback.class, callbacks -> () -> {
+        for (ConnectionCallback callback : callbacks) {
+            callback.onEvent();
+        }
+    });
+
+    public static Event<ConnectionCallback> QUIT_MCCI = EventFactory.createArrayBacked(ConnectionCallback.class, callbacks -> () -> {
+        for (ConnectionCallback callback : callbacks) {
+            callback.onEvent();
+        }
+    });
+
     // GAME PACKET EVENTS
     public static Event<ChatMessageEvent> CHAT_MESSAGE = EventFactory.createArrayBacked(ChatMessageEvent.class, callbacks -> (state, modify) -> {
         for (ChatMessageEvent callback : callbacks) {
@@ -47,6 +59,11 @@ public class IslandUtilsEvents {
     @FunctionalInterface
     public interface GameStateChange {
         void onGameUpdate(ClientboundMccGameStatePacket state);
+    }
+
+    @FunctionalInterface
+    public interface ConnectionCallback {
+        void onEvent();
     }
 
     @FunctionalInterface

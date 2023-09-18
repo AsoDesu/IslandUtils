@@ -38,6 +38,7 @@ public class FontLoaderMixin {
                 case "_fonts/header/fusion_crafting_tab_1.png" -> CraftingUI.setForgeCharacter(character);
                 case "_fonts/header/scavenging.png" -> Scavenging.setTitleCharacter(character);
                 case "_fonts/header/plobby_tab1.png" -> Plobby.setTitleCharacter(character);
+                case "_fonts/header/plobby_create.png" -> Plobby.setCreateCharacter(character);
                 case "_fonts/silver.png" -> Scavenging.setSilverCharacter(character);
 
                 case "_fonts/tooltips/hat.png" -> CosmeticState.HAT_COMP = comp;

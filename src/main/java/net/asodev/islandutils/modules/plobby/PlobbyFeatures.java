@@ -4,13 +4,16 @@ import net.asodev.islandutils.IslandUtilsClient;
 import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.Sidebar;
+import net.asodev.islandutils.util.Utils;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PlobbyFeatures {
@@ -30,6 +33,18 @@ public class PlobbyFeatures {
             modify.replace(copiedMessage); // Replace with the copy success message
             lastCopy = 0; // Reset the copy time
         });
+    }
+
+    private final static Pattern codePattern = Pattern.compile(".•.([A-Za-z]{2}\\d{4})");
+    public static String getJoinCodeFromItem(ItemStack item) {
+        List<Component> lores = Utils.getLores(item);
+        for (Component lore : lores) {
+            String loreString = lore.getString();
+            Matcher matcher = codePattern.matcher(loreString);
+            if (!matcher.find()) continue;
+            return matcher.group(1);
+        }
+        return null;
     }
 
     private static final Pattern plobbySidebarLine = Pattern.compile("PLOBBY.\\(.");

@@ -1,11 +1,10 @@
 package net.asodev.islandutils.options.categories;
 
-import dev.isxander.yacl3.api.ConfigCategory;
-import dev.isxander.yacl3.api.Option;
-import dev.isxander.yacl3.api.OptionDescription;
-import dev.isxander.yacl3.api.OptionGroup;
+import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
+import net.asodev.islandutils.modules.plobby.Plobby;
 import net.asodev.islandutils.options.saving.Ignore;
+import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 
 public class PlobbyOptions implements OptionsCategory {
@@ -30,6 +29,12 @@ public class PlobbyOptions implements OptionsCategory {
                 .binding(defaults.showInGame, () -> showInGame, value -> this.showInGame = value)
                 .build();
 
+        Option<?> showFolder = ButtonOption.createBuilder()
+                .name(Component.translatable("text.autoconfig.islandutils.option.showFolder"))
+                .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.showFolder.@Tooltip")))
+                .action((screen, b) -> Util.getPlatform().openUri(Plobby.plobbyFolder.toUri()))
+                .build();
+
 
         return ConfigCategory.createBuilder()
                 .name(Component.literal("Plobby Integration"))
@@ -37,6 +42,7 @@ public class PlobbyOptions implements OptionsCategory {
                         .name(Component.literal("On-Screen code"))
                         .option(showOption)
                         .option(inGameOption)
+                        .option(showFolder)
                         .build())
                 .build();
     }

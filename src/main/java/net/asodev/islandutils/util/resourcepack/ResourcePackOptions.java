@@ -6,22 +6,23 @@ import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 public class ResourcePackOptions {
 
-    public static final String islandFolder = FabricLoader.getInstance().getConfigDir() + "/islandutils_resources/";
-    public static final String packDataFile = islandFolder + "pack.json";
-    public static final String packZip = islandFolder + "island_utils.zip";
+    public static final Path islandFolder = FabricLoader.getInstance().getConfigDir().resolve("islandutils_resources");
+    public static final Path packDataFile = islandFolder.resolve("pack.json");
+    public static final Path packZip = islandFolder.resolve("island_utils.zip");
 
     public static ResourcePack data;
 
     public static void save() throws IOException {
         Utils.assertIslandFolder();
-        Utils.writeFile(new File(packDataFile), data.toJson());
+        Utils.writeFile(packDataFile.toFile(), data.toJson());
     }
 
     public static ResourcePack get() throws Exception {
-        File packData = new File(packDataFile);
+        File packData = packDataFile.toFile();
         String json = Utils.readFile(packData);
 
         data = ResourcePack.fromJson(json);

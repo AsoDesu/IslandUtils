@@ -88,6 +88,9 @@
   "text.autoconfig.islandutils.option.showInGame": "Show in games",
   "text.autoconfig.islandutils.option.showInGame.@Tooltip": "Shows the lobby code while in games",
 
+  "text.autoconfig.islandutils.option.showFolder": "Open text source folder",
+  "text.autoconfig.islandutils.option.showFolder.@Tooltip": "Opens the text sources folder\n\nContents:\ncode.txt -> Auto-updates with the current plobby join code",
+
   "text.autoconfig.islandutils.option.debugMode": "Debug Mode",
   "text.autoconfig.islandutils.option.debugMode.@Tooltip": "Enables: Chat debug logs, Custom Item ID tooltips & Other debug features",
 

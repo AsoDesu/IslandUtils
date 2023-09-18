@@ -22,6 +22,7 @@ import static net.asodev.islandutils.util.Utils.MCC_HUD_FONT;
 public class PlobbyUI {
     private static Component LOCKED = Component.literal("\ue010").withStyle(iconsFontStyle.withColor(ChatFormatting.WHITE));
     private static Component UNLOCKED = Component.literal("\ue009").withStyle(iconsFontStyle.withColor(ChatFormatting.WHITE));
+    private static Style NICE_YELLOW = Style.EMPTY.withColor(TextColor.parseColor("#ffff00"));
 
     PlobbyStateProvider stateProvider;
     public PlobbyUI(PlobbyStateProvider stateProvider) {
@@ -36,8 +37,8 @@ public class PlobbyUI {
 
         Style lockedComponentStyle = Style.EMPTY.withFont(Style.DEFAULT_FONT).withColor(ChatFormatting.WHITE).withBold(true);
         Component component = stateProvider.isLocked()
-                ? LOCKED.copy().append(Component.literal(" Lobby Locked!").withStyle(lockedComponentStyle))
-                : UNLOCKED.copy().append(Component.literal(" Lobby Open!").withStyle(lockedComponentStyle));
+                ? LOCKED.copy().append(Component.literal(" Plobby Locked!").withStyle(lockedComponentStyle))
+                : UNLOCKED.copy().append(Component.literal(" Plobby Open!").withStyle(lockedComponentStyle));
 
         int width = 130;
         int screenWidth = guiGraphics.guiWidth();
@@ -52,7 +53,8 @@ public class PlobbyUI {
         guiGraphics.drawString(Minecraft.getInstance().font, component, x + 3, x + 2, 16777216);
 
         if (!stateProvider.isLocked()) {
-            Component joinWith = Component.literal("JOIN CODE: " + stateProvider.getJoinCode()).withStyle(MCC_HUD_FONT.withColor(ChatFormatting.WHITE));
+            Component joinWith = Component.literal("JOIN CODE: ").withStyle(MCC_HUD_FONT.withColor(ChatFormatting.WHITE))
+                    .append(Component.literal(stateProvider.getJoinCode()).withStyle(NICE_YELLOW));
             width -= 120;
             y = 13;
             x += width;
