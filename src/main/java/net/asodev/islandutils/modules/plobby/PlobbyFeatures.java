@@ -3,10 +3,15 @@ package net.asodev.islandutils.modules.plobby;
 import net.asodev.islandutils.IslandUtilsClient;
 import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.state.MccIslandState;
+import net.asodev.islandutils.util.Sidebar;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
+
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class PlobbyFeatures {
     public static long lastCopy = 0;
@@ -25,6 +30,24 @@ public class PlobbyFeatures {
             modify.replace(copiedMessage); // Replace with the copy success message
             lastCopy = 0; // Reset the copy time
         });
+    }
+
+    private static final Pattern plobbySidebarLine = Pattern.compile("PLOBBY.\\(.");
+    public static boolean isInPlobby() {
+        Component sidebarName = Sidebar.getSidebarName();
+        if (!MccIslandState.isOnline() || sidebarName == null) return false;
+
+        int lineNumber = Sidebar.findLine((line) -> plobbySidebarLine.matcher(line.getString()).find());
+        boolean nameContainsPlobby = sidebarName.getString().contains("(Plobby)");
+        return lineNumber != -1 || nameContainsPlobby;
+    }
+
+    public static boolean isPlobbyOwner() {
+        List<Component> lines = Sidebar.getSidebarLines();
+        int plobbyHeaderLine = Sidebar.findLine((line) -> plobbySidebarLine.matcher(line.getString()).find(), lines);
+        Component line = Sidebar.getLine(lines, plobbyHeaderLine + 1);
+        if (line == null) return false;
+        return line.getString().toLowerCase().contains(Minecraft.getInstance().getUser().getName().toLowerCase());
     }
 
 }

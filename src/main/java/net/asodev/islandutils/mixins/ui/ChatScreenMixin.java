@@ -2,6 +2,7 @@ package net.asodev.islandutils.mixins.ui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.asodev.islandutils.mixins.ui.CommandSuggestionsAccessor;
+import net.asodev.islandutils.modules.plobby.PlobbyFeatures;
 import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
@@ -41,8 +42,6 @@ public abstract class ChatScreenMixin extends Screen {
 
     private final List<PlainTextButtonNoShadow> buttons = new ArrayList<>();
     private int nextPress = 0;
-    @Unique
-    private Pattern plobbySidebarLine = Pattern.compile("PLOBBY.\\(.");
 
     @Inject(method = "init", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
@@ -82,9 +81,7 @@ public abstract class ChatScreenMixin extends Screen {
             ));
         }
 
-        // Test sidebar lines with the regex to see if we find the "PLOBBY (*/50):" line
-        int lineNumber = Sidebar.findLine((line) -> plobbySidebarLine.matcher(line.getString()).find());
-        if (lineNumber != -1) {
+        if (PlobbyFeatures.isInPlobby()) {
             x += 43 + 3;
             buttons.add(new PlainTextButtonNoShadow(
                     x,
