@@ -6,6 +6,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestion;
 import net.asodev.islandutils.IslandUtilsClient;
+import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.modules.FriendsInGame;
 import net.asodev.islandutils.options.IslandOptions;
@@ -262,6 +263,20 @@ public abstract class PacketListenerMixin {
             ResourceLocation sound = new ResourceLocation("island", "announcer.gameover");
             Minecraft.getInstance().getSoundManager().play(MusicUtil.createSoundInstance(sound)); // Play the sound!!
         }
+    }
+
+    @Inject(method = "handleSystemChat", at = @At("HEAD"), cancellable = true)
+    private void onChat(ClientboundSystemChatPacket clientboundSystemChatPacket, CallbackInfo ci) {
+        if (clientboundSystemChatPacket.overlay() || !MccIslandState.isOnline()) return;
+
+        IslandUtilsEvents.Modifier<Component> modifier = new IslandUtilsEvents.Modifier<>();
+        IslandUtilsEvents.CHAT_MESSAGE.invoker().onChatMessage(clientboundSystemChatPacket, modifier);
+
+        modifier.withCancel(value -> ci.cancel());
+        modifier.withReplacement(replacement -> {
+            ci.cancel();
+            this.minecraft.getChatListener().handleSystemMessage(replacement, false);
+        });
     }
 
     // MCCI Commands

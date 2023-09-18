@@ -2,6 +2,7 @@ package net.asodev.islandutils.mixins.plobby;
 
 import com.sun.net.httpserver.HttpServer;
 import net.asodev.islandutils.modules.plobby.Plobby;
+import net.asodev.islandutils.modules.plobby.PlobbyFeatures;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.client.gui.screens.Screen;
@@ -38,6 +39,8 @@ public class PlobbyChestMixin extends Screen {
             Matcher matcher = codePattern.matcher(loreString);
             if (!matcher.find()) continue;
             String code = matcher.group(1);
+
+            PlobbyFeatures.lastCopy = System.currentTimeMillis(); // We copied rn
             this.minecraft.keyboardHandler.setClipboard(code);
             break;
         }
