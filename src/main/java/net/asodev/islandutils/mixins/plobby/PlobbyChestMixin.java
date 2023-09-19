@@ -3,6 +3,7 @@ package net.asodev.islandutils.mixins.plobby;
 import com.sun.net.httpserver.HttpServer;
 import net.asodev.islandutils.modules.plobby.Plobby;
 import net.asodev.islandutils.modules.plobby.PlobbyFeatures;
+import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.client.gui.screens.Screen;
@@ -29,6 +30,7 @@ public class PlobbyChestMixin extends Screen {
 
     @Inject(method = "slotClicked", at = @At("HEAD"))
     private void slotClicked(Slot slot, int index, int j, ClickType clickType, CallbackInfo ci) {
+        if (!MccIslandState.isOnline()) return;
         if (!this.getTitle().contains(Plobby.getTitleComponent())) return;
         if (slot == null) return;
         if (index != 8 && slot.hasItem()) return;
