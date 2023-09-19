@@ -29,7 +29,7 @@ public class NativeLibrary {
         String libIndex = "native/lib/" + architecture + "/" + name+extention;
 
         assertIslandFolder();
-        File outFile = new File(ResourcePackOptions.islandFolder + libIndex);
+        File outFile = ResourcePackOptions.islandFolder.resolve(libIndex).toFile();
         if (!outFile.exists()) {
             System.out.println("Extracting Discord Natives.");
             InputStream stream = NativeLibrary.class.getResourceAsStream("/" + libIndex);
