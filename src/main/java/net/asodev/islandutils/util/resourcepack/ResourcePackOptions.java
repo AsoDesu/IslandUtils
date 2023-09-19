@@ -24,6 +24,7 @@ public class ResourcePackOptions {
     public static ResourcePack get() throws Exception {
         File packData = packDataFile.toFile();
         String json = Utils.readFile(packData);
+        if (json == null) return null;
 
         data = ResourcePack.fromJson(json);
         return data;
