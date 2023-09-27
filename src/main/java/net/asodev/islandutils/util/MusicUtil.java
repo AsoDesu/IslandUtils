@@ -45,6 +45,7 @@ public class MusicUtil {
                 if (currentlyPlayingSound != null) return;
                 if (!bypassOvertimeCheck && isOvertimePlaying()) return;
             }
+            case DYNABALL -> { if (!options.isDynaballMusic()) return; }
         }
 
         ResourceLocation location = MccIslandState.getGame().getMusicLocation();

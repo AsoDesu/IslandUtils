@@ -15,6 +15,7 @@ public enum Game {
     BATTLE_BOX("Battle Box", "battle_box", getMusicLocation("battle_box"), true),
     PARKOUR_WARRIOR_SURVIVOR("Parkour Warrior Survivor", "parkour_warrior", "survival", getMusicLocation("parkour_warrior")),
     PARKOUR_WARRIOR_DOJO("Parkour Warrior Dojo", "parkour_warrior", getMusicLocation("parkour_warrior")),
+    DYNABALL("Dynaball", "dynaball", getMusicLocation("dynaball"), true),
     SKY_BATTLE("Sky Battle", "sky_battle", getMusicLocation("sky_battle"), true);
 
     final private String name;

@@ -16,6 +16,7 @@ public class MusicOptions implements OptionsCategory {
     boolean hitwMusic = true;
     boolean bbMusic = true;
     boolean sbMusic = true;
+    boolean dynaballMusic = true;
 
     boolean tgttosMusic = true;
     boolean tgttosDoubleTime = true;
@@ -48,6 +49,9 @@ public class MusicOptions implements OptionsCategory {
     public boolean isPkwsMusic() {
         return pkwsMusic;
     }
+    public boolean isDynaballMusic() {
+        return dynaballMusic;
+    }
 
     @Override
     public ConfigCategory getCategory() {
@@ -65,6 +69,11 @@ public class MusicOptions implements OptionsCategory {
                 .name(Component.translatable("text.autoconfig.islandutils.option.sbMusic"))
                 .controller(TickBoxControllerBuilder::create)
                 .binding(defaults.sbMusic, () -> sbMusic, value -> this.sbMusic = value)
+                .build();
+        Option<Boolean> dynaballOption = Option.<Boolean>createBuilder()
+                .name(Component.translatable("text.autoconfig.islandutils.option.dynaballMusic"))
+                .controller(TickBoxControllerBuilder::create)
+                .binding(defaults.dynaballMusic, () -> dynaballMusic, value -> this.dynaballMusic = value)
                 .build();
         Option<Boolean> tgttosOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.tgttosMusic"))
@@ -97,6 +106,7 @@ public class MusicOptions implements OptionsCategory {
                 .option(hitwOption)
                 .option(bbOption)
                 .option(sbOption)
+                .option(dynaballOption)
                 .group(OptionGroup.createBuilder()
                         .name(Component.literal("TGTTOS Music"))
                         .option(tgttosOption)
