@@ -63,7 +63,8 @@ public class MCCSoundInstance extends AbstractTickableSoundInstance {
 
     static List<String> loopingSounds = List.of(
             "island.music.parkour_warrior",
-            "island.music.classic_hitw"
+            "island.music.classic_hitw",
+            "island.music.dynaball"
     );
     static boolean shouldLoop(ResourceLocation sound) {
         return loopingSounds.contains(sound.getPath());
