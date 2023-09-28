@@ -31,7 +31,7 @@ import static net.asodev.islandutils.util.ChatUtils.translate;
 public class ResourcePackUpdater {
     public static final Logger logger = LoggerFactory.getLogger(ResourcePackUpdater.class);
 
-    private static final String url = "https://raw.githubusercontent.com/AsoDesu/islandutils-assets/master/pack_beta.json";
+    private static final String url = "https://raw.githubusercontent.com/AsoDesu/islandutils-assets/master/pack.json";
     private static final Component title = Component.literal(translate("Island Utils"));
     private static final Component desc = Component.literal(translate("&6Music Resources"));
     HttpClient client;
