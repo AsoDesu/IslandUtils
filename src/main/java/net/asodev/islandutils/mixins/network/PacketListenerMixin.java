@@ -195,6 +195,7 @@ public abstract class PacketListenerMixin {
         }
     }
 
+    private static Pattern timerPattern = Pattern.compile("(\\d+:\\d+)");
     @Inject(method = "handleBossUpdate", at = @At("HEAD")) // Discord presence, time left
     private void handleBossUpdate(ClientboundBossEventPacket clientboundBossEventPacket, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
@@ -204,7 +205,11 @@ public abstract class PacketListenerMixin {
             public void updateName(UUID uUID, Component component) {
                 if (!component.getString().contains(":")) return; // If we don't have a timer, move on with our lives
                 try {
-                    String[] split = component.getString().split(":"); // Split by the timer
+                    String text = component.getString();
+                    Matcher matcher = timerPattern.matcher(text);
+                    if (!matcher.find()) return;
+                    String timer = matcher.group(1);
+                    String[] split = timer.split(":"); // Split by the timer
                     String minsText = split[0]; // Get the left side
                     String secsText = split[1]; // Get the right side
 
