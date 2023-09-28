@@ -141,7 +141,7 @@ public abstract class PacketListenerMixin {
                 }
                 if (MccIslandState.getGame() == Game.PARKOUR_WARRIOR_SURVIVOR && Objects.equals(soundLoc.getPath(), "games.global.early_elimination")) {
                     MusicUtil.startMusic(clientboundCustomSoundPacket, true); // The game started. Start the music!!
-                } else if (Objects.equals(soundLoc.getPath(), "games.global.countdown.go")) {
+                } else if (Objects.equals(soundLoc.getPath(), "games.global.countdown.go") && !MusicUtil.isMusicPlaying()) {
                     MusicUtil.startMusic(clientboundCustomSoundPacket); // The game started. Start the music!!
                 }
             } else {

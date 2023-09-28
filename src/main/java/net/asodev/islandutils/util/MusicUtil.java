@@ -179,6 +179,9 @@ public class MusicUtil {
         ChatUtils.send(literal("Reset your music!").withStyle(ChatFormatting.GREEN));
     }
 
+    public static boolean isMusicPlaying() {
+        return currentlyPlayingSound != null && !currentlyPlayingSound.isStopped();
+    }
     public static boolean isOvertimePlaying() {
         return isSoundsPlaying("music.global.overtime_intro_music", "music.global.overtime_loop_music");
     }
