@@ -30,4 +30,11 @@ public class ResourcePack {
         return (new Gson()).fromJson(object, ResourcePack.class);
     }
 
+    @Override
+    public String toString() {
+        return "ResourcePack{" +
+                "url='" + url + '\'' +
+                ", rev=" + rev +
+                '}';
+    }
 }

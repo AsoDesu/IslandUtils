@@ -82,57 +82,49 @@ public class ResourcePackUpdater {
         }
     }
 
-    public void get() {
+    public CompletableFuture<Void> get() {
+        return CompletableFuture.runAsync(this::doGet);
+    }
+
+    private void doGet() {
         File file = ResourcePackOptions.packZip.toFile();
         if (file.exists()) apply(file, false);
 
         logger.info("Requesting resource pack...");
         try {
             ResourcePack current = ResourcePackOptions.get();
-            requestUpdate().handle((rp, ex) -> {
-                if (ex != null) {
-                    getting = false;
-                    logger.error("Failed parsing result from GitHub", ex);
-                    return null;
-                }
+            logger.info("Current resource pack version: " + current);
 
-                logger.info("Received Resource Pack: " + rp.rev);
-                if (current != null && Objects.equals(current.rev, rp.rev) && file.exists()) {
-                    logger.info("Resource pack has not changed. Not downloading!");
-                    apply(file, false);
-                    return null;
-                }
-                ResourcePackOptions.data = rp;
-                try {
-                    getting = true;
-                    downloadAndApply();
-                } catch (Exception e) {
-                    getting = false;
-                    logger.error("Failed to download resource pack!", e);
-                }
-                return null;
-            });
+            ResourcePack rp = requestUpdate();
+            logger.info("Received Resource Pack: " + rp.rev);
+            if (current != null && Objects.equals(current.rev, rp.rev) && file.exists()) {
+                logger.info("Resource pack has not changed. Not downloading!");
+                apply(file, false);
+                return;
+            }
+            ResourcePackOptions.data = rp;
+
+            try {
+                getting = true;
+                downloadAndApply();
+            } catch (Exception e) {
+                getting = false;
+                logger.error("Failed to download resource pack!", e);
+            }
         } catch (Exception e) {
             getting = false;
             logger.error("Failed to get IslandUtils resource pack info!", e);
         }
     }
 
-    private CompletableFuture<ResourcePack> requestUpdate() throws Exception {
-        CompletableFuture<ResourcePack> f = new CompletableFuture<>();
+    private ResourcePack requestUpdate() throws Exception {
         HttpRequest req = HttpRequest.newBuilder(URI.create(url)).GET().build();
-        client.sendAsync(req, HttpResponse.BodyHandlers.ofString()).thenAccept(res -> {
-            // programming
-            try {
-                if (res.statusCode() != 200) {
-                    throw new RuntimeException("Got " + res.statusCode() + "code from github. Response:" + res.body());
-                }
-                f.complete(gson.fromJson(res.body(), ResourcePack.class));
-            } catch (Exception e) {
-                f.completeExceptionally(e);
-            }
-        });
-        return f;
+        logger.info("Requesting resource pack: " + req.uri());
+        HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
+        if (res.statusCode() != 200) {
+            throw new RuntimeException("Got " + res.statusCode() + "code from github. Response:" + res.body());
+        }
+        return gson.fromJson(res.body(), ResourcePack.class);
     }
 
 }
