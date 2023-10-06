@@ -71,6 +71,8 @@
   "text.autoconfig.islandutils.option.pauseConfirm.@Tooltip": "Adds an extra confirmation screen before you disconnect",
   "text.autoconfig.islandutils.option.showFriendsInGame": "Show which friends are in your game",
   "text.autoconfig.islandutils.option.showFriendsInGame.@Tooltip": "When you join a game, a message will be put in chat with the friends in your game",
+  "text.autoconfig.islandutils.option.showReportMenu": "Show a custom report menu",
+  "text.autoconfig.islandutils.option.showReportMenu.@Tooltip": "When on MCCI, the report menu will be replaced with a custom one and /report <player> will show a menu",
   "text.autoconfig.islandutils.option.silverPreview": "Show silver total",
   "text.autoconfig.islandutils.option.silverPreview.@Tooltip": "Shows the total amount of silver you'll earn in the Scavenging menu",
   "text.autoconfig.islandutils.option.hideSliders": "Hide Sound Sliders if not Online",

@@ -14,6 +14,7 @@ public class MiscOptions implements OptionsCategory {
 
     boolean pauseConfirm = true;
     boolean showFriendsInGame = true;
+    boolean showReportMenu = true;
     boolean silverPreview = true;
     boolean enableConfigButton = true;
     boolean debugMode = false;
@@ -23,6 +24,9 @@ public class MiscOptions implements OptionsCategory {
     }
     public boolean isShowFriendsInGame() {
         return showFriendsInGame;
+    }
+    public boolean isShowReportMenu() {
+        return showReportMenu;
     }
     public boolean isSilverPreview() {
         return silverPreview;
@@ -48,6 +52,12 @@ public class MiscOptions implements OptionsCategory {
                 .controller(TickBoxControllerBuilder::create)
                 .binding(defaults.showFriendsInGame, () -> showFriendsInGame, value -> this.showFriendsInGame = value)
                 .build();
+        Option<Boolean> showReportMenuOption = Option.<Boolean>createBuilder()
+                .name(Component.translatable("text.autoconfig.islandutils.option.showReportMenu"))
+                .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.showReportMenu.@Tooltip")))
+                .controller(TickBoxControllerBuilder::create)
+                .binding(defaults.showReportMenu, () -> showReportMenu, value -> this.showReportMenu = value)
+                .build();
         Option<Boolean> silverOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.silverPreview"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.silverPreview.@Tooltip")))
@@ -71,6 +81,7 @@ public class MiscOptions implements OptionsCategory {
                 .name(Component.literal("Miscellaneous"))
                 .option(pauseOption)
                 .option(showFriendsOption)
+                .option(showReportMenuOption)
                 .option(silverOption)
                 .option(buttonOption)
                 .group(OptionGroup.createBuilder()

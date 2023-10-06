@@ -31,6 +31,8 @@
     "notif.ServerSelectionMixin",
     "plobby.PlobbyChestMixin",
     "plobby.PlobbyItemAnalysisMixin",
+    "reporting.ChatScreenMixin",
+    "reporting.MinecraftMixin",
     "resources.MultiplayerJoinMixin",
     "resources.ProgressScreenAccessor",
     "sounds.SoundOptionsMixin",

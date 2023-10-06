@@ -20,13 +20,12 @@ import net.asodev.islandutils.state.faction.FactionComponents;
 import net.asodev.islandutils.modules.splits.LevelTimer;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
+import net.asodev.islandutils.util.SuggestionProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.client.multiplayer.ClientSuggestionProvider;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
@@ -242,6 +241,9 @@ public abstract class PacketListenerMixin {
                     .stream().map(Suggestion::getText) // the text of the suggestions
                     .collect(Collectors.toList()); // a list of the suggestions
             FriendsInGame.setFriends(friends); // Set our friends!
+        }
+        if (SuggestionProvider.invoke(clientboundCommandSuggestionsPacket)) {
+            ci.cancel();
         }
     }
 

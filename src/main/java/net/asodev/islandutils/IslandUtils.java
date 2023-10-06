@@ -1,6 +1,7 @@
 package net.asodev.islandutils;
 
 import net.asodev.islandutils.modules.FriendsInGame;
+import net.asodev.islandutils.modules.reporting.ReportHandler;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.util.resourcepack.ResourcePackUpdater;
 import net.asodev.islandutils.modules.crafting.state.CraftingItems;
@@ -29,6 +30,7 @@ public class IslandUtils implements ModInitializer {
     public void onInitialize() {
         IslandOptions.init();
         FriendsInGame.init();
+        ReportHandler.init();
 
         Optional<ModContainer> container = FabricLoader.getInstance().getModContainer("islandutils");
         container.ifPresent(modContainer -> version = modContainer.getMetadata().getVersion().getFriendlyString());
