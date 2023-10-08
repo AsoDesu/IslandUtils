@@ -21,12 +21,11 @@ import net.asodev.islandutils.modules.splits.LevelTimer;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.client.multiplayer.ClientSuggestionProvider;
+import net.minecraft.client.multiplayer.*;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
@@ -52,13 +51,15 @@ import java.util.stream.Collectors;
 import static net.asodev.islandutils.modules.FriendsInGame.TRANSACTION_ID;
 
 @Mixin(ClientPacketListener.class)
-public abstract class PacketListenerMixin {
+public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl {
 
     // I should really separate these mixins...
 
-    @Shadow @Final private Minecraft minecraft; // I love minecraft
-
     @Shadow private CommandDispatcher<CommandSourceStack> commands;
+
+    protected PacketListenerMixin(Minecraft minecraft, Connection connection, CommonListenerCookie commonListenerCookie) {
+        super(minecraft, connection, commonListenerCookie);
+    }
 
     @Inject(method = "handleSetExperience", at = @At("TAIL")) // Get our faction level
     public void handleSetExperience(ClientboundSetExperiencePacket clientboundSetExperiencePacket, CallbackInfo ci) {
@@ -189,7 +190,7 @@ public abstract class PacketListenerMixin {
         ClientLevel clientLevel = this.minecraft.level; // Get our player
         if (clientLevel == null) return; // minecraft is a good game.
 
-        ResourceKey<Level> resourceKey = clientboundRespawnPacket.getDimension(); // Get the key of this world
+        ResourceKey<Level> resourceKey = clientboundRespawnPacket.commonPlayerSpawnInfo().dimension(); // Get the key of this world
         if (resourceKey != clientLevel.dimension()) { // If we have changed worlds...
             MusicUtil.stopMusic(); // ...stop the music
         }

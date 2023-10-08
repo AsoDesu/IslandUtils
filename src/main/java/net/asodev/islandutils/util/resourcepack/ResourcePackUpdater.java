@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.FilePackResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackCompatibility;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.util.HttpUtil;
 import net.minecraft.world.flag.FeatureFlagSet;
@@ -23,6 +24,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
@@ -63,14 +65,12 @@ public class ResourcePackUpdater {
     public void apply(File file, Boolean save) {
         getting = false;
         state = null;
-        int version = SharedConstants.getCurrentVersion().getPackVersion(PackType.CLIENT_RESOURCES);
         pack = Pack.create(
                 "island_utils",
                 title,
                 true,
-                (d) -> new FilePackResources("IslandUtils", file, true),
-                new Pack.Info(desc, version, FeatureFlagSet.of()),
-                PackType.CLIENT_RESOURCES,
+                new FilePackResources.FileResourcesSupplier(file, true),
+                new Pack.Info(desc, PackCompatibility.COMPATIBLE, FeatureFlagSet.of(), List.of()),
                 Pack.Position.BOTTOM,
                 true,
                 PackSource.BUILT_IN
