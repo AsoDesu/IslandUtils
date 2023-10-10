@@ -14,7 +14,8 @@
     "network.GamePacketMixin",
     "network.ServerPacketMixin",
     "resources.PackRepositoryMixin",
-    "sounds.SoundSourceMixin"
+    "sounds.SoundSourceMixin",
+    "ui.SlotMixin"
   ],
   "client": [
     "BossUIMixin",
