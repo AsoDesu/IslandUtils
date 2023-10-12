@@ -1,4 +1,4 @@
-package net.asodev.islandutils.modules;
+package net.asodev.islandutils.modules.scavenging;
 
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.util.Utils;
@@ -14,67 +14,63 @@ import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static net.asodev.islandutils.modules.cosmetics.CosmeticState.MCC_ICONS;
 
 public class Scavenging {
     private static String titleCharacter;
-    private static String silverCharacter;
-    private static Pattern silverPattern;
+    private static ScavengingItemHandler dustHandler;
+    private static ScavengingItemHandler ticketHandler;
 
     public static boolean isScavengingMenuOrDisabled(AbstractContainerScreen<?> screen) {
         if (!IslandOptions.getMisc().isSilverPreview()) return false;
         return screen.getTitle().getString().contains(titleCharacter);
     }
-    public static void renderSilverTotal(long silverTotal, GuiGraphics guiGraphics) {
+    public static void renderSilverTotal(ScavengingTotalList silverTotal, GuiGraphics guiGraphics) {
         Minecraft minecraft = Minecraft.getInstance();
-        Font font = minecraft.font;
         if (!(minecraft.screen instanceof ContainerScreen screen)) return;
 
-        Component silverComponent = Component.literal(String.valueOf(silverTotal))
-                .append(Component.literal(silverCharacter).withStyle(Style.EMPTY.withFont(MCC_ICONS)));
-
         int bgX = (screen.width - 176) / 2;
-        int bgY = (screen.height - 166) / 2;
-        int x = bgX + 160 - font.width(silverComponent);
-        int y = bgY + 89 + 4;
+        int x = bgX + 160;
 
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().translate(0, 0, 105); // z-index: 105
-        guiGraphics.drawString(font, silverComponent, x, y, 16777215, false);
-        guiGraphics.pose().popPose();
+        Collection<ScavengingTotal> totals = silverTotal.totals.values();
+        for (ScavengingTotal total : totals) {
+            if (total.amount() <= 0L) continue;
+
+            x -= total.handler().renderTotal(guiGraphics, total.amount(), x);
+            x -= 5; // gap
+        }
     }
-    public static long getSilverTotal(ChestMenu menu) {
+
+    public static ScavengingTotalList getSilverTotal(ChestMenu menu) {
+        ScavengingTotalList list = new ScavengingTotalList();
+
         Container container = menu.getContainer();
-        long silver = 0;
         for (int i = 37; i <= 43; i++) {
             ItemStack item = container.getItem(i);
             if (item.is(Items.AIR)) continue;
-            silver += getSilver(item);
+            applyItems(item, list);
         }
-        return silver;
+        return list;
     }
-    public static long getSilver(ItemStack item) {
+    public static void applyItems(ItemStack item, ScavengingTotalList list) {
         List<Component> lores = Utils.getLores(item);
-        if (lores == null) return 0L;
-        for (Component line : lores) {
-            String content = line.getString();
-            Matcher matcher = silverPattern.matcher(content);
-            if (!matcher.find()) continue;
+        if (lores == null) return;
+        int multiplier = item.getCount(); // Multiply the amount of rewards with the amount of items in the slot
 
-            String silver = matcher.group(1);
-            try { return Long.parseLong(silver); }
-            catch (Exception ignored) {}
+        for (Component line : lores) {
+            list.apply(ticketHandler.checkLine(line, multiplier));
+            list.apply(dustHandler.checkLine(line, multiplier));
         }
-        return 0L;
     }
 
-    public static void setSilverCharacter(String silverCharacter) {
-        Scavenging.silverCharacter = silverCharacter;
-        Scavenging.silverPattern = Pattern.compile("(\\d+)" + silverCharacter);
+    public static void setDustCharacter(String dustCharacter) {
+        dustHandler = new ScavengingItemHandler("dust", dustCharacter);
+    }
+    public static void setTicketCharacter(String ticketCharacter) {
+        ticketHandler = new ScavengingItemHandler("ticket", ticketCharacter, "\\[Knick Knax Ticket\\]");
     }
 
     public static void setTitleCharacter(String titleCharacter) {
