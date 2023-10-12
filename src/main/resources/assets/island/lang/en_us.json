@@ -71,6 +71,8 @@
   "text.autoconfig.islandutils.option.pauseConfirm.@Tooltip": "Adds an extra confirmation screen before you disconnect",
   "text.autoconfig.islandutils.option.showFriendsInGame": "Show which friends are in your game",
   "text.autoconfig.islandutils.option.showFriendsInGame.@Tooltip": "When you join a game, a message will be put in chat with the friends in your game",
+  "text.autoconfig.islandutils.option.showFriendsInLobby": "Show which friends are in your lobby",
+  "text.autoconfig.islandutils.option.showFriendsInLobby.@Tooltip": "When you join or change lobbies, a message will be put in chat with the friends in your lobby",
   "text.autoconfig.islandutils.option.silverPreview": "Show scavenging item totals",
   "text.autoconfig.islandutils.option.silverPreview.@Tooltip": "Shows all the items you'll earn in the Scavenging menu",
   "text.autoconfig.islandutils.option.hideSliders": "Hide Sound Sliders if not Online",
