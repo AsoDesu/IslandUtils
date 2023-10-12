@@ -58,11 +58,11 @@ public class Scavenging {
     public static void applyItems(ItemStack item, ScavengingTotalList list) {
         List<Component> lores = Utils.getLores(item);
         if (lores == null) return;
-        int multiplier = item.getCount(); // Multiply the amount of rewards with the amount of items in the slot
+        int multiplier = item.getCount();
 
         for (Component line : lores) {
-            list.apply(ticketHandler.checkLine(line, multiplier));
-            list.apply(dustHandler.checkLine(line, multiplier));
+            list.apply(ticketHandler.checkLine(line));
+            list.apply(dustHandler.checkLine(line));
         }
     }
 
