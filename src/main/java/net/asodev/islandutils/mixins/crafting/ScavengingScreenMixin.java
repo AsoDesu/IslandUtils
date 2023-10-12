@@ -1,6 +1,7 @@
 package net.asodev.islandutils.mixins.crafting;
 
-import net.asodev.islandutils.modules.Scavenging;
+import net.asodev.islandutils.modules.scavenging.Scavenging;
+import net.asodev.islandutils.modules.scavenging.ScavengingTotalList;
 import net.asodev.islandutils.state.MccIslandState;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -23,7 +24,7 @@ public abstract class ScavengingScreenMixin extends AbstractContainerScreen<Ches
     public void renderBg(GuiGraphics guiGraphics, float f, int i, int j, CallbackInfo ci) {
         if (!MccIslandState.isOnline() || !Scavenging.isScavengingMenuOrDisabled(this)) return;
 
-        long silverTotal = Scavenging.getSilverTotal(this.menu);
+        ScavengingTotalList silverTotal = Scavenging.getSilverTotal(this.menu);
         Scavenging.renderSilverTotal(silverTotal, guiGraphics);
     }
 }
