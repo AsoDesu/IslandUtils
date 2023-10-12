@@ -55,14 +55,14 @@ public class ScavengingItemHandler {
         return width;
     }
 
-    public ScavengingTotal checkLine(Component line, int multiplier) {
+    public ScavengingTotal checkLine(Component line) {
         String content = line.getString();
         Matcher matcher = pattern.matcher(content);
         if (!matcher.find()) return total;
 
         String amountText = matcher.group(1);
         try {
-            long amount = Long.parseLong(amountText) * multiplier;
+            long amount = Long.parseLong(amountText);
             return total.create(amount);
         } catch (Exception ignored) {}
         return total;
