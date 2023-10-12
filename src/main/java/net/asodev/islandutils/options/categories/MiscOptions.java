@@ -14,6 +14,7 @@ public class MiscOptions implements OptionsCategory {
 
     boolean pauseConfirm = true;
     boolean showFriendsInGame = true;
+    boolean showFriendsInLobby = true;
     boolean silverPreview = true;
     boolean enableConfigButton = true;
     boolean debugMode = false;
@@ -24,6 +25,10 @@ public class MiscOptions implements OptionsCategory {
     public boolean isShowFriendsInGame() {
         return showFriendsInGame;
     }
+    public boolean isShowFriendsInLobby() {
+        return showFriendsInLobby;
+    }
+
     public boolean isSilverPreview() {
         return silverPreview;
     }
@@ -48,6 +53,12 @@ public class MiscOptions implements OptionsCategory {
                 .controller(TickBoxControllerBuilder::create)
                 .binding(defaults.showFriendsInGame, () -> showFriendsInGame, value -> this.showFriendsInGame = value)
                 .build();
+        Option<Boolean> showFriendsLobbyOption = Option.<Boolean>createBuilder()
+                .name(Component.translatable("text.autoconfig.islandutils.option.showFriendsInLobby"))
+                .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.showFriendsInLobby.@Tooltip")))
+                .controller(TickBoxControllerBuilder::create)
+                .binding(defaults.showFriendsInLobby, () -> showFriendsInLobby, value -> this.showFriendsInLobby = value)
+                .build();
         Option<Boolean> silverOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.silverPreview"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.silverPreview.@Tooltip")))
@@ -70,7 +81,12 @@ public class MiscOptions implements OptionsCategory {
         return ConfigCategory.createBuilder()
                 .name(Component.literal("Miscellaneous"))
                 .option(pauseOption)
-                .option(showFriendsOption)
+                .group(OptionGroup.createBuilder()
+                        .name(Component.literal("Friends Notifier"))
+                        .collapsed(false)
+                        .option(showFriendsOption)
+                        .option(showFriendsLobbyOption)
+                        .build())
                 .option(silverOption)
                 .option(buttonOption)
                 .group(OptionGroup.createBuilder()

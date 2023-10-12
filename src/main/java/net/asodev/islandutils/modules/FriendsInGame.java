@@ -2,7 +2,9 @@ package net.asodev.islandutils.modules;
 
 import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.options.IslandOptions;
+import net.asodev.islandutils.options.categories.MiscOptions;
 import net.asodev.islandutils.state.Game;
+import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.Scheduler;
 import net.minecraft.ChatFormatting;
@@ -22,9 +24,7 @@ public class FriendsInGame {
     private static List<String> friends = new ArrayList<>();
 
     public static void init() {
-        IslandUtilsEvents.GAME_CHANGE.register((game) -> {
-            if (game == Game.HUB) return;
-
+        IslandUtilsEvents.GAME_UPDATE.register((game) -> {
             friends.clear();
             ServerboundCommandSuggestionPacket packet = new ServerboundCommandSuggestionPacket(TRANSACTION_ID, "/friend remove ");
             ClientPacketListener connection = Minecraft.getInstance().getConnection();
@@ -32,16 +32,13 @@ public class FriendsInGame {
         });
     }
 
-    public static List<String> getFriends() {
-        return friends;
-    }
     public static void setFriends(List<String> friends) {
         FriendsInGame.friends = friends;
         Scheduler.schedule(35, FriendsInGame::sendFriendsInGame);
     }
 
     public static void sendFriendsInGame(Minecraft client) {
-        if (!IslandOptions.getMisc().isShowFriendsInGame()) return;
+        if (!shouldSendFriends()) return;
         StringBuilder friendsInThisGame = new StringBuilder();
         boolean hasFriends = false;
 
@@ -57,11 +54,19 @@ public class FriendsInGame {
         if (!hasFriends) return;
         String friendString = friendsInThisGame.toString().replaceFirst(", ","");
 
+        String text = "Friends in this game";
+        if (MccIslandState.getGame() == Game.HUB) text = "Friends in this lobby";
+
         Component component = Component.literal("[").withStyle(ChatFormatting.GREEN)
                 .append(Component.literal("\ue001").withStyle(iconsFontStyle))
-                .append(Component.literal("] Friends in this game: ").withStyle(ChatFormatting.GREEN))
+                .append(Component.literal("] " + text + ": ").withStyle(ChatFormatting.GREEN))
                 .append(Component.literal(friendString).withStyle(ChatFormatting.YELLOW));
         ChatUtils.send(component);
+    }
+
+    public static boolean shouldSendFriends() {
+        MiscOptions misc = IslandOptions.getMisc();
+        return MccIslandState.getGame() == Game.HUB ? misc.isShowFriendsInLobby() : misc.isShowFriendsInGame();
     }
 
 }
