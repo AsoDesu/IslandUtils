@@ -58,7 +58,6 @@ public class Scavenging {
     public static void applyItems(ItemStack item, ScavengingTotalList list) {
         List<Component> lores = Utils.getLores(item);
         if (lores == null) return;
-        int multiplier = item.getCount();
 
         for (Component line : lores) {
             list.apply(ticketHandler.checkLine(line));
