@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
+import net.asodev.islandutils.modules.Packets;
 import net.asodev.islandutils.modules.plobby.PlobbyFeatures;
 import net.asodev.islandutils.modules.plobby.state.GlobalPlobbyState;
 import net.asodev.islandutils.modules.splits.SplitManager;
@@ -43,6 +44,7 @@ public class IslandUtilsClient implements ClientModInitializer {
                 GLFW.GLFW_KEY_N,
                 "category.islandutils.keys"
         ));
+        Packets.init();
         SplitManager.init();
         DisguiseKeybind.registerDisguiseInput();
         PlobbyFeatures.registerEvents();
