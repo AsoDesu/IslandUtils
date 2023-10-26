@@ -38,6 +38,11 @@ public abstract class ChatScreenMixin extends Screen {
     @Unique
     private static final int BUTTON_HEIGHT = 9;
 
+    @Unique
+    private static final int BUTTON_WIDTH = 43;
+    @Unique
+    private static final int BUTTON_HEIGHT = 9;
+
     @Inject(method = "init", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
         if (!isOnline()) return;
