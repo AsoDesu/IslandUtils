@@ -1,24 +1,13 @@
 package net.asodev.islandutils.mixins.ui;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.asodev.islandutils.mixins.ui.CommandSuggestionsAccessor;
-import net.asodev.islandutils.modules.plobby.PlobbyFeatures;
-import net.asodev.islandutils.state.Game;
-import net.asodev.islandutils.state.MccIslandState;
-import net.asodev.islandutils.util.ChatUtils;
+import net.asodev.islandutils.modules.ChatChannelButton;
 import net.asodev.islandutils.util.PlainTextButtonNoShadow;
-import net.asodev.islandutils.util.Sidebar;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.CommandSuggestions;
-import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -29,19 +18,25 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import static net.asodev.islandutils.state.MccIslandState.isOnline;
-import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 
 @Mixin(ChatScreen.class)
 public abstract class ChatScreenMixin extends Screen {
-    @Shadow CommandSuggestions commandSuggestions;
+    @Shadow
+    CommandSuggestions commandSuggestions;
 
-    protected ChatScreenMixin(Component component) { super(component); }
+    protected ChatScreenMixin(Component component) {
+        super(component);
+    }
 
     private final List<PlainTextButtonNoShadow> buttons = new ArrayList<>();
     private int nextPress = 0;
+
+    @Unique
+    private static final int BUTTON_WIDTH = 43;
+    @Unique
+    private static final int BUTTON_HEIGHT = 9;
 
     @Inject(method = "init", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
@@ -49,55 +44,28 @@ public abstract class ChatScreenMixin extends Screen {
         buttons.clear();
 
         int x = 2;
-        buttons.add(new PlainTextButtonNoShadow(
-                x,
-                this.height - 14 - 9 - 2,
-                43,
-                9,
-                Component.literal("\ue002").withStyle(iconsFontStyle),
-                (d) -> Minecraft.getInstance().getConnection().sendCommand("chat local"),
-                Minecraft.getInstance().font
-        ));
-        x += 43 + 3;
-        buttons.add(new PlainTextButtonNoShadow(
-                x,
-                this.height - 14 - 9 - 2,
-                43,
-                9,
-                Component.literal("\ue003").withStyle(iconsFontStyle),
-                (d) -> Minecraft.getInstance().getConnection().sendCommand("chat party"),
-                Minecraft.getInstance().font
-        ));
-        if (MccIslandState.getGame().hasTeamChat()) {
-            x += 43 + 3;
-            buttons.add(new PlainTextButtonNoShadow(
-                    x,
-                    this.height - 14 - 9 - 2,
-                    43,
-                    9,
-                    Component.literal("\ue004").withStyle(iconsFontStyle),
-                    (d) -> Minecraft.getInstance().getConnection().sendCommand("chat team"),
-                    Minecraft.getInstance().font
-            ));
-        }
+        final var y = this.height - 14 - BUTTON_HEIGHT - 2;
 
-        if (PlobbyFeatures.isInPlobby()) {
-            x += 43 + 3;
-            buttons.add(new PlainTextButtonNoShadow(
+        for (final var button : ChatChannelButton.currentButtons()) {
+            final var buttonWidget = new PlainTextButtonNoShadow(
                     x,
-                    this.height - 14 - 9 - 2,
-                    43,
-                    9,
-                    Component.literal("\ue011").withStyle(iconsFontStyle),
-                    (d) -> Minecraft.getInstance().getConnection().sendCommand("chat plobby"),
+                    y,
+                    BUTTON_WIDTH,
+                    BUTTON_HEIGHT,
+                    button.text(),
+                    (d) -> Minecraft.getInstance().getConnection().sendCommand("chat " + button.name()),
                     Minecraft.getInstance().font
-            ));
+            );
+            buttons.add(buttonWidget);
+            addWidget(buttonWidget);
+
+            x += BUTTON_WIDTH + 3;
         }
     }
 
     @Inject(method = "render", at = @At("TAIL"))
     private void render(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
-        CommandSuggestionsAccessor suggestionsAccessor = ((CommandSuggestionsAccessor)commandSuggestions);
+        CommandSuggestionsAccessor suggestionsAccessor = ((CommandSuggestionsAccessor) commandSuggestions);
         if (suggestionsAccessor.suggestions() == null && suggestionsAccessor.commandUsage().size() == 0) {
             buttons.forEach(btn -> btn.render(guiGraphics, i, j, f));
         }
