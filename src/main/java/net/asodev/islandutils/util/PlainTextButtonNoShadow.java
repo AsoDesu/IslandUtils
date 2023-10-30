@@ -1,14 +1,17 @@
 package net.asodev.islandutils.util;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.PlainTextButton;
+import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.Nullable;
 
 public class PlainTextButtonNoShadow extends Button {
     private final Font font;
@@ -26,5 +29,11 @@ public class PlainTextButtonNoShadow extends Button {
     public void renderWidget(GuiGraphics guiGraphics, int i, int j, float f) {
         Component component = this.isHoveredOrFocused() ? this.underlinedMessage : this.message;
         guiGraphics.drawString(this.font, component, getX(), getY(), 0xFFFFFF | Mth.ceil(this.alpha * 255.0f) << 24, false);
+    }
+
+    @Nullable
+    @Override
+    public ComponentPath nextFocusPath(FocusNavigationEvent focusNavigationEvent) {
+        return null;
     }
 }
