@@ -23,7 +23,6 @@
     "accessors.ContainerScreenAccessor",
     "accessors.SoundEngineAccessor",
     "accessors.SoundManagerAccessor",
-    "accessors.TabListAccessor",
     "cosmetics.UIMixin",
     "crafting.CraftingPacketMixin",
     "crafting.ScavengingScreenMixin",

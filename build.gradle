@@ -24,6 +24,7 @@ repositories {
     maven { url "https://maven.terraformersmc.com/releases/" }
     maven { url = "https://maven.isxander.dev/releases" }
     maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url = uri("https://maven.noxcrew.com/public") }
     exclusiveContent {
         forRepository {
             maven {
@@ -45,12 +46,16 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modApi "dev.isxander.yacl:yet-another-config-lib-fabric:3.1.0+1.20"
+    modApi("dev.isxander.yacl:yet-another-config-lib-fabric:3.2.1+1.20.2") {
+        exclude(group: "org.quiltmc.parsers")
+        exclude(group: "com.twelvemonkeys.common")
+        exclude(group: "com.twelvemonkeys.imageio")
+    }
 
-    modApi("com.terraformersmc:modmenu:7.0.1")
+    modApi("com.terraformersmc:modmenu:8.0.0")
 
     implementation include('com.github.JnCrMx:discord-game-sdk4j:v0.5.5')
-    modCompileOnly "maven.modrinth:noxesium:1.0.1"
+    modApi("com.noxcrew.noxesium:fabric:1.0.5")
 }
 
 processResources {
@@ -90,4 +95,8 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
     }
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/islandutils.accesswidener")
 }

@@ -31,7 +31,12 @@ public abstract class ChatScreenMixin extends Screen {
     }
 
     private final List<PlainTextButtonNoShadow> buttons = new ArrayList<>();
-    private int nextPress = 0;
+    private long lastPress = 0;
+
+    @Unique
+    private static final int BUTTON_WIDTH = 43;
+    @Unique
+    private static final int BUTTON_HEIGHT = 9;
 
     @Unique
     private static final int BUTTON_WIDTH = 43;
@@ -71,18 +76,14 @@ public abstract class ChatScreenMixin extends Screen {
         }
     }
 
-    @Inject(method = "tick", at = @At("HEAD"))
-    private void tick(CallbackInfo ci) {
-        if (nextPress > 0) nextPress--;
-    }
-
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void mouseClicked(double d, double e, int i, CallbackInfoReturnable<Boolean> cir) {
-        if (nextPress > 0) return;
+        long timeNow = System.currentTimeMillis();
+        if ((timeNow - lastPress) < 1000) return;
         for (PlainTextButtonNoShadow button : buttons) {
             if (button.isHoveredOrFocused()) {
                 button.onPress();
-                nextPress = 20;
+                lastPress = System.currentTimeMillis();
                 cir.setReturnValue(true);
                 return;
             }

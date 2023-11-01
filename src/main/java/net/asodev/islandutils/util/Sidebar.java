@@ -4,6 +4,7 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.scores.DisplaySlot;
 import net.minecraft.world.scores.Objective;
 import net.minecraft.world.scores.PlayerTeam;
 import net.minecraft.world.scores.Scoreboard;
@@ -63,7 +64,7 @@ public class Sidebar {
 
     @Nullable
     private static Objective getSidebar(Scoreboard scoreboard) {
-        return scoreboard.getDisplayObjective(Scoreboard.DISPLAY_SLOT_SIDEBAR);
+        return scoreboard.getDisplayObjective(DisplaySlot.SIDEBAR);
     }
 
     @Nullable
