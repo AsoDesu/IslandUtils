@@ -20,7 +20,7 @@ import java.util.List;
 import static net.asodev.islandutils.modules.cosmetics.CosmeticState.MCC_ICONS;
 
 public class Scavenging {
-    private static String titleCharacter;
+    private static String titleCharacter = "";
     private static ScavengingItemHandler dustHandler;
     private static ScavengingItemHandler ticketHandler;
 
