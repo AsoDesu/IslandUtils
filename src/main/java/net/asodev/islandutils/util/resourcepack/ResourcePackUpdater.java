@@ -67,27 +67,20 @@ public class ResourcePackUpdater {
 
             try {
                 URL url = new URL(ResourcePackOptions.data.url);
-                logger.info("Created URL");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection(minecraft.getProxy());
-                logger.info("Opened URL connection");
                 urlConnection.setInstanceFollowRedirects(true);
-                logger.info("Configed URL connection");
                 InputStream inputStream = urlConnection.getInputStream();
-                logger.info("got URL input stream");
 
                 try (OutputStream outputStream = Files.newOutputStream(outputFile, StandardOpenOption.CREATE)){
-                    logger.info("got file output stream");
                     int j;
                     byte[] bs = new byte[8196];
                     long l = 0L;
                     while ((j = inputStream.read(bs)) >= 0) {
-                        logger.info("downloaded some more " + Unit.humanReadable(l += j));
                         this.currentDownload.downloadedBytes(l);
                         outputStream.write(bs, 0, j);
                     }
                 }
 
-                logger.info("Applying resource pack...");
                 apply(outputFile.toFile(), true);
             } catch (Exception e) {
                 this.currentDownload = null;
