@@ -68,7 +68,7 @@ public class CraftingUI {
         return lores.stream().anyMatch(p -> p.getString().contains("Shift-Click to Cancel"));
     }
     private static boolean isInputSlot(int slot) {
-        return slot >= 37 && slot < 42;
+        return slot >= 28 && slot < 33;
     }
 
     public static void setAssemblerCharacter(String assemblerCharacter) {
