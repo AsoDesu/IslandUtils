@@ -31,10 +31,10 @@ public class Sidebar {
         Objective sidebar = getSidebar(scoreboard);
         if (sidebar == null) return Collections.emptyList();
 
-        return scoreboard.getPlayerScores(sidebar).stream().map((score) -> {
-            String owner = score.getOwner();
-            PlayerTeam playerTeam = scoreboard.getPlayersTeam(owner);
-            return PlayerTeam.formatNameForTeam(playerTeam, Component.literal(owner));
+        return scoreboard.listPlayerScores(sidebar).stream().map((entry) -> {
+            PlayerTeam playerTeam = scoreboard.getPlayersTeam(entry.owner());
+            Component defaultName = entry.ownerName();
+            return PlayerTeam.formatNameForTeam(playerTeam, defaultName);
         }).collect(Collectors.toList());
     }
 

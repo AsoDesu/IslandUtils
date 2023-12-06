@@ -3,6 +3,7 @@ package net.asodev.islandutils.modules.plobby;
 import net.asodev.islandutils.IslandUtilsClient;
 import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.state.MccIslandState;
+import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.Sidebar;
 import net.asodev.islandutils.util.Utils;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -19,7 +20,7 @@ import java.util.regex.Pattern;
 public class PlobbyFeatures {
     public static long lastCopy = 0;
     private static final Component copiedMessage = Component.literal("Copied code to clipboard!")
-            .withStyle(Style.EMPTY.withColor(TextColor.parseColor("#ffff00")));
+            .withStyle(Style.EMPTY.withColor(ChatUtils.parseColor("#ffff00")));
 
     public static void registerEvents() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {

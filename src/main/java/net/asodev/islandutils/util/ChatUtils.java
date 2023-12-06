@@ -5,7 +5,10 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.Optional;
 
 public class ChatUtils {
 
@@ -35,6 +38,11 @@ public class ChatUtils {
 
     public static void send(Component component) {
         Minecraft.getInstance().getChatListener().handleSystemMessage(component, false);
+    }
+
+    public static TextColor parseColor(String hex) {
+        Optional<TextColor> result = TextColor.parseColor(hex).result();
+        return result.orElse(null);
     }
 
 }

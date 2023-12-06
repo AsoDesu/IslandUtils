@@ -246,7 +246,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         }
     }
 
-    TextColor textColor = TextColor.parseColor("#FFA800"); // Trap Title Text Color
+    TextColor textColor = ChatUtils.parseColor("#FFA800"); // Trap Title Text Color
     Style style = Style.EMPTY.withColor(textColor); // Style for the trap color
     @Inject(method = "setSubtitleText", at = @At("HEAD"), cancellable = true)
     private void titleText(ClientboundSetSubtitleTextPacket clientboundSetSubtitleTextPacket, CallbackInfo ci) {

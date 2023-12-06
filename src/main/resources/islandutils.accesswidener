@@ -2,3 +2,5 @@ accessWidener v1 named
 
 accessible method net/minecraft/server/packs/FilePackResources <init> (Ljava/lang/String;Lnet/minecraft/server/packs/FilePackResources$SharedZipFileAccess;ZLjava/lang/String;)V
 accessible method net/minecraft/server/packs/FilePackResources$SharedZipFileAccess <init> (Ljava/io/File;)V
+accessible method net/minecraft/util/HttpUtil downloadAndHash (Lcom/google/common/hash/HashFunction;ILnet/minecraft/util/HttpUtil$DownloadProgressListener;Ljava/io/InputStream;Ljava/nio/file/Path;)Lcom/google/common/hash/HashCode;
+accessible method net/minecraft/client/resources/server/DownloadedPackSource createDownloadNotifier (I)Lnet/minecraft/util/HttpUtil$DownloadProgressListener;

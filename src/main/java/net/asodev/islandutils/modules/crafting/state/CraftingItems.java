@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.asodev.islandutils.modules.crafting.CraftingMenuType;
+import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.Scheduler;
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.network.chat.Component;
@@ -104,7 +105,7 @@ public class CraftingItems {
         CraftingItem item = new CraftingItem();
         item.setTitle(
                 Component.literal("Refined Quest Spirit")
-                        .setStyle(Style.EMPTY.withColor(TextColor.parseColor(color)))
+                        .setStyle(Style.EMPTY.withColor(ChatUtils.parseColor(color)))
         );
         // Common = #FFFFFF
         // Uncommon = #1EFF00

@@ -32,7 +32,6 @@
     "plobby.PlobbyChestMixin",
     "plobby.PlobbyItemAnalysisMixin",
     "resources.MultiplayerJoinMixin",
-    "resources.ProgressScreenAccessor",
     "sounds.SoundOptionsMixin",
     "splits.HologramMixin",
     "ui.ChatScreenMixin",

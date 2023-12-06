@@ -6,6 +6,7 @@ import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.PlobbyOptions;
 import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
+import net.asodev.islandutils.util.ChatUtils;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -22,7 +23,7 @@ import static net.asodev.islandutils.util.Utils.MCC_HUD_FONT;
 public class PlobbyUI {
     private static Component LOCKED = Component.literal("\ue010").withStyle(iconsFontStyle.withColor(ChatFormatting.WHITE));
     private static Component UNLOCKED = Component.literal("\ue009").withStyle(iconsFontStyle.withColor(ChatFormatting.WHITE));
-    private static Style NICE_YELLOW = Style.EMPTY.withColor(TextColor.parseColor("#ffff00"));
+    private static Style NICE_YELLOW = Style.EMPTY.withColor(ChatUtils.parseColor("#ffff00"));
 
     PlobbyStateProvider stateProvider;
     public PlobbyUI(PlobbyStateProvider stateProvider) {

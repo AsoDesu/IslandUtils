@@ -2,6 +2,7 @@ package net.asodev.islandutils.mixins.cosmetics;
 
 import net.asodev.islandutils.modules.cosmetics.CosmeticState;
 import net.asodev.islandutils.options.IslandOptions;
+import net.asodev.islandutils.util.ChatUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.*;
 import net.minecraft.world.entity.player.Player;
@@ -22,8 +23,8 @@ import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 @Mixin(ItemStack.class)
 public class PreviewTutorialMixin {
     private static final Style style0 = Style.EMPTY.withColor(ChatFormatting.DARK_GRAY).withFont(Style.DEFAULT_FONT);
-    private static final Style style1 = Style.EMPTY.withColor(TextColor.parseColor("#e9d282")).withFont(Style.DEFAULT_FONT);
-    private static final Style style2 = Style.EMPTY.withColor(TextColor.parseColor("#fbe460")).withFont(Style.DEFAULT_FONT);
+    private static final Style style1 = Style.EMPTY.withColor(ChatUtils.parseColor("#e9d282")).withFont(Style.DEFAULT_FONT);
+    private static final Style style2 = Style.EMPTY.withColor(ChatUtils.parseColor("#fbe460")).withFont(Style.DEFAULT_FONT);
 
     private static final Component previewComponent = Component.empty()
             .append(Component.literal("\ue005").setStyle(iconsFontStyle))

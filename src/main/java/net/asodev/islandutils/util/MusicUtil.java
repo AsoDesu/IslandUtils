@@ -125,7 +125,7 @@ public class MusicUtil {
     private static Vec3 getListenerPosition() {
         SoundEngineAccessor soundEngine = (SoundEngineAccessor)((SoundManagerAccessor)Minecraft.getInstance().getSoundManager()).getSoundEngine();
         Listener listener = soundEngine.getListener();
-        return listener.getListenerPosition();
+        return listener.getTransform().position();
     }
 
     public static void stopMusic() {

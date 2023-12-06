@@ -1,13 +1,14 @@
 package net.asodev.islandutils.util.resourcepack;
 
+import com.google.common.hash.HashCode;
+import com.google.common.hash.Hasher;
+import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
+import com.mojang.realmsclient.Unit;
 import net.asodev.islandutils.util.resourcepack.schema.ResourcePack;
-import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.ProgressScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.FilePackResources;
-import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackCompatibility;
 import net.minecraft.server.packs.repository.PackSource;
@@ -18,14 +19,20 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.HashMap;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Objects;
+import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
 
 import static net.asodev.islandutils.util.ChatUtils.translate;
@@ -39,7 +46,7 @@ public class ResourcePackUpdater {
     HttpClient client;
     Gson gson;
 
-    public ProgressScreen state = null;
+    public PackDownloadListener currentDownload = null;
     public boolean getting = false;
     public boolean accepted = false;
     public static Pack pack;
@@ -49,22 +56,49 @@ public class ResourcePackUpdater {
         gson = new Gson();
     }
 
-    public void downloadAndApply() throws Exception {
+    public CompletableFuture<Void> downloadAndApply() {
+        Minecraft minecraft = Minecraft.getInstance();
         logger.info("Downloading resource pack...");
 
-        state = new ProgressScreen(false);
+        return CompletableFuture.runAsync(() -> {
+            this.currentDownload = new PackDownloadListener();
 
-        File file = ResourcePackOptions.packZip.toFile();
-        CompletableFuture<?> future = HttpUtil.downloadTo(file, new URL(ResourcePackOptions.data.url), new HashMap<>(), 0xFA00000, state, Minecraft.getInstance().getProxy());
-        future.thenAccept(obj -> {
-            logger.info("Applying resource pack...");
-            apply(file, true);
+            Path outputFile = ResourcePackOptions.packZip;
+
+            try {
+                URL url = new URL(ResourcePackOptions.data.url);
+                logger.info("Created URL");
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection(minecraft.getProxy());
+                logger.info("Opened URL connection");
+                urlConnection.setInstanceFollowRedirects(true);
+                logger.info("Configed URL connection");
+                InputStream inputStream = urlConnection.getInputStream();
+                logger.info("got URL input stream");
+
+                try (OutputStream outputStream = Files.newOutputStream(outputFile, StandardOpenOption.CREATE)){
+                    logger.info("got file output stream");
+                    int j;
+                    byte[] bs = new byte[8196];
+                    long l = 0L;
+                    while ((j = inputStream.read(bs)) >= 0) {
+                        logger.info("downloaded some more " + Unit.humanReadable(l += j));
+                        this.currentDownload.downloadedBytes(l);
+                        outputStream.write(bs, 0, j);
+                    }
+                }
+
+                logger.info("Applying resource pack...");
+                apply(outputFile.toFile(), true);
+            } catch (Exception e) {
+                this.currentDownload = null;
+                logger.error("Failed to download resource pack. ", e);
+            }
         });
     }
 
     public void apply(File file, Boolean save) {
         getting = false;
-        state = null;
+        currentDownload = null;
         pack = Pack.create(
                 "island_utils",
                 title,
@@ -104,13 +138,10 @@ public class ResourcePackUpdater {
             }
             ResourcePackOptions.data = rp;
 
-            try {
-                getting = true;
-                downloadAndApply();
-            } catch (Exception e) {
+            CompletableFuture<Void> download = downloadAndApply();
+            download.thenAccept((v) -> {
                 getting = false;
-                logger.error("Failed to download resource pack!", e);
-            }
+            });
         } catch (Exception e) {
             getting = false;
             logger.error("Failed to get IslandUtils resource pack info!", e);
@@ -125,6 +156,37 @@ public class ResourcePackUpdater {
             throw new RuntimeException("Got " + res.statusCode() + "code from github. Response:" + res.body());
         }
         return gson.fromJson(res.body(), ResourcePack.class);
+    }
+
+    public static class PackDownloadListener implements HttpUtil.DownloadProgressListener {
+        private OptionalLong size = OptionalLong.empty();
+        private long bytesDownloaded = 0;
+
+        @Override
+        public void downloadStart(OptionalLong optionalLong) {
+            logger.info("Downloading IslandUtils Resources... Size: " + optionalLong);
+            size = optionalLong;
+        }
+
+        @Override
+        public void downloadedBytes(long l) {
+            bytesDownloaded = l;
+        }
+
+        public OptionalLong getSize() {
+            return size;
+        }
+        public long getBytesDownloaded() {
+            return bytesDownloaded;
+        }
+
+        // don't care crown
+        @Override
+        public void requestFinished(boolean bl) {
+        }
+        @Override
+        public void requestStart() {
+        }
     }
 
 }

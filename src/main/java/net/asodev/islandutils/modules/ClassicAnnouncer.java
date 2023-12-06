@@ -1,6 +1,7 @@
 package net.asodev.islandutils.modules;
 
 import net.asodev.islandutils.options.IslandOptions;
+import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -17,7 +18,7 @@ public class ClassicAnnouncer {
     public static long lastTrapTimestamp = 0;
     public static String trap;
 
-    static TextColor textColor = TextColor.parseColor("#FFA800"); // Trap Title Text Color
+    static TextColor textColor = ChatUtils.parseColor("#FFA800"); // Trap Title Text Color
     static Style style = Style.EMPTY.withColor(textColor); // Style for the trap color
     public static void handleTrap(ClientboundSetSubtitleTextPacket clientboundSetSubtitleTextPacket, CallbackInfo ci) {
         if (!IslandOptions.getClassicHITW().isClassicHITW()) return; // Requires isClassicHITW

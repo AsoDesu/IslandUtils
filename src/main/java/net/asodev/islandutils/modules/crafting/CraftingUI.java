@@ -27,7 +27,7 @@ public class CraftingUI {
         return null;
     }
 
-    private static TextColor timeLeftColor = TextColor.parseColor("#FF5556");
+    private static TextColor timeLeftColor = ChatUtils.parseColor("#FF5556");
     public static void analyseCraftingItem(CraftingMenuType type, ItemStack item, int slot) {
         if (!isInputSlot(slot)) return;
 
