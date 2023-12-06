@@ -81,6 +81,7 @@ public class ResourcePackUpdater {
                     }
                 }
 
+                logger.info("Applying resource pack...");
                 apply(outputFile.toFile(), true);
             } catch (Exception e) {
                 this.currentDownload = null;
