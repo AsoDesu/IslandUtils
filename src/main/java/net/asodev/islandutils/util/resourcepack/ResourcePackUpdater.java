@@ -67,7 +67,7 @@ public class ResourcePackUpdater {
             Path outputFile = ResourcePackOptions.packZip;
 
             try {
-                FileUtil.createDirectoriesSafe(outputFile);
+                FileUtil.createDirectoriesSafe(outputFile.getParent());
 
                 URL url = new URL(ResourcePackOptions.data.url);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection(minecraft.getProxy());
