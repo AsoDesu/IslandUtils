@@ -6,6 +6,7 @@ import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
 import com.mojang.realmsclient.Unit;
 import net.asodev.islandutils.util.resourcepack.schema.ResourcePack;
+import net.minecraft.FileUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.FilePackResources;
@@ -66,6 +67,8 @@ public class ResourcePackUpdater {
             Path outputFile = ResourcePackOptions.packZip;
 
             try {
+                FileUtil.createDirectoriesSafe(outputFile);
+
                 URL url = new URL(ResourcePackOptions.data.url);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection(minecraft.getProxy());
                 urlConnection.setInstanceFollowRedirects(true);
