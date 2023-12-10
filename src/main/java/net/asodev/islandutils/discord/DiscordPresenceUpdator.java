@@ -22,7 +22,11 @@ public class DiscordPresenceUpdator {
     @Nullable static Activity activity;
     public static UUID timeLeftBossbar = null;
     public static Instant started;
-    public static void create() {
+    private static boolean bigRatMode = false;
+
+    public static void create(boolean enableBigRat) {
+        bigRatMode = enableBigRat;
+        System.out.println("ENABLEBIGRAT: " + enableBigRat);
         if (!IslandOptions.getDiscord().discordPresence) return;
 
         try {
@@ -169,11 +173,25 @@ public class DiscordPresenceUpdator {
         updateActivity();
     }
 
+    private static void overrideActivityWithBigRat() {
+        activity = new Activity();
+        activity.setType(ActivityType.LISTENING);
+        activity.assets().setLargeImage("bigrat");
+        activity.assets().setLargeText("BIG RAT");
+        activity.setState("BIG RAT BIG RAT BIG RAT");
+        activity.setDetails("BIG RAT BIG RAT BIG RAT");
+        activity.timestamps().setEnd(Instant.now().plusSeconds(86400));
+    }
+
     public static void updateActivity() {
         if (activity == null) return;
         if (!IslandOptions.getDiscord().discordPresence) return;
         Core core = DiscordPresence.core;
         if (core == null || !core.isOpen()) return;
+
+        if (bigRatMode) {
+            overrideActivityWithBigRat();
+        }
 
         try { core.activityManager().updateActivity(activity); }
         catch (Exception e) { e.printStackTrace(); }
@@ -187,7 +205,7 @@ public class DiscordPresenceUpdator {
         try {
             if (!MccIslandState.isOnline()) { clear(); return; }
 
-            if (options.discordPresence) create();
+            if (options.discordPresence) create(bigRatMode);
             else { clear(); return; }
 
             if (activity == null) activity = new Activity();

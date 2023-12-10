@@ -53,7 +53,7 @@ public class IslandUtilsClient implements ClientModInitializer {
         GlobalPlobbyState.register();
     }
 
-    public static void onJoinMCCI() {
+    public static void onJoinMCCI(boolean isProduction) {
         System.out.println("Connected to MCCI!");
         if (IslandUtils.availableUpdate != null) {
             ChatUtils.send("Hey! Update " + IslandUtils.availableUpdate.title() + " is available for Island Utils!");
@@ -66,7 +66,8 @@ public class IslandUtilsClient implements ClientModInitializer {
         } else if (IslandUtils.isPreRelease()) {
             ChatUtils.send("&cYou are using a pre-release version of IslandUtils! Expect things to be broken and buggy, and report to #test-feedback!");
         }
-        DiscordPresenceUpdator.create();
+
+        DiscordPresenceUpdator.create(!isProduction);
         IslandUtilsEvents.JOIN_MCCI.invoker().onEvent();
     }
 
