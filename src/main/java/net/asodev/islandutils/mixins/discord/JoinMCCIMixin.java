@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static net.asodev.islandutils.IslandUtilsClient.onJoinMCCI;
+import static net.asodev.islandutils.util.Utils.isProdMCCI;
 
 @Mixin(ClientHandshakePacketListenerImpl.class)
 public class JoinMCCIMixin {
@@ -22,7 +23,8 @@ public class JoinMCCIMixin {
     private void handleGameProfile(ClientboundGameProfilePacket clientboundGameProfilePacket, CallbackInfo ci) {
         if (this.serverData == null) return;
         if (!this.serverData.ip.toLowerCase().contains("mccisland")) return;
-        onJoinMCCI();
+
+        onJoinMCCI(isProdMCCI(this.serverData.ip.toLowerCase()));
     }
 
 }
