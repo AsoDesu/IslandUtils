@@ -26,7 +26,6 @@ public class DiscordPresenceUpdator {
 
     public static void create(boolean enableBigRat) {
         bigRatMode = enableBigRat;
-        System.out.println("ENABLEBIGRAT: " + enableBigRat);
         if (!IslandOptions.getDiscord().discordPresence) return;
 
         try {
@@ -175,7 +174,7 @@ public class DiscordPresenceUpdator {
 
     private static void overrideActivityWithBigRat() {
         activity = new Activity();
-        activity.setType(ActivityType.LISTENING);
+        activity.setType(ActivityType.PLAYING);
         activity.assets().setLargeImage("bigrat");
         activity.assets().setLargeText("BIG RAT");
         activity.setState("BIG RAT BIG RAT BIG RAT");
