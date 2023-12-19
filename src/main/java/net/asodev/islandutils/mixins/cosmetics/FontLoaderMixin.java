@@ -40,7 +40,7 @@ public class FontLoaderMixin {
                 case "_fonts/header/plobby_tab1.png" -> Plobby.setTitleCharacter(character);
                 case "_fonts/header/plobby_create.png" -> Plobby.setCreateCharacter(character);
                 case "_fonts/material_dust.png" -> Scavenging.setDustCharacter(character);
-                case "_fonts/knick_knax_ticket.png" -> Scavenging.setTicketCharacter(character);
+                case "_fonts/silver.png" -> Scavenging.setSilverCharacter(character);
 
                 case "_fonts/tooltips/hat.png" -> CosmeticState.HAT_COMP = comp;
                 case "_fonts/tooltips/accessory.png" -> CosmeticState.ACCESSORY_COMP = comp;
