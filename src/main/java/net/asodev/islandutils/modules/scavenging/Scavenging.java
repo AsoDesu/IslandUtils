@@ -3,12 +3,10 @@ package net.asodev.islandutils.modules.scavenging;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
@@ -17,12 +15,10 @@ import net.minecraft.world.item.Items;
 import java.util.Collection;
 import java.util.List;
 
-import static net.asodev.islandutils.modules.cosmetics.CosmeticState.MCC_ICONS;
-
 public class Scavenging {
     private static String titleCharacter = "";
     private static ScavengingItemHandler dustHandler;
-    private static ScavengingItemHandler ticketHandler;
+    private static ScavengingItemHandler silverHandler;
 
     public static boolean isScavengingMenuOrDisabled(AbstractContainerScreen<?> screen) {
         if (!IslandOptions.getMisc().isSilverPreview()) return false;
@@ -60,7 +56,7 @@ public class Scavenging {
         if (lores == null) return;
 
         for (Component line : lores) {
-            list.apply(ticketHandler.checkLine(line));
+            list.apply(silverHandler.checkLine(line));
             list.apply(dustHandler.checkLine(line));
         }
     }
@@ -68,8 +64,8 @@ public class Scavenging {
     public static void setDustCharacter(String dustCharacter) {
         dustHandler = new ScavengingItemHandler("dust", dustCharacter);
     }
-    public static void setTicketCharacter(String ticketCharacter) {
-        ticketHandler = new ScavengingItemHandler("ticket", ticketCharacter, "\\[Knick Knax Ticket\\]");
+    public static void setSilverCharacter(String silverCharacter) {
+        silverHandler = new ScavengingItemHandler("silver", silverCharacter);
     }
 
     public static void setTitleCharacter(String titleCharacter) {
