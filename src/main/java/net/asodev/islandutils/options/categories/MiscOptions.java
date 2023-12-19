@@ -16,6 +16,7 @@ public class MiscOptions implements OptionsCategory {
     boolean showFriendsInGame = true;
     boolean showFriendsInLobby = true;
     boolean silverPreview = true;
+    boolean channelSwitchers = true;
     boolean enableConfigButton = true;
     boolean debugMode = false;
 
@@ -34,6 +35,9 @@ public class MiscOptions implements OptionsCategory {
     }
     public boolean isEnableConfigButton() {
         return enableConfigButton;
+    }
+    public boolean showChannelSwitchers() {
+        return channelSwitchers;
     }
     public boolean isDebugMode() {
         return debugMode;
@@ -65,6 +69,12 @@ public class MiscOptions implements OptionsCategory {
                 .controller(TickBoxControllerBuilder::create)
                 .binding(defaults.silverPreview, () -> silverPreview, value -> this.silverPreview = value)
                 .build();
+        Option<Boolean> channelsOption = Option.<Boolean>createBuilder()
+                .name(Component.translatable("text.autoconfig.islandutils.option.channelSwitchers"))
+                .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.channelSwitchers.@Tooltip")))
+                .controller(TickBoxControllerBuilder::create)
+                .binding(defaults.channelSwitchers, () -> channelSwitchers, value -> this.channelSwitchers = value)
+                .build();
         Option<Boolean> buttonOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.enableConfigButton"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.enableConfigButton.@Tooltip")))
@@ -88,6 +98,7 @@ public class MiscOptions implements OptionsCategory {
                         .option(showFriendsLobbyOption)
                         .build())
                 .option(silverOption)
+                .option(channelsOption)
                 .option(buttonOption)
                 .group(OptionGroup.createBuilder()
                         .name(Component.literal("Debug Options"))

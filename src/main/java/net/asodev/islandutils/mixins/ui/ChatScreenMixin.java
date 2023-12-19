@@ -1,6 +1,7 @@
 package net.asodev.islandutils.mixins.ui;
 
 import net.asodev.islandutils.modules.ChatChannelButton;
+import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.util.PlainTextButtonNoShadow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -40,7 +41,7 @@ public abstract class ChatScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
-        if (!isOnline()) return;
+        if (!isOnline() || !IslandOptions.getMisc().showChannelSwitchers()) return;
         buttons.clear();
 
         int x = 2;
