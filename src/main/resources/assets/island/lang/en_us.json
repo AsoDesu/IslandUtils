@@ -75,6 +75,8 @@
   "text.autoconfig.islandutils.option.showFriendsInLobby.@Tooltip": "When you join or change lobbies, a message will be put in chat with the friends in your lobby",
   "text.autoconfig.islandutils.option.silverPreview": "Show scavenging item totals",
   "text.autoconfig.islandutils.option.silverPreview.@Tooltip": "Shows all the items you'll earn in the Scavenging menu",
+  "text.autoconfig.islandutils.option.channelSwitchers": "Show chat channel buttons",
+  "text.autoconfig.islandutils.option.channelSwitchers.@Tooltip": "Shows the chat channel switcher buttons above the chat box",
   "text.autoconfig.islandutils.option.hideSliders": "Hide Sound Sliders if not Online",
   "text.autoconfig.islandutils.option.hideSliders.@Tooltip": "Hides the Music Sliders if you're not on MCC Island",
 
