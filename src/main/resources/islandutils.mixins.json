@@ -25,6 +25,7 @@
     "accessors.SoundManagerAccessor",
     "cosmetics.UIMixin",
     "crafting.CraftingPacketMixin",
+    "crafting.RemnantHighlightMixin",
     "crafting.ScavengingScreenMixin",
     "discord.JoinMCCIMixin",
     "network.PacketListenerMixin",
