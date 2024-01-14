@@ -26,9 +26,10 @@ public class Utils {
     public static final ExecutorService savingQueue = Executors.newFixedThreadPool(2);
     public static final Style MCC_HUD_FONT = Style.EMPTY.withFont(new ResourceLocation("mcc", "hud"));
     private static final List<String> NON_PROD_IP_HASHES = List.of(
-            "e927084bb931f83eece6780afd9046f121a798bf3ff3c78a9399b08c1dfb1aec",
+            "e927084bb931f83eece6780afd9046f121a798bf3ff3c78a9399b08c1dfb1aec", // bigrat.mccisland.net easteregg/test ip
             "0c932ffaa687c756c4616a24eb49389213519ea8d18e0d9bdfd2d335771c35c7",
-            "7f0d15bbb2ffaee1bbf0d23e5746afb753333d590f71ff8a5a186d86c3e79dda"
+            "7f0d15bbb2ffaee1bbf0d23e5746afb753333d590f71ff8a5a186d86c3e79dda",
+            "09445264a9c515c83fc5a0159bda82e25d70d499f80df4a2d1c2f7e2ae6af997"
     );
 
     public static List<Component> getLores(ItemStack item) {
