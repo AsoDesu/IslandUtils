@@ -9,15 +9,28 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Utils {
+    private static final Logger logger = LoggerFactory.getLogger(Utils.class);
     public static final ExecutorService savingQueue = Executors.newFixedThreadPool(2);
     public static final Style MCC_HUD_FONT = Style.EMPTY.withFont(new ResourceLocation("mcc", "hud"));
+    private static final List<String> NON_PROD_IP_HASHES = List.of(
+            "e927084bb931f83eece6780afd9046f121a798bf3ff3c78a9399b08c1dfb1aec", // bigrat.mccisland.net easteregg/test ip
+            "0c932ffaa687c756c4616a24eb49389213519ea8d18e0d9bdfd2d335771c35c7",
+            "7f0d15bbb2ffaee1bbf0d23e5746afb753333d590f71ff8a5a186d86c3e79dda",
+            "09445264a9c515c83fc5a0159bda82e25d70d499f80df4a2d1c2f7e2ae6af997"
+    );
 
     public static List<Component> getLores(ItemStack item) {
         LocalPlayer player = Minecraft.getInstance().player;
@@ -58,5 +71,23 @@ public class Utils {
         String customItemId = publicBukkitValues.getString("mcc:custom_item_id");
         if (customItemId.equals("")) return null;
         return new ResourceLocation(customItemId);
+    }
+
+    public static boolean isProdMCCI(String hostname) {
+        String hostnameHash = Utils.calculateSha256(hostname);
+        return !NON_PROD_IP_HASHES.contains(hostnameHash);
+    }
+
+    public static String calculateSha256(String input) {
+        String output = "";
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(input.getBytes(StandardCharsets.UTF_8));
+            byte[] digest = md.digest();
+            output = String.format("%064x", new BigInteger(1, digest));
+        } catch (NoSuchAlgorithmException e) {
+            logger.error("Failed to calculate SHA-256 for " + input);
+        }
+        return output;
     }
 }
