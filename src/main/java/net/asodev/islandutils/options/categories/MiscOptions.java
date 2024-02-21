@@ -6,6 +6,7 @@ import dev.isxander.yacl3.api.OptionDescription;
 import dev.isxander.yacl3.api.OptionGroup;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
 import net.asodev.islandutils.options.saving.Ignore;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.chat.Component;
 
 public class MiscOptions implements OptionsCategory {
@@ -40,7 +41,7 @@ public class MiscOptions implements OptionsCategory {
         return channelSwitchers;
     }
     public boolean isDebugMode() {
-        return debugMode;
+        return debugMode && !FabricLoader.getInstance().isModLoaded("ichor");
     }
 
     @Override
@@ -85,6 +86,7 @@ public class MiscOptions implements OptionsCategory {
                 .name(Component.translatable("text.autoconfig.islandutils.option.debugMode"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.debugMode.@Tooltip")))
                 .controller(TickBoxControllerBuilder::create)
+                .available(!FabricLoader.getInstance().isModLoaded("ichor")) // disable on lunar client
                 .binding(defaults.debugMode, () -> debugMode, value -> this.debugMode = value)
                 .build();
 
