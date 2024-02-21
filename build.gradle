@@ -46,7 +46,7 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modApi("dev.isxander.yacl:yet-another-config-lib-fabric:3.3.0-beta.1+1.20.3") {
+    modApi("dev.isxander.yacl:yet-another-config-lib-fabric:3.3.2+1.20.4") {
         exclude(group: "org.quiltmc.parsers")
         exclude(group: "com.twelvemonkeys.common")
         exclude(group: "com.twelvemonkeys.imageio")
