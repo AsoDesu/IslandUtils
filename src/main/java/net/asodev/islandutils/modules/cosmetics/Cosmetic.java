@@ -20,8 +20,8 @@ public class Cosmetic {
     }
 
     public CosmeticSlot getContents() {
-        if (hover != null) return hover;
         if (preview != null) return preview;
+        if (hover != null) return hover;
         if (original != null) return original;
         return new CosmeticSlot(ItemStack.EMPTY, null);
     }
