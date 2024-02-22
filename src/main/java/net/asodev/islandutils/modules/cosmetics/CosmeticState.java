@@ -80,8 +80,10 @@ public class CosmeticState {
     public static CosmeticType getType(ItemStack item) {
         ResourceLocation itemId = Utils.getCustomItemID(item);
         if (itemId == null) return null;
-        if (itemId.getPath().contains("hat.") || itemId.getPath().contains("hair.")) return CosmeticType.HAT;
-        if (itemId.getPath().contains("accessory.")) return CosmeticType.ACCESSORY;
+        String path = itemId.getPath();
+        if (path.endsWith(".icon")) return null;
+        if (path.contains("hat.") || path.contains("hair.")) return CosmeticType.HAT;
+        if (path.contains("accessory.")) return CosmeticType.ACCESSORY;
         return null;
     }
 
