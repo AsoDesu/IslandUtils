@@ -25,6 +25,7 @@ public class Utils {
     private static final Logger logger = LoggerFactory.getLogger(Utils.class);
     public static final ExecutorService savingQueue = Executors.newFixedThreadPool(2);
     public static final Style MCC_HUD_FONT = Style.EMPTY.withFont(new ResourceLocation("mcc", "hud"));
+    public static final String BLANK_ITEM_ID = "island_interface.generic.blank";
     private static final List<String> NON_PROD_IP_HASHES = List.of(
             "e927084bb931f83eece6780afd9046f121a798bf3ff3c78a9399b08c1dfb1aec", // bigrat.mccisland.net easteregg/test ip
             "0c932ffaa687c756c4616a24eb49389213519ea8d18e0d9bdfd2d335771c35c7",

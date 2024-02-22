@@ -2,27 +2,23 @@ package net.asodev.islandutils;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
+import net.asodev.islandutils.modules.DisguiseKeybind;
 import net.asodev.islandutils.modules.Packets;
 import net.asodev.islandutils.modules.plobby.PlobbyFeatures;
-import net.asodev.islandutils.modules.plobby.state.GlobalPlobbyState;
+import net.asodev.islandutils.modules.plobby.PlobbyJoinCodeCopy;
 import net.asodev.islandutils.modules.splits.SplitManager;
 import net.asodev.islandutils.util.ChatUtils;
-import net.asodev.islandutils.modules.DisguiseKeybind;
 import net.asodev.islandutils.util.IslandUtilsCommand;
 import net.asodev.islandutils.util.MusicUtil;
-
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-
 import net.minecraft.client.KeyMapping;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-
 import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
@@ -50,7 +46,7 @@ public class IslandUtilsClient implements ClientModInitializer {
         PlobbyFeatures.registerEvents();
         IslandUtilsCommand.register();
         DiscordPresenceUpdator.init();
-        GlobalPlobbyState.register();
+        PlobbyJoinCodeCopy.register();
     }
 
     public static void onJoinMCCI(boolean isProduction) {

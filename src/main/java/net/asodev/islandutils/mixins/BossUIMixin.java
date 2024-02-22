@@ -1,6 +1,5 @@
 package net.asodev.islandutils.mixins;
 
-import net.asodev.islandutils.modules.plobby.PlobbyUI;
 import net.asodev.islandutils.modules.splits.ui.SplitUI;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.BossHealthOverlay;
@@ -29,7 +28,6 @@ public class BossUIMixin {
     @Inject(method = "render", at = @At("HEAD"))
     private void render(GuiGraphics guiGraphics, CallbackInfo ci) {
         SplitUI.renderInstance(guiGraphics, this.events);
-        PlobbyUI.renderInstance(guiGraphics);
     }
 
 }
