@@ -1,18 +1,12 @@
 package net.asodev.islandutils.util;
 
-import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.asodev.islandutils.IslandUtils;
-import net.asodev.islandutils.modules.plobby.state.DebugPlobbyState;
-import net.asodev.islandutils.options.IslandOptions;
-import net.asodev.islandutils.modules.crafting.state.CraftingItems;
 import net.asodev.islandutils.modules.crafting.state.CraftingNotifier;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.network.chat.Component;
 
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 
 public class IslandUtilsCommand {
@@ -25,8 +19,7 @@ public class IslandUtilsCommand {
                return 0;
             });
     public static LiteralArgumentBuilder<FabricClientCommandSource> debugSubcommand = literal("debug")
-            .then(CraftingNotifier.getDebugCommand())
-            .then(DebugPlobbyState.getDebugCommand());
+            .then(CraftingNotifier.getDebugCommand());
     public static LiteralArgumentBuilder<FabricClientCommandSource> islandCommand = literal("islandutils")
             .then(craftsCommand);
 
