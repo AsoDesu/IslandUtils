@@ -11,6 +11,7 @@
     "cosmetics.PreviewTutorialMixin",
     "discord.ConnectionMixin",
     "discord.PlayerTeamMixin",
+    "network.CustomPayloadDebugPacket",
     "network.GamePacketMixin",
     "network.ServerPacketMixin",
     "resources.PackRepositoryMixin",
