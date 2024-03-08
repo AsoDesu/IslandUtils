@@ -53,7 +53,6 @@ public class CosmeticState {
         return lores.stream().anyMatch(p -> p.getString().contains("Left-Click to Equip"));
     }
 
-    // Color items do not have lore
     public static boolean isColoredItem(ItemStack item) {
         if (!item.is(Items.LEATHER_HORSE_ARMOR)) return false;
         ResourceLocation customItemID = Utils.getCustomItemID(item);
