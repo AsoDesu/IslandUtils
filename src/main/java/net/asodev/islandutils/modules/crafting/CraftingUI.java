@@ -22,6 +22,8 @@ public class CraftingUI {
     private static Component forgeComponent;
 
     public static CraftingMenuType craftingMenuType(Component component) {
+        if (assemblerComponent == null || forgeComponent == null) return null;
+
         if (component.contains(assemblerComponent)) return CraftingMenuType.ASSEMBLER;
         if (component.contains(forgeComponent)) return CraftingMenuType.FORGE;
         return null;

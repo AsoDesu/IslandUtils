@@ -16,12 +16,13 @@ import java.util.Collection;
 import java.util.List;
 
 public class Scavenging {
-    private static String titleCharacter = "";
+    private static String titleCharacter;
     private static ScavengingItemHandler dustHandler;
     private static ScavengingItemHandler silverHandler;
 
     public static boolean isScavengingMenuOrDisabled(AbstractContainerScreen<?> screen) {
         if (!IslandOptions.getMisc().isSilverPreview()) return false;
+        if (titleCharacter == null) return false;
         return screen.getTitle().getString().contains(titleCharacter);
     }
     public static void renderSilverTotal(ScavengingTotalList silverTotal, GuiGraphics guiGraphics) {
@@ -53,7 +54,7 @@ public class Scavenging {
     }
     public static void applyItems(ItemStack item, ScavengingTotalList list) {
         List<Component> lores = Utils.getLores(item);
-        if (lores == null) return;
+        if (lores == null || silverHandler == null || dustHandler == null) return;
 
         for (Component line : lores) {
             list.apply(silverHandler.checkLine(line));

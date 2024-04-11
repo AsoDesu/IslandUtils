@@ -198,7 +198,7 @@ public class LevelTimer {
     }
 
     // Font stuff
-    public static String medalCharacter;
-    public static Component splitUpComponent;
-    public static Component splitDownComponent;
+    public static String medalCharacter = "";
+    public static Component splitUpComponent = Component.empty();
+    public static Component splitDownComponent = Component.empty();
 }
