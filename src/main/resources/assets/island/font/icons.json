@@ -44,14 +44,14 @@
             "file": "mcc:_fonts/fusion_crafting.png",
             "chars": ["\ue006"],
             "ascent": 7,
-            "height": 24
+            "height": 16
         },
         {
             "type": "bitmap",
             "file": "mcc:_fonts/crafting.png",
             "chars": ["\ue007"],
             "ascent": 8,
-            "height": 24
+            "height": 16
         },
         {
             "type": "bitmap",
