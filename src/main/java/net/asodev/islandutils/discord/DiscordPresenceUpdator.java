@@ -11,6 +11,7 @@ import net.asodev.islandutils.state.Game;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 public class DiscordPresenceUpdator {
@@ -26,6 +27,11 @@ public class DiscordPresenceUpdator {
     public static UUID timeLeftBossbar = null;
     public static Instant started;
     private static boolean bigRatMode = false;
+
+    private static List<Game> roundGames = List.of(Game.TGTTOS, Game.BATTLE_BOX);
+    private static List<Game> remainGames = List.of(Game.HITW, Game.SKY_BATTLE, Game.DYNABALL, Game.ROCKET_SPLEEF_RUSH);
+    private static List<Game> courseGames = List.of(Game.PARKOUR_WARRIOR_DOJO);
+    private static List<Game> leapGames = List.of(Game.PARKOUR_WARRIOR_SURVIVOR);
 
     public static void create(boolean enableBigRat) {
         bigRatMode = enableBigRat;
@@ -105,13 +111,13 @@ public class DiscordPresenceUpdator {
             e.printStackTrace();
         }
 
-        if (game == Game.TGTTOS || game == Game.BATTLE_BOX)
+        if (roundGames.contains(game))
             if (ROUND_STATE != null) roundScoreboardUpdate(ROUND_STATE, false);
-        if (game == Game.HITW || game == Game.SKY_BATTLE || game == Game.DYNABALL)
+        if (remainGames.contains(game))
             if (REMAIN_STATE != null) remainScoreboardUpdate(REMAIN_STATE, false);
-        if (game == Game.PARKOUR_WARRIOR_DOJO)
+        if (courseGames.contains(game))
             if (COURSE_STATE != null) courseScoreboardUpdate(COURSE_STATE, false);
-        if (game == Game.PARKOUR_WARRIOR_SURVIVOR)
+        if (leapGames.contains(game))
             if (LEAP_STATE != null) leapScoreboardUpdate(LEAP_STATE, false);
         if (game == Game.HUB) {
             activity.setState("");
@@ -126,7 +132,7 @@ public class DiscordPresenceUpdator {
         if (!IslandOptions.getDiscord().showGameInfo || !IslandOptions.getDiscord().showGame) return;
 
         if (set) REMAIN_STATE = "Remaining: " + value;
-        if (MccIslandState.getGame() != Game.HITW && MccIslandState.getGame() != Game.SKY_BATTLE && MccIslandState.getGame() != Game.DYNABALL) return;
+        if (!remainGames.contains(MccIslandState.getGame())) return;
 
         try { activity.setState(REMAIN_STATE); }
         catch (Exception e) { e.printStackTrace(); }
@@ -139,7 +145,7 @@ public class DiscordPresenceUpdator {
         if (!IslandOptions.getDiscord().showGameInfo || !IslandOptions.getDiscord().showGame) return;
 
         if (set) ROUND_STATE = "Round: " + value;
-        if (MccIslandState.getGame() != Game.TGTTOS && MccIslandState.getGame() != Game.BATTLE_BOX) return;
+        if (!roundGames.contains(MccIslandState.getGame())) return;
 
         try { activity.setState(ROUND_STATE); }
         catch (Exception e) { e.printStackTrace(); }
@@ -153,7 +159,7 @@ public class DiscordPresenceUpdator {
         if (!IslandOptions.getDiscord().showGameInfo || !IslandOptions.getDiscord().showGame) return;
 
         if (set) COURSE_STATE = value;
-        if (MccIslandState.getGame() != Game.PARKOUR_WARRIOR_DOJO) return;
+        if (!courseGames.contains(MccIslandState.getGame())) return;
 
         try { activity.setState(COURSE_STATE); }
         catch (Exception e) { e.printStackTrace(); }
@@ -167,7 +173,7 @@ public class DiscordPresenceUpdator {
         if (!IslandOptions.getDiscord().showGameInfo || !IslandOptions.getDiscord().showGame) return;
 
         if (set) LEAP_STATE = "Leap: " + value;
-        if (MccIslandState.getGame() != Game.PARKOUR_WARRIOR_SURVIVOR) return;
+        if (!leapGames.contains(MccIslandState.getGame())) return;
 
         try { activity.setState(LEAP_STATE); }
         catch (Exception e) { e.printStackTrace(); }

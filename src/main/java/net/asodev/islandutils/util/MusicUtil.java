@@ -46,6 +46,7 @@ public class MusicUtil {
                 if (!bypassOvertimeCheck && isOvertimePlaying()) return;
             }
             case DYNABALL -> { if (!options.isDynaballMusic()) return; }
+            case ROCKET_SPLEEF_RUSH -> { if (!options.isRsrMusic()) return; }
         }
 
         ResourceLocation location = MccIslandState.getGame().getMusicLocation();
