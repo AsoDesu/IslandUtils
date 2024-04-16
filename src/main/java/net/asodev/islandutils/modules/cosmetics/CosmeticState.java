@@ -80,7 +80,7 @@ public class CosmeticState {
         ResourceLocation itemId = Utils.getCustomItemID(item);
         if (itemId == null) return null;
         String path = itemId.getPath();
-        if (path.endsWith(".icon")) return null;
+        if (path.endsWith(".icon_empty")) return null;
         if (path.contains("hat.") || path.contains("hair.")) return CosmeticType.HAT;
         if (path.contains("accessory.")) return CosmeticType.ACCESSORY;
         return null;
