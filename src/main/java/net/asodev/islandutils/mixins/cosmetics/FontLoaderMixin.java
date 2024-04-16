@@ -34,9 +34,9 @@ public class FontLoaderMixin {
             Component comp = Component.literal(character).setStyle(Style.EMPTY.withFont(MCC_ICONS));
             Component factionComp = Component.literal(character).setStyle(Style.EMPTY.withFont(MCC_ICONS_19));
             switch (file.getPath()) {
-                case "_fonts/framework_assembler.png" -> CraftingUI.setAssemblerCharacter(character);
-                case "_fonts/header/fusion_crafting_tab_1.png" -> CraftingUI.setForgeCharacter(character);
-                case "_fonts/header/scavenging.png" -> Scavenging.setTitleCharacter(character);
+                case "_fonts/body/blueprint_assembly.png" -> CraftingUI.setAssemblerCharacter(character);
+                case "_fonts/body/fusion_forge.png" -> CraftingUI.setForgeCharacter(character);
+                case "_fonts/body/scavenging.png" -> Scavenging.setTitleCharacter(character);
                 case "_fonts/material_dust.png" -> Scavenging.setDustCharacter(character);
                 case "_fonts/silver.png" -> Scavenging.setSilverCharacter(character);
 
