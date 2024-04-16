@@ -2,11 +2,14 @@ package net.asodev.islandutils.modules.scavenging;
 
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.util.Utils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
@@ -16,20 +19,28 @@ import java.util.Collection;
 import java.util.List;
 
 public class Scavenging {
-    private static String titleCharacter = "";
+    // the total width of the island menu
+    private static final int GUI_TOTAL_WIDTH = 176;
+    // the width of the menu body
+    private static final int GUI_BODY_WIDTH = 164;
+    // the offset between the end of the scavenging icons and the right-side of the body
+    private static final int SCAVENGING_ICON_INNER_OFFSET = 22;
+
+    private static Component titleComponent;
     private static ScavengingItemHandler dustHandler;
     private static ScavengingItemHandler silverHandler;
 
     public static boolean isScavengingMenuOrDisabled(AbstractContainerScreen<?> screen) {
         if (!IslandOptions.getMisc().isSilverPreview()) return false;
-        return screen.getTitle().getString().contains(titleCharacter);
+        if (titleComponent == null) return false;
+        return screen.getTitle().contains(titleComponent);
     }
     public static void renderSilverTotal(ScavengingTotalList silverTotal, GuiGraphics guiGraphics) {
         Minecraft minecraft = Minecraft.getInstance();
         if (!(minecraft.screen instanceof ContainerScreen screen)) return;
 
-        int bgX = (screen.width - 176) / 2;
-        int x = bgX + 160;
+        int bgX = (screen.width - GUI_TOTAL_WIDTH) / 2;
+        int x = bgX + (GUI_BODY_WIDTH - SCAVENGING_ICON_INNER_OFFSET);
 
         Collection<ScavengingTotal> totals = silverTotal.totals.values();
         for (ScavengingTotal total : totals) {
@@ -44,16 +55,21 @@ public class Scavenging {
         ScavengingTotalList list = new ScavengingTotalList();
 
         Container container = menu.getContainer();
-        for (int i = 37; i <= 43; i++) {
+        applyItemRow(list, container, 20, 24);
+        applyItemRow(list, container, 29, 33);
+        return list;
+    }
+    private static void applyItemRow(ScavengingTotalList list, Container container, int min, int max) {
+        for (int i = min; i <= max; i++) {
             ItemStack item = container.getItem(i);
             if (item.is(Items.AIR)) continue;
             applyItems(item, list);
         }
-        return list;
     }
+
     public static void applyItems(ItemStack item, ScavengingTotalList list) {
         List<Component> lores = Utils.getLores(item);
-        if (lores == null) return;
+        if (lores == null || silverHandler == null || dustHandler == null) return;
 
         for (Component line : lores) {
             list.apply(silverHandler.checkLine(line));
@@ -69,6 +85,8 @@ public class Scavenging {
     }
 
     public static void setTitleCharacter(String titleCharacter) {
-        Scavenging.titleCharacter = titleCharacter;
+        Scavenging.titleComponent = Component.literal(titleCharacter).withStyle(
+                Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(new ResourceLocation("mcc", "chest_backgrounds"))
+        );
     }
 }

@@ -45,7 +45,7 @@ public class ScavengingItemHandler {
 
         x -= width;
         int bgY = (screen.height - MENU_HEIGHT) / 2;
-        int y = bgY + 89 + 4;
+        int y = bgY + 89 - 4;
 
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate(0, 0, 105); // z-index: 105
