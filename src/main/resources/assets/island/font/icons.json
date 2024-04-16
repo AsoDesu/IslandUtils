@@ -41,14 +41,14 @@
         },
         {
             "type": "bitmap",
-            "file": "mcc:_fonts/header_icons/fusion_crafting.png",
+            "file": "mcc:_fonts/fusion_crafting.png",
             "chars": ["\ue006"],
             "ascent": 7,
             "height": 24
         },
         {
             "type": "bitmap",
-            "file": "mcc:_fonts/header_icons/crafting.png",
+            "file": "mcc:_fonts/crafting.png",
             "chars": ["\ue007"],
             "ascent": 8,
             "height": 24
