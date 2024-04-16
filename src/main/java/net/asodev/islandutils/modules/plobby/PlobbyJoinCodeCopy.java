@@ -5,6 +5,7 @@ import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.regex.Pattern;
 public class PlobbyJoinCodeCopy {
     public static long lastCopy = 0;
     private static final Component copiedMessage = Component.literal("Copied code to clipboard!")
-            .withStyle(Style.EMPTY.withColor(ChatUtils.parseColor("#ffff00")));
+            .withStyle(Style.EMPTY.withColor(TextColor.parseColor("#ffff00")));
 
     public static void register() {
         IslandUtilsEvents.CHAT_MESSAGE.register((state, modify) -> {
