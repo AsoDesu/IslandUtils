@@ -19,6 +19,9 @@ public class DiscordPresenceUpdator {
     // Discord GameSDK sometimes likes to not work whenever you ask it to do something
     // So we have to be sure we don't crash when that happens.
 
+    // dear contributors:
+    // i am sorry.
+
     @Nullable static Activity activity;
     public static UUID timeLeftBossbar = null;
     public static Instant started;
