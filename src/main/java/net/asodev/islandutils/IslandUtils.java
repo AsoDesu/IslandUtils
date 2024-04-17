@@ -34,10 +34,9 @@ public class IslandUtils implements ModInitializer {
         container.ifPresent(modContainer -> version = modContainer.getMetadata().getVersion().getFriendlyString());
 
         updater = new UpdateManager();
+        isPreRelease = version.contains("-pre") || FabricLoader.getInstance().isDevelopmentEnvironment();
         if (!version.contains("-pre")) {
             updater.runUpdateCheck();
-        } else {
-            isPreRelease = true;
         }
 
         try {
