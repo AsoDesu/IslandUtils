@@ -56,7 +56,7 @@ public class ScavengingItemHandler {
     }
 
     public ScavengingTotal checkLine(Component line) {
-        String content = line.getString();
+        String content = line.getString().replace(",", "");
         Matcher matcher = pattern.matcher(content);
         if (!matcher.find()) return total;
 
