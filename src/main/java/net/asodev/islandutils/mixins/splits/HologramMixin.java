@@ -18,16 +18,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.regex.MatchResult;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-@Mixin(ClientPacketListener.class)
+@Mixin(value = ClientPacketListener.class, priority = 990)
 public class HologramMixin {
     TextColor redColor = TextColor.fromLegacyFormat(ChatFormatting.RED);
     TextColor yellowColor = TextColor.fromLegacyFormat(ChatFormatting.YELLOW);
 
-    @Inject(method = "handleSetEntityData", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
+    @Inject(method = "handleSetEntityData", at = @At("RETURN"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
     private void handleEntityData(ClientboundSetEntityDataPacket clientboundSetEntityDataPacket, CallbackInfo ci, Entity entity) {
         if (!(entity instanceof AreaEffectCloud hologram)) return;
         if (!MccIslandState.isOnline() || MccIslandState.getGame() != Game.PARKOUR_WARRIOR_DOJO) return;
