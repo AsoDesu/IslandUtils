@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-@Mixin(ClientPacketListener.class)
+@Mixin(value = ClientPacketListener.class, priority = 990)
 public class HologramMixin {
     TextColor redColor = TextColor.fromLegacyFormat(ChatFormatting.RED);
     TextColor yellowColor = TextColor.fromLegacyFormat(ChatFormatting.YELLOW);
