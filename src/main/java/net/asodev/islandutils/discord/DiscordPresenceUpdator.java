@@ -75,20 +75,6 @@ public class DiscordPresenceUpdator {
         updateActivity();
     }
 
-    public static int lastLevel = -1;
-    public static void setLevel(int level) {
-        if (activity == null) return;
-        if (!IslandOptions.getDiscord().showFactionLevel) return;
-
-        lastLevel = level;
-        String faction = "";
-        if (MccIslandState.getFaction() != null)
-            faction = " (" + MccIslandState.getFaction().getTitle() + ")";
-
-        try { activity.assets().setSmallText("Level " + level + faction); }
-        catch (Exception e) { e.printStackTrace(); }
-    }
-
     public static void updatePlace(Game game) {
         if (activity == null) return;
         if (!IslandOptions.getDiscord().showGame) return;
@@ -237,9 +223,6 @@ public class DiscordPresenceUpdator {
                 activity.setState("");
                 activity.timestamps().setEnd(Instant.ofEpochSecond(0));
             } else updatePlace(MccIslandState.getGame());
-
-            if (!options.showFactionLevel) activity.assets().setSmallText("");
-            else setLevel(lastLevel);
 
             if (!options.showGameInfo) activity.setState("");
             else updatePlace(MccIslandState.getGame());
