@@ -9,9 +9,11 @@ import net.asodev.islandutils.options.categories.CosmeticsOptions;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.modules.cosmetics.CosmeticState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
@@ -92,6 +94,7 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         int y = (this.height / 2) + size;
 
         this.renderPlayerInInventory(
+                guiGraphics,
                 x, // x
                 y,  // y
                 size , // size
@@ -121,72 +124,23 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
 
     // don't ask what this code does
     // the answer is "it renders the player, it works, no touch."
-    private void renderPlayerInInventory(int x, int y, int size, LivingEntity livingEntity) {
+    private void renderPlayerInInventory(GuiGraphics guiGraphics, int x, int y, int size, LivingEntity livingEntity) {
         float yRot = CosmeticState.yRot;
         float xRot = (float)Math.atan(CosmeticState.xRot / 40.0f);;
 
-        PoseStack poseStack = RenderSystem.getModelViewStack();
-        poseStack.pushPose();
-        poseStack.translate((double)x, (double)y, 1050.0);
-        poseStack.scale(1.0F, 1.0F, -1.0F);
-        RenderSystem.applyModelViewMatrix();
-        PoseStack poseStack2 = new PoseStack();
-        poseStack2.translate(0.0, 0.0, 1000.0);
-        poseStack2.scale((float)size, (float)size, (float)size);
-        Quaternionf quaternionf = (new Quaternionf()).rotateZ(3.1415927F);
-        Quaternionf quaternionf2 = (new Quaternionf()).rotateX(xRot * 20.0F * 0.017453292F);
-        quaternionf.mul(quaternionf2);
-        poseStack2.mulPose(quaternionf);
-        float m = livingEntity.yBodyRot;
-        float n = livingEntity.getYRot();
-        float o = livingEntity.getXRot();
-        float p = livingEntity.yHeadRotO;
-        float q = livingEntity.yHeadRot;
-        livingEntity.yBodyRot = yRot;
-        livingEntity.setYRot(yRot);
-        livingEntity.yHeadRot = livingEntity.yBodyRot;
-        livingEntity.yHeadRotO = livingEntity.yBodyRot;
-
-        livingEntity.setXRot(-xRot * 20F);
-
-        Lighting.setupForEntityInInventory();
-        EntityRenderDispatcher entityRenderDispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
-        entityRenderDispatcher.setRenderShadow(false);
-        MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-        RenderSystem.runAsFancy(() -> {
-            entityRenderDispatcher.render(livingEntity, 0.0, 0.0, 0.0, 0.0F, 1.0F, poseStack2, bufferSource, 15728880);
-        });
-        bufferSource.endBatch();
-        entityRenderDispatcher.setRenderShadow(true);
-        livingEntity.yBodyRot = m;
-        livingEntity.setYRot(n);
-        livingEntity.setXRot(o);
-        livingEntity.yHeadRotO = p;
-        livingEntity.yHeadRot = q;
-        poseStack.popPose();
-        RenderSystem.applyModelViewMatrix();
-        Lighting.setupFor3DItems();
+        InventoryScreen.renderEntityInInventoryFollowsMouse(
+                guiGraphics,
+                x, y,
+                x, y,
+                size,
+                0.0625f,
+                xRot,
+                yRot,
+                livingEntity
+        );
     }
 
     private void checkInspect() {
-        // 11 - Head
-        // 9 - Hat
-        // 18 - Accessory
-        Slot inspectHeadSlot = this.menu.getSlot(11);
-        Slot inspectHatSlot = this.menu.getSlot(9);
-        boolean isInspectHead = inspectHeadSlot.hasItem() && inspectHeadSlot.getItem().is(Items.PLAYER_HEAD);
-        boolean isInspectHat = inspectHeadSlot.hasItem() &&
-                (CosmeticState.getType(inspectHatSlot.getItem()) != null) || (inspectHatSlot.getItem().getDisplayName().getString().contains("Hat"));
-        if (isInspectHead && isInspectHat) {
-            try {
-                Player player = null;
-                if (CosmeticState.inspectingPlayer == null) {
-                    UUID uuid = inspectHeadSlot.getItem().getTag().getCompound("SkullOwner").getUUID("Id");
-                    player = Minecraft.getInstance().level.getPlayerByUUID(uuid);
-                    CosmeticState.inspectingPlayer = player;
-                }
-                if (player == null) return;
-            } catch (Exception ignored) {}
-        }
+        // TODO: Readd inspect menu support
     }
 }

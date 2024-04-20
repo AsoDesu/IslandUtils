@@ -57,12 +57,12 @@ public enum Game {
 
     public static Game fromPacket(ClientboundMccServerPacket packet) throws NoSuchElementException {
         for (Game game : values()) {
-            if (game.islandId.equals(packet.associatedGame)) {
-                if (game.subType != null && !game.subType.equals(packet.subType))
+            if (game.islandId.equals(packet.associatedGame())) {
+                if (game.subType != null && !game.subType.equals(packet.subType()))
                     continue;
                 return game;
             }
         }
-        throw new NoSuchElementException("Game could not be found from '" + packet.associatedGame + "' (" + packet.subType + ")");
+        throw new NoSuchElementException("Game could not be found from '" + packet.associatedGame() + "' (" + packet.subType() + ")");
     }
 }

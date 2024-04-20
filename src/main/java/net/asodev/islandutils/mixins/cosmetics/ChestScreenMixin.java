@@ -73,10 +73,7 @@ public abstract class ChestScreenMixin extends Screen {
     @Inject(method = "renderSlot", at = @At("TAIL"))
     private void renderSlot(GuiGraphics guiGraphics, Slot slot, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
-        ItemStack slotItem = slot.getItem();
-
-        CompoundTag slotTag = slotItem.getTag();
-        if (slotTag == null) return;
+        if (!slot.hasItem()) return;
 
         boolean shouldRender = false;
 
@@ -93,7 +90,6 @@ public abstract class ChestScreenMixin extends Screen {
 
     @Inject(method = "render", at = @At("TAIL"))
     private void render(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
-
         if (hoveredSlot != null && hoveredSlot.hasItem()) {
             ItemStack hoveredItem = hoveredSlot.getItem();
             if (IslandOptions.getCosmetics().isShowOnHover()) {

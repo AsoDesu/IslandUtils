@@ -38,7 +38,7 @@ public class MultiplayerJoinMixin extends Screen {
     void confirm(boolean bool, ServerData serverData) {
         if (bool) {
             IslandUtils.packUpdater.accepted = true;
-            ConnectScreen.startConnecting(this, this.minecraft, ServerAddress.parseString(serverData.ip), serverData, false);
+            ConnectScreen.startConnecting(this, this.minecraft, ServerAddress.parseString(serverData.ip), serverData, false, null);
         }
         else this.minecraft.setScreen(this);
     }

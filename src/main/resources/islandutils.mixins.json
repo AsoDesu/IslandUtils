@@ -11,8 +11,6 @@
     "cosmetics.PreviewTutorialMixin",
     "discord.ConnectionMixin",
     "discord.PlayerTeamMixin",
-    "network.GamePacketMixin",
-    "network.ServerPacketMixin",
     "resources.PackRepositoryMixin",
     "sounds.SoundSourceMixin",
     "ui.SlotMixin"

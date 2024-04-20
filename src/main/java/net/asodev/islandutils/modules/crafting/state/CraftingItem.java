@@ -3,11 +3,15 @@ package net.asodev.islandutils.modules.crafting.state;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.asodev.islandutils.modules.crafting.CraftingMenuType;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomModelData;
 
 import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 
@@ -24,7 +28,7 @@ public class CraftingItem {
 
     public JsonObject toJson() {
         JsonObject object = new JsonObject();
-        object.addProperty("title", Component.Serializer.toJson(title));
+        object.addProperty("title", Component.Serializer.toJson(title, RegistryAccess.EMPTY));
         object.addProperty("type", BuiltInRegistries.ITEM.getKey(type).toString());
         object.addProperty("customModelData", customModelData);
         object.addProperty("finishesCrafting", finishesCrafting);
@@ -38,7 +42,7 @@ public class CraftingItem {
         CraftingItem item = new CraftingItem();
 
         String jsonTitle = object.get("title").getAsString();
-        item.setTitle( Component.Serializer.fromJson(jsonTitle) );
+        item.setTitle( Component.Serializer.fromJson(jsonTitle, RegistryAccess.EMPTY) );
 
         ResourceLocation typeKey = new ResourceLocation(object.get("type").getAsString());
         item.setType( BuiltInRegistries.ITEM.get(typeKey) );
@@ -58,7 +62,7 @@ public class CraftingItem {
 
     public ItemStack getStack() {
         ItemStack stack = new ItemStack(type);
-        stack.getOrCreateTag().putInt("CustomModelData", customModelData);
+        stack.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(customModelData));
         return stack;
     }
     public boolean isComplete() {

@@ -22,10 +22,10 @@ public class ClassicAnnouncer {
     static Style style = Style.EMPTY.withColor(textColor); // Style for the trap color
     public static void handleTrap(ClientboundSetSubtitleTextPacket clientboundSetSubtitleTextPacket, CallbackInfo ci) {
         if (!IslandOptions.getClassicHITW().isClassicHITW()) return; // Requires isClassicHITW
-        String trap = clientboundSetSubtitleTextPacket.getText().getString(); // Get the string version of the subtitle
+        String trap = clientboundSetSubtitleTextPacket.text().getString(); // Get the string version of the subtitle
 
         boolean isTrap = false; // Get all the elements in this component
-        for (Component component : clientboundSetSubtitleTextPacket.getText().toFlatList()) {
+        for (Component component : clientboundSetSubtitleTextPacket.text().toFlatList()) {
             if (component.getStyle().isObfuscated()) { return; } // If this component is obfuscated, it's the animation before the trap
             if (component.getStyle().getColor() != null && component.getStyle().getColor().equals(textColor))
                 isTrap = true; // If it's the gold color of the trap subtitle, it's a trap!

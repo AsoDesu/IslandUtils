@@ -4,12 +4,16 @@ import net.asodev.islandutils.util.resourcepack.ResourcePackOptions;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.CustomModelData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +41,7 @@ public class Utils {
     public static List<Component> getLores(ItemStack item) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return null;
-        return item.getTooltipLines(player, TooltipFlag.Default.NORMAL);
+        return item.getTooltipLines(Item.TooltipContext.EMPTY, player, TooltipFlag.Default.NORMAL);
     }
 
     public static String readFile(File file) throws Exception {
@@ -63,15 +67,17 @@ public class Utils {
     }
 
     public static int customModelData(ItemStack item) {
-        CompoundTag itemTag = item.getTag();
-        return itemTag == null ? 0 : itemTag.getInt("CustomModelData");
+        CustomModelData customModelData = item.get(DataComponents.CUSTOM_MODEL_DATA);
+        return customModelData == null ? 0 : customModelData.value();
     }
 
     public static ResourceLocation getCustomItemID(ItemStack item) {
-        CompoundTag publicBukkitValues = item.getTagElement("PublicBukkitValues");
-        if (publicBukkitValues == null) return null;
+        CustomData customDataComponent = item.get(DataComponents.CUSTOM_DATA);
+        if (customDataComponent == null) return null;
+        CompoundTag tag = customDataComponent.getUnsafe();
+        CompoundTag publicBukkitValues = tag.getCompound("PublicBukkitValues");
         String customItemId = publicBukkitValues.getString("mcc:custom_item_id");
-        if (customItemId.equals("")) return null;
+        if (customItemId.isEmpty()) return null;
         return new ResourceLocation(customItemId);
     }
 
