@@ -23,6 +23,6 @@ public class GamePacketMixin {
 
         // I have no use for this right now, but i'll keep it here just in case :3
         IslandUtilsEvents.GAME_STATE_CHANGE.invoker().onGameUpdate(packet);
-        ChatUtils.debug(" &bStage: &3" + packet.stage + " &6PhaseType&e: " + packet.phaseType);
+        ChatUtils.debug("State: " + packet.phaseType + " (" + packet.stage + ")");
     }
 }
