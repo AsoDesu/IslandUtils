@@ -3,6 +3,7 @@ package net.asodev.islandutils.mixins.network;
 import com.noxcrew.noxesium.network.clientbound.ClientboundMccServerPacket;
 import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
+import net.asodev.islandutils.util.ChatUtils;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.player.LocalPlayer;
 import org.slf4j.Logger;
@@ -19,6 +20,7 @@ public class ServerPacketMixin {
     @Inject(method = "receive", at = @At("HEAD"))
     private void onReceive(LocalPlayer player, PacketSender responseSender, CallbackInfo ci) {
         ClientboundMccServerPacket packet = (ClientboundMccServerPacket)(Object)this;
+        ChatUtils.debug("Received server packet " + packet.associatedGame + " (" + packet.type + "/" + packet.subType + ")");
         if (packet.type.startsWith("lobby")) {
             MccIslandState.setGame(Game.HUB);
         } else {
