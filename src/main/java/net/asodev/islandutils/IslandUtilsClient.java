@@ -8,6 +8,8 @@ import net.asodev.islandutils.modules.Packets;
 import net.asodev.islandutils.modules.plobby.PlobbyFeatures;
 import net.asodev.islandutils.modules.plobby.PlobbyJoinCodeCopy;
 import net.asodev.islandutils.modules.splits.SplitManager;
+import net.asodev.islandutils.state.Game;
+import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.IslandUtilsCommand;
 import net.asodev.islandutils.util.MusicUtil;
@@ -64,6 +66,7 @@ public class IslandUtilsClient implements ClientModInitializer {
         }
 
         DiscordPresenceUpdator.create(!isProduction);
+        MccIslandState.setGame(Game.HUB);
         IslandUtilsEvents.JOIN_MCCI.invoker().onEvent();
     }
 
