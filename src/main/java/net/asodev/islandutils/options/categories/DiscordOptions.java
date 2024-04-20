@@ -17,7 +17,6 @@ public class DiscordOptions implements OptionsCategory {
     public boolean showGameInfo = true;
     public boolean showTimeRemaining = true;
     public boolean showTimeElapsed = true;
-    public boolean showFactionLevel = true;
 
     @Override
     public ConfigCategory getCategory() {
@@ -51,12 +50,6 @@ public class DiscordOptions implements OptionsCategory {
                 .controller(TickBoxControllerBuilder::create)
                 .binding(defaults.showTimeElapsed, () -> showTimeElapsed, value -> this.showTimeElapsed = value)
                 .build();
-        Option<Boolean> showFactionOption = Option.<Boolean>createBuilder()
-                .name(Component.translatable("text.autoconfig.islandutils.option.showFactionLevel"))
-                .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.showFactionLevel.@Tooltip")))
-                .controller(TickBoxControllerBuilder::create)
-                .binding(defaults.showFactionLevel, () -> showFactionLevel, value -> this.showFactionLevel = value)
-                .build();
 
         return ConfigCategory.createBuilder()
                 .name(Component.literal("Discord Presence"))
@@ -68,7 +61,6 @@ public class DiscordOptions implements OptionsCategory {
                         .option(showGameInfoOption)
                         .option(showTimeRemainOption)
                         .option(showTimeElapsedOption)
-                        .option(showFactionOption)
                         .build())
                 .build();
     }

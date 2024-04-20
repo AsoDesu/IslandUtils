@@ -1,8 +1,6 @@
 package net.asodev.islandutils.state;
 
 import net.asodev.islandutils.IslandUtilsEvents;
-import net.asodev.islandutils.discord.DiscordPresenceUpdator;
-import net.asodev.islandutils.state.faction.Faction;
 import net.asodev.islandutils.util.ChatUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -15,7 +13,6 @@ public class MccIslandState {
     private static Game game = Game.HUB;
     private static String modifier = "INACTIVE";
     private static String map = "UNKNOWN";
-    private static Faction faction;
 
     public static String getModifier() {
         return modifier;
@@ -78,15 +75,6 @@ public class MccIslandState {
     }
     public static String getMap() {
         return map;
-    }
-
-    public static Faction getFaction() {
-        return faction;
-    }
-    public static void setFaction(Faction faction) {
-        //ChatUtils.debug("Detected Faction: " + faction);
-        DiscordPresenceUpdator.setLevel(DiscordPresenceUpdator.lastLevel);
-        MccIslandState.faction = faction;
     }
 
     public static boolean isOnline() {

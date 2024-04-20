@@ -16,7 +16,6 @@ import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.modules.cosmetics.CosmeticSlot;
 import net.asodev.islandutils.modules.cosmetics.CosmeticState;
-import net.asodev.islandutils.state.faction.FactionComponents;
 import net.asodev.islandutils.modules.splits.LevelTimer;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MusicUtil;
@@ -59,25 +58,6 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
 
     protected PacketListenerMixin(Minecraft minecraft, Connection connection, CommonListenerCookie commonListenerCookie) {
         super(minecraft, connection, commonListenerCookie);
-    }
-
-    @Inject(method = "handleSetExperience", at = @At("TAIL")) // Get our faction level
-    public void handleSetExperience(ClientboundSetExperiencePacket clientboundSetExperiencePacket, CallbackInfo ci) {
-        if (!MccIslandState.isOnline()) return; // We must be online!
-        DiscordPresenceUpdator.setLevel(clientboundSetExperiencePacket.getExperienceLevel()); // Set our faction level on discord to our XP
-    }
-
-    String lastCheckedActionBar = "";
-    @Inject(method = "setActionBarText", at = @At("TAIL")) // Get our faction!
-    public void handleSetExperience(ClientboundSetActionBarTextPacket clientboundSetActionBarTextPacket, CallbackInfo ci) {
-        if (!MccIslandState.isOnline()) return; // Me must be on the island!
-        String text = clientboundSetActionBarTextPacket.getText().getString(); // Get the string version of our actionbar
-        if (Objects.equals(lastCheckedActionBar, text)) return; // If the action bar is the same as the last, ignore it
-        lastCheckedActionBar = text;
-
-        FactionComponents.comps.forEach((faction, component) -> { // Loop over the faction icon characters
-            if (text.contains(component.getString())) MccIslandState.setFaction(faction); // If we contain it, that's our faction!!
-        });
     }
 
     // Patterns for the Map & Modifier options on scoreboard
