@@ -45,8 +45,8 @@ public class CraftingItems {
      * @param slot The slot you wish to remove
      */
     public static void removeSlot(CraftingMenuType type, int slot) {
-        items.removeIf(i -> i.getCraftingMenuType() == type && i.getSlot() == slot);
-        save();
+        boolean wasRemoved = items.removeIf(i -> i.getCraftingMenuType() == type && i.getSlot() == slot);
+        if (wasRemoved) save();
     }
 
     public static <T> void submit(Runnable task) {
@@ -84,7 +84,7 @@ public class CraftingItems {
                 try {
                     array.add(item.toJson());
                 } catch (Exception e) {
-                    logger.error("Failed to save item: " + item, e);
+                    logger.error("Failed to save item: {}", item, e);
                 }
             }
 

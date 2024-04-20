@@ -31,7 +31,10 @@ public class CraftingUI {
 
     private static TextColor timeLeftColor = ChatUtils.parseColor("#FF5556");
     public static void analyseCraftingItem(CraftingMenuType type, ItemStack item, int slot) {
-        if (!isInputSlot(slot)) return;
+        if (!isInputSlot(slot)) {
+            CraftingItems.removeSlot(type, slot);
+            return;
+        }
 
         List<Component> lores = Utils.getLores(item);
         if (lores != null && isActive(lores)) {
