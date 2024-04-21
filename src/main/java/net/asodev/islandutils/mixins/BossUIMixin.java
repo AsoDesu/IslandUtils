@@ -1,6 +1,7 @@
 package net.asodev.islandutils.mixins;
 
 import net.asodev.islandutils.modules.splits.ui.SplitUI;
+import net.asodev.islandutils.state.MccIslandState;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.BossHealthOverlay;
 import net.minecraft.client.gui.components.LerpingBossEvent;
@@ -11,6 +12,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -27,7 +31,16 @@ public class BossUIMixin {
 
     @Inject(method = "render", at = @At("HEAD"))
     private void render(GuiGraphics guiGraphics, CallbackInfo ci) {
-        SplitUI.renderInstance(guiGraphics, this.events);
+        if (!MccIslandState.isOnline()) return;
+
+        List<LerpingBossEvent> list = new ArrayList<>(events.values());
+        Collections.reverse(list);
+        int size = list.size();
+        for (LerpingBossEvent event : list) {
+            if (!event.getName().getString().equals("")) break;
+            size--;
+        }
+        SplitUI.renderInstance(guiGraphics, size);
     }
 
 }
