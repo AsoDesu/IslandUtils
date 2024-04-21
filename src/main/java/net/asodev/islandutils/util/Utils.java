@@ -1,6 +1,7 @@
 package net.asodev.islandutils.util;
 
 import net.asodev.islandutils.util.resourcepack.ResourcePackOptions;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
@@ -90,5 +91,9 @@ public class Utils {
             logger.error("Failed to calculate SHA-256 for " + input);
         }
         return output;
+    }
+
+    public static boolean isLunarClient() {
+        return FabricLoader.getInstance().isModLoaded("ichor");
     }
 }

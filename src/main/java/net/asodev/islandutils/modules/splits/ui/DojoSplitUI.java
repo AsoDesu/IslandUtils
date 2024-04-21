@@ -28,17 +28,9 @@ public class DojoSplitUI implements SplitUI {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, Collection<LerpingBossEvent> events) {
-        List<LerpingBossEvent> list = new ArrayList<>(events.stream().toList());
-        Collections.reverse(list);
-        int size = list.size();
-        for (LerpingBossEvent event : list) {
-            if (!event.getName().getString().equals("")) break;
-            size--;
-        }
-
+    public void render(GuiGraphics guiGraphics, int bossBars) {
         int x = (guiGraphics.guiWidth() / 2) - (MCC_BAR_WIDTH / 2);
-        int y = Double.valueOf((size * 18.5)).intValue();
+        int y = Double.valueOf((bossBars * 18.5)).intValue();
         guiGraphics.blit(BAR_TEXTURE, x, y, 0, 0, this.width(), this.height());
 
         renderLevelName(guiGraphics, x, y);

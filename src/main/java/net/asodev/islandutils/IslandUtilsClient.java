@@ -8,11 +8,13 @@ import net.asodev.islandutils.modules.Packets;
 import net.asodev.islandutils.modules.plobby.PlobbyFeatures;
 import net.asodev.islandutils.modules.plobby.PlobbyJoinCodeCopy;
 import net.asodev.islandutils.modules.splits.SplitManager;
+import net.asodev.islandutils.modules.splits.ui.SplitUI;
 import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.IslandUtilsCommand;
 import net.asodev.islandutils.util.MusicUtil;
+import net.asodev.islandutils.util.Utils;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -49,6 +51,10 @@ public class IslandUtilsClient implements ClientModInitializer {
         IslandUtilsCommand.register();
         DiscordPresenceUpdator.init();
         PlobbyJoinCodeCopy.register();
+
+        if (Utils.isLunarClient()) {
+            SplitUI.setupFallbackRenderer();
+        }
     }
 
     public static void onJoinMCCI(boolean isProduction) {
