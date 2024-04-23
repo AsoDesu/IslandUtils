@@ -2,6 +2,7 @@ package net.asodev.islandutils.modules.cosmetics;
 
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -80,7 +81,10 @@ public class CosmeticState {
         return null;
     }
 
-    public static boolean isCosmeticMenu(ChestMenu menu) {
+    public static boolean isCosmeticMenu(AbstractContainerScreen<ChestMenu> screen) {
+        if (screen.getTitle().getString().contains("WARDROBE")) return true;
+
+        ChestMenu menu = screen.getMenu();
         List<ItemStack> slots = new ArrayList<>(menu.slots.stream().map(Slot::getItem).toList());
         slots.add(menu.getCarried());
         for (ItemStack slot : slots){
