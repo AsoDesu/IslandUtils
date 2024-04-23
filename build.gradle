@@ -47,13 +47,12 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modApi("dev.isxander.yacl:yet-another-config-lib-fabric:3.3.3+1.20.4+update.1.20.5-SNAPSHOT+update.1.20.5-SNAPSHOT") {
-        exclude(group: "org.quiltmc.parsers")
+    modApi("dev.isxander:yet-another-config-lib:3.4.0+1.20.5-fabric") {
         exclude(group: "com.twelvemonkeys.common")
         exclude(group: "com.twelvemonkeys.imageio")
     }
 
-    modApi("com.terraformersmc:modmenu:10.0.0-alpha.3")
+    modApi("com.terraformersmc:modmenu:10.0.0-beta.1")
 
     implementation include('com.github.JnCrMx:discord-game-sdk4j:v0.5.5')
     modApi("com.noxcrew.noxesium:fabric:2.0.0-SNAPSHOT.1")
