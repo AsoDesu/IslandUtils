@@ -6,6 +6,7 @@ import net.asodev.islandutils.util.ChatUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.*;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +17,9 @@ import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 
@@ -34,14 +37,10 @@ public class PreviewTutorialMixin {
 
     @Inject(
             method = "getTooltipLines",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;shouldShowInTooltip(ILnet/minecraft/world/item/ItemStack$TooltipPart;)Z", shift = At.Shift.BEFORE),
-            slice = @Slice(
-                    from = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/ComponentUtils;mergeStyles(Lnet/minecraft/network/chat/MutableComponent;Lnet/minecraft/network/chat/Style;)Lnet/minecraft/network/chat/MutableComponent;"),
-                    to = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getAttributeModifiers(Lnet/minecraft/world/entity/EquipmentSlot;)Lcom/google/common/collect/Multimap;")
-            ),
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;addAttributeTooltips(Ljava/util/function/Consumer;Lnet/minecraft/world/entity/player/Player;)V", shift = At.Shift.BEFORE),
             locals = LocalCapture.CAPTURE_FAILEXCEPTION
     )
-    private void injectedTooltipLines(@Nullable Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir, List<Component> list, MutableComponent mutableComponent) {
+    private void injectedTooltipLines(Item.TooltipContext tooltipContext, @Nullable Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir, List<Component> list, MutableComponent mutableComponent, Consumer consumer) {
         if (CosmeticState.getType((ItemStack)(Object)this) == null) return;
         if (!IslandOptions.getCosmetics().isShowPlayerPreview()) return;
         list.add(previewComponent);
