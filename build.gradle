@@ -55,7 +55,7 @@ dependencies {
     modApi("com.terraformersmc:modmenu:10.0.0-beta.1")
 
     implementation include('com.github.JnCrMx:discord-game-sdk4j:v0.5.5')
-    modApi("com.noxcrew.noxesium:fabric:2.0.0-SNAPSHOT.1")
+    modApi("com.noxcrew.noxesium:fabric:2.0.1-SNAPSHOT")
 }
 
 processResources {
