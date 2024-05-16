@@ -45,7 +45,7 @@ public class LevelTimer {
     }
 
     public void handleSubtitle(ClientboundSetSubtitleTextPacket subtitle, CallbackInfo ci) {
-        Component component = subtitle.getText();
+        Component component = subtitle.text();
         String string = component.getString();
         if (string.contains(medalCharacter) && string.length() < 4) {
             modifyMedalTitle(subtitle, ci);
@@ -71,7 +71,7 @@ public class LevelTimer {
         }
     }
     public void modifyMedalTitle(ClientboundSetSubtitleTextPacket subtitle, CallbackInfo ci) {
-        Component component = subtitle.getText();
+        Component component = subtitle.text();
         MutableComponent component1 = component.copy();
         if (options.isShowSplitImprovements()) {
             component1.append(getSplitImprovementComponent());

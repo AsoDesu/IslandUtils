@@ -22,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Mixin(ServerSelectionList.OnlineServerEntry.class)
 public class ServerSelectionMixin {
@@ -52,7 +53,7 @@ public class ServerSelectionMixin {
         int ny = y + 8 + 2;
 
         if (mouseX >= nx && mouseY >= ny && mouseX < nx + 10 && mouseY < ny + 10) {
-            this.screen.setToolTip(tooltip);
+            guiGraphics.renderTooltip(Minecraft.getInstance().font, tooltip, Optional.empty(), mouseX, mouseY);
         }
 
         guiGraphics.blit(NOTIF_TEXTURE, nx, ny, 0, 0, 10, 10, 10, 10);

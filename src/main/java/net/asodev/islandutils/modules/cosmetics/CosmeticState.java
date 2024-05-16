@@ -2,6 +2,8 @@ package net.asodev.islandutils.modules.cosmetics;
 
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -11,14 +13,12 @@ import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.DyedItemColor;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import static net.minecraft.world.item.DyeableLeatherItem.TAG_COLOR;
-import static net.minecraft.world.item.DyeableLeatherItem.TAG_DISPLAY;
 
 public class CosmeticState {
 
@@ -61,18 +61,13 @@ public class CosmeticState {
     }
 
     public static Integer getColor(ItemStack itemStack) {
-        CompoundTag compoundTag = itemStack.getTagElement(TAG_DISPLAY);
-        if (compoundTag != null && compoundTag.contains(TAG_COLOR, 99)) {
-            return compoundTag.getInt(TAG_COLOR);
-        }
-        return null;
+        DyedItemColor dyedItemColor = itemStack.get(DataComponents.DYED_COLOR);
+        return dyedItemColor != null ? dyedItemColor.rgb() : null;
     }
     public static ItemStack applyColor(ItemStack itemStack) {
         if (hoveredColor == null) return itemStack;
-        CompoundTag compoundTag = itemStack.getTagElement(TAG_DISPLAY);
-        if (compoundTag != null) {
-            compoundTag.putInt(TAG_COLOR, hoveredColor);
-        }
+        DyedItemColor itemColor = new DyedItemColor(hoveredColor, false);
+        itemStack.set(DataComponents.DYED_COLOR, itemColor);
         return itemStack;
     }
 
@@ -86,7 +81,10 @@ public class CosmeticState {
         return null;
     }
 
-    public static boolean isCosmeticMenu(ChestMenu menu) {
+    public static boolean isCosmeticMenu(AbstractContainerScreen<ChestMenu> screen) {
+        if (screen.getTitle().getString().contains("WARDROBE")) return true;
+
+        ChestMenu menu = screen.getMenu();
         List<ItemStack> slots = new ArrayList<>(menu.slots.stream().map(Slot::getItem).toList());
         slots.add(menu.getCarried());
         for (ItemStack slot : slots){

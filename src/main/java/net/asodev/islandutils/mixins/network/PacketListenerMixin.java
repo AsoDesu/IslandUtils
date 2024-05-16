@@ -215,12 +215,11 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
 
     @Inject(method = "handleCommandSuggestions", cancellable = true, at = @At("HEAD")) // "Friends in this game: "
     private void commandSuggestionsResponse(ClientboundCommandSuggestionsPacket clientboundCommandSuggestionsPacket, CallbackInfo ci) {
-        if (clientboundCommandSuggestionsPacket.getId() == TRANSACTION_ID) { // If we get back suggestions from our previous request
+        if (clientboundCommandSuggestionsPacket.id() == TRANSACTION_ID) { // If we get back suggestions from our previous request
             ci.cancel(); // Stop minecraft... please.
             List<String> friends = clientboundCommandSuggestionsPacket // our friends suggestions
-                    .getSuggestions() // the suggestions
-                    .getList() // a list of suggestions
-                    .stream().map(Suggestion::getText) // the text of the suggestions
+                    .suggestions() // the suggestions
+                    .stream().map(ClientboundCommandSuggestionsPacket.Entry::text) // the text of the suggestions
                     .collect(Collectors.toList()); // a list of the suggestions
             FriendsInGame.setFriends(friends); // Set our friends!
         }
@@ -243,7 +242,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
     private void gameOver(ClientboundSetTitleTextPacket clientboundSetTitleTextPacket, CallbackInfo ci) {
         if (MccIslandState.getGame() != Game.HITW) return; // Make sure we're playing HITW
         if (!IslandOptions.getClassicHITW().isClassicHITW()) return; // Requires isClassicHITW
-        String title = clientboundSetTitleTextPacket.getText().getString().toUpperCase(); // Get the title in upper case
+        String title = clientboundSetTitleTextPacket.text().getString().toUpperCase(); // Get the title in upper case
 
         if (title.contains("GAME OVER")) { // If we got game over title, play sound
             ResourceLocation sound = new ResourceLocation("island", "announcer.gameover");

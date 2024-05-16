@@ -10,6 +10,9 @@ import net.minecraft.FileUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.FilePackResources;
+import net.minecraft.server.packs.PackLocationInfo;
+import net.minecraft.server.packs.PackSelectionConfig;
+import net.minecraft.server.packs.repository.KnownPack;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackCompatibility;
 import net.minecraft.server.packs.repository.PackSource;
@@ -33,6 +36,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
 
@@ -96,17 +100,12 @@ public class ResourcePackUpdater {
     public void apply(File file, Boolean save) {
         getting = false;
         currentDownload = null;
-        pack = Pack.create(
-                "island_utils",
-                title,
-                true,
-                new FilePackResources.FileResourcesSupplier(file, true),
-                new Pack.Info(desc, PackCompatibility.COMPATIBLE, FeatureFlagSet.of(), List.of()),
-                Pack.Position.BOTTOM,
-                true,
-                PackSource.BUILT_IN
+        pack = new Pack(
+                new PackLocationInfo("island_utils", title, PackSource.BUILT_IN, Optional.empty()),
+                new FilePackResources.FileResourcesSupplier(file),
+                new Pack.Metadata(desc, PackCompatibility.COMPATIBLE, FeatureFlagSet.of(), List.of()),
+                new PackSelectionConfig(true, Pack.Position.BOTTOM, true)
         );
-
         if (save) {
             try { ResourcePackOptions.save(); }
             catch (IOException e) { System.err.println("Failed to save resource pack options"); }
