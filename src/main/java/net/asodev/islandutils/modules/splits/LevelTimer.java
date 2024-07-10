@@ -28,8 +28,12 @@ public class LevelTimer {
     private final LevelSplits splits;
     private Long lastSplitTimestamp = System.currentTimeMillis();
 
-    private String levelName = "M1-1";
-    private String levelUid = "";
+    // T - Transition from main to main
+    // TB - transition from main to bonus
+    // U - unfinished bonus level time
+    // R - return to main route
+    private String levelName = "T0-1";
+    private String levelUid = "T0-1";
 
     private boolean isBetween = true; // If the player is inbetween levels;
     public final SplitsCategory options = IslandOptions.getSplits();
@@ -53,11 +57,7 @@ public class LevelTimer {
         if (string.startsWith("[")) {
             Matcher matcher = channelTitlePattern.matcher(string);
             if (!matcher.find()) return;
-            // This title is sent 1.5s AFTER the level starts, so we need to compensate
-            lastSplitTimestamp = System.currentTimeMillis() - 1500;
-            levelName = matcher.group(1);
-            isBetween = false;
-
+            String nextLevelName = matcher.group(1);
             StringBuilder hashString = new StringBuilder();
             for (Component sibling : component.getSiblings()) {
                 TextColor color = sibling.getStyle().getColor();
@@ -66,6 +66,32 @@ public class LevelTimer {
                 }
             }
             hashString.append(levelName);
+            if (levelName.startsWith("T")) {
+                if (nextLevelName.startsWith("B")) {
+                    String newName;
+                    String newUid;
+                    if (nextLevelName.charAt(1) == '4') { // Finale check
+                        newName = levelName;
+                        String chosenFinale = hashString.toString().split("T")[0];
+                        newUid = String.format("%sT3-4", chosenFinale);
+                    } else { // Transition to bonus route
+                        newName = String.format("TB%c-%c", levelName.charAt(1), levelName.charAt(3));
+                        newUid = newName;
+                    }
+                    levelName = newName;
+                    levelUid = newUid;
+                }
+                saveSplit();
+            }
+            if (levelName.startsWith("R")) {
+                if (nextLevelName.startsWith("B")) return; // Prevent race condition
+                saveSplit();
+            }
+            // This title is sent 1.5s AFTER the level starts, so we need to compensate
+            lastSplitTimestamp = System.currentTimeMillis() - 1500;
+            levelName = nextLevelName;
+            isBetween = false;
+
             levelUid = hashString.toString();
             ChatUtils.debug("Detected level with id: " + levelUid);
         }
@@ -152,12 +178,12 @@ public class LevelTimer {
         ResourceLocation soundLoc = clientboundSoundPacket.getSound().value().getLocation();
         String path = soundLoc.getPath();
         boolean isRoundEnd = path.equals("games.global.timer.round_end");
+        LevelTimer currentInstance = getInstance();
         if (path.contains("games.parkour_warrior.mode_swap") ||
                 path.contains("games.parkour_warrior.restart_course") ||
                 isRoundEnd ||
                 path.equals("ui.queue_teleport")) {
             // Stop split
-            LevelTimer currentInstance = getInstance();
             if (currentInstance != null && isRoundEnd) {
                 currentInstance.saveSplit();
             }
@@ -170,6 +196,27 @@ public class LevelTimer {
             }
             setInstance(new LevelTimer(splits));
             ChatUtils.debug("LevelTimer - Started timer!");
+        } else if (path.equals("games.parkour_warrior.medal_gain")
+                && currentInstance != null
+                && currentInstance.levelName.endsWith("-3")) {
+            String newLevelName;
+            if (currentInstance.levelName.startsWith("M")) {
+                char curLevelName = currentInstance.levelName.charAt(1);
+                int curLevelInt = Integer.parseInt(String.valueOf(curLevelName));
+                newLevelName = String.format("T%d-%d", curLevelInt, curLevelInt + 1);
+            } else {
+                newLevelName = "R";
+            }
+            currentInstance.levelName = newLevelName;
+            currentInstance.levelUid = newLevelName;
+        } else if (path.equals("games.parkour_warrior.teleport_scroll")
+                && currentInstance != null) {
+            currentInstance.levelName = "U";
+            currentInstance.levelUid = "U";
+            currentInstance.saveSplit();
+            currentInstance.levelName = "R";
+            currentInstance.levelUid = "R";
+            currentInstance.lastSplitTimestamp = System.currentTimeMillis();
         }
     }
 
