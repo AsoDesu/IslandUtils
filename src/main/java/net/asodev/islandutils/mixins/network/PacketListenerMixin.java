@@ -3,14 +3,10 @@ package net.asodev.islandutils.mixins.network;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.asodev.islandutils.IslandUtilsClient;
 import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.modules.FriendsInGame;
-import net.asodev.islandutils.modules.splits.LevelSplits;
-import net.asodev.islandutils.modules.splits.SplitManager;
-import net.asodev.islandutils.modules.splits.sob.SobCalc;
 import net.asodev.islandutils.modules.splits.sob.SobRenderer;
 import net.asodev.islandutils.modules.splits.sob.TeamInfo;
 import net.asodev.islandutils.options.IslandOptions;
@@ -27,7 +23,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.*;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -37,7 +32,6 @@ import net.minecraft.network.protocol.game.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.ProfileKeyPair;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.scores.*;
 import org.spongepowered.asm.mixin.Final;
@@ -62,20 +56,15 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
 
     @Shadow private CommandDispatcher<CommandSourceStack> commands;
 
-    @Shadow public abstract RegistryAccess.Frozen registryAccess();
-
-    @Shadow public abstract void setKeyPair(ProfileKeyPair profileKeyPair);
-
     @Final
     @Shadow private Scoreboard scoreboard;
-
-    @Shadow public abstract boolean isAcceptingMessages();
 
     protected PacketListenerMixin(Minecraft minecraft, Connection connection, CommonListenerCookie commonListenerCookie) {
         super(minecraft, connection, commonListenerCookie);
     }
 
     // Patterns for the Map & Modifier options on scoreboard
+    @Unique
     final Map<String, Pattern> scoreboardPatterns = Map.of(
             "MAP", Pattern.compile("MAP: (?<map>\\w+(?:,? \\w+)*)"),
             "MODIFIER", Pattern.compile("MODIFIER: (?<modifier>\\w+(?:,? \\w+)*)"),
