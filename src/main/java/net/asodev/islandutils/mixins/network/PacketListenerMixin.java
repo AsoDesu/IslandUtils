@@ -265,7 +265,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
             LevelTimer instance = LevelTimer.getInstance();
             if (instance == null) return;
             instance.handleSubtitle(clientboundSetSubtitleTextPacket, ci);
-            renderer.update();
+            if (IslandOptions.getSplits().isShowSumOfBest()) renderer.update();
         }
     }
 
