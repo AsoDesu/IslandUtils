@@ -120,8 +120,7 @@ public class SobCalc {
 
         if (howManyComplete != 3) {
             Optional<Long> uncompletedStageSplit = splits.getRawSplit("U").map(LevelSplits.Split::best);
-            if (uncompletedStageSplit.isEmpty()) return Optional.empty();
-            toAdd += uncompletedStageSplit.get();
+            if (uncompletedStageSplit.isPresent()) toAdd += uncompletedStageSplit.get();
         }
         toAdd -= 1500; // Compensate for 1500 ms delay
         return Optional.of(toAdd);
@@ -129,9 +128,9 @@ public class SobCalc {
 
     public static String buildBonusPathString(int howManyComplete, String stage) {
         if (howManyComplete == 0) return "";
-        StringBuilder str = new StringBuilder(" ->");
+        StringBuilder str = new StringBuilder(" -> ");
         for (int i = 1; i <= howManyComplete; i++) {
-            str.append(String.format(" %s-%d -> ", stage, i));
+            str.append(String.format("%s-%d -> ", stage, i));
         }
         str.append("R");
         return str.toString();
