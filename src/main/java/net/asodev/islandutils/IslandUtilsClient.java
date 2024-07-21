@@ -7,10 +7,8 @@ import net.asodev.islandutils.modules.DisguiseKeybind;
 import net.asodev.islandutils.modules.NoxesiumIntegration;
 import net.asodev.islandutils.modules.plobby.PlobbyFeatures;
 import net.asodev.islandutils.modules.plobby.PlobbyJoinCodeCopy;
-import net.asodev.islandutils.modules.splits.LevelSplits;
+import net.asodev.islandutils.modules.splits.SplitCommands;
 import net.asodev.islandutils.modules.splits.SplitManager;
-import net.asodev.islandutils.modules.splits.sob.AdvancedInfo;
-import net.asodev.islandutils.modules.splits.sob.SobCalc;
 import net.asodev.islandutils.modules.splits.ui.SplitUI;
 import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
@@ -21,16 +19,12 @@ import net.asodev.islandutils.util.Utils;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import org.lwjgl.glfw.GLFW;
-
-import java.util.Optional;
 
 @Environment(EnvType.CLIENT)
 public class IslandUtilsClient implements ClientModInitializer {
@@ -55,6 +49,7 @@ public class IslandUtilsClient implements ClientModInitializer {
         DisguiseKeybind.registerDisguiseInput();
         PlobbyFeatures.registerEvents();
         IslandUtilsCommand.register();
+        new SplitCommands();
         DiscordPresenceUpdator.init();
         PlobbyJoinCodeCopy.register();
 
@@ -63,21 +58,6 @@ public class IslandUtilsClient implements ClientModInitializer {
         }
         new NoxesiumIntegration().init();
 
-        // MCCI Commands but better
-        ClientCommandRegistrationCallback.EVENT.register(((dispatcher, registryAccess) -> dispatcher.register(ClientCommandManager.literal("showadvancedpath").executes(context -> {
-            if (MccIslandState.getGame() != Game.PARKOUR_WARRIOR_DOJO) {
-                context.getSource().sendFeedback(Component.literal("Not in PKWD"));
-                return 0;
-            }
-            LevelSplits splits = SplitManager.getCourseSplits(MccIslandState.getMap());
-            Optional<AdvancedInfo> advInfo = SobCalc.advancedTime(splits);
-            if (advInfo.isEmpty()) {
-                context.getSource().sendFeedback(Component.literal("Could not get advanced path"));
-                return 0;
-            }
-            context.getSource().sendFeedback(Component.literal(advInfo.get().path()));
-            return 1;
-        }))));
     }
 
     public static void onJoinMCCI(boolean isProduction) {
