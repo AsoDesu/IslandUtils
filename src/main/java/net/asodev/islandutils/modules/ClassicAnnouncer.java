@@ -46,7 +46,7 @@ public class ClassicAnnouncer {
 
         try {
             ClassicAnnouncer.trap = trap; // Set the trap to the one we just found
-            ResourceLocation sound = new ResourceLocation("island", "announcer." + trap); // island:announcer.(trap) -> The sound location
+            ResourceLocation sound = ResourceLocation.fromNamespaceAndPath("island", "announcer." + trap); // island:announcer.(trap) -> The sound location
             Minecraft.getInstance().getSoundManager().play(MusicUtil.createSoundInstance(sound)); // Play the sound!!
         } catch (Exception e) {
             e.printStackTrace(); // Something went horribly wrong, probably an invalid character

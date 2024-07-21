@@ -17,7 +17,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class CraftingUI {
-    public static Style CHEST_BACKGROUND_STYLE = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(new ResourceLocation("mcc", "chest_backgrounds"));
+    public static Style CHEST_BACKGROUND_STYLE = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(ResourceLocation.fromNamespaceAndPath("mcc", "chest_backgrounds"));
     private static Component assemblerComponent;
     private static Component forgeComponent;
 

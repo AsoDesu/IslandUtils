@@ -51,7 +51,7 @@ public class MusicUtil {
 
         ResourceLocation location = MccIslandState.getGame().getMusicLocation();
         if (MccIslandState.getGame() == Game.HITW && IslandOptions.getClassicHITW().isClassicHITWMusic()) {
-            location = new ResourceLocation("island","island.music.classic_hitw");
+            location = ResourceLocation.fromNamespaceAndPath("island","island.music.classic_hitw");
             ChatUtils.send(literal("Now playing: ").withStyle(ChatFormatting.GREEN)
                             .append(literal("Spacewall - Taylor Grover").withStyle(ChatFormatting.AQUA))
             );
@@ -66,7 +66,7 @@ public class MusicUtil {
         }
         if (options.isTgttosToTheDome() && MccIslandState.getGame() == Game.TGTTOS &&
                 Objects.equals(MccIslandState.getMap(), "TO THE DOME")) {
-            location = new ResourceLocation("island", "island.music.to_the_dome");
+            location = ResourceLocation.fromNamespaceAndPath("island", "island.music.to_the_dome");
             ChatUtils.debug("[MusicUtil] To The Dome on TGTTOS active!");
         }
 

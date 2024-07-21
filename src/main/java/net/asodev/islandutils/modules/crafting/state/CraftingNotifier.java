@@ -79,7 +79,7 @@ public class CraftingNotifier implements ClientTickEvents.EndTick {
     }
 
     private void sendNotifSound() {
-        SimpleSoundInstance mcc = MusicUtil.createSoundInstance(new ResourceLocation("mcc", "ui.achievement_receive"));
+        SimpleSoundInstance mcc = MusicUtil.createSoundInstance(ResourceLocation.fromNamespaceAndPath("mcc", "ui.achievement_receive"));
         Scheduler.schedule(5, (mc) -> {
             mc.getSoundManager().play(mcc);
         });

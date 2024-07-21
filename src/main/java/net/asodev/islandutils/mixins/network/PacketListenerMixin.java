@@ -245,7 +245,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         String title = clientboundSetTitleTextPacket.text().getString().toUpperCase(); // Get the title in upper case
 
         if (title.contains("GAME OVER")) { // If we got game over title, play sound
-            ResourceLocation sound = new ResourceLocation("island", "announcer.gameover");
+            ResourceLocation sound = ResourceLocation.fromNamespaceAndPath("island", "announcer.gameover");
             Minecraft.getInstance().getSoundManager().play(MusicUtil.createSoundInstance(sound)); // Play the sound!!
         }
     }

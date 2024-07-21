@@ -94,7 +94,7 @@ public class LevelTimer {
     public void sendSplitCompeteMessage() {
         if (!options.isSendSplitTime()) return;
         String time = String.format("%.3fs", getCurrentSplitTime());
-        Style tickFont = Style.EMPTY.withFont(new ResourceLocation("island", "icons")).withColor(ChatFormatting.WHITE);
+        Style tickFont = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("island", "icons")).withColor(ChatFormatting.WHITE);
 
         MutableComponent component = Component.literal("[").withStyle(ChatFormatting.GREEN)
                 .append(Component.literal("\ue009").withStyle(tickFont))

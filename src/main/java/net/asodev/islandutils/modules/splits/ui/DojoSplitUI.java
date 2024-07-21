@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class DojoSplitUI implements SplitUI {
-    private static final ResourceLocation BAR_TEXTURE = new ResourceLocation("island", "textures/gui/pkw_splits.png");
+    private static final ResourceLocation BAR_TEXTURE = ResourceLocation.fromNamespaceAndPath("island", "textures/gui/pkw_splits.png");
     private static final int MCC_BAR_WIDTH = 130;
-    public static Style MCC_HUD_STYLE = Style.EMPTY.withFont(new ResourceLocation("mcc", "hud"));
+    public static Style MCC_HUD_STYLE = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mcc", "hud"));
 
     private LevelTimer timer;
 
