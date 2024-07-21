@@ -86,7 +86,7 @@ public class Scavenging {
 
     public static void setTitleCharacter(String titleCharacter) {
         Scavenging.titleComponent = Component.literal(titleCharacter).withStyle(
-                Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(new ResourceLocation("mcc", "chest_backgrounds"))
+                Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(ResourceLocation.fromNamespaceAndPath("mcc", "chest_backgrounds"))
         );
     }
 }

@@ -44,7 +44,7 @@ public class CraftingItem {
         String jsonTitle = object.get("title").getAsString();
         item.setTitle( Component.Serializer.fromJson(jsonTitle, RegistryAccess.EMPTY) );
 
-        ResourceLocation typeKey = new ResourceLocation(object.get("type").getAsString());
+        ResourceLocation typeKey = ResourceLocation.parse(object.get("type").getAsString());
         item.setType( BuiltInRegistries.ITEM.get(typeKey) );
 
         item.setCustomModelData( object.get("customModelData").getAsInt() );

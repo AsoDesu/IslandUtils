@@ -52,7 +52,7 @@ public enum Game {
     }
 
     public static ResourceLocation getMusicLocation(String name) {
-        return new ResourceLocation("island", "island.music." + name);
+        return ResourceLocation.fromNamespaceAndPath("island", "island.music." + name);
     }
 
     public static Game fromPacket(ClientboundMccServerPacket packet) throws NoSuchElementException {

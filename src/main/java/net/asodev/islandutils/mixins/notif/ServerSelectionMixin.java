@@ -28,7 +28,7 @@ import java.util.Optional;
 public class ServerSelectionMixin {
     @Shadow @Final private JoinMultiplayerScreen screen;
     @Shadow @Final private ServerData serverData;
-    private static ResourceLocation NOTIF_TEXTURE = new ResourceLocation("textures/gui/sprites/icon/unseen_notification.png");
+    private static ResourceLocation NOTIF_TEXTURE = ResourceLocation.withDefaultNamespace("textures/gui/sprites/icon/unseen_notification.png");
     private static Component NOTIF_TITLE = Component.literal("Notifications").withStyle(Style.EMPTY.withUnderlined(true));
 
     @Inject(

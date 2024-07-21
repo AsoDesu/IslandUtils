@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public class ChatUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger("IslandUtils");
-    public static final Style iconsFontStyle = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(new ResourceLocation("island","icons"));
+    public static final Style iconsFontStyle = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(ResourceLocation.fromNamespaceAndPath("island","icons"));
     public static final String prefix = "&b[&eIslandUtils&b]";
     public static String translate(String s) {
         return s.replaceAll("&", "§");

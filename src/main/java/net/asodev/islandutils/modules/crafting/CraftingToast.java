@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import static net.asodev.islandutils.util.Utils.MCC_HUD_FONT;
 
 public class CraftingToast implements Toast {
-    private static ResourceLocation ISLAND_TOASTS_TEXTURE = new ResourceLocation("island", "textures/gui/toasts.png");
+    private static ResourceLocation ISLAND_TOASTS_TEXTURE = ResourceLocation.fromNamespaceAndPath("island", "textures/gui/toasts.png");
 
     ItemStack itemStack;
     Component displayName;

@@ -22,7 +22,7 @@ import java.util.Objects;
 
 public class CosmeticState {
 
-    public static final ResourceLocation MCC_ICONS = new ResourceLocation("mcc", "icon");
+    public static final ResourceLocation MCC_ICONS = ResourceLocation.fromNamespaceAndPath("mcc", "icon");
     public static Component HAIR_COMP = Component.literal("\uE0E7").setStyle(Style.EMPTY.withFont(MCC_ICONS));
     public static Component HAT_COMP = Component.literal("\uE0E8").setStyle(Style.EMPTY.withFont(MCC_ICONS));
     public static Component ACCESSORY_COMP = Component.literal("\uE0DA").setStyle(Style.EMPTY.withFont(MCC_ICONS));
@@ -75,7 +75,7 @@ public class CosmeticState {
         ResourceLocation itemId = Utils.getCustomItemID(item);
         if (itemId == null) return null;
         String path = itemId.getPath();
-        if (path.endsWith(".icon_empty")) return null;
+        if (path.endsWith(".icon_empty") || path.endsWith(".icon")) return null;
         if (path.contains("hat.") || path.contains("hair.")) return CosmeticType.HAT;
         if (path.contains("accessory.")) return CosmeticType.ACCESSORY;
         return null;

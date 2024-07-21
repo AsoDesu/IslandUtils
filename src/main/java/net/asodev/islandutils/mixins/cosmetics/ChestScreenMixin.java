@@ -38,7 +38,7 @@ import static net.asodev.islandutils.util.Utils.customModelData;
 
 @Mixin(AbstractContainerScreen.class)
 public abstract class ChestScreenMixin extends Screen {
-    private static final ResourceLocation PREVIEW = new ResourceLocation("island", "textures/preview.png");
+    private static final ResourceLocation PREVIEW = ResourceLocation.fromNamespaceAndPath("island", "textures/preview.png");
 
     @Shadow protected Slot hoveredSlot;
 
