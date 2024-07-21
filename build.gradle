@@ -6,7 +6,7 @@ plugins {
 version = project.mod_version + extraVersion()
 group = project.maven_group
 
-static def extraVersion() {
+def extraVersion() {
     def ENV = System.getenv()
     if (ENV.CI == "true") {
         def branch = ENV.GITHUB_REF
@@ -14,7 +14,7 @@ static def extraVersion() {
         def runNumber = ENV.GITHUB_RUN_NUMBER
         return "-pre+" + runNumber + "-" + branch
     }
-    return ""
+    return "+${project.minecraft_version}"
 }
 
 repositories {
