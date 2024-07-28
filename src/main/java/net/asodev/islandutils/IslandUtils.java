@@ -11,6 +11,7 @@ import net.asodev.islandutils.util.Scheduler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.fabricmc.loader.api.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +22,8 @@ public class IslandUtils implements ModInitializer {
     public static UpdateManager updater;
     public static ResourcePackUpdater packUpdater;
 
-    public static String version = "";
+    public static Version version;
+    public static String versionString;
     public static AvailableUpdate availableUpdate;
     private static boolean isPreRelease = false;
 
@@ -31,11 +33,14 @@ public class IslandUtils implements ModInitializer {
         FriendsInGame.init();
 
         Optional<ModContainer> container = FabricLoader.getInstance().getModContainer("islandutils");
-        container.ifPresent(modContainer -> version = modContainer.getMetadata().getVersion().getFriendlyString());
+        container.ifPresent(modContainer -> {
+            version = modContainer.getMetadata().getVersion();
+            versionString = version.getFriendlyString();
+        });
 
         updater = new UpdateManager();
-        isPreRelease = version.contains("-pre") || FabricLoader.getInstance().isDevelopmentEnvironment();
-        if (!version.contains("-pre")) {
+        isPreRelease = versionString.contains("-pre") || FabricLoader.getInstance().isDevelopmentEnvironment();
+        if (!versionString.contains("-pre")) {
             updater.runUpdateCheck();
         }
 
