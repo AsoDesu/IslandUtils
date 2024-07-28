@@ -17,7 +17,6 @@
   ],
   "client": [
     "BossUIMixin",
-    "MainScreenMixin",
     "accessors.ContainerScreenAccessor",
     "accessors.SoundEngineAccessor",
     "accessors.SoundManagerAccessor",
