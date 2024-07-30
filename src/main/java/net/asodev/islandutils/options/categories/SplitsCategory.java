@@ -24,6 +24,7 @@ public class SplitsCategory implements OptionsCategory {
     boolean sendSplitTime = true;
     boolean showTimer = true;
     boolean showSplitImprovements = true;
+    boolean showSumOfBest = true;
     int showTimerImprovementAt = -3;
     SplitType saveMode = SplitType.BEST;
 
@@ -52,6 +53,12 @@ public class SplitsCategory implements OptionsCategory {
                 .controller(TickBoxControllerBuilder::create)
                 .binding(defaults.showSplitImprovements, () -> showSplitImprovements, value -> this.showSplitImprovements = value)
                 .build();
+        Option<Boolean> showSumOfBestOption = Option.<Boolean>createBuilder()
+                .name(Component.translatable("text.autoconfig.islandutils.option.showSumOfBest"))
+                .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.showSumOfBest.@Tooltip")))
+                .controller(TickBoxControllerBuilder::create)
+                .binding(defaults.showSumOfBest, () -> showSumOfBest, value -> this.showSumOfBest = value)
+                .build();
         Option<Integer> showImprovesAtOption = Option.<Integer>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.showTimerImprovementAt"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.showTimerImprovementAt.@Tooltip")))
@@ -77,6 +84,7 @@ public class SplitsCategory implements OptionsCategory {
                 .option(showOption)
                 .option(showImprovesOption)
                 .option(showImprovesAtOption)
+                .option(showSumOfBestOption)
                 .option(saveOption)
                 .option(clearSplits)
                 .build();
@@ -103,6 +111,10 @@ public class SplitsCategory implements OptionsCategory {
     public boolean isShowSplitImprovements() {
         return enablePkwSplits && showSplitImprovements;
     }
+    public boolean isShowSumOfBest() {
+        return showSumOfBest;
+    }
+
     public int getShowTimerImprovementAt() {
         return showTimerImprovementAt;
     }

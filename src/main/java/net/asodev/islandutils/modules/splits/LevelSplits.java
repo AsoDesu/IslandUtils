@@ -55,6 +55,20 @@ public class LevelSplits {
         return value / 1000d;
     }
 
+    public Optional<Split> getRawSplit(String level) {
+        return Optional.ofNullable(splits.get(level));
+    }
+
+    public Optional<Split> getSplitNoColor(String level) {
+        List<String> allPossibleLevels = List.of(
+                String.format("green%s", level),
+                String.format("yellow%s", level),
+                String.format("red%s", level)
+        );
+        Optional<String> match = allPossibleLevels.stream().filter(s -> splits.containsKey(s)).findFirst();
+        return match.map(s -> splits.get(s));
+    }
+
     public JsonObject toJson() {
         JsonObject object = new JsonObject();
         object.addProperty("name", name);

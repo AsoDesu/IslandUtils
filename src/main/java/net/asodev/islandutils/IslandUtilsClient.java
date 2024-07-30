@@ -2,14 +2,12 @@ package net.asodev.islandutils;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.noxcrew.noxesium.network.NoxesiumPackets;
-import com.noxcrew.noxesium.network.clientbound.ClientboundMccGameStatePacket;
-import com.noxcrew.noxesium.network.clientbound.ClientboundMccServerPacket;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.modules.DisguiseKeybind;
 import net.asodev.islandutils.modules.NoxesiumIntegration;
 import net.asodev.islandutils.modules.plobby.PlobbyFeatures;
 import net.asodev.islandutils.modules.plobby.PlobbyJoinCodeCopy;
+import net.asodev.islandutils.modules.splits.SplitCommands;
 import net.asodev.islandutils.modules.splits.SplitManager;
 import net.asodev.islandutils.modules.splits.ui.SplitUI;
 import net.asodev.islandutils.state.Game;
@@ -51,6 +49,7 @@ public class IslandUtilsClient implements ClientModInitializer {
         DisguiseKeybind.registerDisguiseInput();
         PlobbyFeatures.registerEvents();
         IslandUtilsCommand.register();
+        new SplitCommands();
         DiscordPresenceUpdator.init();
         PlobbyJoinCodeCopy.register();
 
@@ -58,6 +57,7 @@ public class IslandUtilsClient implements ClientModInitializer {
             SplitUI.setupFallbackRenderer();
         }
         new NoxesiumIntegration().init();
+
     }
 
     public static void onJoinMCCI(boolean isProduction) {
