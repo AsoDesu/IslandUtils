@@ -1,5 +1,6 @@
 package net.asodev.islandutils.mixins;
 
+import net.asodev.islandutils.state.MccIslandState;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -20,6 +21,7 @@ public abstract class FixOffhandSwapMixin {
 
     @Inject(method = "use", at = @At(value = "HEAD"), cancellable = true)
     private void use(Level level, Player player, InteractionHand interactionHand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> ci) {
+        if (!MccIslandState.isOnline()) return;
         if (getEquipmentSlot().getType() != EquipmentSlot.Type.HUMANOID_ARMOR) {
             ItemStack itemStack = player.getItemInHand(interactionHand);
             ci.setReturnValue(InteractionResultHolder.pass(itemStack));
