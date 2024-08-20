@@ -57,19 +57,6 @@ public abstract class ChestScreenMixin extends Screen {
         CosmeticState.accessorySlot.setOriginal(new CosmeticSlot(player.getInventory().offhand.get(0)));
     }
 
-    // Don't render MCCI's invisible Tooltips (something is conflicting and idk what it is)
-    @Inject(method = "renderTooltip", at = @At("HEAD"), cancellable = true)
-    private void renderTooltip(GuiGraphics guiGraphics, int i, int j, CallbackInfo ci) {
-        if (!MccIslandState.isOnline()) return;
-        ci.cancel();
-        if (this.menu.getCarried().isEmpty() && this.hoveredSlot != null && this.hoveredSlot.hasItem()) {
-            ItemStack itemStack = this.hoveredSlot.getItem();
-            List<Component> lines = this.getTooltipFromContainerItem(itemStack);
-            if (lines.size() > 400) return;
-            guiGraphics.renderTooltip(this.font, lines, itemStack.getTooltipImage(), i, j);
-        }
-    }
-
     @Inject(method = "renderSlot", at = @At("TAIL"))
     private void renderSlot(GuiGraphics guiGraphics, Slot slot, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
