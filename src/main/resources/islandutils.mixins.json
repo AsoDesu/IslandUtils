@@ -4,6 +4,7 @@
   "package": "net.asodev.islandutils.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "FixOffhandSwapMixin",
     "ItemIDMixin",
     "accessors.WalkAnimStateAccessor",
     "cosmetics.ChestScreenMixin",
