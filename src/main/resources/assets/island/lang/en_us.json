@@ -64,6 +64,8 @@
   "text.autoconfig.islandutils.option.clearSplits.@Tooltip": "This will clear all of your saved segments. These can not be recovered.",
   "text.autoconfig.islandutils.option.saveMode": "Split save mode",
   "text.autoconfig.islandutils.option.saveMode.@Tooltip": "How to save splits\n\n§lBest Time§r: Uses your best time on each segment\n\n§lAverage Time§r: Uses your average time on a segment",
+  "text.autoconfig.islandutils.option.showSumOfBest": "Show sum of best splits",
+  "text.autoconfig.islandutils.option.showSumOfBest.@Tooltip": "Shows the sum your of best splits. To see the path for the best advanced route, use '/showadvancedpath'",
   "islandutils.splittype.best": "Best Time",
   "islandutils.splittype.avg": "Average Time",
 
