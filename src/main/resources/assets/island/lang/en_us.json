@@ -89,6 +89,8 @@
   "text.autoconfig.islandutils.option.classicHITWMusic.@Tooltip": "Adds back the music from the original HITW map by Noxcrew!",
   "text.autoconfig.islandutils.option.enableConfigButton": "Enable Config Button in options",
   "text.autoconfig.islandutils.option.enableConfigButton.@Tooltip": "Enables the Config Button in the top left of the options menu\n\n§c§lWARNING! §rIf you disable this and you don't have another way to access the config (ModMenu), you will be unable to access the config in-game!",
+  "text.autoconfig.islandutils.option.iconsButton": "Show Game Icons instead of Text",
+  "text.autoconfig.islandutils.option.iconsButton.@Tooltip": "Shows Icons of the games instead of the default Text",
 
   "text.autoconfig.islandutils.option.showOnScreen": "Show on-screen code",
   "text.autoconfig.islandutils.option.showOnScreen.@Tooltip": "Shows the plobby join code on-screen",
