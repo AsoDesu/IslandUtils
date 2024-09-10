@@ -39,6 +39,9 @@ public class MiscOptions implements OptionsCategory {
     public boolean isEnableConfigButton() {
         return enableConfigButton;
     }
+    public boolean useGameIcons() {
+        return iconsButton;
+    }
     public boolean showChannelSwitchers() {
         return channelSwitchers;
     }
