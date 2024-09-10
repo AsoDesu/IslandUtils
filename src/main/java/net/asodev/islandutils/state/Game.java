@@ -44,6 +44,9 @@ public enum Game {
     public String getName() {
         return name;
     }
+    public String getIslandId() {
+        return islandId;
+    }
     public ResourceLocation getMusicLocation() {
         return musicLocation;
     }
