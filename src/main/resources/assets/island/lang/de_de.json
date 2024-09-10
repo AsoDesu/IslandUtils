@@ -29,7 +29,8 @@
   "text.autoconfig.islandutils.option.showOnOnlyCosmeticMenus": "Zeige Kosmetik Vorschau nur in Kosmetik Menüs",
 
   "text.autoconfig.islandutils.category.discord": "Discord Aktivitätsstatus",
-  "text.autoconfig.islandutils.option.discordPresence": "Aktiviere den Discord Aktivitätsstatus",
+  "text.autoconfig.islandutils.option.discordPresence": "Aktiviere Discord Aktivitätsstatus",
+  "text.autoconfig.islandutils.option.discordPresence.@Tooltip": "Aktiviert den Discord Aktivitätsstatus",
   "text.autoconfig.islandutils.option.showGame": "Zeige das Spiel",
   "text.autoconfig.islandutils.option.showGame.@Tooltip": "Zeige das Spiel, dass du spielst",
   "text.autoconfig.islandutils.option.showGameInfo": "Zeige Spiel Details",
@@ -63,7 +64,7 @@
   "text.autoconfig.islandutils.option.clearSplits": "Lösche gespeicherte Aufteilungen",
   "text.autoconfig.islandutils.option.clearSplits.@Tooltip": "Das wird deine gespeicherten Aufteilungen löschen. Das kann nicht wiederhergestellt werden",
   "text.autoconfig.islandutils.option.saveMode": "Aufteilung speichern Modus",
-  "text.autoconfig.islandutils.option.saveMode.@Tooltip": "Wie Aufteilungen speichern\n\n§lBeste Zeit§r: Nutzt deine beste Zeit eines Segments\n\n§Durchschnittliche Zeit§r: Nutzt deine durchschnittliche Zeit eines Segments",
+  "text.autoconfig.islandutils.option.saveMode.@Tooltip": "Wie Aufteilungen speichern\n\n§lBeste Zeit§r: Nutzt deine beste Zeit eines Segments\n\n§lDurchschnittliche Zeit§r: Nutzt deine durchschnittliche Zeit eines Segments",
   "islandutils.splittype.best": "Beste Zeit",
   "islandutils.splittype.avg": "Durchschnittliche Zeit",
 
