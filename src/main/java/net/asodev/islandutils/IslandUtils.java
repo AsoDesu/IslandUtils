@@ -2,6 +2,7 @@ package net.asodev.islandutils;
 
 import net.asodev.islandutils.modules.FriendsInGame;
 import net.asodev.islandutils.options.IslandOptions;
+import net.asodev.islandutils.util.IngameIcons;
 import net.asodev.islandutils.util.resourcepack.ResourcePackUpdater;
 import net.asodev.islandutils.modules.crafting.state.CraftingItems;
 import net.asodev.islandutils.modules.crafting.state.CraftingNotifier;
@@ -31,6 +32,7 @@ public class IslandUtils implements ModInitializer {
     public void onInitialize() {
         IslandOptions.init();
         FriendsInGame.init();
+        IngameIcons.init();
 
         Optional<ModContainer> container = FabricLoader.getInstance().getModContainer("islandutils");
         container.ifPresent(modContainer -> {

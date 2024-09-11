@@ -20,6 +20,7 @@ public class MiscOptions implements OptionsCategory {
     boolean silverPreview = true;
     boolean channelSwitchers = true;
     boolean enableConfigButton = true;
+    boolean iconsButton = true;
     boolean debugMode = false;
 
     public boolean isPauseConfirm() {
@@ -37,6 +38,9 @@ public class MiscOptions implements OptionsCategory {
     }
     public boolean isEnableConfigButton() {
         return enableConfigButton;
+    }
+    public boolean useGameIcons() {
+        return iconsButton;
     }
     public boolean showChannelSwitchers() {
         return channelSwitchers;
@@ -83,6 +87,12 @@ public class MiscOptions implements OptionsCategory {
                 .controller(TickBoxControllerBuilder::create)
                 .binding(defaults.enableConfigButton, () -> enableConfigButton, value -> this.enableConfigButton = value)
                 .build();
+        Option<Boolean> iconsOption = Option.<Boolean>createBuilder()
+                .name(Component.translatable("text.autoconfig.islandutils.option.iconsButton"))
+                .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.iconsButton.@Tooltip")))
+                .controller(TickBoxControllerBuilder::create)
+                .binding(defaults.iconsButton, () -> iconsButton, value -> this.iconsButton = value)
+                .build();
         Option<Boolean> debugOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.debugMode"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.debugMode.@Tooltip")))
@@ -103,6 +113,11 @@ public class MiscOptions implements OptionsCategory {
                 .option(silverOption)
                 .option(channelsOption)
                 .option(buttonOption)
+                .group(OptionGroup.createBuilder()
+                        .name(Component.literal("Icons"))
+                        .collapsed(false)
+                        .option(iconsOption)
+                        .build())
                 .group(OptionGroup.createBuilder()
                         .name(Component.literal("Debug Options"))
                         .collapsed(true)
