@@ -108,5 +108,29 @@
   "text.autoconfig.islandutils.option.debugMode.@Tooltip": "Вмикає: Журнал для налагодження чату, підказки про спеціальні ідентифікатори предметів та інші засоби налагодження",
 
   "modmenu.descriptionTranslation.islandutils": "Мод-утиліта для MCC Island!",
-  "modmenu.summaryTranslation.islandutils": "Мод-утиліта для MCC Island!"
+  "modmenu.summaryTranslation.islandutils": "Мод-утиліта для MCC Island!",
+
+  "islandutils.message.core.updateAvailable": "Гей! Доступне оновлення %s для IslandUtils!",
+  "islandutils.message.core.updateUrl": "Завантажте тут: §f",
+  "islandutils.message.core.preReleaseWarn": "§cВи використовуєте передрелізну версію IslandUtils! Очікуйте, що щось буде зламано і повідомляйте про це у #test-feedback!",
+  "islandutils.message.core.notifTitle": "Сповіщення",
+  "islandutils.message.friends.thisGame": "Друзі у цій грі: ",
+  "islandutils.message.friends.thisLobby": "Друзі в цьому лобі: ",
+  "islandutils.message.pkwSplits.splitComplete": "%s пройдено за: ",
+  "islandutils.message.plobby.codeCopied": "Код скопійовано у буфер обміну!",
+  "islandutils.message.crafting.chatNotif": "закінчив кравтитися!",
+  "islandutils.message.crafting.activeCraftsTitle": "\nПРЕДМЕТИ У КРАВТИНГУ:",
+  "islandutils.message.crafting.complete": "Завершено",
+  "islandutils.message.crafting.completedCrafts": "Завершені кравти:",
+  "islandutils.message.music.downloadingMusic": "Завантаження музики:",
+  "islandutils.message.music.notDownloadedWarnTitle": "Продовжити?",
+  "islandutils.message.music.notDownloadedWarn": "Музика IslandUtils не завантажена",
+  "islandutils.message.music.notDownloadedWarnCancel": "Відмінити",
+  "islandutils.message.music.notDownloadedWarnContinue": "Продовжити приєднання",
+
+  "islandutils.discordPresence.details.playing": "Грає в %s",
+  "islandutils.discordPresence.details.inHub": "У хабі",
+  "islandutils.discordPresense.state.remaining": "Залишилося: %s",
+  "islandutils.discordPresense.state.round": "Раунд: %s",
+  "islandutils.discordPresense.state.leap": "Ривок: %s"
 }
