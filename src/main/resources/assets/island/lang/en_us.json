@@ -126,6 +126,10 @@
   "islandutils.message.music.notDownloadedWarn": "IslandUtils Music has not been downloaded",
   "islandutils.message.music.notDownloadedWarnCancel": "Cancel",
   "islandutils.message.music.notDownloadedWarnContinue": "Continue joining",
+  "islandutils.message.disconnectWarnTitle": "Leave the server",
+  "islandutils.message.disconnectWarn": "Are you sure you want to leave?",
+  "islandutils.message.disconnectWarnCancel": "Cancel",
+  "islandutils.message.disconnectWarnDisconnect": "Disconnect",
   
   "islandutils.discordPresence.details.playing": "Playing %s",
   "islandutils.discordPresence.details.inHub": "In the Hub",

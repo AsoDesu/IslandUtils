@@ -127,6 +127,10 @@
   "islandutils.message.music.notDownloadedWarn": "Музика IslandUtils не завантажена",
   "islandutils.message.music.notDownloadedWarnCancel": "Відмінити",
   "islandutils.message.music.notDownloadedWarnContinue": "Продовжити приєднання",
+  "islandutils.message.disconnectWarnTitle": "Від'єднання від сервера",
+  "islandutils.message.disconnectWarn": "Ви впевнені, що ви хочете від'єднатися?",
+  "islandutils.message.disconnectWarnCancel": "Відмінити",
+  "islandutils.message.disconnectWarnDisconnect": "Від'єднатися",
 
   "islandutils.discordPresence.details.playing": "Грає в %s",
   "islandutils.discordPresence.details.inHub": "У хабі",
