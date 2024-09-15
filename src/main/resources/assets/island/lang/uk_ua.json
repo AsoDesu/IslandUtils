@@ -12,6 +12,8 @@
 
   "text.autoconfig.islandutils.title": "Налаштування Island Utils",
   "text.autoconfig.islandutils.category.music": "Музика",
+  "text.autoconfig.islandutils.group.tgttos": "Музика TGTTOS",
+  "text.autoconfig.islandutils.group.pkw": "Музика Parkour Warrior",
   "text.autoconfig.islandutils.option.tgttosMusic": "Музика TGTTOS",
   "text.autoconfig.islandutils.option.hitwMusic": "Музика HITW",
   "text.autoconfig.islandutils.option.bbMusic": "Музика Battle Box",
@@ -23,13 +25,15 @@
   "text.autoconfig.islandutils.option.tgttosDoubleTime": "Музика TGTTOS (Подвійний час)",
   "text.autoconfig.islandutils.option.tgttosToTheDome": "Музика TGTTOS мапи \"To The Dome!\"",
 
-  "text.autoconfig.islandutils.category.cosmetics": "Попередні перегляди косметики",
+  "text.autoconfig.islandutils.category.cosmetics": "Косметика",
   "text.autoconfig.islandutils.option.showPlayerPreview": "Показувати попередні перегляди косметики",
   "text.autoconfig.islandutils.option.showOnHover": "Попередній перегляд косметики при наведенні",
   "text.autoconfig.islandutils.option.showOnOnlyCosmeticMenus": "Показувати попередній перегляд косметики лише в меню косметики",
 
   "text.autoconfig.islandutils.category.discord": "Discord-активність",
+  "text.autoconfig.islandutils.group.presenceDisplayOptions": "Налаштування відображення активності",
   "text.autoconfig.islandutils.option.discordPresence": "Включити Discord-активніть",
+  "text.autoconfig.islandutils.option.discordPresence.@Tooltip": "Показувати ігрову активність у Discord",
   "text.autoconfig.islandutils.option.showGame": "Показувати гру",
   "text.autoconfig.islandutils.option.showGame.@Tooltip": "Показувати гру, в яку ви граєте",
   "text.autoconfig.islandutils.option.showGameInfo": "Показувати інформацію про гру",
@@ -41,7 +45,7 @@
   "text.autoconfig.islandutils.option.showFactionLevel": "Показувати рівень фракції",
   "text.autoconfig.islandutils.option.showFactionLevel.@Tooltip": "Показувати вашу фракцію та її рівень.",
 
-  "text.autoconfig.islandutils.category.crafting_notfis": "Сповіщення про кравтинг",
+  "text.autoconfig.islandutils.category.crafting_notifs": "Сповіщення про кравтинг",
   "text.autoconfig.islandutils.option.enableCraftingNotifs": "Увімкнути сповіщення про кравтинг",
   "text.autoconfig.islandutils.option.toastNotif": "Увімкнути спливаючі сповіщення",
   "text.autoconfig.islandutils.option.toastNotif.@Tooltip": "Показує спливаюче сповіщення у верхньому правому куті, коли ваші речі закінчили кравтитися\n\n§e§l[Працює лише, якщо ви на MCCI]",
@@ -68,6 +72,8 @@
   "islandutils.splittype.avg": "Середній час",
 
   "text.autoconfig.islandutils.category.misc": "Інше",
+  "text.autoconfig.islandutils.group.friendsNotifier": "Сповіщення про друзів",
+  "text.autoconfig.islandutils.group.debugOptions": "Параметри налагодження",
   "text.autoconfig.islandutils.option.pauseConfirm": "Перепитувати при відключенні",
   "text.autoconfig.islandutils.option.pauseConfirm.@Tooltip": "Додає додатковий екран підтвердження коли ви намагаєтесь відключитися",
   "text.autoconfig.islandutils.option.showFriendsInGame": "Показувати друзів у вашій грі",
@@ -89,6 +95,7 @@
   "text.autoconfig.islandutils.option.enableConfigButton": "Кнопка конфігурування IslandUtils до меню налаштування",
   "text.autoconfig.islandutils.option.enableConfigButton.@Tooltip": "Додає кнопку конфігурування IslandUtils у верхньому лівому куті до меню налаштування\n\n§c§lОБЕРЕЖНО! §rЯкщо вимкнути це налаштування і у вас немає альтернативного доступу до конфігурації (наприклад: ModMenu), то ви не матимете доступу до конфігурування в грі!",
 
+  "text.autoconfig.islandutils.category.plobbyIntegration": "Приватні лобі",
   "text.autoconfig.islandutils.option.showOnScreen": "Показувати код на екрані",
   "text.autoconfig.islandutils.option.showOnScreen.@Tooltip": "Показує код приєднання до приватного лобі на екрані",
   "text.autoconfig.islandutils.option.showInGame": "Показувати у грі",

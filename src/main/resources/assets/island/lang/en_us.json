@@ -12,6 +12,8 @@
 
   "text.autoconfig.islandutils.title": "Island Utils Options",
   "text.autoconfig.islandutils.category.music": "Music",
+  "text.autoconfig.islandutils.group.tgttos": "TGTTOS Music",
+  "text.autoconfig.islandutils.group.pkw": "Parkour Warrior Music",
   "text.autoconfig.islandutils.option.tgttosMusic": "TGTTOS Music",
   "text.autoconfig.islandutils.option.hitwMusic": "HITW Music",
   "text.autoconfig.islandutils.option.bbMusic": "Battle Box Music",
@@ -23,12 +25,13 @@
   "text.autoconfig.islandutils.option.tgttosDoubleTime": "TGTTOS Double Time Music",
   "text.autoconfig.islandutils.option.tgttosToTheDome": "TGTTOS \"To The Dome!\" Music",
 
-  "text.autoconfig.islandutils.category.cosmetics": "Cosmetic Previews",
+  "text.autoconfig.islandutils.category.cosmetics": "Cosmetics",
   "text.autoconfig.islandutils.option.showPlayerPreview": "Show Cosmetic Previews",
   "text.autoconfig.islandutils.option.showOnHover": "Preview cosmetics on hover",
   "text.autoconfig.islandutils.option.showOnOnlyCosmeticMenus": "Show cosmetic preview only in Cosmetic Menus",
 
   "text.autoconfig.islandutils.category.discord": "Discord Presence",
+  "text.autoconfig.islandutils.group.presenceDisplayOptions": "Presence Display Options",
   "text.autoconfig.islandutils.option.discordPresence": "Enable Discord Presence",
   "text.autoconfig.islandutils.option.showGame": "Show Game",
   "text.autoconfig.islandutils.option.showGame.@Tooltip": "Show the game that you're playing",
@@ -41,7 +44,7 @@
   "text.autoconfig.islandutils.option.showFactionLevel": "Show Faction Level",
   "text.autoconfig.islandutils.option.showFactionLevel.@Tooltip": "Show your current Faction and Level.",
 
-  "text.autoconfig.islandutils.category.crafting_notfis": "Crafting Notifications",
+  "text.autoconfig.islandutils.category.crafting_notifs": "Crafting Notifications",
   "text.autoconfig.islandutils.option.enableCraftingNotifs": "Enable Crafting Notifications",
   "text.autoconfig.islandutils.option.toastNotif": "Enable popup notification",
   "text.autoconfig.islandutils.option.toastNotif.@Tooltip": "Adds a pop-up in the top right when your items have finished crafting\n\n§e§l[Only shows if you are playing on MCCI]",
@@ -68,6 +71,8 @@
   "islandutils.splittype.avg": "Average Time",
 
   "text.autoconfig.islandutils.category.misc": "Miscellaneous",
+  "text.autoconfig.islandutils.group.friendsNotifier": "Friends Notifier",
+  "text.autoconfig.islandutils.group.debugOptions": "Debug Options",
   "text.autoconfig.islandutils.option.pauseConfirm": "Confirm Before Disconnect",
   "text.autoconfig.islandutils.option.pauseConfirm.@Tooltip": "Adds an extra confirmation screen before you disconnect",
   "text.autoconfig.islandutils.option.showFriendsInGame": "Show which friends are in your game",
@@ -89,6 +94,7 @@
   "text.autoconfig.islandutils.option.enableConfigButton": "Enable Config Button in options",
   "text.autoconfig.islandutils.option.enableConfigButton.@Tooltip": "Enables the Config Button in the top left of the options menu\n\n§c§lWARNING! §rIf you disable this and you don't have another way to access the config (ModMenu), you will be unable to access the config in-game!",
 
+  "text.autoconfig.islandutils.category.plobbyIntegration": "Plobby Integration",
   "text.autoconfig.islandutils.option.showOnScreen": "Show on-screen code",
   "text.autoconfig.islandutils.option.showOnScreen.@Tooltip": "Shows the plobby join code on-screen",
   "text.autoconfig.islandutils.option.showInGame": "Show in games",

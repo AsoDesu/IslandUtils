@@ -52,10 +52,10 @@ public class DiscordOptions implements OptionsCategory {
                 .build();
 
         return ConfigCategory.createBuilder()
-                .name(Component.literal("Discord Presence"))
+                .name(Component.translatable("text.autoconfig.islandutils.category.discord"))
                 .option(discordPresenceOption)
                 .group(OptionGroup.createBuilder()
-                        .name(Component.literal("Presence Display Options"))
+                        .name(Component.translatable("text.autoconfig.islandutils.group.presenceDisplayOptions"))
                         .collapsed(false)
                         .option(showGameOption)
                         .option(showGameInfoOption)
