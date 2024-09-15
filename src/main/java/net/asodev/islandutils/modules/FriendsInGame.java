@@ -60,7 +60,7 @@ public class FriendsInGame {
 
         Component component = Component.literal("[").withStyle(ChatFormatting.GREEN)
                 .append(Component.literal("\ue001").withStyle(iconsFontStyle))
-                .append(Component.literal("] " + text + ": ").withStyle(ChatFormatting.GREEN))
+                .append(Component.literal("] " + text).withStyle(ChatFormatting.GREEN))
                 .append(Component.literal(friendString).withStyle(ChatFormatting.YELLOW));
         ChatUtils.send(component);
     }
