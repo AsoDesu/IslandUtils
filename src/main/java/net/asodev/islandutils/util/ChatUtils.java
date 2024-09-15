@@ -36,6 +36,10 @@ public class ChatUtils {
         send(Component.literal("[IslandUtils] " + s).withStyle(ChatFormatting.GRAY));
     }
 
+    public static void sendWithPrefix(Component component) {
+        send(Component.literal(translate(prefix + " ")).append(component));
+    }
+    
     public static void send(Component component) {
         Minecraft.getInstance().getChatListener().handleSystemMessage(component, false);
     }

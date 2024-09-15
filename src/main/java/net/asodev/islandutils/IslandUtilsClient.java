@@ -63,15 +63,15 @@ public class IslandUtilsClient implements ClientModInitializer {
     public static void onJoinMCCI(boolean isProduction) {
         System.out.println("Connected to MCCI!");
         if (IslandUtils.availableUpdate != null) {
-            ChatUtils.send("Hey! Update " + IslandUtils.availableUpdate.title() + " is available for Island Utils!");
+            ChatUtils.sendWithPrefix(Component.translatable("islandutils.message.core.updateAvailable", IslandUtils.availableUpdate.title()));
 
             Style style = Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, IslandUtils.availableUpdate.releaseUrl()));
             Component link = Component.literal(IslandUtils.availableUpdate.releaseUrl()).setStyle(style);
-            Component text = Component.literal(ChatUtils.translate(ChatUtils.prefix + " Download Here: &f")).append(link);
+            Component text = Component.translatable("islandutils.message.core.updateUrl").append(link);
 
-            ChatUtils.send(text);
+            ChatUtils.sendWithPrefix(text);
         } else if (IslandUtils.isPreRelease()) {
-            ChatUtils.send("&cYou are using a pre-release version of IslandUtils! Expect things to be broken and buggy, and report to #test-feedback!");
+            ChatUtils.sendWithPrefix(Component.translatable("islandutils.message.core.preReleaseWarn"));
         }
 
         DiscordPresenceUpdator.create(!isProduction);

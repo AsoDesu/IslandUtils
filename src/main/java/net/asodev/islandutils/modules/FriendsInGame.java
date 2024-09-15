@@ -11,6 +11,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.PlayerInfo;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ServerboundCommandSuggestionPacket;
 
@@ -54,8 +55,8 @@ public class FriendsInGame {
         if (!hasFriends) return;
         String friendString = friendsInThisGame.toString().replaceFirst(", ","");
 
-        String text = "Friends in this game";
-        if (MccIslandState.getGame() == Game.HUB) text = "Friends in this lobby";
+        String text = I18n.get("islandutils.message.friends.thisGame");
+        if (MccIslandState.getGame() == Game.HUB) text = I18n.get("islandutils.message.friends.thisLobby");
 
         Component component = Component.literal("[").withStyle(ChatFormatting.GREEN)
                 .append(Component.literal("\ue001").withStyle(iconsFontStyle))

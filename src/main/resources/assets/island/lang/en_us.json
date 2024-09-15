@@ -107,5 +107,29 @@
   "text.autoconfig.islandutils.option.debugMode.@Tooltip": "Enables: Chat debug logs, Custom Item ID tooltips & Other debug features",
 
   "modmenu.descriptionTranslation.islandutils": "A Utility Mod for MCC Island!",
-  "modmenu.summaryTranslation.islandutils": "A Utility Mod for MCC Island!"
+  "modmenu.summaryTranslation.islandutils": "A Utility Mod for MCC Island!",
+  
+  "islandutils.message.core.updateAvailable": "Hey! Update %s is available for Island Utils!",
+  "islandutils.message.core.updateUrl": "Download Here: §f",
+  "islandutils.message.core.preReleaseWarn": "§cYou are using a pre-release version of IslandUtils! Expect things to be broken and buggy, and report to #test-feedback!",
+  "islandutils.message.core.notifTitle": "Notifications",
+  "islandutils.message.friends.thisGame": "Friends in this game: ",
+  "islandutils.message.friends.thisLobby": "Friends in this lobby: ",
+  "islandutils.message.pkwSplits.splitComplete": "%s complete in: ",
+  "islandutils.message.plobby.codeCopied": "Copied code to clipboard!",
+  "islandutils.message.crafting.chatNotif": "has finished crafting!",
+  "islandutils.message.crafting.activeCraftsTitle": "\nCRAFTING ITEMS:",
+  "islandutils.message.crafting.complete": "Complete",
+  "islandutils.message.crafting.completedCrafts": "Completed Crafts:",
+  "islandutils.message.music.downloadingMusic": "Downloading Music:",
+  "islandutils.message.music.notDownloadedWarnTitle": "Proceed?",
+  "islandutils.message.music.notDownloadedWarn": "IslandUtils Music has not been downloaded",
+  "islandutils.message.music.notDownloadedWarnCancel": "Cancel",
+  "islandutils.message.music.notDownloadedWarnContinue": "Continue joining",
+  
+  "islandutils.discordPresence.details.playing": "Playing %s",
+  "islandutils.discordPresence.details.inHub": "In the Hub",
+  "islandutils.discordPresense.state.remaining": "Remaining: %s",
+  "islandutils.discordPresense.state.round": "Round: %s",
+  "islandutils.discordPresense.state.leap": "Leap: %s"
 }
