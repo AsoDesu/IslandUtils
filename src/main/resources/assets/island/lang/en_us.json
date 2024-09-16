@@ -117,6 +117,7 @@
   "islandutils.message.friends.thisLobby": "Friends in this lobby: ",
   "islandutils.message.pkwSplits.splitComplete": "%s complete in: ",
   "islandutils.message.plobby.codeCopied": "Copied code to clipboard!",
+  "islandutils.message.crafting.toastNotif": "CRAFTING COMPLETE!",
   "islandutils.message.crafting.chatNotif": "has finished crafting!",
   "islandutils.message.crafting.activeCraftsTitle": "\nCRAFTING ITEMS:",
   "islandutils.message.crafting.complete": "Complete",

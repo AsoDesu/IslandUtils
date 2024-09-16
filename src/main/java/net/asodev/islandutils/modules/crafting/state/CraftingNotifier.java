@@ -89,7 +89,9 @@ public class CraftingNotifier implements ClientTickEvents.EndTick {
 
     public static Component activeCraftsMessage() {
         Component newLine = Component.literal("\n").withStyle(Style.EMPTY);
-        MutableComponent component = Component.translatable("islandutils.message.crafting.activeCraftsTitle").withStyle(MCC_HUD_FONT);
+        MutableComponent component = ChatUtils.checkForHudUnsupportedSymbols(I18n.get("islandutils.message.crafting.activeCraftsTitle")) ? 
+                Component.translatable("islandutils.message.crafting.activeCraftsTitle").withStyle(MCC_HUD_FONT) :
+                Component.translatable("islandutils.message.crafting.activeCraftsTitle");
         component.append(newLine);
 
         int i = 0;

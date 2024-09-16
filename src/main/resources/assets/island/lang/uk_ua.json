@@ -118,6 +118,7 @@
   "islandutils.message.friends.thisLobby": "Друзі в цьому лобі: ",
   "islandutils.message.pkwSplits.splitComplete": "%s пройдено за: ",
   "islandutils.message.plobby.codeCopied": "Код скопійовано у буфер обміну!",
+  "islandutils.message.crafting.toastNotif": "ЗАВЕРШИВСЯ КРАВТ!",
   "islandutils.message.crafting.chatNotif": "закінчив кравтитися!",
   "islandutils.message.crafting.activeCraftsTitle": "\nПРЕДМЕТИ У КРАВТИНГУ:",
   "islandutils.message.crafting.complete": "Завершено",
@@ -128,7 +129,7 @@
   "islandutils.message.music.notDownloadedWarnCancel": "Відмінити",
   "islandutils.message.music.notDownloadedWarnContinue": "Продовжити приєднання",
   "islandutils.message.disconnectWarnTitle": "Від'єднання від сервера",
-  "islandutils.message.disconnectWarn": "Ви впевнені, що ви хочете від'єднатися?",
+  "islandutils.message.disconnectWarn": "Ви дійсно хочете від'єднатися?",
   "islandutils.message.disconnectWarnCancel": "Відмінити",
   "islandutils.message.disconnectWarnDisconnect": "Від'єднатися",
 
