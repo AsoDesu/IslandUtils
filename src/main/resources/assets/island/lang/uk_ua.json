@@ -25,10 +25,10 @@
   "text.autoconfig.islandutils.option.tgttosDoubleTime": "Музика TGTTOS (Подвійний час)",
   "text.autoconfig.islandutils.option.tgttosToTheDome": "Музика TGTTOS мапи \"To The Dome!\"",
 
-  "text.autoconfig.islandutils.category.cosmetics": "Косметика",
-  "text.autoconfig.islandutils.option.showPlayerPreview": "Показувати попередній перегляд косметики",
-  "text.autoconfig.islandutils.option.showOnHover": "Показувати попередній перегляд косметики при наведенні",
-  "text.autoconfig.islandutils.option.showOnOnlyCosmeticMenus": "Показувати попередній перегляд косметики лише в меню косметики",
+  "text.autoconfig.islandutils.category.cosmetics": "Прикраси",
+  "text.autoconfig.islandutils.option.showPlayerPreview": "Показувати попередній перегляд прикрас",
+  "text.autoconfig.islandutils.option.showOnHover": "Показувати попередній перегляд прикрас при наведенні",
+  "text.autoconfig.islandutils.option.showOnOnlyCosmeticMenus": "Показувати попередній перегляд косметики лише в меню прикрас",
 
   "text.autoconfig.islandutils.category.discord": "Discord-активність",
   "text.autoconfig.islandutils.group.presenceDisplayOptions": "Налаштування відображення активності",
