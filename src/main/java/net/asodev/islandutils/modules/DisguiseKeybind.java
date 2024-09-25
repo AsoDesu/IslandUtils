@@ -2,7 +2,6 @@ package net.asodev.islandutils.modules;
 
 import net.asodev.islandutils.IslandUtilsClient;
 import net.asodev.islandutils.state.MccIslandState;
-
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 public class DisguiseKeybind {

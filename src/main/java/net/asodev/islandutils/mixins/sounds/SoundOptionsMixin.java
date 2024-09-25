@@ -1,6 +1,5 @@
 package net.asodev.islandutils.mixins.sounds;
 
-import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.IslandSoundCategories;
 import net.asodev.islandutils.state.MccIslandState;
 import net.minecraft.client.gui.screens.options.SoundOptionsScreen;

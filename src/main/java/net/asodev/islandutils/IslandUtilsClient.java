@@ -2,9 +2,6 @@ package net.asodev.islandutils;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.noxcrew.noxesium.network.NoxesiumPackets;
-import com.noxcrew.noxesium.network.clientbound.ClientboundMccGameStatePacket;
-import com.noxcrew.noxesium.network.clientbound.ClientboundMccServerPacket;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.modules.DisguiseKeybind;
 import net.asodev.islandutils.modules.NoxesiumIntegration;

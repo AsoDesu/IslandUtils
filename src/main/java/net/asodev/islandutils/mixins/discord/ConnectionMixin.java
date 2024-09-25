@@ -26,7 +26,7 @@ public abstract class ConnectionMixin {
 
     @Shadow @Nullable private volatile PacketListener packetListener;
 
-    @Inject(method = "disconnect", at = @At("HEAD"))
+    @Inject(method = "disconnect(Lnet/minecraft/network/chat/Component;)V", at = @At("HEAD"))
     private void disconnect(Component component, CallbackInfo ci) {
         SocketAddress remoteAddress = getRemoteAddress();
         if (remoteAddress == null) return;

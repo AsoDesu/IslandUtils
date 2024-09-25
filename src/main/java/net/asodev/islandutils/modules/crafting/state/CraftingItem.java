@@ -3,7 +3,6 @@ package net.asodev.islandutils.modules.crafting.state;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.asodev.islandutils.modules.crafting.CraftingMenuType;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;

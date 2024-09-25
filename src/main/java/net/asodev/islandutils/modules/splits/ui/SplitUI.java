@@ -4,11 +4,6 @@ import net.asodev.islandutils.modules.splits.LevelTimer;
 import net.asodev.islandutils.util.ChatUtils;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.LerpingBossEvent;
-
-import java.util.Collection;
-import java.util.Map;
-import java.util.UUID;
 
 public interface SplitUI {
     void render(GuiGraphics guiGraphics, int bossBars);
