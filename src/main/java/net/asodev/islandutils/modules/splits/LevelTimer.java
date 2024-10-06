@@ -1,11 +1,11 @@
 package net.asodev.islandutils.modules.splits;
 
+import net.asodev.islandutils.modules.splits.ui.DojoSplitUI;
+import net.asodev.islandutils.modules.splits.ui.SplitUI;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.SplitsCategory;
 import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
-import net.asodev.islandutils.modules.splits.ui.DojoSplitUI;
-import net.asodev.islandutils.modules.splits.ui.SplitUI;
 import net.asodev.islandutils.util.ChatUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;

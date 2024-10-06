@@ -1,11 +1,9 @@
 package net.asodev.islandutils.options.categories;
 
-import dev.isxander.yacl3.api.Binding;
 import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionGroup;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
-import dev.isxander.yacl3.gui.controllers.BooleanController;
 import net.asodev.islandutils.options.saving.Ignore;
 import net.minecraft.network.chat.Component;
 

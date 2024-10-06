@@ -3,15 +3,12 @@ package net.asodev.islandutils.options.saving;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.OptionsCategory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
 
 public class IslandUtilsSaveHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(IslandOptions.class);

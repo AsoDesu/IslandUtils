@@ -9,7 +9,6 @@ import net.asodev.islandutils.util.Scheduler;
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.Items;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

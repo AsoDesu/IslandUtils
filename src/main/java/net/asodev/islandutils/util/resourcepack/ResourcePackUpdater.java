@@ -1,10 +1,6 @@
 package net.asodev.islandutils.util.resourcepack;
 
-import com.google.common.hash.HashCode;
-import com.google.common.hash.Hasher;
-import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
-import com.mojang.realmsclient.Unit;
 import net.asodev.islandutils.util.resourcepack.schema.ResourcePack;
 import net.minecraft.FileUtil;
 import net.minecraft.client.Minecraft;
@@ -12,7 +8,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.FilePackResources;
 import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackSelectionConfig;
-import net.minecraft.server.packs.repository.KnownPack;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackCompatibility;
 import net.minecraft.server.packs.repository.PackSource;

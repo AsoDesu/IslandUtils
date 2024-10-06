@@ -2,7 +2,6 @@ package net.asodev.islandutils.util.updater;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.terraformersmc.modmenu.util.mod.Mod;
 import net.asodev.islandutils.IslandUtils;
 import net.asodev.islandutils.util.updater.schema.AvailableUpdate;
 import net.asodev.islandutils.util.updater.schema.ModrinthVersion;

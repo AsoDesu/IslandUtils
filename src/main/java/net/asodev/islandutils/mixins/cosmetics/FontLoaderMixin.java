@@ -2,7 +2,6 @@ package net.asodev.islandutils.mixins.cosmetics;
 
 import net.asodev.islandutils.modules.cosmetics.CosmeticState;
 import net.asodev.islandutils.modules.crafting.CraftingUI;
-import net.asodev.islandutils.modules.plobby.PlobbyJoinCodeCopy;
 import net.asodev.islandutils.modules.scavenging.Scavenging;
 import net.asodev.islandutils.modules.splits.LevelTimer;
 import net.minecraft.client.gui.font.providers.BitmapProvider;

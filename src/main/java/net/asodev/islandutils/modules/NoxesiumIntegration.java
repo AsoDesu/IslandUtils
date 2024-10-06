@@ -11,7 +11,7 @@ public class NoxesiumIntegration {
     private static Logger LOGGER = LoggerFactory.getLogger(NoxesiumIntegration.class);
 
     public void init() {
-        NoxesiumPackets.MCC_SERVER.addListener(this, (any, packet, ctx) -> {
+        NoxesiumPackets.CLIENT_MCC_SERVER.addListener(this, (any, packet, ctx) -> {
             handleServerPacket(packet);
         });
     }

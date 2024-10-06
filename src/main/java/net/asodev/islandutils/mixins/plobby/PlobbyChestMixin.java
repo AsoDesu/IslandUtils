@@ -3,7 +3,6 @@ package net.asodev.islandutils.mixins.plobby;
 import net.asodev.islandutils.modules.plobby.PlobbyJoinCodeCopy;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.Utils;
-import net.minecraft.Util;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;

@@ -2,7 +2,6 @@ package net.asodev.islandutils.state;
 
 import com.noxcrew.noxesium.network.clientbound.ClientboundMccServerPacket;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.NoSuchElementException;
 

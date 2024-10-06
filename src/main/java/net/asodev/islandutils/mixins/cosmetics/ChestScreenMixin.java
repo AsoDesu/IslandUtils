@@ -1,19 +1,18 @@
 package net.asodev.islandutils.mixins.cosmetics;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import net.asodev.islandutils.options.IslandOptions;
-import net.asodev.islandutils.modules.cosmetics.CosmeticType;
-import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.modules.cosmetics.Cosmetic;
 import net.asodev.islandutils.modules.cosmetics.CosmeticSlot;
 import net.asodev.islandutils.modules.cosmetics.CosmeticState;
+import net.asodev.islandutils.modules.cosmetics.CosmeticType;
+import net.asodev.islandutils.options.IslandOptions;
+import net.asodev.islandutils.state.MccIslandState;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;

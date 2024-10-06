@@ -7,7 +7,6 @@ import dev.isxander.yacl3.api.OptionGroup;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
 import net.asodev.islandutils.options.saving.Ignore;
 import net.asodev.islandutils.util.Utils;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.chat.Component;
 
 public class MiscOptions implements OptionsCategory {

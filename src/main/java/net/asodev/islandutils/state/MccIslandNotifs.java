@@ -2,10 +2,10 @@ package net.asodev.islandutils.state;
 
 import com.mojang.realmsclient.Unit;
 import net.asodev.islandutils.IslandUtils;
-import net.asodev.islandutils.options.IslandOptions;
-import net.asodev.islandutils.options.categories.CraftingOptions;
 import net.asodev.islandutils.modules.crafting.state.CraftingItem;
 import net.asodev.islandutils.modules.crafting.state.CraftingItems;
+import net.asodev.islandutils.options.IslandOptions;
+import net.asodev.islandutils.options.categories.CraftingOptions;
 import net.asodev.islandutils.util.resourcepack.ResourcePackUpdater;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
