@@ -7,8 +7,8 @@ import net.asodev.islandutils.mixins.accessors.SoundManagerAccessor;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.IslandSoundCategories;
 import net.asodev.islandutils.options.categories.MusicOptions;
-import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.state.Game;
+import net.asodev.islandutils.state.MccIslandState;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -21,7 +21,9 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 import static net.minecraft.network.chat.Component.literal;
 

@@ -27,7 +27,8 @@ import java.util.UUID;
 @Mixin(BossHealthOverlay.class)
 public class BossUIMixin {
 
-    @Shadow @Final private Map<UUID, LerpingBossEvent> events;
+    @Shadow @Final
+    Map<UUID, LerpingBossEvent> events;
 
     @Inject(method = "render", at = @At("HEAD"))
     private void render(GuiGraphics guiGraphics, CallbackInfo ci) {

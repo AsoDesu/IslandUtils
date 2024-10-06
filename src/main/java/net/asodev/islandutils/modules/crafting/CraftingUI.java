@@ -14,7 +14,6 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public class CraftingUI {
     public static Style CHEST_BACKGROUND_STYLE = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(ResourceLocation.fromNamespaceAndPath("mcc", "chest_backgrounds"));

@@ -1,7 +1,5 @@
 package net.asodev.islandutils.util;
 
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.scores.DisplaySlot;
@@ -10,7 +8,6 @@ import net.minecraft.world.scores.PlayerTeam;
 import net.minecraft.world.scores.Scoreboard;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;

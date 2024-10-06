@@ -6,8 +6,8 @@ import de.jcm.discordgamesdk.activity.ActivityType;
 import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.DiscordOptions;
-import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.state.Game;
+import net.asodev.islandutils.state.MccIslandState;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
