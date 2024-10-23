@@ -94,7 +94,7 @@ public class MusicUtil {
 
     public static SimpleSoundInstance createSoundInstance(ClientboundSoundPacket clientboundCustomSoundPacket, SoundSource source) {
         return new SimpleSoundInstance(
-                clientboundCustomSoundPacket.getSound().value().getLocation(),
+                clientboundCustomSoundPacket.getSound().value().location(),
                 source,
                 clientboundCustomSoundPacket.getVolume(),
                 clientboundCustomSoundPacket.getPitch(),

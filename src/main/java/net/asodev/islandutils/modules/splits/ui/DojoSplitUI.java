@@ -5,6 +5,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
@@ -24,7 +25,7 @@ public class DojoSplitUI implements SplitUI {
     public void render(GuiGraphics guiGraphics, int bossBars) {
         int x = (guiGraphics.guiWidth() / 2) - (MCC_BAR_WIDTH / 2);
         int y = Double.valueOf((bossBars * 18.5)).intValue();
-        guiGraphics.blit(BAR_TEXTURE, x, y, 0, 0, this.width(), this.height());
+        guiGraphics.blitSprite(RenderType::guiTextured, BAR_TEXTURE, x, y, this.width(), this.height());
 
         renderLevelName(guiGraphics, x, y);
         renderSplitTime(guiGraphics, x, y);

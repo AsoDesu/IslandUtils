@@ -31,7 +31,7 @@
     "noxesium": ">=2.3",
     "fabricloader": ">=0.15",
     "fabric": "*",
-    "minecraft": ">=1.21",
+    "minecraft": ">=1.21.2",
     "yet_another_config_lib_v3": "*"
   }
 }

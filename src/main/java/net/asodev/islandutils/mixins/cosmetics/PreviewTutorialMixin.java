@@ -1,5 +1,6 @@
 package net.asodev.islandutils.mixins.cosmetics;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import net.asodev.islandutils.modules.cosmetics.CosmeticState;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.util.ChatUtils;
@@ -37,10 +38,9 @@ public class PreviewTutorialMixin {
 
     @Inject(
             method = "getTooltipLines",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;addAttributeTooltips(Ljava/util/function/Consumer;Lnet/minecraft/world/entity/player/Player;)V", shift = At.Shift.BEFORE),
-            locals = LocalCapture.CAPTURE_FAILEXCEPTION
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;addAttributeTooltips(Ljava/util/function/Consumer;Lnet/minecraft/world/entity/player/Player;)V", shift = At.Shift.BEFORE)
     )
-    private void injectedTooltipLines(Item.TooltipContext tooltipContext, @Nullable Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir, List<Component> list, MutableComponent mutableComponent, Consumer consumer) {
+    private void injectedTooltipLines(Item.TooltipContext tooltipContext, @Nullable Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir, @Local List<Component> list) {
         if (CosmeticState.getType((ItemStack)(Object)this) == null) return;
         if (!IslandOptions.getCosmetics().isShowPlayerPreview()) return;
         list.add(previewComponent);
