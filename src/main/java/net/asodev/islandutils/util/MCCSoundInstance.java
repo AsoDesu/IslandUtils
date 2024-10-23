@@ -20,7 +20,7 @@ public class MCCSoundInstance extends AbstractTickableSoundInstance {
 
     protected MCCSoundInstance(SoundEvent event, SoundSource soundSource, float f,float g, RandomSource randomSource, boolean bl, int i, SoundInstance.Attenuation attenuation, double d, double e, double h, boolean bl2) {
         super(event, soundSource, randomSource);
-        location = event.getLocation();
+        location = event.location();
         this.volume = f;
         totalVolume = f;
         this.pitch = g;

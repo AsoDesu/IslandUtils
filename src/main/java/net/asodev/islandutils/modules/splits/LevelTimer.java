@@ -149,7 +149,7 @@ public class LevelTimer {
 
     public static void onSound(ClientboundSoundPacket clientboundSoundPacket) {
         if (!IslandOptions.getSplits().isEnablePkwSplits()) return;
-        ResourceLocation soundLoc = clientboundSoundPacket.getSound().value().getLocation();
+        ResourceLocation soundLoc = clientboundSoundPacket.getSound().value().location();
         String path = soundLoc.getPath();
         boolean isRoundEnd = path.equals("games.global.timer.round_end");
         if (path.contains("games.parkour_warrior.mode_swap") ||

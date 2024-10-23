@@ -117,7 +117,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
 
         // Get the location of the new sound
         // Previously this was obfuscated by noxcrew, but not anymore yayyyyy :D
-        ResourceLocation soundLoc = clientboundCustomSoundPacket.getSound().value().getLocation();
+        ResourceLocation soundLoc = clientboundCustomSoundPacket.getSound().value().location();
 
         if (MccIslandState.getGame() == Game.PARKOUR_WARRIOR_DOJO) {
             LevelTimer.onSound(clientboundCustomSoundPacket);

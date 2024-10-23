@@ -3,6 +3,7 @@ package net.asodev.islandutils.modules.crafting.state;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.asodev.islandutils.modules.crafting.CraftingMenuType;
+import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -44,7 +45,7 @@ public class CraftingItem {
         item.setTitle( Component.Serializer.fromJson(jsonTitle, RegistryAccess.EMPTY) );
 
         ResourceLocation typeKey = ResourceLocation.parse(object.get("type").getAsString());
-        item.setType( BuiltInRegistries.ITEM.get(typeKey) );
+        item.setType( BuiltInRegistries.ITEM.get(typeKey).map(Holder.Reference::value).orElse(null) );
 
         item.setCustomModelData( object.get("customModelData").getAsInt() );
 

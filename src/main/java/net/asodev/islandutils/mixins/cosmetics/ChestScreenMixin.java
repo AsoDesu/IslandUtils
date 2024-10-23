@@ -13,6 +13,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -69,7 +70,7 @@ public abstract class ChestScreenMixin extends Screen {
         guiGraphics.pose().pushPose();
         if (shouldRender) {
             guiGraphics.pose().translate(0.0f, 0.0f, 105f);
-            guiGraphics.blit(PREVIEW, slot.x-3, slot.y-4, 105, 0, 0, 22, 24, 22, 24);
+            guiGraphics.blitSprite(RenderType::guiTextured, PREVIEW, slot.x-3, slot.y-4, 105, 22, 24);
         }
         guiGraphics.pose().popPose();
     }
