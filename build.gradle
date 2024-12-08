@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.7-SNAPSHOT'
+    id 'fabric-loom' version '1.8.10'
     id 'maven-publish'
 }
 
@@ -26,6 +26,7 @@ repositories {
     maven { url = "https://maven.isxander.dev/snapshots" }
     maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url = uri("https://maven.noxcrew.com/public") }
+    maven { url = uri("https://maven.enginehub.org/repo/") }
     exclusiveContent {
         forRepository {
             maven {
@@ -47,17 +48,15 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modApi("dev.isxander:yet-another-config-lib:3.5.0+1.21-fabric") {
+    modApi("dev.isxander:yet-another-config-lib:3.6.2+1.21.2-fabric") {
         exclude(group: "com.twelvemonkeys.common")
         exclude(group: "com.twelvemonkeys.imageio")
     }
 
-    modApi("com.terraformersmc:modmenu:11.0.2")
+    modApi("com.terraformersmc:modmenu:12.0.0")
 
     implementation include('com.github.JnCrMx:discord-game-sdk4j:v0.5.5')
-    modApi("com.noxcrew.noxesium:fabric:2.3.2") {
-        exclude(group: "org.khelekore")
-    }
+    modApi("com.noxcrew.noxesium:fabric:2.4.1")
 }
 
 processResources {

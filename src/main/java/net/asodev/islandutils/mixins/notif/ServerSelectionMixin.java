@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
 import net.minecraft.client.gui.screens.multiplayer.ServerSelectionList;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
@@ -52,7 +53,7 @@ public class ServerSelectionMixin {
             guiGraphics.renderTooltip(Minecraft.getInstance().font, tooltip, Optional.empty(), mouseX, mouseY);
         }
 
-        guiGraphics.blit(NOTIF_TEXTURE, nx, ny, 0, 0, 10, 10, 10, 10);
+        guiGraphics.blit(RenderType::guiTextured, NOTIF_TEXTURE, nx, ny, 0, 0, 10, 10, 10, 10);
     }
 
 }
