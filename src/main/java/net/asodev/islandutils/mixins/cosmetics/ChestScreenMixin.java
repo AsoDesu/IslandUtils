@@ -7,6 +7,7 @@ import net.asodev.islandutils.modules.cosmetics.CosmeticState;
 import net.asodev.islandutils.modules.cosmetics.CosmeticType;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.MccIslandState;
+import net.asodev.islandutils.util.IslandSoundEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -14,6 +15,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -169,6 +171,7 @@ public abstract class ChestScreenMixin extends Screen {
             cosmetic.preview = new CosmeticSlot(hoveredSlot);
         else
             cosmetic.preview = null;
+        this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(IslandSoundEvents.UI_CLICK_NORMAL, 1f, 1f));
     }
 
     @Inject(method = "onClose", at = @At("TAIL"))
