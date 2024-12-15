@@ -42,13 +42,13 @@ public class CraftingNotifier implements ClientTickEvents.EndTick {
             if (!MccIslandState.isOnline() || client.getOverlay() instanceof LoadingOverlay) continue;
             if (item.hasSentNotif()) continue;
 
-            sendNotif(client, item);
+            sendNotif(client, item, !anythingHasChanged);
             anythingHasChanged = true;
         }
         if (anythingHasChanged) CraftingItems.save();
     }
 
-    public void sendNotif(Minecraft client, CraftingItem item) {
+    public void sendNotif(Minecraft client, CraftingItem item, boolean canMakeSound) {
         CraftingOptions options = IslandOptions.getCrafting();
         item.setHasSentNotif(true);
 
@@ -63,7 +63,7 @@ public class CraftingNotifier implements ClientTickEvents.EndTick {
             shouldMakeSound = true;
         }
 
-        if (shouldMakeSound) {
+        if (shouldMakeSound && canMakeSound) {
             sendNotifSound();
         }
     }
