@@ -12,7 +12,6 @@
     "discord.ConnectionMixin",
     "discord.PlayerTeamMixin",
     "resources.PackRepositoryMixin",
-    "sounds.SoundSourceMixin",
     "ui.SlotMixin"
   ],
   "client": [
@@ -29,7 +28,6 @@
     "notif.ServerSelectionMixin",
     "plobby.PlobbyChestMixin",
     "resources.MultiplayerJoinMixin",
-    "sounds.SoundOptionsMixin",
     "splits.HologramMixin",
     "ui.ChatScreenMixin",
     "ui.CommandSuggestionsAccessor",

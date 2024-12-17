@@ -12,16 +12,8 @@
 
   "text.autoconfig.islandutils.title": "Island Utils Options",
   "text.autoconfig.islandutils.category.music": "Music",
-  "text.autoconfig.islandutils.option.tgttosMusic": "TGTTOS Music",
-  "text.autoconfig.islandutils.option.hitwMusic": "HITW Music",
-  "text.autoconfig.islandutils.option.bbMusic": "Battle Box Music",
-  "text.autoconfig.islandutils.option.sbMusic": "Sky Battle Music",
-  "text.autoconfig.islandutils.option.dynaballMusic": "Dynaball Music",
-  "text.autoconfig.islandutils.option.rsrMusic": "Rocket Spleef Rush Music",
-  "text.autoconfig.islandutils.option.pkwMusic": "Parkour Warrior Dojo Music",
-  "text.autoconfig.islandutils.option.pkwsMusic": "Parkour Warrior Survivor Music",
-  "text.autoconfig.islandutils.option.tgttosDoubleTime": "TGTTOS Double Time Music",
-  "text.autoconfig.islandutils.option.tgttosToTheDome": "TGTTOS \"To The Dome!\" Music",
+  "islandutils.music_modifier.tgttos.double_time": "TGTTOS Double Time Music",
+  "islandutils.music_modifier.tgttos.dome_modifier": "TGTTOS \"To The Dome!\" Music",
 
   "text.autoconfig.islandutils.category.cosmetics": "Cosmetic Previews",
   "text.autoconfig.islandutils.option.showPlayerPreview": "Show Cosmetic Previews",

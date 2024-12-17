@@ -4,128 +4,38 @@ import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionGroup;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
+import net.asodev.islandutils.modules.music.MusicManager;
+import net.asodev.islandutils.modules.music.MusicModifier;
 import net.asodev.islandutils.options.saving.Ignore;
 import net.minecraft.network.chat.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MusicOptions implements OptionsCategory {
     @Ignore
     private static final MusicOptions defaults = new MusicOptions();
 
-    boolean hitwMusic = true;
-    boolean bbMusic = true;
-    boolean sbMusic = true;
-    boolean dynaballMusic = true;
-
-    boolean tgttosMusic = true;
-    boolean tgttosDoubleTime = true;
-    boolean tgttosToTheDome = true;
-
-    boolean pkwMusic = true;
-    boolean pkwsMusic = true;
-    boolean rsrMusic = true;
-
-    public boolean isHitwMusic() {
-        return hitwMusic;
-    }
-    public boolean isBbMusic() {
-        return bbMusic;
-    }
-    public boolean isSbMusic() {
-        return sbMusic;
-    }
-    public boolean isTgttosMusic() {
-        return tgttosMusic;
-    }
-    public boolean isTgttosDoubleTime() {
-        return tgttosDoubleTime;
-    }
-    public boolean isTgttosToTheDome() {
-        return tgttosToTheDome;
-    }
-    public boolean isPkwMusic() {
-        return pkwMusic;
-    }
-    public boolean isPkwsMusic() {
-        return pkwsMusic;
-    }
-    public boolean isDynaballMusic() {
-        return dynaballMusic;
-    }
-
-    public boolean isRsrMusic() {
-        return rsrMusic;
-    }
 
     @Override
     public ConfigCategory getCategory() {
-        Option<Boolean> hitwOption = Option.<Boolean>createBuilder()
-                .name(Component.translatable("text.autoconfig.islandutils.option.hitwMusic"))
-                .controller(TickBoxControllerBuilder::create)
-                .binding(defaults.hitwMusic, () -> hitwMusic, value -> this.hitwMusic = value)
-                .build();
-        Option<Boolean> bbOption = Option.<Boolean>createBuilder()
-                .name(Component.translatable("text.autoconfig.islandutils.option.bbMusic"))
-                .controller(TickBoxControllerBuilder::create)
-                .binding(defaults.bbMusic, () -> bbMusic, value -> this.bbMusic = value)
-                .build();
-        Option<Boolean> sbOption = Option.<Boolean>createBuilder()
-                .name(Component.translatable("text.autoconfig.islandutils.option.sbMusic"))
-                .controller(TickBoxControllerBuilder::create)
-                .binding(defaults.sbMusic, () -> sbMusic, value -> this.sbMusic = value)
-                .build();
-        Option<Boolean> dynaballOption = Option.<Boolean>createBuilder()
-                .name(Component.translatable("text.autoconfig.islandutils.option.dynaballMusic"))
-                .controller(TickBoxControllerBuilder::create)
-                .binding(defaults.dynaballMusic, () -> dynaballMusic, value -> this.dynaballMusic = value)
-                .build();
-        Option<Boolean> rsrOption = Option.<Boolean>createBuilder()
-                .name(Component.translatable("text.autoconfig.islandutils.option.rsrMusic"))
-                .controller(TickBoxControllerBuilder::create)
-                .binding(defaults.rsrMusic, () -> rsrMusic, value -> this.rsrMusic = value)
-                .build();
-        Option<Boolean> tgttosOption = Option.<Boolean>createBuilder()
-                .name(Component.translatable("text.autoconfig.islandutils.option.tgttosMusic"))
-                .controller(TickBoxControllerBuilder::create)
-                .binding(defaults.tgttosMusic, () -> tgttosMusic, value -> this.tgttosMusic = value)
-                .build();
-        Option<Boolean> tgttosDoubleOption = Option.<Boolean>createBuilder()
-                .name(Component.translatable("text.autoconfig.islandutils.option.tgttosDoubleTime"))
-                .controller(TickBoxControllerBuilder::create)
-                .binding(defaults.tgttosDoubleTime, () -> tgttosDoubleTime, value -> this.tgttosDoubleTime = value)
-                .build();
-        Option<Boolean> tgttosToDomeOption = Option.<Boolean>createBuilder()
-                .name(Component.translatable("text.autoconfig.islandutils.option.tgttosToTheDome"))
-                .controller(TickBoxControllerBuilder::create)
-                .binding(defaults.tgttosToTheDome, () -> tgttosToTheDome, value -> this.tgttosToTheDome = value)
-                .build();
-        Option<Boolean> pkwDojoOption = Option.<Boolean>createBuilder()
-                .name(Component.translatable("text.autoconfig.islandutils.option.pkwMusic"))
-                .controller(TickBoxControllerBuilder::create)
-                .binding(defaults.pkwMusic, () -> pkwMusic, value -> this.pkwMusic = value)
-                .build();
-        Option<Boolean> pkwSurviorOption = Option.<Boolean>createBuilder()
-                .name(Component.translatable("text.autoconfig.islandutils.option.pkwsMusic"))
-                .controller(TickBoxControllerBuilder::create)
-                .binding(defaults.pkwsMusic, () -> pkwsMusic, value -> this.pkwsMusic = value)
-                .build();
+        List<Option<Boolean>> modifierOptions = new ArrayList<>();
+        for (MusicModifier modifier : MusicManager.getModifiers()) {
+            if (!modifier.hasOption()) continue;
+
+            var option = Option.<Boolean>createBuilder()
+                    .name(modifier.name())
+                    .controller(TickBoxControllerBuilder::create)
+                    .binding(modifier.defaultOption(), modifier::isEnabled, modifier::setEnabled)
+                    .build();
+            modifierOptions.add(option);
+        }
 
         return ConfigCategory.createBuilder()
                 .name(Component.literal("Music"))
-                .option(hitwOption)
-                .option(bbOption)
-                .option(sbOption)
-                .option(dynaballOption)
-                .option(rsrOption)
                 .group(OptionGroup.createBuilder()
-                        .name(Component.literal("TGTTOS Music"))
-                        .option(tgttosOption)
-                        .option(tgttosDoubleOption)
-                        .option(tgttosToDomeOption)
-                        .build())
-                .group(OptionGroup.createBuilder()
-                        .name(Component.literal("Parkour Warrior Music"))
-                        .option(pkwDojoOption)
-                        .option(pkwSurviorOption)
+                        .name(Component.literal("Modifiers"))
+                        .options(modifierOptions)
                         .build())
                 .build();
     }
