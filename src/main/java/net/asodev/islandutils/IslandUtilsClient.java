@@ -1,7 +1,6 @@
 package net.asodev.islandutils;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.modules.DisguiseKeybind;
 import net.asodev.islandutils.modules.NoxesiumIntegration;
@@ -14,7 +13,6 @@ import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.IslandUtilsCommand;
-import net.asodev.islandutils.util.OLD_MusicUtil;
 import net.asodev.islandutils.util.Utils;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;

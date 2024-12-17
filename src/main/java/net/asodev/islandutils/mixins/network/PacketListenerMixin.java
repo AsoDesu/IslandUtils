@@ -1,7 +1,6 @@
 package net.asodev.islandutils.mixins.network;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.asodev.islandutils.IslandUtilsClient;
 import net.asodev.islandutils.IslandUtilsEvents;
@@ -17,10 +16,8 @@ import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.IslandSoundEvents;
-import net.asodev.islandutils.util.OLD_MusicUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientCommonPacketListenerImpl;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.CommonListenerCookie;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -31,19 +28,15 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.game.ClientboundBossEventPacket;
 import net.minecraft.network.protocol.game.ClientboundCommandSuggestionsPacket;
-import net.minecraft.network.protocol.game.ClientboundCommandsPacket;
 import net.minecraft.network.protocol.game.ClientboundContainerSetContentPacket;
-import net.minecraft.network.protocol.game.ClientboundRespawnPacket;
 import net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket;
 import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
 import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -148,17 +141,6 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         CosmeticState.accessorySlot.setOriginal(new CosmeticSlot(player.getInventory().offhand.get(0)));
     }
 
-    @Inject(method = "handleRespawn", at = @At("HEAD")) // Whenever we change worlds
-    private void handleRespawn(ClientboundRespawnPacket clientboundRespawnPacket, CallbackInfo ci) {
-        ClientLevel clientLevel = this.minecraft.level; // Get our player
-        if (clientLevel == null) return; // minecraft is a good game.
-
-        ResourceKey<Level> resourceKey = clientboundRespawnPacket.commonPlayerSpawnInfo().dimension(); // Get the key of this world
-        if (resourceKey != clientLevel.dimension()) { // If we have changed worlds...
-            OLD_MusicUtil.stopMusic(); // ...stop the music
-        }
-    }
-
     private static Pattern timerPattern = Pattern.compile("(\\d+:\\d+)");
     @Inject(method = "handleBossUpdate", at = @At("HEAD")) // Discord presence, time left
     private void handleBossUpdate(ClientboundBossEventPacket clientboundBossEventPacket, CallbackInfo ci) {
@@ -244,35 +226,6 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
             ci.cancel();
             this.minecraft.getChatListener().handleSystemMessage(replacement, false);
         });
-    }
-
-    // MCCI Commands
-    @Inject(method = "handleCommands", at = @At("TAIL"))
-    private void handleCommands(ClientboundCommandsPacket clientboundCommandsPacket, CallbackInfo ci) {
-        if (!MccIslandState.isOnline()) return;
-        this.commands.register((LiteralArgumentBuilder<CommandSourceStack>)IslandUtilsClient.Commands.resetMusic);
-    }
-
-    @Inject(method = "sendUnsignedCommand", at = @At("HEAD"), cancellable = true)
-    private void sendUnsignedCommand(String string, CallbackInfoReturnable<Boolean> cir) {
-        if (!MccIslandState.isOnline()) return;
-        if (string.startsWith("resetmusic")) {
-            executeCommand();
-            cir.setReturnValue(true);
-        }
-    }
-    @Inject(method = "sendCommand", at = @At("HEAD"), cancellable = true)
-    private void sendCommand(String string, CallbackInfo ci) {
-        if (!MccIslandState.isOnline()) return;
-        if (string.startsWith("resetmusic")) {
-            executeCommand();
-            ci.cancel();
-        }
-    }
-
-    private static void executeCommand() {
-        try { IslandUtilsClient.Commands.resetMusic.getCommand().run(null); }
-        catch (CommandSyntaxException e) { e.printStackTrace(); }
     }
 
 }

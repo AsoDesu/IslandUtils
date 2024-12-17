@@ -2,6 +2,7 @@ package net.asodev.islandutils.options.categories;
 
 import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.Option;
+import dev.isxander.yacl3.api.OptionDescription;
 import dev.isxander.yacl3.api.OptionGroup;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
 import net.asodev.islandutils.modules.music.MusicManager;
@@ -25,6 +26,7 @@ public class MusicOptions implements OptionsCategory {
 
             var option = Option.<Boolean>createBuilder()
                     .name(modifier.name())
+                    .description(OptionDescription.of(modifier.desc()))
                     .controller(TickBoxControllerBuilder::create)
                     .binding(modifier.defaultOption(), modifier::isEnabled, modifier::setEnabled)
                     .build();

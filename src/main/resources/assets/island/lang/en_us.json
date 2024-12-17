@@ -14,6 +14,10 @@
   "text.autoconfig.islandutils.category.music": "Music",
   "islandutils.music_modifier.tgttos.double_time": "TGTTOS Double Time Music",
   "islandutils.music_modifier.tgttos.dome_modifier": "TGTTOS \"To The Dome!\" Music",
+  "islandutils.music_modifier.dynaball.old_music": "Previous Dynaball Music",
+  "islandutils.music_modifier.dynaball.old_music.desc": "Replaces Island's new Dynaball music with the music used previously.\n\n (NGS Live) Shoot 'em Up",
+  "islandutils.music_modifier.global.hq": "High(er) Quality Music",
+  "islandutils.music_modifier.global.hq.desc": "Replaces Island's downloaded music with high(er) quality versions (does not apply to Hub Music & Dynaball)",
 
   "text.autoconfig.islandutils.category.cosmetics": "Cosmetic Previews",
   "text.autoconfig.islandutils.option.showPlayerPreview": "Show Cosmetic Previews",

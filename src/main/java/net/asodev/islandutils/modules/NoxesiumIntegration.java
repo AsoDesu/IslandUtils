@@ -17,14 +17,11 @@ public class NoxesiumIntegration {
     }
 
     private void handleServerPacket(ClientboundMccServerPacket packet) {
-        if (packet.serverType().startsWith("lobby")) {
-            MccIslandState.setGame(Game.HUB);
-        } else {
-            try {
-                MccIslandState.setGame(Game.fromPacket(packet));
-            } catch (Exception e) {
-                LOGGER.error(e.getMessage());
-            }
+        MccIslandState.setSubType(packet.subType());
+        try {
+            MccIslandState.setGame(Game.fromPacket(packet));
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
         }
     }
 

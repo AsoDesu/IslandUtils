@@ -9,7 +9,6 @@ import net.asodev.islandutils.options.categories.CraftingOptions;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.IslandSoundEvents;
-import net.asodev.islandutils.util.OLD_MusicUtil;
 import net.asodev.islandutils.util.Scheduler;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -20,7 +19,6 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
 import java.util.List;

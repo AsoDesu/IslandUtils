@@ -13,7 +13,6 @@ public class HighQualityMusic extends MusicModifier {
     Map<String, ResourceLocation> replacements = Map.of(
             "music.global.parkour_warrior", Game.PARKOUR_WARRIOR_DOJO.getMusicLocation(),
             "music.global.battle_box", Game.BATTLE_BOX.getMusicLocation(),
-            "music.global.dynaball", Game.DYNABALL.getMusicLocation(),
             "music.global.hole_in_the_wall", Game.HITW.getMusicLocation(),
             "music.global.rocket_spleef", Game.ROCKET_SPLEEF_RUSH.getMusicLocation(),
             "music.global.sky_battle", Game.SKY_BATTLE.getMusicLocation(),

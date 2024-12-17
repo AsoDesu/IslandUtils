@@ -7,10 +7,12 @@ public abstract class MusicModifier {
     private boolean isEnabled = defaultOption();
     private final String identifier;
     private final Component name;
+    private final Component desc;
 
     public MusicModifier(String identifier) {
         this.identifier = identifier;
         this.name = Component.translatable("islandutils.music_modifier." + identifier);
+        this.desc = Component.translatableWithFallback("islandutils.music_modifier." + identifier + ".desc", "");
     }
 
     public abstract SoundInfo apply(SoundInfo info);
@@ -35,5 +37,8 @@ public abstract class MusicModifier {
     }
     public final Component name() {
         return name;
+    }
+    public Component desc() {
+        return desc;
     }
 }
