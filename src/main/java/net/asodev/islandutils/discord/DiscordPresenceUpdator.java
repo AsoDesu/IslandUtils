@@ -187,6 +187,8 @@ public class DiscordPresenceUpdator {
         Core core = DiscordPresence.core;
         if (core == null || !core.isOpen()) return;
 
+        activity.timestamps().setStart(started);
+
         if (bigRatMode) {
             overrideActivityWithBigRat();
         }

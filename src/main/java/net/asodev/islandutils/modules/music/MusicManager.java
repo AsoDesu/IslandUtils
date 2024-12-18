@@ -87,9 +87,11 @@ public class MusicManager {
 
     public static void onMusicStopPacket(ClientboundStopSoundPacket packet, Minecraft minecraft) {
         ResourceLocation name = packet.getName();
+        ResourceLocation modifiedName = applyModifiers(SoundInfo.fromLocation(name)).path();
+
         SoundManager soundManager = Minecraft.getInstance().getSoundManager();
         for (SoundInstance instance : getActiveSoundInstances()) {
-            if (instance.getLocation().equals(name)) {
+            if (instance.getLocation().equals(name) || instance.getLocation().equals(modifiedName)) {
                 if (instance instanceof MCCSoundInstance mccSound) {
                     mccSound.fade(FADE_DURATION);
                 } else {

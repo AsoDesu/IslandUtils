@@ -14,7 +14,6 @@ import static net.asodev.islandutils.discord.DiscordPresenceUpdator.activity;
 public class FishingPresenceUpdator {
     public static List<String> temperatures = List.of("temperate", "tropical", "barren");
     public static Map<String, String> islandNames = new HashMap<>();
-    public static long startedFishing = -1;
 
     static {
         islandNames.put("temperate_1", "Verdant Woods");
@@ -34,14 +33,10 @@ public class FishingPresenceUpdator {
     }
 
     public static void init() {
-        IslandUtilsEvents.GAME_CHANGE.register((newGame) -> {
-            if (newGame != Game.FISHING) startedFishing = -1;
-        });
     }
 
     public static void updateFishingPlace() {
         if (activity == null) return;
-        if (startedFishing < 0) startedFishing = System.currentTimeMillis();
 
         String place = islandNames.get(MccIslandState.getSubType());
         if (place != null) {
@@ -55,7 +50,5 @@ public class FishingPresenceUpdator {
             activity.assets().setLargeImage("fishing");
             activity.assets().setLargeText("Fishing");
         }
-        activity.timestamps().setStart(Instant.ofEpochMilli(startedFishing));
-        activity.timestamps().setEnd(Instant.ofEpochSecond(0));
     }
 }

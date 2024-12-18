@@ -18,6 +18,7 @@ public class MiscOptions implements OptionsCategory {
     boolean showFriendsInLobby = true;
     boolean silverPreview = true;
     boolean channelSwitchers = true;
+    boolean showFishingUpgradeIcon = true;
     boolean enableConfigButton = true;
     boolean debugMode = false;
 
@@ -40,6 +41,10 @@ public class MiscOptions implements OptionsCategory {
     public boolean showChannelSwitchers() {
         return channelSwitchers;
     }
+    public boolean isShowFishingUpgradeIcon() {
+        return showFishingUpgradeIcon;
+    }
+
     public boolean isDebugMode() {
         return debugMode && !Utils.isLunarClient();
     }
@@ -76,6 +81,12 @@ public class MiscOptions implements OptionsCategory {
                 .controller(TickBoxControllerBuilder::create)
                 .binding(defaults.channelSwitchers, () -> channelSwitchers, value -> this.channelSwitchers = value)
                 .build();
+        Option<Boolean> fishingUpgradeOption = Option.<Boolean>createBuilder()
+                .name(Component.translatable("text.autoconfig.islandutils.option.showFishingUpgradeIcon"))
+                .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.showFishingUpgradeIcon.@Tooltip")))
+                .controller(TickBoxControllerBuilder::create)
+                .binding(defaults.showFishingUpgradeIcon, () -> showFishingUpgradeIcon, value -> this.showFishingUpgradeIcon = value)
+                .build();
         Option<Boolean> buttonOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.enableConfigButton"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.enableConfigButton.@Tooltip")))
@@ -101,6 +112,7 @@ public class MiscOptions implements OptionsCategory {
                         .build())
                 .option(silverOption)
                 .option(channelsOption)
+                .option(fishingUpgradeOption)
                 .option(buttonOption)
                 .group(OptionGroup.createBuilder()
                         .name(Component.literal("Debug Options"))

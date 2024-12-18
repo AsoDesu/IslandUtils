@@ -65,44 +65,6 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         super(minecraft, connection, commonListenerCookie);
     }
 
-    // Patterns for the Map & Modifier options on scoreboard
-    final Map<String, Pattern> scoreboardPatterns = Map.of(
-            "MAP", Pattern.compile("MAP: (?<map>\\w+(?:,? \\w+)*)"),
-            "MODIFIER", Pattern.compile("MODIFIER: (?<modifier>\\w+(?:,? \\w+)*)"),
-            "COURSE", Pattern.compile("COURSE: (?<course>.*)"),
-            "LEAP", Pattern.compile("LEAP \\[(?<leap>.*/.*)]")
-    );
-    @Inject(method = "handleSetPlayerTeamPacket", at = @At("TAIL")) // Scoreboard lines!
-    public void handleSetPlayerTeamPacket(ClientboundSetPlayerTeamPacket clientboundSetPlayerTeamPacket, CallbackInfo ci) {
-        if (!MccIslandState.isOnline()) return;
-        Optional<ClientboundSetPlayerTeamPacket.Parameters> optional = clientboundSetPlayerTeamPacket.getParameters();
-        if (optional.isEmpty()) return;
-
-        ClientboundSetPlayerTeamPacket.Parameters parameters = optional.get(); // Get the team parameters
-        try { // We do a little exceptioning
-            Component prefixComponent = parameters.getPlayerPrefix(); // Get the prefix of this team
-            String playerPrefix = prefixComponent.getString(); // Turn it uppercase
-
-            for (Map.Entry<String, Pattern> entry : scoreboardPatterns.entrySet()) { // Loop over our scoreboard reg-exes
-                Matcher matcher = entry.getValue().matcher(playerPrefix); // Match the prefix against the regex
-                if (!matcher.find()) continue; // If we don't have a subsequence, then go to the next
-                String value = matcher.group(1); // WE HAVE A MATCH, Get the first Regex group
-
-                switch (entry.getKey()) {
-                    case "MAP" -> MccIslandState.setMap(value); // Set our MAP
-                    case "MODIFIER" -> MccIslandState.setModifier(value); // Set our MODIFIER
-                    case "COURSE" -> {
-                        DiscordPresenceUpdator.courseScoreboardUpdate(value, true);
-                        MccIslandState.setMap(value);
-                    }
-                    case "LEAP" -> DiscordPresenceUpdator.leapScoreboardUpdate(value, true);
-                }
-
-                ChatUtils.debug("ScoreboardUpdate - Current %s: \"%s\"", entry.getKey(), value);
-            }
-        } catch (Exception ignored) {}
-    }
-
     @Inject(method = "handleSoundEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/util/thread/BlockableEventLoop;)V", shift = At.Shift.AFTER), cancellable = true)
     public void handleCustomSoundEvent(ClientboundSoundPacket clientboundCustomSoundPacket, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
@@ -111,11 +73,10 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         if (!soundLoc.getNamespace().equals("mcc")) return;
 
         if (soundLoc.getPath().startsWith("music.")) {
+            ChatUtils.debug("Starting music " + soundLoc);
             MusicManager.onMusicSoundPacket(clientboundCustomSoundPacket, this.minecraft);
             ci.cancel();
         }
-
-        ChatUtils.debug("Playing sound " + soundLoc);
     }
 
     @Inject(method = "handleStopSoundEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/util/thread/BlockableEventLoop;)V", shift = At.Shift.AFTER), cancellable = true)
@@ -125,6 +86,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         if (soundLoc == null || !soundLoc.getNamespace().equals("mcc")) return;
 
         if (soundLoc.getPath().startsWith("music.")) {
+            ChatUtils.debug("Stopping music " + soundLoc);
             MusicManager.onMusicStopPacket(clientboundStopSoundPacket, this.minecraft);
             ci.cancel();
         }

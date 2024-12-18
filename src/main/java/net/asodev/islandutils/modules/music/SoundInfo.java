@@ -25,6 +25,9 @@ public record SoundInfo(ResourceLocation path, SoundSource category, double x, d
         return new SoundInfo(path, category, x, y, z, volume, pitch, seed, looping);
     }
 
+    public static SoundInfo fromLocation(ResourceLocation location) {
+        return new SoundInfo(location, SoundSource.MASTER, 0.0, 0.0, 0.0, 1f, 1f, 0L, false);
+    }
     public static SoundInfo fromPacket(ClientboundSoundPacket soundPacket) {
         return new SoundInfo(
                 soundPacket.getSound().value().location(),
