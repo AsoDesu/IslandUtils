@@ -2,13 +2,15 @@ package net.asodev.islandutils.modules;
 
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.util.ChatUtils;
-import net.asodev.islandutils.util.MusicUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static net.minecraft.network.chat.Component.literal;
@@ -47,7 +49,8 @@ public class ClassicAnnouncer {
         try {
             ClassicAnnouncer.trap = trap; // Set the trap to the one we just found
             ResourceLocation sound = ResourceLocation.fromNamespaceAndPath("island", "announcer." + trap); // island:announcer.(trap) -> The sound location
-            Minecraft.getInstance().getSoundManager().play(MusicUtil.createSoundInstance(sound)); // Play the sound!!
+            SoundInstance soundInstance = SimpleSoundInstance.forUI(SoundEvent.createVariableRangeEvent(sound), 1f, 1f);
+            Minecraft.getInstance().getSoundManager().play(soundInstance); // Play the sound!!
         } catch (Exception e) {
             e.printStackTrace(); // Something went horribly wrong, probably an invalid character
         }

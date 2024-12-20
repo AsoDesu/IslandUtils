@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.scores.DisplaySlot;
 import net.minecraft.world.scores.Objective;
+import net.minecraft.world.scores.PlayerScoreEntry;
 import net.minecraft.world.scores.PlayerTeam;
 import net.minecraft.world.scores.Scoreboard;
 import org.jetbrains.annotations.Nullable;
@@ -28,11 +29,7 @@ public class Sidebar {
         Objective sidebar = getSidebar(scoreboard);
         if (sidebar == null) return Collections.emptyList();
 
-        return scoreboard.listPlayerScores(sidebar).stream().map((entry) -> {
-            PlayerTeam playerTeam = scoreboard.getPlayersTeam(entry.owner());
-            Component defaultName = entry.ownerName();
-            return PlayerTeam.formatNameForTeam(playerTeam, defaultName);
-        }).collect(Collectors.toList());
+        return scoreboard.listPlayerScores(sidebar).stream().map(PlayerScoreEntry::display).collect(Collectors.toList());
     }
 
     public static int findLine(Predicate<Component> predicate) {

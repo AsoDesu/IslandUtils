@@ -13,6 +13,7 @@ public class MccIslandState {
     private static Game game = Game.HUB;
     private static String modifier = "INACTIVE";
     private static String map = "UNKNOWN";
+    private static String subType = "";
 
     public static String getModifier() {
         return modifier;
@@ -75,6 +76,13 @@ public class MccIslandState {
     }
     public static String getMap() {
         return map;
+    }
+
+    public static String getSubType() {
+        return subType;
+    }
+    public static void setSubType(String subType) {
+        MccIslandState.subType = subType;
     }
 
     public static boolean isOnline() {

@@ -1,7 +1,6 @@
 package net.asodev.islandutils.mixins.network;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.asodev.islandutils.IslandUtilsClient;
 import net.asodev.islandutils.IslandUtilsEvents;
@@ -10,39 +9,34 @@ import net.asodev.islandutils.modules.ClassicAnnouncer;
 import net.asodev.islandutils.modules.FriendsInGame;
 import net.asodev.islandutils.modules.cosmetics.CosmeticSlot;
 import net.asodev.islandutils.modules.cosmetics.CosmeticState;
+import net.asodev.islandutils.modules.music.MusicManager;
 import net.asodev.islandutils.modules.splits.LevelTimer;
 import net.asodev.islandutils.options.IslandOptions;
-import net.asodev.islandutils.options.IslandSoundCategories;
 import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
-import net.asodev.islandutils.util.MusicUtil;
+import net.asodev.islandutils.util.IslandSoundEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientCommonPacketListenerImpl;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.CommonListenerCookie;
-import net.minecraft.client.resources.sounds.SoundInstance;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.protocol.PacketUtils;
 import net.minecraft.network.protocol.game.ClientboundBossEventPacket;
 import net.minecraft.network.protocol.game.ClientboundCommandSuggestionsPacket;
-import net.minecraft.network.protocol.game.ClientboundCommandsPacket;
 import net.minecraft.network.protocol.game.ClientboundContainerSetContentPacket;
-import net.minecraft.network.protocol.game.ClientboundRespawnPacket;
 import net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket;
 import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
+import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
 import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -52,7 +46,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -72,97 +65,30 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         super(minecraft, connection, commonListenerCookie);
     }
 
-    // Patterns for the Map & Modifier options on scoreboard
-    final Map<String, Pattern> scoreboardPatterns = Map.of(
-            "MAP", Pattern.compile("MAP: (?<map>\\w+(?:,? \\w+)*)"),
-            "MODIFIER", Pattern.compile("MODIFIER: (?<modifier>\\w+(?:,? \\w+)*)"),
-            "COURSE", Pattern.compile("COURSE: (?<course>.*)"),
-            "LEAP", Pattern.compile("LEAP \\[(?<leap>.*/.*)]")
-    );
-    @Inject(method = "handleSetPlayerTeamPacket", at = @At("TAIL")) // Scoreboard lines!
-    public void handleSetPlayerTeamPacket(ClientboundSetPlayerTeamPacket clientboundSetPlayerTeamPacket, CallbackInfo ci) {
+    @Inject(method = "handleSoundEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/util/thread/BlockableEventLoop;)V", shift = At.Shift.AFTER), cancellable = true)
+    public void handleCustomSoundEvent(ClientboundSoundPacket clientboundCustomSoundPacket, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
-        Optional<ClientboundSetPlayerTeamPacket.Parameters> optional = clientboundSetPlayerTeamPacket.getParameters();
-        if (optional.isEmpty()) return;
 
-        ClientboundSetPlayerTeamPacket.Parameters parameters = optional.get(); // Get the team parameters
-        try { // We do a little exceptioning
-            Component prefixComponent = parameters.getPlayerPrefix(); // Get the prefix of this team
-            String playerPrefix = prefixComponent.getString(); // Turn it uppercase
+        ResourceLocation soundLoc = clientboundCustomSoundPacket.getSound().value().location();
+        if (!soundLoc.getNamespace().equals("mcc")) return;
 
-            for (Map.Entry<String, Pattern> entry : scoreboardPatterns.entrySet()) { // Loop over our scoreboard reg-exes
-                Matcher matcher = entry.getValue().matcher(playerPrefix); // Match the prefix against the regex
-                if (!matcher.find()) continue; // If we don't have a subsequence, then go to the next
-                String value = matcher.group(1); // WE HAVE A MATCH, Get the first Regex group
-
-                switch (entry.getKey()) {
-                    case "MAP" -> MccIslandState.setMap(value); // Set our MAP
-                    case "MODIFIER" -> MccIslandState.setModifier(value); // Set our MODIFIER
-                    case "COURSE" -> {
-                        DiscordPresenceUpdator.courseScoreboardUpdate(value, true);
-                        MccIslandState.setMap(value);
-                    }
-                    case "LEAP" -> DiscordPresenceUpdator.leapScoreboardUpdate(value, true);
-                }
-
-                ChatUtils.debug("ScoreboardUpdate - Current %s: \"%s\"", entry.getKey(), value);
-            }
-        } catch (Exception ignored) {}
+        if (soundLoc.getPath().startsWith("music.")) {
+            ChatUtils.debug("Starting music " + soundLoc);
+            MusicManager.onMusicSoundPacket(clientboundCustomSoundPacket, this.minecraft);
+            ci.cancel();
+        }
     }
 
-    @Inject(method = "handleSoundEvent", at = @At("HEAD"), cancellable = true)
-    public void handleCustomSoundEvent(ClientboundSoundPacket clientboundCustomSoundPacket, CallbackInfo ci) {
-        PacketUtils.ensureRunningOnSameThread(clientboundCustomSoundPacket, (ClientPacketListener) (Object) this, this.minecraft);
+    @Inject(method = "handleStopSoundEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/util/thread/BlockableEventLoop;)V", shift = At.Shift.AFTER), cancellable = true)
+    public void handleStopSoundEvent(ClientboundStopSoundPacket clientboundStopSoundPacket, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
+        ResourceLocation soundLoc = clientboundStopSoundPacket.getName();
+        if (soundLoc == null || !soundLoc.getNamespace().equals("mcc")) return;
 
-        // Get the location of the new sound
-        // Previously this was obfuscated by noxcrew, but not anymore yayyyyy :D
-        ResourceLocation soundLoc = clientboundCustomSoundPacket.getSound().value().location();
-
-        if (MccIslandState.getGame() == Game.PARKOUR_WARRIOR_DOJO) {
-            LevelTimer.onSound(clientboundCustomSoundPacket);
-        }
-
-        // If we aren't in a game, don't play music
-        if (MccIslandState.getGame() != Game.HUB) {
-            // Use the sound files above to determine what just happened in the game
-            if (MccIslandState.getGame() != Game.BATTLE_BOX) {
-
-                // Stop the music if you restart the course or switch game mode in Parkour Warrior
-                if(soundLoc.getPath().contains("games.parkour_warrior.mode_swap") || soundLoc.getPath().contains("games.parkour_warrior.restart_course")) {
-                    MusicUtil.stopMusic(false);
-                }
-                if (MccIslandState.getGame() == Game.PARKOUR_WARRIOR_SURVIVOR && Objects.equals(soundLoc.getPath(), "games.global.early_elimination")) {
-                    MusicUtil.startMusic(clientboundCustomSoundPacket, true); // The game started. Start the music!!
-                } else if (Objects.equals(soundLoc.getPath(), "games.global.countdown.go") && !MusicUtil.isMusicPlaying()) {
-                    MusicUtil.startMusic(clientboundCustomSoundPacket); // The game started. Start the music!!
-                }
-            } else {
-                // We're playing battlebox, and the music needs to start early.
-                if (Objects.equals(soundLoc.getPath(), "music.global.gameintro")) {
-                    MusicUtil.startMusic(clientboundCustomSoundPacket); // Start the music!!
-                    ChatUtils.debug("[PacketListener] Canceling gameintro");
-                    ci.cancel(); // Stop minecraft from minecrafting
-                    return;
-                }
-            }
-            if (Objects.equals(soundLoc.getPath(), "games.global.timer.round_end")
-                    || soundLoc.getPath().startsWith("music.global.")) {
-                // The game ended or is about to end. Stop the music!!
-                MusicUtil.stopMusic();
-            }
-        }
-
-        SoundInstance instance;
-        // If our sound is music, play in the Core Music slider
-        if (soundLoc.getPath().contains("music.global")) {
-            instance = MusicUtil.createSoundInstance(clientboundCustomSoundPacket, IslandSoundCategories.CORE_MUSIC); // Create the sound
-            Minecraft.getInstance().getSoundManager().play(instance); // Play the sound
-            ci.cancel(); // Stop minecraft from trying.
-        } else if (soundLoc.getNamespace().equals("mcc")) { // If it's a MCC sound, we'll just play it in sound effects.
-            instance = MusicUtil.createSoundInstance(clientboundCustomSoundPacket, IslandSoundCategories.SOUND_EFFECTS); // Make the sound
-            Minecraft.getInstance().getSoundManager().play(instance); // Play the sound
-            ci.cancel(); // Minecraft no
+        if (soundLoc.getPath().startsWith("music.")) {
+            ChatUtils.debug("Stopping music " + soundLoc);
+            MusicManager.onMusicStopPacket(clientboundStopSoundPacket, this.minecraft);
+            ci.cancel();
         }
     }
 
@@ -175,17 +101,6 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
 
         CosmeticState.hatSlot.setOriginal(new CosmeticSlot(player.getInventory().armor.get(3)));
         CosmeticState.accessorySlot.setOriginal(new CosmeticSlot(player.getInventory().offhand.get(0)));
-    }
-
-    @Inject(method = "handleRespawn", at = @At("HEAD")) // Whenever we change worlds
-    private void handleRespawn(ClientboundRespawnPacket clientboundRespawnPacket, CallbackInfo ci) {
-        ClientLevel clientLevel = this.minecraft.level; // Get our player
-        if (clientLevel == null) return; // minecraft is a good game.
-
-        ResourceKey<Level> resourceKey = clientboundRespawnPacket.commonPlayerSpawnInfo().dimension(); // Get the key of this world
-        if (resourceKey != clientLevel.dimension()) { // If we have changed worlds...
-            MusicUtil.stopMusic(); // ...stop the music
-        }
     }
 
     private static Pattern timerPattern = Pattern.compile("(\\d+:\\d+)");
@@ -257,8 +172,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         String title = clientboundSetTitleTextPacket.text().getString().toUpperCase(); // Get the title in upper case
 
         if (title.contains("GAME OVER")) { // If we got game over title, play sound
-            ResourceLocation sound = ResourceLocation.fromNamespaceAndPath("island", "announcer.gameover");
-            Minecraft.getInstance().getSoundManager().play(MusicUtil.createSoundInstance(sound)); // Play the sound!!
+            Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(IslandSoundEvents.ANNOUNCER_GAME_OVER, 1f)); // Play the sound!!
         }
     }
 
@@ -274,35 +188,6 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
             ci.cancel();
             this.minecraft.getChatListener().handleSystemMessage(replacement, false);
         });
-    }
-
-    // MCCI Commands
-    @Inject(method = "handleCommands", at = @At("TAIL"))
-    private void handleCommands(ClientboundCommandsPacket clientboundCommandsPacket, CallbackInfo ci) {
-        if (!MccIslandState.isOnline()) return;
-        this.commands.register((LiteralArgumentBuilder<CommandSourceStack>)IslandUtilsClient.Commands.resetMusic);
-    }
-
-    @Inject(method = "sendUnsignedCommand", at = @At("HEAD"), cancellable = true)
-    private void sendUnsignedCommand(String string, CallbackInfoReturnable<Boolean> cir) {
-        if (!MccIslandState.isOnline()) return;
-        if (string.startsWith("resetmusic")) {
-            executeCommand();
-            cir.setReturnValue(true);
-        }
-    }
-    @Inject(method = "sendCommand", at = @At("HEAD"), cancellable = true)
-    private void sendCommand(String string, CallbackInfo ci) {
-        if (!MccIslandState.isOnline()) return;
-        if (string.startsWith("resetmusic")) {
-            executeCommand();
-            ci.cancel();
-        }
-    }
-
-    private static void executeCommand() {
-        try { IslandUtilsClient.Commands.resetMusic.getCommand().run(null); }
-        catch (CommandSyntaxException e) { e.printStackTrace(); }
     }
 
 }

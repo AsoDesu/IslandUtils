@@ -10,9 +10,8 @@
     "cosmetics.FontLoaderMixin",
     "cosmetics.PreviewTutorialMixin",
     "discord.ConnectionMixin",
-    "discord.PlayerTeamMixin",
+    "discord.ScoreDisplayMixin",
     "resources.PackRepositoryMixin",
-    "sounds.SoundSourceMixin",
     "ui.SlotMixin"
   ],
   "client": [
@@ -29,10 +28,10 @@
     "notif.ServerSelectionMixin",
     "plobby.PlobbyChestMixin",
     "resources.MultiplayerJoinMixin",
-    "sounds.SoundOptionsMixin",
     "splits.HologramMixin",
     "ui.ChatScreenMixin",
     "ui.CommandSuggestionsAccessor",
+    "ui.FishingUpgradeHighlightMixin",
     "ui.OptionsMixin",
     "ui.PauseScreenMixin"
   ],
