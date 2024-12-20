@@ -15,7 +15,7 @@
   "text.autoconfig.islandutils.group.modifiers": "Модифікатори",
   "islandutils.music_modifier.tgttos.double_time": "Музика TGTTOS (Подвійний час)",
   "islandutils.music_modifier.tgttos.dome_modifier": "Музика TGTTOS мапи \"To The Dome!\"",
-  "islandutils.music_modifier.dynaball.old_music": "Минула музика Dynaball",
+  "islandutils.music_modifier.dynaball.old_music": "Попередня музика Dynaball",
   "islandutils.music_modifier.dynaball.old_music.desc": "Заміщує нову музику Dynaball музикою, що використовувалася раніше.\n\n (NGS Live) Shoot 'em Up ",
   "islandutils.music_modifier.global.hq": "Музика вищої якості",
   "islandutils.music_modifier.global.hq.desc": "Заміщує завантажену з MCCI музику більш якісними версіями (не застосовується до музики Хабу та Dynaball)",
