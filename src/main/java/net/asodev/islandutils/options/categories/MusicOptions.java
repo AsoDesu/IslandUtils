@@ -36,7 +36,7 @@ public class MusicOptions implements OptionsCategory {
         return ConfigCategory.createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.category.music"))
                 .group(OptionGroup.createBuilder()
-                        .name(Component.literal(Component.translatable("text.autoconfig.islandutils.group.modifiers")))
+                        .name(Component.translatable("text.autoconfig.islandutils.group.modifiers"))
                         .options(modifierOptions)
                         .build())
                 .build();
