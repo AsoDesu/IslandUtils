@@ -127,6 +127,7 @@
   "islandutils.message.disconnectWarn": "Are you sure you want to leave?",
   "islandutils.message.disconnectWarnCancel": "Cancel",
   "islandutils.message.disconnectWarnDisconnect": "Disconnect",
+  "islandutils.message.music.nowPlaying": "Now playing: ",
   
   "islandutils.discordPresence.details.playing": "Playing %s",
   "islandutils.discordPresence.details.inThePlace": "In the %s",

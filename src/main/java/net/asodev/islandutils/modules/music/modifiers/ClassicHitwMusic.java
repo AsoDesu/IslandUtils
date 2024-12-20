@@ -11,6 +11,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
 
 import static net.minecraft.network.chat.Component.literal;
+import static net.minecraft.network.chat.Component.translatable;
 
 public class ClassicHitwMusic extends TrackMusicModifier {
     public ClassicHitwMusic(){
@@ -19,7 +20,7 @@ public class ClassicHitwMusic extends TrackMusicModifier {
 
     @Override
     public SoundInfo apply(SoundInfo info) {
-        ChatUtils.send(literal("Now playing: ").withStyle(ChatFormatting.GREEN)
+        ChatUtils.send(translatable("islandutils.message.music.nowPlaying").withStyle(ChatFormatting.GREEN)
                 .append(literal("Spacewall - Taylor Grover").withStyle(ChatFormatting.AQUA))
         );
         return info.withPath(IslandSoundEvents.islandSound("island.music.classic_hitw"));
