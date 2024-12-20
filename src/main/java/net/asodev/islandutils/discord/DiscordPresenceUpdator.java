@@ -92,10 +92,12 @@ public class DiscordPresenceUpdator {
             } else if (game != Game.HUB)
                 activity.setDetails(I18n.get("islandutils.discordPresence.details.playing", game.getName()));
             else {
+                // This is here, so the old translations for '...details.inHub' from other contributors still work
                 if (I18n.exists("islandutils.discordPresence.details.inThePlace"))
                     activity.setDetails(I18n.get("islandutils.discordPresence.details.inThePlace", I18n.get("islandutils.discordPresence.place.hub")));
                 else
                     activity.setDetails(I18n.get("islandutils.discordPresence.details.inHub"));
+                
                 REMAIN_STATE = null;
                 ROUND_STATE = null;
                 activity.setState("");

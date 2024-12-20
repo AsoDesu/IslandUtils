@@ -41,11 +41,7 @@ public class FishingPresenceUpdator {
 
         String place = islandNames.get(MccIslandState.getSubType());
         if (place != null) {
-            if (I18n.exists("islandutils.discordPresence.details.inThePlace"))
-                activity.setDetails(I18n.get("islandutils.discordPresence.details.inThePlace",place));
-            else
-                activity.setDetails("In the " + place);
-            
+            activity.setDetails(I18n.get("islandutils.discordPresence.details.inThePlace",place));
             activity.assets().setLargeImage(MccIslandState.getSubType().toLowerCase());
             activity.assets().setLargeText(place);
 
