@@ -130,7 +130,8 @@
   "islandutils.message.disconnectWarnDisconnect": "Від'єднатися",
 
   "islandutils.discordPresence.details.playing": "Грає в %s",
-  "islandutils.discordPresence.details.inHub": "У хабі",
+  "islandutils.discordPresence.details.inThePlace": "У %s",
+  "islandutils.discordPresence.place.hub": "Хабі",
   "islandutils.discordPresense.state.remaining": "Залишилося: %s",
   "islandutils.discordPresense.state.round": "Раунд: %s",
   "islandutils.discordPresense.state.leap": "Ривок: %s"

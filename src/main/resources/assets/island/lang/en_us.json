@@ -129,7 +129,8 @@
   "islandutils.message.disconnectWarnDisconnect": "Disconnect",
   
   "islandutils.discordPresence.details.playing": "Playing %s",
-  "islandutils.discordPresence.details.inHub": "In the Hub",
+  "islandutils.discordPresence.details.inThePlace": "In the %s",
+  "islandutils.discordPresence.place.hub": "Hub",
   "islandutils.discordPresense.state.remaining": "Remaining: %s",
   "islandutils.discordPresense.state.round": "Round: %s",
   "islandutils.discordPresense.state.leap": "Leap: %s"
