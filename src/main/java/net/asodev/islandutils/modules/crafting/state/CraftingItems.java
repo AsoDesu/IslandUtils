@@ -12,6 +12,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.Items;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.spongepowered.asm.mixin.injection.At;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -61,7 +62,13 @@ public class CraftingItems {
 
         JsonObject object = new Gson().fromJson(string, JsonObject.class);
         JsonArray array = object.get("items").getAsJsonArray();
-        array.forEach(element -> items.add(CraftingItem.fromJson(element)));
+        array.forEach(element -> {
+            try {
+                items.add(CraftingItem.fromJson(element));
+            } catch (Exception e) {
+                logger.error("Failed to load crafting item", e);
+            }
+        });
     }
     public static void save() {
         if (saveQueued) {

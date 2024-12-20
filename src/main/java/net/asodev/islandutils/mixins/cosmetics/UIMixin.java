@@ -11,6 +11,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
@@ -44,26 +45,34 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         if (player == null) return;
         if (localPlayer == null) return;
 
+        ItemStack defaultMainSlot = null;
         ItemStack defaultHatSlot = null;
         ItemStack defaultAccSlot = null;
 
         ItemStack hatSlot;
         ItemStack accSlot;
+
+        Inventory playerInventory = player.getInventory();
         if (CosmeticState.inspectingPlayer == null || CosmeticState.inspectingPlayer.getUUID() == Minecraft.getInstance().player.getUUID()) {
             hatSlot = CosmeticState.hatSlot.getContents().getItem(this.menu);
             accSlot = CosmeticState.accessorySlot.getContents().getItem(this.menu);
+            ItemStack mainSlot = CosmeticState.mainHandSlot.getContents().getItem(this.menu);
             if (isCosmeticMenu) {
                 applyColor(hatSlot);
                 applyColor(accSlot);
 
-                defaultHatSlot = player.getInventory().armor.get(3);
-                defaultAccSlot = player.getInventory().offhand.get(0);
-                player.getInventory().armor.set(3, hatSlot);
-                player.getInventory().offhand.set(0, accSlot);
+                defaultHatSlot = playerInventory.armor.get(3);
+                playerInventory.armor.set(3, hatSlot);
+
+                defaultAccSlot = playerInventory.offhand.getFirst();
+                playerInventory.offhand.set(0, accSlot);
+
+                defaultMainSlot = player.getMainHandItem();
+                player.setItemSlot(EquipmentSlot.MAINHAND, mainSlot);
             }
         } else {
-            hatSlot = player.getInventory().armor.get(3);
-            accSlot = player.getInventory().offhand.get(0);
+            hatSlot = playerInventory.armor.get(3);
+            accSlot = playerInventory.offhand.getFirst();
         }
 
         WalkAnimStateAccessor walkAnim = (WalkAnimStateAccessor) player.walkAnimation;
@@ -92,8 +101,9 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         walkAnim.setSpeed(animSpeed);
         walkAnim.setSpeedOld(animSpeedOld);
         player.attackAnim = attackAnim;
-        if (defaultHatSlot != null) player.getInventory().armor.set(3, defaultHatSlot);
-        if (defaultAccSlot != null) player.getInventory().offhand.set(0, defaultAccSlot);
+        if (defaultHatSlot != null) playerInventory.armor.set(3, defaultHatSlot);
+        if (defaultAccSlot != null) playerInventory.offhand.set(0, defaultAccSlot);
+        if (defaultMainSlot != null) player.setItemSlot(EquipmentSlot.MAINHAND, defaultMainSlot);
 
         // this code is so ugly omfg
         int itemPos = x+(size / 2) - 18;

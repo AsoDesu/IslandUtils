@@ -3,6 +3,7 @@ package net.asodev.islandutils.modules.crafting.state;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.asodev.islandutils.modules.crafting.CraftingMenuType;
+import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -11,6 +12,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomModelData;
+
+import java.util.Optional;
 
 import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 
@@ -36,6 +39,7 @@ public class CraftingItem {
         object.addProperty("slot", slot);
         return object;
     }
+
     public static CraftingItem fromJson(JsonElement element) {
         JsonObject object = element.getAsJsonObject();
         CraftingItem item = new CraftingItem();
@@ -44,9 +48,11 @@ public class CraftingItem {
         item.setTitle( Component.Serializer.fromJson(jsonTitle, RegistryAccess.EMPTY) );
 
         ResourceLocation typeKey = ResourceLocation.parse(object.get("type").getAsString());
-        item.setType( BuiltInRegistries.ITEM.get(typeKey) );
+        Holder.Reference<Item> itemType = BuiltInRegistries.ITEM.get(typeKey)
+                .orElseThrow(() -> new IllegalStateException("Item with type " + typeKey + " does not exist."));
+        item.setType(itemType.value());
 
-        item.setCustomModelData( object.get("customModelData").getAsInt() );
+        item.setCustomModelData( object.get("customModelData").getAsInt());
 
 
         String craftingTypeString = object.get("craftingMenuType").getAsString();

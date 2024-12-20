@@ -7,12 +7,15 @@ import net.asodev.islandutils.modules.cosmetics.CosmeticState;
 import net.asodev.islandutils.modules.cosmetics.CosmeticType;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.MccIslandState;
+import net.asodev.islandutils.util.IslandSoundEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -37,13 +40,11 @@ import static net.asodev.islandutils.util.Utils.customModelData;
 
 @Mixin(AbstractContainerScreen.class)
 public abstract class ChestScreenMixin extends Screen {
-    private static final ResourceLocation PREVIEW = ResourceLocation.fromNamespaceAndPath("island", "textures/preview.png");
+    @Unique private static final ResourceLocation PREVIEW = ResourceLocation.fromNamespaceAndPath("island", "preview");
 
     @Shadow protected Slot hoveredSlot;
 
     @Shadow @Final protected AbstractContainerMenu menu;
-
-    @Shadow protected abstract List<Component> getTooltipFromContainerItem(ItemStack itemStack);
 
     protected ChestScreenMixin(Component component) {
         super(component);
@@ -65,11 +66,12 @@ public abstract class ChestScreenMixin extends Screen {
 
         if (CosmeticState.hatSlot.preview != null && CosmeticState.hatSlot.preview.matchesSlot(slot)) shouldRender = true;
         else if (CosmeticState.accessorySlot.preview != null && CosmeticState.accessorySlot.preview.matchesSlot(slot)) shouldRender = true;
+        else if (CosmeticState.mainHandSlot.preview != null && CosmeticState.mainHandSlot.preview.matchesSlot(slot)) shouldRender = true;
 
         guiGraphics.pose().pushPose();
         if (shouldRender) {
             guiGraphics.pose().translate(0.0f, 0.0f, 105f);
-            guiGraphics.blit(PREVIEW, slot.x-3, slot.y-4, 105, 0, 0, 22, 24, 22, 24);
+            guiGraphics.blitSprite(RenderType::guiTextured, PREVIEW, slot.x-3, slot.y-4, 22, 24);
         }
         guiGraphics.pose().popPose();
     }
@@ -79,9 +81,10 @@ public abstract class ChestScreenMixin extends Screen {
         if (hoveredSlot != null && hoveredSlot.hasItem()) {
             ItemStack hoveredItem = hoveredSlot.getItem();
             if (IslandOptions.getCosmetics().isShowOnHover()) {
-                CosmeticType changedType = setHovered(hoveredItem);
-                if (changedType != CosmeticType.HAT) CosmeticState.hatSlot.hover = null;
-                if (changedType != CosmeticType.ACCESSORY) CosmeticState.accessorySlot.hover = null;
+                CosmeticType newType = setHovered(hoveredItem);
+                if (newType != CosmeticType.HAT) CosmeticState.hatSlot.hover = null;
+                if (newType != CosmeticType.ACCESSORY) CosmeticState.accessorySlot.hover = null;
+                if (newType != CosmeticType.MAIN_HAND) CosmeticState.mainHandSlot.hover = null;
             }
 
             if (CosmeticState.isColoredItem(hoveredItem)) {
@@ -94,6 +97,7 @@ public abstract class ChestScreenMixin extends Screen {
         } else {
             CosmeticState.hatSlot.hover = null;
             CosmeticState.accessorySlot.hover = null;
+            CosmeticState.mainHandSlot.hover = null;
         }
         CosmeticState.hoveredColor = null;
     }
@@ -158,6 +162,7 @@ public abstract class ChestScreenMixin extends Screen {
         int hoverCMD = customModelData(item);
         if (type == CosmeticType.HAT) setOrNotSet(CosmeticState.hatSlot, hoverCMD);
         else if (type == CosmeticType.ACCESSORY) setOrNotSet(CosmeticState.accessorySlot, hoverCMD);
+        else if (type == CosmeticType.MAIN_HAND) setOrNotSet(CosmeticState.mainHandSlot, hoverCMD);
     }
 
     @Unique
@@ -166,12 +171,14 @@ public abstract class ChestScreenMixin extends Screen {
             cosmetic.preview = new CosmeticSlot(hoveredSlot);
         else
             cosmetic.preview = null;
+        this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(IslandSoundEvents.UI_CLICK_NORMAL, 1f, 1f));
     }
 
     @Inject(method = "onClose", at = @At("TAIL"))
     private void onClose(CallbackInfo ci) {
         CosmeticState.hatSlot = new Cosmetic(CosmeticType.HAT);
         CosmeticState.accessorySlot = new Cosmetic(CosmeticType.ACCESSORY);
+        CosmeticState.mainHandSlot = new Cosmetic(CosmeticType.MAIN_HAND);
 
         CosmeticState.inspectingPlayer = null;
 

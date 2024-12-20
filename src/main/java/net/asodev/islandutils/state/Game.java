@@ -1,6 +1,7 @@
 package net.asodev.islandutils.state;
 
 import com.noxcrew.noxesium.network.clientbound.ClientboundMccServerPacket;
+import net.asodev.islandutils.discord.FishingPresenceUpdator;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.NoSuchElementException;
@@ -8,6 +9,7 @@ import java.util.NoSuchElementException;
 public enum Game {
 
     HUB("Hub", "", null),
+    FISHING("Hub", "", null),
 
     TGTTOS("TGTTOS", "tgttos", getMusicLocation("tgttos")),
     HITW("Hole in the Wall", "hole_in_the_wall", getMusicLocation("hitw")),
@@ -55,6 +57,13 @@ public enum Game {
     }
 
     public static Game fromPacket(ClientboundMccServerPacket packet) throws NoSuchElementException {
+        if (packet.serverType().equals("lobby")) {
+            for (String temperature : FishingPresenceUpdator.temperatures) {
+                if (packet.subType().startsWith(temperature + "_")) return FISHING;
+            }
+            return HUB;
+        }
+
         for (Game game : values()) {
             if (game.islandId.equals(packet.associatedGame())) {
                 if (game.subType != null && !game.subType.equals(packet.subType()))

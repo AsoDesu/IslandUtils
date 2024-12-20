@@ -1,5 +1,6 @@
 package net.asodev.islandutils.util;
 
+import net.asodev.islandutils.modules.music.SoundInfo;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.resources.ResourceLocation;
@@ -11,26 +12,40 @@ import java.util.List;
 
 public class MCCSoundInstance extends AbstractTickableSoundInstance {
 
-    public static ResourceLocation location;
+    public ResourceLocation location;
 
     public float totalVolume;
     public float totalFadeTicks = 20f;
     public float fadeTicks = 0f;
     public boolean isFading = false;
 
-    protected MCCSoundInstance(SoundEvent event, SoundSource soundSource, float f,float g, RandomSource randomSource, boolean bl, int i, SoundInstance.Attenuation attenuation, double d, double e, double h, boolean bl2) {
-        super(event, soundSource, randomSource);
-        location = event.getLocation();
-        this.volume = f;
-        totalVolume = f;
-        this.pitch = g;
-        this.x = d;
-        this.y = e;
-        this.z = h;
-        this.looping = shouldLoop(location);
-        this.delay = i;
-        this.attenuation = attenuation;
-        this.relative = bl2;
+    public MCCSoundInstance(ResourceLocation location, SoundSource soundSource, float volume,float pitch, RandomSource randomSource, double x, double y, double z) {
+        super(SoundEvent.createVariableRangeEvent(location), soundSource, randomSource);
+        this.location = location;
+        this.volume = volume;
+        this.totalVolume = volume;
+        this.pitch = pitch;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.looping = false;
+        this.delay = 0;
+        this.attenuation = Attenuation.NONE;
+        this.relative = false;
+    }
+
+    public MCCSoundInstance(SoundInfo soundInfo) {
+        this(
+                soundInfo.path(),
+                soundInfo.category(),
+                soundInfo.volume(),
+                soundInfo.pitch(),
+                RandomSource.create(soundInfo.seed()),
+                soundInfo.x(),
+                soundInfo.y(),
+                soundInfo.z()
+        );
+        this.looping = soundInfo.looping();
     }
 
     public void fade(float ticks) {
@@ -59,15 +74,5 @@ public class MCCSoundInstance extends AbstractTickableSoundInstance {
         return "MCCSoundInstance{" +
                 "location=" + location +
                 '}';
-    }
-
-    static List<String> loopingSounds = List.of(
-            "island.music.parkour_warrior",
-            "island.music.classic_hitw",
-            "island.music.dynaball",
-            "island.music.rsr"
-    );
-    static boolean shouldLoop(ResourceLocation sound) {
-        return loopingSounds.contains(sound.getPath());
     }
 }

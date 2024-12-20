@@ -24,7 +24,7 @@ public class DiscordPresenceUpdator {
     // dear contributors:
     // i am sorry.
 
-    @Nullable static Activity activity;
+    @Nullable public static Activity activity;
     public static UUID timeLeftBossbar = null;
     public static Instant started;
     private static boolean bigRatMode = false;
@@ -84,8 +84,12 @@ public class DiscordPresenceUpdator {
             activity.assets().setLargeImage(game.name().toLowerCase());
             activity.assets().setLargeText(game.getName());
             activity.assets().setSmallImage("mcci");
-            
-            if (game != Game.HUB)
+
+            if (game == Game.FISHING) {
+                FishingPresenceUpdator.updateFishingPlace();
+                REMAIN_STATE = null;
+                ROUND_STATE = null;
+            } else if (game != Game.HUB)
                 activity.setDetails(I18n.get("islandutils.discordPresence.details.playing", game.getName()));
             else {
                 activity.setDetails(I18n.get("islandutils.discordPresence.details.inHub"));
@@ -183,6 +187,8 @@ public class DiscordPresenceUpdator {
         if (!IslandOptions.getDiscord().discordPresence) return;
         Core core = DiscordPresence.core;
         if (core == null || !core.isOpen()) return;
+
+        activity.timestamps().setStart(started);
 
         if (bigRatMode) {
             overrideActivityWithBigRat();

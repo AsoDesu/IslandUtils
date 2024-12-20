@@ -32,12 +32,14 @@ public class CosmeticState {
 
     public static Cosmetic hatSlot = new Cosmetic(CosmeticType.HAT);
     public static Cosmetic accessorySlot = new Cosmetic(CosmeticType.ACCESSORY);
+    public static Cosmetic mainHandSlot = new Cosmetic(CosmeticType.MAIN_HAND);
     @Nullable public static Integer hoveredColor;
 
     public static Cosmetic getCosmeticByType(CosmeticType type) {
         switch (type) {
             case HAT -> { return hatSlot; }
             case ACCESSORY -> { return accessorySlot; }
+            case MAIN_HAND -> { return mainHandSlot; }
         }
         return null;
     }
@@ -77,6 +79,7 @@ public class CosmeticState {
         if (path.endsWith(".icon_empty") || path.endsWith(".icon")) return null;
         if (path.contains("hat.") || path.contains("hair.")) return CosmeticType.HAT;
         if (path.contains("accessory.")) return CosmeticType.ACCESSORY;
+        if (path.startsWith("island_lobby.fishing.rods")) return CosmeticType.MAIN_HAND;
         return null;
     }
 
