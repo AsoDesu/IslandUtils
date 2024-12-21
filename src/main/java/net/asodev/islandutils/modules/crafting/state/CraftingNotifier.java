@@ -54,7 +54,7 @@ public class CraftingNotifier implements ClientTickEvents.EndTick {
         if (!options.isEnableCraftingNotifs()) return;
         boolean shouldMakeSound = false;
         if (options.isToastNotif()) {
-            client.getToastManager().addToast(new CraftingToast(item));
+            client.getToasts().addToast( new CraftingToast(item) );
             shouldMakeSound = true;
         }
         if (options.isChatNotif()) {

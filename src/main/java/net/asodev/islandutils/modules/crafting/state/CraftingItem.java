@@ -48,9 +48,7 @@ public class CraftingItem {
         item.setTitle( Component.Serializer.fromJson(jsonTitle, RegistryAccess.EMPTY) );
 
         ResourceLocation typeKey = ResourceLocation.parse(object.get("type").getAsString());
-        Holder.Reference<Item> itemType = BuiltInRegistries.ITEM.get(typeKey)
-                .orElseThrow(() -> new IllegalStateException("Item with type " + typeKey + " does not exist."));
-        item.setType(itemType.value());
+        item.setType( BuiltInRegistries.ITEM.get(typeKey) );
 
         item.setCustomModelData( object.get("customModelData").getAsInt());
 
