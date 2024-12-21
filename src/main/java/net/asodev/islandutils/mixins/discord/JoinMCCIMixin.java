@@ -2,7 +2,7 @@ package net.asodev.islandutils.mixins.discord;
 
 import net.minecraft.client.multiplayer.ClientHandshakePacketListenerImpl;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.network.protocol.login.ClientboundLoginFinishedPacket;
+import net.minecraft.network.protocol.login.ClientboundGameProfilePacket;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,8 +18,8 @@ import static net.asodev.islandutils.util.Utils.isProdMCCI;
 public class JoinMCCIMixin {
     @Shadow @Final private @Nullable ServerData serverData;
 
-    @Inject(method = "handleLoginFinished", at = @At("HEAD"))
-    private void handleGameProfile(ClientboundLoginFinishedPacket clientboundLoginFinishedPacket, CallbackInfo ci) {
+    @Inject(method = "handleGameProfile", at = @At("HEAD"))
+    private void handleGameProfile(ClientboundGameProfilePacket clientboundGameProfilePacket, CallbackInfo ci) {
         if (this.serverData == null) return;
         if (!this.serverData.ip.toLowerCase().contains("mccisland")) return;
 

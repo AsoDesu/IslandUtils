@@ -69,7 +69,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
     public void handleCustomSoundEvent(ClientboundSoundPacket clientboundCustomSoundPacket, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
 
-        ResourceLocation soundLoc = clientboundCustomSoundPacket.getSound().value().location();
+        ResourceLocation soundLoc = clientboundCustomSoundPacket.getSound().value().getLocation();
         if (!soundLoc.getNamespace().equals("mcc")) return;
 
         if (soundLoc.getPath().startsWith("music.")) {

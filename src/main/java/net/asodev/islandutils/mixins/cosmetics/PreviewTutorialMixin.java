@@ -40,7 +40,7 @@ public class PreviewTutorialMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;addAttributeTooltips(Ljava/util/function/Consumer;Lnet/minecraft/world/entity/player/Player;)V", shift = At.Shift.BEFORE),
             locals = LocalCapture.CAPTURE_FAILEXCEPTION
     )
-    private void injectedTooltipLines(Item.TooltipContext tooltipContext, @Nullable Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir, List list, Consumer consumer) {
+    private void injectedTooltipLines(Item.TooltipContext tooltipContext, @Nullable Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir, List<Component> list, MutableComponent mutableComponent, Consumer consumer) {
         if (CosmeticState.getType((ItemStack)(Object)this) == null) return;
         if (!IslandOptions.getCosmetics().isShowPlayerPreview()) return;
         list.add(previewComponent);

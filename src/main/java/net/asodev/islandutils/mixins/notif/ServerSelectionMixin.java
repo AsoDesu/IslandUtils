@@ -53,7 +53,7 @@ public class ServerSelectionMixin {
             guiGraphics.renderTooltip(Minecraft.getInstance().font, tooltip, Optional.empty(), mouseX, mouseY);
         }
 
-        guiGraphics.blit(RenderType::guiTextured, NOTIF_TEXTURE, nx, ny, 0, 0, 10, 10, 10, 10);
+        guiGraphics.blit(NOTIF_TEXTURE, nx, ny, 0, 0, 10, 10, 10, 10);
     }
 
 }
