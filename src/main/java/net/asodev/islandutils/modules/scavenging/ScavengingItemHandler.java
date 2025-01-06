@@ -1,11 +1,14 @@
 package net.asodev.islandutils.modules.scavenging;
 
+import net.asodev.islandutils.mixins.accessors.ContainerScreenAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.world.inventory.ChestMenu;
 
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -16,7 +19,7 @@ import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 
 public class ScavengingItemHandler {
     private static final int MENU_WIDTH = 176;
-    private static final int MENU_HEIGHT = 166;
+    private static final int CHEST_MENU_HEIGHT = 222;
 
     private final String character;
     private final Pattern pattern;
@@ -44,8 +47,13 @@ public class ScavengingItemHandler {
         int width = font.width(silverComponent);
 
         x -= width;
-        int bgY = (screen.height - MENU_HEIGHT) / 2;
-        int y = bgY + 89 - 4;
+
+        // 25 = y offset between label y & top of menu
+        int topPos = ((screen.height - CHEST_MENU_HEIGHT) / 2) - 25;
+        // 152 = y pos of top of footer
+        // 20 = y pos from top of footer to top of button
+        // 5 = bottom padding
+        int y = topPos + 152 + 20 - 5;
 
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate(0, 0, 105); // z-index: 105

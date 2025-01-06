@@ -24,11 +24,12 @@ public class Scavenging {
     // the width of the menu body
     private static final int GUI_BODY_WIDTH = 164;
     // the offset between the end of the scavenging icons and the right-side of the body
-    private static final int SCAVENGING_ICON_INNER_OFFSET = 22;
+    private static final int SCAVENGING_ICON_INNER_OFFSET = 24;
 
     private static Component titleComponent;
     private static ScavengingItemHandler dustHandler;
     private static ScavengingItemHandler silverHandler;
+    private static ScavengingItemHandler coinHandler;
 
     public static boolean isScavengingMenuOrDisabled(AbstractContainerScreen<?> screen) {
         if (!IslandOptions.getMisc().isSilverPreview()) return false;
@@ -40,7 +41,7 @@ public class Scavenging {
         if (!(minecraft.screen instanceof ContainerScreen screen)) return;
 
         int bgX = (screen.width - GUI_TOTAL_WIDTH) / 2;
-        int x = bgX + (GUI_BODY_WIDTH - SCAVENGING_ICON_INNER_OFFSET);
+        int x = bgX + (GUI_TOTAL_WIDTH - SCAVENGING_ICON_INNER_OFFSET);
 
         Collection<ScavengingTotal> totals = silverTotal.totals.values();
         for (ScavengingTotal total : totals) {
@@ -55,8 +56,8 @@ public class Scavenging {
         ScavengingTotalList list = new ScavengingTotalList();
 
         Container container = menu.getContainer();
-        applyItemRow(list, container, 20, 24);
-        applyItemRow(list, container, 29, 33);
+        applyItemRow(list, container, 11, 15);
+        applyItemRow(list, container, 20, 25);
         return list;
     }
     private static void applyItemRow(ScavengingTotalList list, Container container, int min, int max) {
@@ -69,11 +70,12 @@ public class Scavenging {
 
     public static void applyItems(ItemStack item, ScavengingTotalList list) {
         List<Component> lores = Utils.getLores(item);
-        if (lores == null || silverHandler == null || dustHandler == null) return;
+        if (lores == null) return;
 
         for (Component line : lores) {
-            list.apply(silverHandler.checkLine(line));
-            list.apply(dustHandler.checkLine(line));
+            if (silverHandler != null) list.apply(silverHandler.checkLine(line));
+            if (dustHandler != null) list.apply(dustHandler.checkLine(line));
+            if (coinHandler != null) list.apply(coinHandler.checkLine(line));
         }
     }
 
@@ -82,6 +84,9 @@ public class Scavenging {
     }
     public static void setSilverCharacter(String silverCharacter) {
         silverHandler = new ScavengingItemHandler("silver", silverCharacter);
+    }
+    public static void setCoinCharacter(String coinCharacter) {
+        coinHandler = new ScavengingItemHandler("coin", coinCharacter);
     }
 
     public static void setTitleCharacter(String titleCharacter) {
