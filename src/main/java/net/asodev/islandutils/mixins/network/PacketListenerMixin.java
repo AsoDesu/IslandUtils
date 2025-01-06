@@ -78,7 +78,9 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
             MusicManager.onMusicSoundPacket(clientboundCustomSoundPacket, this.minecraft);
             ci.cancel();
         }
-        LevelTimer.onSound(clientboundCustomSoundPacket);
+        if (MccIslandState.getGame() == Game.PARKOUR_WARRIOR_DOJO) {
+            LevelTimer.onSound(clientboundCustomSoundPacket);
+        }
     }
 
     @Inject(method = "handleStopSoundEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/util/thread/BlockableEventLoop;)V", shift = At.Shift.AFTER), cancellable = true)
