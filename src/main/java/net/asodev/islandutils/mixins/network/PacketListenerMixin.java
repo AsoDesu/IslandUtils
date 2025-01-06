@@ -11,6 +11,7 @@ import net.asodev.islandutils.modules.cosmetics.CosmeticSlot;
 import net.asodev.islandutils.modules.cosmetics.CosmeticState;
 import net.asodev.islandutils.modules.music.MusicManager;
 import net.asodev.islandutils.modules.splits.LevelTimer;
+import net.asodev.islandutils.modules.splits.SplitManager;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
@@ -77,6 +78,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
             MusicManager.onMusicSoundPacket(clientboundCustomSoundPacket, this.minecraft);
             ci.cancel();
         }
+        LevelTimer.onSound(clientboundCustomSoundPacket);
     }
 
     @Inject(method = "handleStopSoundEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/util/thread/BlockableEventLoop;)V", shift = At.Shift.AFTER), cancellable = true)
