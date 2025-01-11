@@ -12,7 +12,8 @@
     "discord.ConnectionMixin",
     "discord.ScoreDisplayMixin",
     "resources.PackRepositoryMixin",
-    "ui.SlotMixin"
+    "ui.SlotMixin",
+    "FixOffhandSwapMixin"
   ],
   "client": [
     "BossUIMixin",
