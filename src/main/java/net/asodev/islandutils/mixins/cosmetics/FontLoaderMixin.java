@@ -24,7 +24,9 @@ public class FontLoaderMixin {
             int[] c = chars[0];
 
             StringBuilder builder = new StringBuilder();
-            for (int point : c) { builder.appendCodePoint(point); }
+            for (int point : c) {
+                builder.appendCodePoint(point);
+            }
 
             String character = builder.toString();
             Component comp = Component.literal(character).setStyle(Style.EMPTY.withFont(MCC_ICONS));
@@ -34,6 +36,7 @@ public class FontLoaderMixin {
                 case "_fonts/body/scavenging.png" -> Scavenging.setTitleCharacter(character);
                 case "_fonts/material_dust.png" -> Scavenging.setDustCharacter(character);
                 case "_fonts/silver.png" -> Scavenging.setSilverCharacter(character);
+                case "_fonts/coin_small.png" -> Scavenging.setCoinCharacter(character);
 
                 case "_fonts/tooltips/hat.png" -> CosmeticState.HAT_COMP = comp;
                 case "_fonts/tooltips/accessory.png" -> CosmeticState.ACCESSORY_COMP = comp;
