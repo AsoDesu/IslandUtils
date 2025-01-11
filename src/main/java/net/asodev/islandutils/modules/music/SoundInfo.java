@@ -30,7 +30,7 @@ public record SoundInfo(ResourceLocation path, SoundSource category, double x, d
     }
     public static SoundInfo fromPacket(ClientboundSoundPacket soundPacket) {
         return new SoundInfo(
-                soundPacket.getSound().value().location(),
+                soundPacket.getSound().value().getLocation(),
                 soundPacket.getSource(),
                 soundPacket.getX(),
                 soundPacket.getY(),

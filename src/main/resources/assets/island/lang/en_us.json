@@ -77,6 +77,7 @@
   "text.autoconfig.islandutils.option.hideSliders": "Hide Sound Sliders if not Online",
   "text.autoconfig.islandutils.option.hideSliders.@Tooltip": "Hides the Music Sliders if you're not on MCC Island",
   "text.autoconfig.islandutils.option.showFishingUpgradeIcon": "Show fishing upgrade icons",
+  "text.autoconfig.islandutils.option.showFishingUpgradeIcon.@Tooltip": "Shows an upgrade icon next to upgradable Fishing Perks",
 
   "text.autoconfig.islandutils.category.classic_hitw": "Classic HITW",
   "text.autoconfig.islandutils.option.classicHITW": "Classic Hole In The Wall Announcer",

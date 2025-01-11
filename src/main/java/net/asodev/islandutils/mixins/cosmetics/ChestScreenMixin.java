@@ -40,7 +40,7 @@ import static net.asodev.islandutils.util.Utils.customModelData;
 
 @Mixin(AbstractContainerScreen.class)
 public abstract class ChestScreenMixin extends Screen {
-    @Unique private static final ResourceLocation PREVIEW = ResourceLocation.fromNamespaceAndPath("island", "preview");
+    @Unique private static final ResourceLocation PREVIEW = ResourceLocation.fromNamespaceAndPath("island", "textures/gui/sprites/preview.png");
 
     @Shadow protected Slot hoveredSlot;
 
@@ -71,7 +71,7 @@ public abstract class ChestScreenMixin extends Screen {
         guiGraphics.pose().pushPose();
         if (shouldRender) {
             guiGraphics.pose().translate(0.0f, 0.0f, 105f);
-            guiGraphics.blitSprite(RenderType::guiTextured, PREVIEW, slot.x-3, slot.y-4, 22, 24);
+            guiGraphics.blit(PREVIEW, slot.x-3, slot.y-4, 105, 0, 0, 22, 24, 22, 24);
         }
         guiGraphics.pose().popPose();
     }
