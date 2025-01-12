@@ -25,10 +25,10 @@ public class MultiplayerJoinMixin extends Screen {
         if (!IslandUtils.packUpdater.accepted && (IslandUtils.packUpdater.getting || ResourcePackUpdater.pack == null)) {
             ci.cancel();
 
-            Component message = Component.literal("IslandUtils Music has not been downloaded").withStyle(ChatFormatting.AQUA);
-            Component title = Component.literal("Proceed?").withStyle(ChatFormatting.RED);
-            Component no = Component.literal("Cancel");
-            Component yes = Component.literal("Continue joining");
+            Component message = Component.translatable("islandutils.message.music.notDownloadedWarn").withStyle(ChatFormatting.AQUA);
+            Component title = Component.translatable("islandutils.message.music.notDownloadedWarnTitle").withStyle(ChatFormatting.RED);
+            Component no = Component.translatable("islandutils.message.music.notDownloadedWarnCancel");
+            Component yes = Component.translatable("islandutils.message.music.notDownloadedWarnContinue");
 
             ConfirmScreen screen = new ConfirmScreen((boo) -> confirm(boo, serverData), message, title, yes, no);
             this.minecraft.setScreen(screen);

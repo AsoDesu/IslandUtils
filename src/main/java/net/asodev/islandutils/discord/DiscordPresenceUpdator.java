@@ -7,6 +7,7 @@ import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.DiscordOptions;
 import net.asodev.islandutils.state.Game;
+import net.minecraft.client.resources.language.I18n;
 import net.asodev.islandutils.state.MccIslandState;
 import org.jetbrains.annotations.Nullable;
 
@@ -89,9 +90,14 @@ public class DiscordPresenceUpdator {
                 REMAIN_STATE = null;
                 ROUND_STATE = null;
             } else if (game != Game.HUB)
-                activity.setDetails("Playing " + game.getName());
+                activity.setDetails(I18n.get("islandutils.discordPresence.details.playing", game.getName()));
             else {
-                activity.setDetails("In the Hub");
+                // This is here, so the old translations for '...details.inHub' from other contributors still work
+                if (I18n.exists("islandutils.discordPresence.details.inThePlace"))
+                    activity.setDetails(I18n.get("islandutils.discordPresence.details.inThePlace", I18n.get("islandutils.discordPresence.place.hub")));
+                else
+                    activity.setDetails(I18n.get("islandutils.discordPresence.details.inHub"));
+                
                 REMAIN_STATE = null;
                 ROUND_STATE = null;
                 activity.setState("");
@@ -121,7 +127,7 @@ public class DiscordPresenceUpdator {
         if (activity == null) return;
         if (!IslandOptions.getDiscord().showGameInfo || !IslandOptions.getDiscord().showGame) return;
 
-        if (set) REMAIN_STATE = "Remaining: " + value;
+        if (set) REMAIN_STATE = I18n.get("islandutils.discordPresense.state.remaining", value);
         if (!remainGames.contains(MccIslandState.getGame())) return;
 
         try { activity.setState(REMAIN_STATE); }
@@ -134,7 +140,7 @@ public class DiscordPresenceUpdator {
         if (activity == null) return;
         if (!IslandOptions.getDiscord().showGameInfo || !IslandOptions.getDiscord().showGame) return;
 
-        if (set) ROUND_STATE = "Round: " + value;
+        if (set) ROUND_STATE = I18n.get("islandutils.discordPresense.state.round", value);
         if (!roundGames.contains(MccIslandState.getGame())) return;
 
         try { activity.setState(ROUND_STATE); }
@@ -162,7 +168,7 @@ public class DiscordPresenceUpdator {
         if (activity == null) return;
         if (!IslandOptions.getDiscord().showGameInfo || !IslandOptions.getDiscord().showGame) return;
 
-        if (set) LEAP_STATE = "Leap: " + value;
+        if (set) LEAP_STATE = I18n.get("islandutils.discordPresense.state.leap", value);
         if (!leapGames.contains(MccIslandState.getGame())) return;
 
         try { activity.setState(LEAP_STATE); }

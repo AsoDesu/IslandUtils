@@ -58,7 +58,7 @@ public class CraftingOptions implements OptionsCategory {
                 .binding(defaults.notifyServerList, () -> notifyServerList, value -> this.notifyServerList = value)
                 .build();
         return ConfigCategory.createBuilder()
-                .name(Component.literal("Crafting Notifications"))
+                .name(Component.translatable("text.autoconfig.islandutils.category.crafting_notifs"))
                 .option(enableOption)
                 .option(toastOption)
                 .option(chatOption)
