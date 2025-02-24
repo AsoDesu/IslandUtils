@@ -41,7 +41,7 @@ public abstract class ItemIDMixin implements DataComponentHolder {
             ),
             locals = LocalCapture.CAPTURE_FAILEXCEPTION
     )
-    private void addTooltipLines(Item.TooltipContext tooltipContext, @Nullable Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir, List list) {
+    private void addTooltipLines(Item.TooltipContext tooltipContext, Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir, boolean bl, List list) {
         if (!MccIslandState.isOnline() || !IslandOptions.getMisc().isDebugMode()) return;
         if (!InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), InputConstants.KEY_LCONTROL)) return;
 

@@ -55,7 +55,7 @@ public class CraftingUI {
                 craftingItem.setSlot(slot);
                 craftingItem.setType(item.getItem());
                 craftingItem.setTitle(item.getHoverName());
-                craftingItem.setCustomModelData(Utils.customModelData(item));
+                craftingItem.setCustomModelData(Math.round(Utils.customModelData(item))); // Keeping this as int so existing crafting items don't break
 
                 CraftingItems.addItem(craftingItem);
 
