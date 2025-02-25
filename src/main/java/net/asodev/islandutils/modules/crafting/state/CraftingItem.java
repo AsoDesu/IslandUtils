@@ -13,7 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomModelData;
 
-import java.util.Optional;
+import java.util.List;
 
 import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 
@@ -45,31 +45,32 @@ public class CraftingItem {
         CraftingItem item = new CraftingItem();
 
         String jsonTitle = object.get("title").getAsString();
-        item.setTitle( Component.Serializer.fromJson(jsonTitle, RegistryAccess.EMPTY) );
+        item.setTitle(Component.Serializer.fromJson(jsonTitle, RegistryAccess.EMPTY));
 
         ResourceLocation typeKey = ResourceLocation.parse(object.get("type").getAsString());
         Holder.Reference<Item> itemType = BuiltInRegistries.ITEM.get(typeKey)
                 .orElseThrow(() -> new IllegalStateException("Item with type " + typeKey + " does not exist."));
         item.setType(itemType.value());
 
-        item.setCustomModelData( object.get("customModelData").getAsInt());
+        item.setCustomModelData(object.get("customModelData").getAsInt());
 
 
         String craftingTypeString = object.get("craftingMenuType").getAsString();
-        item.setCraftingMenuType( CraftingMenuType.valueOf(craftingTypeString.toUpperCase()) );
+        item.setCraftingMenuType(CraftingMenuType.valueOf(craftingTypeString.toUpperCase()));
 
-        item.setFinishesCrafting( object.get("finishesCrafting").getAsLong() );
-        item.setHasSentNotif( object.get("hasSentNotif").getAsBoolean() );
-        item.setSlot( object.get("slot").getAsInt() );
+        item.setFinishesCrafting(object.get("finishesCrafting").getAsLong());
+        item.setHasSentNotif(object.get("hasSentNotif").getAsBoolean());
+        item.setSlot(object.get("slot").getAsInt());
 
         return item;
     }
 
     public ItemStack getStack() {
         ItemStack stack = new ItemStack(type);
-        stack.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(customModelData));
+        stack.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of((float) customModelData), List.of(), List.of(), List.of()));
         return stack;
     }
+
     public boolean isComplete() {
         return System.currentTimeMillis() >= this.getFinishesCrafting();
     }
@@ -77,10 +78,12 @@ public class CraftingItem {
     public Component getTitle() {
         return title;
     }
+
     public Component getTypeIcon() {
         String icon = this.getCraftingMenuType() == CraftingMenuType.FORGE ? "\ue006" : "\ue007";
         return Component.literal(icon).withStyle(iconsFontStyle);
     }
+
     public void setTitle(Component title) {
         this.title = title;
     }
@@ -88,6 +91,7 @@ public class CraftingItem {
     public Item getType() {
         return type;
     }
+
     public void setType(Item type) {
         this.type = type;
     }
@@ -95,6 +99,7 @@ public class CraftingItem {
     public int getCustomModelData() {
         return customModelData;
     }
+
     public void setCustomModelData(int customModelData) {
         this.customModelData = customModelData;
     }
@@ -102,6 +107,7 @@ public class CraftingItem {
     public long getFinishesCrafting() {
         return finishesCrafting;
     }
+
     public void setFinishesCrafting(long finishesCrafting) {
         this.finishesCrafting = finishesCrafting;
     }
@@ -109,6 +115,7 @@ public class CraftingItem {
     public CraftingMenuType getCraftingMenuType() {
         return craftingMenuType;
     }
+
     public void setCraftingMenuType(CraftingMenuType craftingMenuType) {
         this.craftingMenuType = craftingMenuType;
     }
@@ -116,6 +123,7 @@ public class CraftingItem {
     public boolean hasSentNotif() {
         return hasSentNotif;
     }
+
     public void setHasSentNotif(boolean hasSentNotif) {
         this.hasSentNotif = hasSentNotif;
     }
@@ -123,6 +131,7 @@ public class CraftingItem {
     public int getSlot() {
         return slot;
     }
+
     public void setSlot(int slot) {
         this.slot = slot;
     }

@@ -125,3 +125,4 @@ run/
 !gradle-wrapper.jar
 
 *.ogg
+.profileconfig.json

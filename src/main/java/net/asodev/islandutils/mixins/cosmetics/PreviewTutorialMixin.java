@@ -5,14 +5,13 @@ import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.util.ChatUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -25,10 +24,14 @@ import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 
 @Mixin(ItemStack.class)
 public class PreviewTutorialMixin {
+    @Unique
     private static final Style style0 = Style.EMPTY.withColor(ChatFormatting.DARK_GRAY).withFont(Style.DEFAULT_FONT);
+    @Unique
     private static final Style style1 = Style.EMPTY.withColor(ChatUtils.parseColor("#e9d282")).withFont(Style.DEFAULT_FONT);
+    @Unique
     private static final Style style2 = Style.EMPTY.withColor(ChatUtils.parseColor("#fbe460")).withFont(Style.DEFAULT_FONT);
 
+    @Unique
     private static final Component previewComponent = Component.empty()
             .append(Component.literal("\ue005").setStyle(iconsFontStyle))
             .append(Component.literal(" > ").setStyle(style0))
@@ -40,8 +43,8 @@ public class PreviewTutorialMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;addAttributeTooltips(Ljava/util/function/Consumer;Lnet/minecraft/world/entity/player/Player;)V", shift = At.Shift.BEFORE),
             locals = LocalCapture.CAPTURE_FAILEXCEPTION
     )
-    private void injectedTooltipLines(Item.TooltipContext tooltipContext, @Nullable Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir, List list, Consumer consumer) {
-        if (CosmeticState.getType((ItemStack)(Object)this) == null) return;
+    private void injectedTooltipLines(Item.TooltipContext tooltipContext, Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir, boolean bl, List list, Consumer consumer) {
+        if (CosmeticState.getType((ItemStack) (Object) this) == null) return;
         if (!IslandOptions.getCosmetics().isShowPlayerPreview()) return;
         list.add(previewComponent);
     }

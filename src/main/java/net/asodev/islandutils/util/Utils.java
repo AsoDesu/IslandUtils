@@ -69,9 +69,9 @@ public class Utils {
         if (!folder.exists()) folder.mkdir();
     }
 
-    public static int customModelData(ItemStack item) {
+    public static float customModelData(ItemStack item) {
         CustomModelData customModelData = item.get(DataComponents.CUSTOM_MODEL_DATA);
-        return customModelData == null ? 0 : customModelData.value();
+        return customModelData == null ? 0f : customModelData.floats().getFirst();
     }
 
     public static ResourceLocation getCustomItemID(ItemStack item) {

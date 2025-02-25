@@ -159,14 +159,14 @@ public abstract class ChestScreenMixin extends Screen {
     @Unique
     private void setPreview(ItemStack item) {
         CosmeticType type = CosmeticState.getType(item);
-        int hoverCMD = customModelData(item);
+        float hoverCMD = customModelData(item);
         if (type == CosmeticType.HAT) setOrNotSet(CosmeticState.hatSlot, hoverCMD);
         else if (type == CosmeticType.ACCESSORY) setOrNotSet(CosmeticState.accessorySlot, hoverCMD);
         else if (type == CosmeticType.MAIN_HAND) setOrNotSet(CosmeticState.mainHandSlot, hoverCMD);
     }
 
     @Unique
-    private void setOrNotSet(Cosmetic cosmetic, int itemCMD) {
+    private void setOrNotSet(Cosmetic cosmetic, float itemCMD) {
         if (cosmetic.preview == null || itemCMD != customModelData(cosmetic.preview.item))
             cosmetic.preview = new CosmeticSlot(hoveredSlot);
         else
