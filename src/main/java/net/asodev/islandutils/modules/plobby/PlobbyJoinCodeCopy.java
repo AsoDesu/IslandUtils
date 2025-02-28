@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 
 public class PlobbyJoinCodeCopy {
     public static long lastCopy = 0;
-    private static final Component copiedMessage = Component.literal("Copied code to clipboard!")
+    private static final Component copiedMessage = Component.translatable("islandutils.message.plobby.codeCopied")
             .withStyle(Style.EMPTY.withColor(ChatUtils.parseColor("#ffff00")));
 
     public static void register() {
