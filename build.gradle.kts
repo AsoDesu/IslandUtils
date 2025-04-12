@@ -1,5 +1,5 @@
 plugins {
-    id("fabric-loom") version "1.8.10"
+    id("fabric-loom") version "1.10-SNAPSHOT"
     id("maven-publish")
 }
 
@@ -48,7 +48,19 @@ dependencies {
     modApi("com.noxcrew.noxesium:fabric:${properties["noxesium_version"]!!}")
 
     // Other libraries
+    include("com.github.JnCrMx:discord-game-sdk4j:v0.5.5")
     implementation("com.github.JnCrMx:discord-game-sdk4j:v0.5.5")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+tasks.jar {
+    from("LICENSE") {
+        rename { "${it}_${properties["archives_base_name"]!!}" }
+    }
 }
 
 tasks.processResources {
@@ -60,29 +72,12 @@ tasks.processResources {
     }
 }
 
-tasks.withType<JavaCompile>().configureEach {
-    options.encoding = "UTF-8"
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible) {
-        options.release = targetJavaVersion
-    }
-}
-
-java {
-    val javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion.set(JavaLanguageVersion.of(targetJavaVersion))
-    }
-    withSourcesJar()
-}
-
-tasks.jar {
-    from("LICENSE") {
-        rename { "${it}_${properties["archives_base_name"]!!}" }
-    }
-}
-
 loom {
     accessWidenerPath.set(file("src/main/resources/islandutils.accesswidener"))
+
+    mixin {
+        defaultRefmapName.set("islandutils.refmap.json")
+    }
 }
 
 fun extraVersion(): String {
