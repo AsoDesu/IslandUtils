@@ -77,10 +77,14 @@ public class Utils {
     public static ResourceLocation getCustomItemID(ItemStack item) {
         CustomData customDataComponent = item.get(DataComponents.CUSTOM_DATA);
         if (customDataComponent == null) return null;
+
         CompoundTag tag = customDataComponent.getUnsafe();
-        CompoundTag publicBukkitValues = tag.getCompound("PublicBukkitValues");
-        String customItemId = publicBukkitValues.getString("mcc:custom_item_id");
-        if (customItemId.isEmpty()) return null;
+        CompoundTag publicBukkitValues = tag.getCompound("PublicBukkitValues").orElse(null);
+        if (publicBukkitValues == null) return null;
+
+        String customItemId = publicBukkitValues.getString("mcc:custom_item_id").orElse(null);
+        if (customItemId == null || customItemId.isEmpty()) return null;
+
         return ResourceLocation.parse(customItemId);
     }
 

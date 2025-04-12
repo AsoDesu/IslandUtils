@@ -67,7 +67,7 @@ public class CosmeticState {
     }
     public static ItemStack applyColor(ItemStack itemStack) {
         if (hoveredColor == null) return itemStack;
-        DyedItemColor itemColor = new DyedItemColor(hoveredColor, false);
+        DyedItemColor itemColor = new DyedItemColor(hoveredColor);
         itemStack.set(DataComponents.DYED_COLOR, itemColor);
         return itemStack;
     }

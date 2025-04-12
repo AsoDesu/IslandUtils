@@ -2,6 +2,7 @@ package net.asodev.islandutils.mixins.cosmetics;
 
 import net.asodev.islandutils.mixins.accessors.WalkAnimStateAccessor;
 import net.asodev.islandutils.modules.cosmetics.CosmeticState;
+import net.asodev.islandutils.modules.cosmetics.CosmeticType;
 import net.asodev.islandutils.modules.cosmetics.CosmeticUI;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.CosmeticsOptions;
@@ -61,18 +62,18 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
                 applyColor(hatSlot);
                 applyColor(accSlot);
 
-                defaultHatSlot = playerInventory.armor.get(3);
-                playerInventory.armor.set(3, hatSlot);
+                defaultHatSlot = CosmeticType.HAT.getItem(playerInventory);
+                playerInventory.setItem(CosmeticType.HAT.getIndex(), hatSlot);
 
-                defaultAccSlot = playerInventory.offhand.getFirst();
-                playerInventory.offhand.set(0, accSlot);
+                defaultAccSlot = CosmeticType.ACCESSORY.getItem(playerInventory);
+                playerInventory.setItem(CosmeticType.ACCESSORY.getIndex(), accSlot);
 
                 defaultMainSlot = player.getMainHandItem();
                 player.setItemSlot(EquipmentSlot.MAINHAND, mainSlot);
             }
         } else {
-            hatSlot = playerInventory.armor.get(3);
-            accSlot = playerInventory.offhand.getFirst();
+            hatSlot = CosmeticType.HAT.getItem(playerInventory);
+            accSlot = CosmeticType.ACCESSORY.getItem(playerInventory);
         }
 
         WalkAnimStateAccessor walkAnim = (WalkAnimStateAccessor) player.walkAnimation;
@@ -101,8 +102,8 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         walkAnim.setSpeed(animSpeed);
         walkAnim.setSpeedOld(animSpeedOld);
         player.attackAnim = attackAnim;
-        if (defaultHatSlot != null) playerInventory.armor.set(3, defaultHatSlot);
-        if (defaultAccSlot != null) playerInventory.offhand.set(0, defaultAccSlot);
+        if (defaultHatSlot != null) playerInventory.setItem(CosmeticType.HAT.getIndex(), defaultHatSlot);
+        if (defaultAccSlot != null) playerInventory.setItem(CosmeticType.ACCESSORY.getIndex(), defaultAccSlot);
         if (defaultMainSlot != null) player.setItemSlot(EquipmentSlot.MAINHAND, defaultMainSlot);
 
         // this code is so ugly omfg

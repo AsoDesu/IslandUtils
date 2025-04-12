@@ -24,6 +24,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import org.lwjgl.glfw.GLFW;
 
+import java.net.URI;
+
 @Environment(EnvType.CLIENT)
 public class IslandUtilsClient implements ClientModInitializer {
     public static KeyMapping openPlobbyKey;
@@ -62,7 +64,8 @@ public class IslandUtilsClient implements ClientModInitializer {
         if (IslandUtils.availableUpdate != null) {
             ChatUtils.send("Hey! Update " + IslandUtils.availableUpdate.title() + " is available for Island Utils!");
 
-            Style style = Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, IslandUtils.availableUpdate.releaseUrl()));
+            URI releaseUri = URI.create(IslandUtils.availableUpdate.releaseUrl());
+            Style style = Style.EMPTY.withClickEvent(new ClickEvent.OpenUrl(releaseUri));
             Component link = Component.literal(IslandUtils.availableUpdate.releaseUrl()).setStyle(style);
             Component text = Component.literal(ChatUtils.translate(ChatUtils.prefix + " Download Here: &f")).append(link);
 

@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
@@ -53,8 +54,8 @@ public abstract class ChestScreenMixin extends Screen {
     @Inject(method = "<init>", at = @At("TAIL"))
     private void onInit(AbstractContainerMenu abstractContainerMenu, Inventory inventory, Component component, CallbackInfo ci) {
         LocalPlayer player = Minecraft.getInstance().player;
-        CosmeticState.hatSlot.setOriginal(new CosmeticSlot(player.getInventory().armor.get(3)));
-        CosmeticState.accessorySlot.setOriginal(new CosmeticSlot(player.getInventory().offhand.get(0)));
+        CosmeticState.hatSlot.setOriginal(new CosmeticSlot(player.getInventory().getItem(EquipmentSlot.HEAD.getIndex(36))));
+        CosmeticState.accessorySlot.setOriginal(new CosmeticSlot(player.getInventory().getItem(40)));
     }
 
     @Inject(method = "renderSlot", at = @At("TAIL"))

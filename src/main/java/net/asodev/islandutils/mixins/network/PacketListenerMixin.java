@@ -9,6 +9,7 @@ import net.asodev.islandutils.modules.ClassicAnnouncer;
 import net.asodev.islandutils.modules.FriendsInGame;
 import net.asodev.islandutils.modules.cosmetics.CosmeticSlot;
 import net.asodev.islandutils.modules.cosmetics.CosmeticState;
+import net.asodev.islandutils.modules.cosmetics.CosmeticType;
 import net.asodev.islandutils.modules.music.MusicManager;
 import net.asodev.islandutils.modules.splits.LevelTimer;
 import net.asodev.islandutils.modules.splits.SplitManager;
@@ -37,6 +38,7 @@ import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
 import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -101,10 +103,11 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         if (!MccIslandState.isOnline()) return;
         Player player = Minecraft.getInstance().player;
         if (player == null) return; // If no player, stop
-        if (clientboundContainerSetContentPacket.getContainerId() != 0) return; // If this is a chest, stop
+        if (clientboundContainerSetContentPacket.containerId() != 0) return; // If this is a chest, stop
 
-        CosmeticState.hatSlot.setOriginal(new CosmeticSlot(player.getInventory().armor.get(3)));
-        CosmeticState.accessorySlot.setOriginal(new CosmeticSlot(player.getInventory().offhand.get(0)));
+        Inventory inventory = player.getInventory();
+        CosmeticState.hatSlot.setOriginal(new CosmeticSlot(CosmeticType.HAT.getItem(inventory)));
+        CosmeticState.accessorySlot.setOriginal(new CosmeticSlot(CosmeticType.ACCESSORY.getItem(inventory)));
     }
 
     private static Pattern timerPattern = Pattern.compile("(\\d+:\\d+)");
