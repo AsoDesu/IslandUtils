@@ -28,6 +28,7 @@
     "network.PacketListenerMixin",
     "notif.ServerSelectionMixin",
     "plobby.PlobbyChestMixin",
+    "resources.FontManagerMixin",
     "resources.MultiplayerJoinMixin",
     "splits.HologramMixin",
     "ui.ChatScreenMixin",
