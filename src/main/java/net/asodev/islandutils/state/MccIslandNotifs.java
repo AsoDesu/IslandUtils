@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.OptionalLong;
 
 public class MccIslandNotifs {
-    private static Component completedCrafts = Component.literal("Completed Crafts:").setStyle(Style.EMPTY.withBold(true).withColor(ChatFormatting.WHITE));
+    private static Component completedCrafts = Component.translatable("islandutils.message.crafting.completedCrafts").setStyle(Style.EMPTY.withBold(true).withColor(ChatFormatting.WHITE));
 
     public static List<Component> getNotifLines() {
         List<Component> components = new ArrayList<>();
@@ -49,7 +49,7 @@ public class MccIslandNotifs {
         ResourcePackUpdater.PackDownloadListener currentDownload = IslandUtils.packUpdater.currentDownload;
         if (currentDownload == null) return;
 
-        MutableComponent downloadTitle = Component.literal("Downloading Music:")
+        MutableComponent downloadTitle = Component.translatable("islandutils.message.music.downloadingMusic")
                 .setStyle(Style.EMPTY.withBold(true));
 
         String bytesText = Unit.humanReadable(currentDownload.getBytesDownloaded());

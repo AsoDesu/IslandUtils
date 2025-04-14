@@ -71,7 +71,7 @@ public class SplitsCategory implements OptionsCategory {
                 .action((screen, b) -> doClearSplits(screen))
                 .build();
         return ConfigCategory.createBuilder()
-                .name(Component.literal("Parkour Warrior Splits"))
+                .name(Component.translatable("text.autoconfig.islandutils.category.pkw_splits"))
                 .option(enableOption)
                 .option(sendOption)
                 .option(showOption)

@@ -15,6 +15,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.LoadingOverlay;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -73,7 +74,8 @@ public class CraftingNotifier implements ClientTickEvents.EndTick {
                 .append(item.getTypeIcon())
                 .append(Component.literal(") ").withStyle(darkGreenColor))
                 .append(item.getTitle())
-                .append(Component.literal(" has finished crafting!").withStyle(darkGreenColor));
+                .append(" ")
+                .append(Component.translatable("islandutils.message.crafting.chatNotif").withStyle(darkGreenColor));
         ChatUtils.send(component);
     }
 
@@ -86,7 +88,9 @@ public class CraftingNotifier implements ClientTickEvents.EndTick {
 
     public static Component activeCraftsMessage() {
         Component newLine = Component.literal("\n").withStyle(Style.EMPTY);
-        MutableComponent component = Component.literal("\nCRAFTING ITEMS:").withStyle(MCC_HUD_FONT);
+        MutableComponent component = ChatUtils.checkForHudUnsupportedSymbols(I18n.get("islandutils.message.crafting.activeCraftsTitle")) ? 
+                Component.translatable("islandutils.message.crafting.activeCraftsTitle").withStyle(MCC_HUD_FONT) :
+                Component.translatable("islandutils.message.crafting.activeCraftsTitle");
         component.append(newLine);
 
         int i = 0;
@@ -101,7 +105,7 @@ public class CraftingNotifier implements ClientTickEvents.EndTick {
                 timeText = DurationFormatUtils.formatDuration(timeRemaining, "H'h' m'm' s's'");
                 timeColor = ChatFormatting.RED;
             } else {
-                timeText = "Complete";
+                timeText = I18n.get("islandutils.message.crafting.complete");
                 timeColor = ChatFormatting.DARK_GREEN;
             }
 
