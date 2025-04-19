@@ -1,37 +1,36 @@
 {
-  "schemaVersion": 1,
-  "id": "islandutils",
-  "version": "${version}",
-  "name": "IslandUtils",
-  "description": "A Utility mod for MCC Island",
-  "authors": ["Aso"],
-  "contact": {
-    "sources": "https://github.com/AsoDesu/IslandUtils",
-    "homepage": "https://modrinth.com/mod/island-utils"
-  },
-  "license": "MIT",
-  "icon": "assets/island/icon.png",
-  "environment": "client",
-  "entrypoints": {
-    "client": [ "net.asodev.islandutils.IslandUtilsClient" ],
-    "main": [ "net.asodev.islandutils.IslandUtils" ],
-    "modmenu": [ "net.asodev.islandutils.options.ModMenuIntegration" ]
-  },
-  "mixins": [
-    "islandutils.mixins.json"
-  ],
-  "custom": {
-    "modmenu": {
-      "links": {
-        "website": "https://modrinth.com/mod/island-utils"
-      }
-    }
-  },
-  "depends": {
-    "noxesium": ">=2.3",
-    "fabricloader": ">=0.15",
-    "fabric": "*",
-    "minecraft": ">=1.21",
-    "yet_another_config_lib_v3": "*"
-  }
+	"schemaVersion": 1,
+	"id": "islandutils",
+	"version": "${version}",
+	"name": "islandutils",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"AsoDesu_"
+	],
+	"contact": {
+		"homepage": "https://github.com/AsoDesu/IslandUtils",
+		"sources": "https://github.com/AsoDesu/IslandUtils"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/islandutils/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"main": [
+			{
+				"value": "dev.asodesu.islandutils.IslandUtils",
+				"adapter": "kotlin"
+			}
+		]
+	},
+	"mixins": [
+		"islandutils.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.5",
+		"minecraft": "~1.21.5",
+		"java": ">=21",
+		"fabric-api": "*",
+		"fabric-language-kotlin": "*",
+		"noxesium": ">=2.7.2"
+	}
 }
