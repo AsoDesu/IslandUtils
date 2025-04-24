@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("jvm") version "2.0.20"
+    kotlin("plugin.serialization") version "2.0.20"
     id("fabric-loom") version "1.10-SNAPSHOT"
     java
 }
@@ -25,9 +26,7 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}")
     modApi("com.noxcrew.noxesium:fabric:${property("noxesium_version")}")
 
-    modCompileOnly(
-        include("net.kyori:adventure-platform-mod-shared-fabric-repack:${property("adventure_version")}")!!
-    )
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
 }
 
 tasks {

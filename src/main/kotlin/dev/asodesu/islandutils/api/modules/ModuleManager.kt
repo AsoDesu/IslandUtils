@@ -24,11 +24,11 @@ object ModuleManager {
         modules.forEach {
             try {
                 it.init()
+                logger.info("Initialised ${it::class.simpleName}")
                 successes++
             } catch (e: Exception) {
                 logger.error("Failed to initialise module '${it::class.qualifiedName}'", e)
             }
         }
-        logger.info("Initialised $successes modules!")
     }
 }

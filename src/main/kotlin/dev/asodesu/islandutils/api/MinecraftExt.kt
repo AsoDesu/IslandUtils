@@ -2,7 +2,9 @@ package dev.asodesu.islandutils.api
 
 import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientPacketListener
-import net.minecraft.client.player.LocalPlayer
+import net.minecraft.client.multiplayer.chat.ChatListener
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 
 /**
  * The current minecraft client instance
@@ -11,10 +13,22 @@ val minecraft: Minecraft
     get() = Minecraft.getInstance()
 
 /**
- * The current local player (or null if the player is not connected to a world)
+ * Minecraft Chat Listener
  */
-val player: LocalPlayer?
-    get() = minecraft.player
+val chatListener: ChatListener
+    get() = minecraft.chatListener
+
+/**
+ * Sends a chat message to player
+ */
+fun send(component: Component) {
+    chatListener.handleSystemMessage(component, false)
+}
+
+object Resources {
+    fun islandUtils(path: String) = ResourceLocation.fromNamespaceAndPath("islandutils", path)
+    fun mcc(path: String) = ResourceLocation.fromNamespaceAndPath("mcc", path)
+}
 
 /**
  * The current active server connection

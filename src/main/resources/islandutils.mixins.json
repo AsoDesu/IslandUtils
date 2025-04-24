@@ -1,14 +1,15 @@
 {
-  "required": true,
-  "package": "dev.asodesu.islandutils.mixin",
-  "compatibilityLevel": "JAVA_21",
-  "mixins": [
-    "ExampleMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  },
-  "client": [
-    "features.CommandSuggestionHandlerMixin"
-  ]
+    "required": true,
+    "package": "dev.asodesu.islandutils.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "mixins": [
+        "ExampleMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    },
+    "client": [
+        "OptionsButtonMixin",
+        "features.CommandSuggestionHandlerMixin"
+    ]
 }

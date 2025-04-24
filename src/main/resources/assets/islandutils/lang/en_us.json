@@ -1,4 +1,9 @@
 {
+    "menu.islandutils": "IslandUtils",
     "islandutils.feature.friends.game": "Friends in this game",
-    "islandutils.feature.friends.lobby": "Friends in this lobby"
+    "islandutils.feature.friends.lobby": "Friends in this lobby",
+
+    "islandutils.options.section.music": "Music",
+    "islandutils.options.section.discord": "Discord",
+    "islandutils.options.section.misc": "Miscellaneous"
 }

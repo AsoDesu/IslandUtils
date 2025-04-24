@@ -1,14 +1,15 @@
 package dev.asodesu.islandutils.features
 
-import dev.asodesu.islandutils.api.Scheduler
 import dev.asodesu.islandutils.api.Scheduler.runAfter
-import dev.asodesu.islandutils.api.audience
 import dev.asodesu.islandutils.api.connection
 import dev.asodesu.islandutils.api.game.GameEvents
 import dev.asodesu.islandutils.api.game.inLobby
 import dev.asodesu.islandutils.api.minecraft
 import dev.asodesu.islandutils.api.modules.Module
 import dev.asodesu.islandutils.api.send
+import dev.asodesu.islandutils.options.MiscOptions
+import net.minecraft.ChatFormatting
+import net.minecraft.network.chat.Component
 import net.minecraft.network.protocol.game.ClientboundCommandSuggestionsPacket.Entry
 import net.minecraft.network.protocol.game.ServerboundCommandSuggestionPacket
 import kotlin.time.Duration.Companion.seconds
@@ -16,15 +17,15 @@ import kotlin.time.Duration.Companion.seconds
 object FriendsInGame : Module("FriendsInGame") {
     const val TRANSACTION_ID = 6775161
 
-    var enabledInGame = true // TODO: CONFIG API
-    var enabledInLobby = true // TODO: CONFIG API
+    private val enabledInGame by MiscOptions.FriendsInGame.inGame
+    private val enabledInLobby by MiscOptions.FriendsInGame.inLobby
 
     var friends = listOf<String>()
 
     override fun init() {
         GameEvents.SERVER_UPDATE.register {
             if (!enabledInLobby && !enabledInGame) return@register
-            val commandSuggestion = ServerboundCommandSuggestionPacket(TRANSACTION_ID, "/friend remove")
+            val commandSuggestion = ServerboundCommandSuggestionPacket(TRANSACTION_ID, "/friend remove ")
             minecraft.connection?.send(commandSuggestion)
         }
     }
@@ -49,10 +50,17 @@ object FriendsInGame : Module("FriendsInGame") {
         if (onlineFriendNames.isEmpty()) return
 
         val friendString = onlineFriendNames.joinToString(", ")
-
         val lang = if (inLobby) "lobby" else "game"
-        audience.send(
-            "<green>[<white>S</white>] <lang:islandutils.feature.friends.$lang>:</green> <yellow>$friendString"
-        )
+
+        val prefix = Component.literal("[").append(Component.literal("S")).append("] ")
+        val notification = Component.translatable("islandutils.feature.friends.$lang").append(": ")
+        val friendList = Component.literal(friendString).withStyle(ChatFormatting.YELLOW)
+
+        val component = Component.empty().withStyle(ChatFormatting.GREEN)
+            .append(prefix) // [S]
+            .append(notification) // Friends in this lobby:
+            .append(friendList) // Usernames
+
+        send(component)
     }
 }

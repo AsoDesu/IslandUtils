@@ -3,6 +3,7 @@ package dev.asodesu.islandutils
 import dev.asodesu.islandutils.api.game.GameManager
 import dev.asodesu.islandutils.api.game.state.StateManager
 import dev.asodesu.islandutils.api.modules.Module
+import dev.asodesu.islandutils.features.FriendsInGame
 import dev.asodesu.islandutils.games.Hub
 import dev.asodesu.islandutils.games.ParkourWarriorDojo
 import dev.asodesu.islandutils.games.Tgttos
@@ -14,8 +15,9 @@ import dev.asodesu.islandutils.games.Tgttos
  */
 object Modules {
     // modules which are defined as objects
-    val objects = listOf<Module>(
-        StateManager
+    val objects = listOf(
+        StateManager,
+        FriendsInGame
     )
 
     // the game manager, the order here does matter.
