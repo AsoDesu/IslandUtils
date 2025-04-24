@@ -5,5 +5,11 @@
 
     "islandutils.options.section.music": "Music",
     "islandutils.options.section.discord": "Discord",
-    "islandutils.options.section.misc": "Miscellaneous"
+
+    "islandutils.options.section.misc": "Miscellaneous",
+    "islandutils.options.test": "Test Option",
+
+    "islandutils.options.section.misc.friendnotifs": "Friend Notifications",
+    "islandutils.options.friendnotifs_in_game": "Send friend notifications in games",
+    "islandutils.options.friendnotifs_in_lobby": "Send friend notifications in lobbies"
 }

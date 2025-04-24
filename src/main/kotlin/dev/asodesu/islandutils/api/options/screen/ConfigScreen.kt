@@ -3,6 +3,12 @@ package dev.asodesu.islandutils.api.options.screen
 import dev.asodesu.islandutils.api.options.Config
 import dev.asodesu.islandutils.api.options.ConfigEntry
 import dev.asodesu.islandutils.api.options.ConfigSection
+import dev.asodesu.islandutils.api.options.screen.tab.ConfigScreenTab
+import dev.asodesu.islandutils.api.options.screen.widgets.BackgroundWidget
+import dev.asodesu.islandutils.api.options.screen.widgets.FlatButton
+import dev.asodesu.islandutils.api.options.screen.widgets.background
+import java.util.concurrent.CompletableFuture
+import net.minecraft.ChatFormatting
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.components.StringWidget
 import net.minecraft.client.gui.layouts.FrameLayout
@@ -11,7 +17,6 @@ import net.minecraft.client.gui.layouts.LinearLayout
 import net.minecraft.client.gui.layouts.SpacerElement
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
-import net.minecraft.util.ARGB
 import kotlin.math.min
 
 class ConfigScreen(
@@ -29,6 +34,7 @@ class ConfigScreen(
     lateinit var screenLayout: LinearLayout
     lateinit var tabsFrame: FrameLayout
     lateinit var configFrame: FrameLayout
+    lateinit var statusWidget: StringWidget
 
     val tabButtons = mutableMapOf<ConfigSection, Button>()
     var tab: ConfigScreenTab? = null
@@ -56,8 +62,13 @@ class ConfigScreen(
                 }
             }, LayoutSettings::alignVerticallyTop)
 
-            val doneComponent = Component.literal("Done")
-            addChild(Button.builder(doneComponent) { close() }.build(), LayoutSettings::alignVerticallyBottom)
+            addChild(LinearLayout.vertical().apply {
+                statusWidget = addChild(StringWidget(Component.empty(), minecraft!!.font).alignLeft())
+                statusWidget.width = Button.DEFAULT_WIDTH
+
+                val doneComponent = Component.literal("Done")
+                addChild(Button.builder(doneComponent) { saveAndClose() }.build(), LayoutSettings::alignVerticallyBottom)
+            }, LayoutSettings::alignVerticallyBottom)
         }
 
         configFrame = FrameLayout().apply {
@@ -90,6 +101,7 @@ class ConfigScreen(
             val tabLayout = tab.layout
             tabLayout.x = configFrame.x
             tabLayout.y = configFrame.y
+            tab.setMinWidth(minWidth)
             tabLayout.arrangeElements()
         }
     }
@@ -103,25 +115,52 @@ class ConfigScreen(
             tab!!.close()
         }
 
-        val sectionScreenTab = section.render()
-        sectionScreenTab.init()
-
-        val layout = sectionScreenTab.layout
-        layout.x = configFrame.x
-        layout.y = configFrame.y
-
-        layout.arrangeElements()
-        layout.visitWidgets { this.addRenderableWidget(it) }
+        tab = section.render().apply {
+            init()
+            x = configFrame.x
+            y = configFrame.y
+            setMinWidth(minWidth())
+            this.layout.arrangeElements()
+            visitWidgets { addRenderableWidget(it) }
+        }
 
         tabButtons.forEach { (buttonSection, button) ->
             button.isFocused = buttonSection == section
         }
-        tab = sectionScreenTab
+    }
+
+    fun saveAndClose() {
+        statusWidget.message = Component.literal("Saving...").withStyle(ChatFormatting.GREEN)
+        CompletableFuture.runAsync {
+            config.save()
+            minecraft!!.submit { close() }
+        }
     }
 
     fun close() {
         tab?.close()
         minecraft?.setScreen(parent)
+    }
+
+    override fun mouseClicked(d: Double, e: Double, i: Int): Boolean {
+        // taken from super method
+
+        // this fixes an annoying bug? in minecraft where the buttons
+        //  remain focussed after you click them, which makes our flat
+        //  buttons look REAL bad
+
+        val optional = this.getChildAt(d, e)
+        if (optional.isEmpty) {
+            return false
+        } else {
+            val guiEventListener = optional.get()
+            if (guiEventListener.mouseClicked(d, e, i)) {
+                if (guiEventListener !is FlatButton) this.focused = guiEventListener
+                else this.focused = null
+                if (i == 0) this.isDragging = true
+            }
+            return true
+        }
     }
 
 }

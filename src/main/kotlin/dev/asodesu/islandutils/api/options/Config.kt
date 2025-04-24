@@ -39,9 +39,6 @@ abstract class Config(val file: File, val fileVersion: String = "2.0.0") {
 
         this.entries.forEach { it.load(json) }
         logger.info("Loaded config ${file.name}!")
-
-        // TODO: TESTING
-        save()
     }
 
     fun save() {

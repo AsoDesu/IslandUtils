@@ -1,4 +1,4 @@
-package dev.asodesu.islandutils.api.options.screen
+package dev.asodesu.islandutils.api.options.screen.widgets
 
 import dev.asodesu.islandutils.api.Resources
 import net.minecraft.client.gui.GuiGraphics
@@ -12,7 +12,7 @@ class BackgroundWidget(
     private val layout: Layout,
     private val spacing: Int,
     private val opacity: Float,
-    val sprite: ResourceLocation = BackgroundWidget.LEFT
+    val sprite: ResourceLocation = LEFT
 ) : Renderable {
 
     companion object {
