@@ -1,6 +1,8 @@
 package dev.asodesu.islandutils.features
 
+import dev.asodesu.islandutils.api.Font
 import dev.asodesu.islandutils.api.Scheduler.runAfter
+import dev.asodesu.islandutils.api.buildComponent
 import dev.asodesu.islandutils.api.connection
 import dev.asodesu.islandutils.api.game.GameEvents
 import dev.asodesu.islandutils.api.game.inLobby
@@ -52,14 +54,11 @@ object FriendsInGame : Module("FriendsInGame") {
         val friendString = onlineFriendNames.joinToString(", ")
         val lang = if (inLobby) "lobby" else "game"
 
-        val prefix = Component.literal("[").append(Component.literal("S")).append("] ")
-        val notification = Component.translatable("islandutils.feature.friends.$lang").append(": ")
-        val friendList = Component.literal(friendString).withStyle(ChatFormatting.YELLOW)
-
-        val component = Component.empty().withStyle(ChatFormatting.GREEN)
-            .append(prefix) // [S]
-            .append(notification) // Friends in this lobby:
-            .append(friendList) // Usernames
+        val component = buildComponent {
+            append(Component.literal("[").append(Font.SOCIAL_ICON).append("] "))
+            append(Component.translatable("islandutils.feature.friends.$lang").append(": "))
+            append(Component.literal(friendString).withStyle(ChatFormatting.YELLOW))
+        }
 
         send(component)
     }

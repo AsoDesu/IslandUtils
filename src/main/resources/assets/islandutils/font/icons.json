@@ -1,0 +1,5 @@
+{
+    "providers": [
+        {"type":"bitmap","file": "mcc:island_interface/social/icon.png","chars": ["\ue001"],"ascent":8,"height":8}
+    ]
+}

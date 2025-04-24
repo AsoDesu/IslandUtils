@@ -11,5 +11,7 @@
 
     "islandutils.options.section.misc.friendnotifs": "Friend Notifications",
     "islandutils.options.friendnotifs_in_game": "Send friend notifications in games",
-    "islandutils.options.friendnotifs_in_lobby": "Send friend notifications in lobbies"
+    "islandutils.options.friendnotifs_in_game.desc": "Enables sending 'Friends in this game' notifications",
+    "islandutils.options.friendnotifs_in_lobby": "Send friend notifications in lobbies",
+    "islandutils.options.friendnotifs_in_lobby.desc": "Enables sending 'Friends in this lobby' notifications"
 }
