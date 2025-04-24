@@ -34,7 +34,6 @@ class ConfigScreen(
     lateinit var screenLayout: LinearLayout
     lateinit var tabsFrame: FrameLayout
     lateinit var configFrame: FrameLayout
-    lateinit var statusWidget: StringWidget
 
     val tabButtons = mutableMapOf<ConfigSection, Button>()
     var tab: ConfigScreenTab? = null
@@ -63,11 +62,8 @@ class ConfigScreen(
             }, LayoutSettings::alignVerticallyTop)
 
             addChild(LinearLayout.vertical().apply {
-                statusWidget = addChild(StringWidget(Component.empty(), minecraft!!.font).alignLeft())
-                statusWidget.width = Button.DEFAULT_WIDTH
-
                 val doneComponent = Component.literal("Done")
-                addChild(Button.builder(doneComponent) { saveAndClose() }.build(), LayoutSettings::alignVerticallyBottom)
+                addChild(Button.builder(doneComponent) { close() }.build(), LayoutSettings::alignVerticallyBottom)
             }, LayoutSettings::alignVerticallyBottom)
         }
 
@@ -129,16 +125,12 @@ class ConfigScreen(
         }
     }
 
-    fun saveAndClose() {
-        statusWidget.message = Component.literal("Saving...").withStyle(ChatFormatting.GREEN)
-        CompletableFuture.runAsync {
-            config.save()
-            minecraft!!.submit { close() }
-        }
+    override fun removed() {
+        tab?.close()
+        CompletableFuture.runAsync { config.save() }
     }
 
     fun close() {
-        tab?.close()
         minecraft?.setScreen(parent)
     }
 
