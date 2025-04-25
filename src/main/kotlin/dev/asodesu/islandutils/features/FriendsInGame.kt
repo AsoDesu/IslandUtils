@@ -1,6 +1,6 @@
 package dev.asodesu.islandutils.features
 
-import dev.asodesu.islandutils.api.Font
+import dev.asodesu.islandutils.Font
 import dev.asodesu.islandutils.api.Scheduler.runAfter
 import dev.asodesu.islandutils.api.buildComponent
 import dev.asodesu.islandutils.api.connection

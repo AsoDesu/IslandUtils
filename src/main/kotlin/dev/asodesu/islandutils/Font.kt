@@ -1,8 +1,8 @@
-package dev.asodesu.islandutils.api
+package dev.asodesu.islandutils
 
+import dev.asodesu.islandutils.api.Resources
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Style
 
 object Font {

@@ -2,14 +2,13 @@
     "required": true,
     "package": "dev.asodesu.islandutils.mixin",
     "compatibilityLevel": "JAVA_21",
-    "mixins": [
-        "ExampleMixin"
-    ],
+    "mixins": [],
     "injectors": {
         "defaultRequire": 1
     },
     "client": [
         "OptionsButtonMixin",
+        "SoundInterceptorMixin",
         "features.CommandSuggestionHandlerMixin"
     ]
 }

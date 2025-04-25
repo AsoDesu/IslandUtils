@@ -22,13 +22,13 @@ class Option<T>(
     private val serializer: KSerializer<T>,
     private val renderer: OptionRenderer<T>,
     private val hasDescription: Boolean
-) : ReadOnlyProperty<Any, T>, ConfigEntry {
+) : ReadOnlyProperty<Any?, T>, ConfigEntry {
     val component = Component.translatable("islandutils.options.$name")
     private val descriptionComponent = Component.translatable("islandutils.options.$name.desc")
         .withStyle(ChatFormatting.DARK_AQUA)
     var value = default
 
-    override fun getValue(thisRef: Any, property: KProperty<*>): T {
+    override fun getValue(thisRef: Any?, property: KProperty<*>): T {
         return value
     }
 

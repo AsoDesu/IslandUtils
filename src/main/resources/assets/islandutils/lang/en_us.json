@@ -4,14 +4,17 @@
     "islandutils.feature.friends.lobby": "Friends in this lobby",
 
     "islandutils.options.section.music": "Music",
+    "islandutils.options.music_enabled": "Enable Music Features",
+
     "islandutils.options.section.discord": "Discord",
 
     "islandutils.options.section.misc": "Miscellaneous",
     "islandutils.options.test": "Test Option",
-
     "islandutils.options.section.misc.friendnotifs": "Friend Notifications",
     "islandutils.options.friendnotifs_in_game": "Send friend notifications in games",
     "islandutils.options.friendnotifs_in_game.desc": "Enables sending 'Friends in this game' notifications",
     "islandutils.options.friendnotifs_in_lobby": "Send friend notifications in lobbies",
-    "islandutils.options.friendnotifs_in_lobby.desc": "Enables sending 'Friends in this lobby' notifications"
+    "islandutils.options.friendnotifs_in_lobby.desc": "Enables sending 'Friends in this lobby' notifications",
+    "islandutils.options.section.misc.debug": "Debug Options",
+    "islandutils.options.debug_mode": "Debug Mode"
 }

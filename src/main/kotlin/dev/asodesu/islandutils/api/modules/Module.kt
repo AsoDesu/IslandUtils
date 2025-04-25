@@ -1,7 +1,7 @@
 package dev.asodesu.islandutils.api.modules
 
+import dev.asodesu.islandutils.api.debug
 import org.slf4j.LoggerFactory
-import kotlin.math.log
 
 /**
  * A module
@@ -10,9 +10,4 @@ import kotlin.math.log
 abstract class Module(name: String) {
     protected val logger = LoggerFactory.getLogger("IU-${name}")
     abstract fun init()
-
-    fun debug(str: String) {
-        logger.info(str)
-        // TODO: Chat Log
-    }
 }

@@ -2,11 +2,12 @@ package dev.asodesu.islandutils
 
 import dev.asodesu.islandutils.api.game.GameManager
 import dev.asodesu.islandutils.api.game.state.StateManager
-import dev.asodesu.islandutils.api.modules.Module
+import dev.asodesu.islandutils.api.music.MusicManager
 import dev.asodesu.islandutils.features.FriendsInGame
 import dev.asodesu.islandutils.games.Hub
 import dev.asodesu.islandutils.games.ParkourWarriorDojo
 import dev.asodesu.islandutils.games.Tgttos
+import dev.asodesu.islandutils.music.TgttosDoubleTime
 
 /**
  * The modules used which require initialisation.
@@ -26,5 +27,20 @@ object Modules {
         Tgttos,
         // ParkourWarriorSurvivor
         ParkourWarriorDojo
+    )
+
+    val musicManager = MusicManager(
+        knownTracks = listOf(
+            "music.global.parkour_warrior",
+            "music.global.battle_box",
+            "music.global.dynaball",
+            "music.global.hole_in_the_wall",
+            "music.global.sky_battle",
+            "music.global.tgttosawaf",
+            "music.global.overtime_loop_music"
+        ),
+        modifiers = listOf(
+            TgttosDoubleTime
+        )
     )
 }

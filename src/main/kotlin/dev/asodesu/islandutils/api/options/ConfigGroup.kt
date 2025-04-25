@@ -12,18 +12,18 @@ import net.minecraft.client.gui.layouts.LayoutElement
 import net.minecraft.network.chat.Component
 
 abstract class ConfigGroup(val name: String) : ConfigEntry {
-    val component = Component.translatable("islandutils.options.$name")
+    val component: Component = Component.translatable("islandutils.options.$name")
     private val children = mutableListOf<ConfigEntry>()
 
-    fun <T> option(name: String, def: T, serializer: KSerializer<T>, renderer: OptionRenderer<T>, desc: Boolean = false): Option<T> {
+    protected fun <T> option(name: String, def: T, serializer: KSerializer<T>, renderer: OptionRenderer<T>, desc: Boolean = false): Option<T> {
         return Option(name, def, serializer, renderer, desc)
             .also { children += it }
     }
 
-    fun toggle(name: String, def: Boolean, desc: Boolean = false)
+    protected fun toggle(name: String, def: Boolean, desc: Boolean = false)
         = option(name, def, Boolean.serializer(), ToggleOptionRenderer, desc)
 
-    fun group(group: ConfigGroup) {
+    protected fun group(group: ConfigGroup) {
         children += group
     }
 
