@@ -2,6 +2,7 @@ package dev.asodesu.islandutils.api.game.state
 
 import com.noxcrew.noxesium.network.NoxesiumPackets
 import com.noxcrew.noxesium.network.clientbound.ClientboundMccGameStatePacket
+import dev.asodesu.islandutils.api.debug
 import dev.asodesu.islandutils.api.game.GameEvents
 import dev.asodesu.islandutils.api.modules.Module
 import dev.asodesu.islandutils.api.nullGameState
@@ -16,6 +17,7 @@ object StateManager : Module("StateManager") {
     }
 
     private fun onMccGameState(packet: ClientboundMccGameStatePacket) {
+        debug("Game State: $packet")
         GameEvents.GAME_STATE_UPDATE.invoker().onGameStateUpdate(current, packet)
         current = packet
     }
