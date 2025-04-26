@@ -1,6 +1,5 @@
 package dev.asodesu.islandutils.api.modules
 
-import dev.asodesu.islandutils.api.debug
 import org.slf4j.LoggerFactory
 
 /**

@@ -1,7 +1,6 @@
 package dev.asodesu.islandutils.mixin;
 
 import dev.asodesu.islandutils.api.MinecraftExtKt;
-import dev.asodesu.islandutils.api.sidebar.SidebarEvents;
 import dev.asodesu.islandutils.api.sidebar.SidebarEventsHandler;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.scores.Score;

@@ -1,7 +1,6 @@
 package dev.asodesu.islandutils.mixin;
 
 import dev.asodesu.islandutils.Modules;
-import dev.asodesu.islandutils.api.DebugExtKt;
 import dev.asodesu.islandutils.api.MinecraftExtKt;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;

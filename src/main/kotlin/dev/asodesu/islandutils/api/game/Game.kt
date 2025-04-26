@@ -1,7 +1,6 @@
 package dev.asodesu.islandutils.api.game
 
 import dev.asodesu.islandutils.api.events.EventKey
-import dev.asodesu.islandutils.api.events.MutableListEvent
 import org.slf4j.LoggerFactory
 
 /**

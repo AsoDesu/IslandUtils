@@ -1,6 +1,5 @@
 package dev.asodesu.islandutils.api
 
-import dev.asodesu.islandutils.api.Scheduler.Task
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.minecraft.client.Minecraft
 import kotlin.time.Duration

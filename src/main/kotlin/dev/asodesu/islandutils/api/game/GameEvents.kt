@@ -4,8 +4,6 @@ import dev.asodesu.islandutils.api.events.MutableListEvent
 import dev.asodesu.islandutils.api.game.events.GameChangeCallback
 import dev.asodesu.islandutils.api.game.events.GameStateUpdateCallback
 import dev.asodesu.islandutils.api.game.events.ServerUpdateCallback
-import dev.asodesu.islandutils.api.sidebar.SidebarLineUpdate
-import net.fabricmc.fabric.api.event.EventFactory
 
 object GameEvents {
     /**

@@ -8,7 +8,6 @@ import dev.asodesu.islandutils.api.options.screen.widgets.BackgroundWidget
 import dev.asodesu.islandutils.api.options.screen.widgets.FlatButton
 import dev.asodesu.islandutils.api.options.screen.widgets.background
 import java.util.concurrent.CompletableFuture
-import net.minecraft.ChatFormatting
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.components.StringWidget
 import net.minecraft.client.gui.layouts.FrameLayout

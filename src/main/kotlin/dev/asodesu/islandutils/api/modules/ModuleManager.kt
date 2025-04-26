@@ -1,7 +1,6 @@
 package dev.asodesu.islandutils.api.modules
 
 import dev.asodesu.islandutils.Modules
-import java.lang.RuntimeException
 import org.slf4j.LoggerFactory
 import kotlin.reflect.full.memberProperties
 
