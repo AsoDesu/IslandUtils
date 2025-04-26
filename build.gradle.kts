@@ -29,6 +29,10 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/islandutils.accesswidener")
+}
+
 tasks {
     processResources {
         inputs.property("version", project.version)

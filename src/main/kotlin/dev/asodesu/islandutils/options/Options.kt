@@ -7,6 +7,7 @@ object Options : Config(configDir.resolve("islandutils.json").toFile()) {
     override val entries = listOf(
         MusicOptions,
         DiscordOptions,
+        ClassicHitwOptions,
         MiscOptions
     )
 }

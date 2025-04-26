@@ -18,7 +18,7 @@ object ToggleOptionRenderer : OptionRenderer<Boolean> {
         val TOGGLE_HEIGHT = 12
 
         override fun renderWidget0(guiGraphics: GuiGraphics, f: Float) {
-            val sprite = if (option.value) TOGGLE_ON else TOGGLE_OFF
+            val sprite = if (option.get()) TOGGLE_ON else TOGGLE_OFF
 
             val toggleX = x + this.width - TOGGLE_WIDTH - PADDING
             val toggleY = y + (this.height - TOGGLE_HEIGHT) / 2
@@ -26,7 +26,7 @@ object ToggleOptionRenderer : OptionRenderer<Boolean> {
         }
 
         override fun onPress() {
-            option.value = !option.value
+            option.set(!option.get())
         }
     }
 }

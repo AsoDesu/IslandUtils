@@ -12,11 +12,12 @@ class BackgroundWidget(
     private val layout: Layout,
     private val spacing: Int,
     private val opacity: Float,
-    val sprite: ResourceLocation = LEFT
+    val sprite: ResourceLocation = ALL
 ) : Renderable {
 
     companion object {
         val LEFT = Resources.islandUtils("menu/options_background_left")
+        val ALL = Resources.islandUtils("menu/options_background")
         val RIGHT = Resources.islandUtils("menu/options_background_right")
     }
 
@@ -39,4 +40,4 @@ class BackgroundWidget(
     }
 }
 
-fun Layout.background(spacing: Int = 0, sprite: ResourceLocation, opacity: Float) = BackgroundWidget(this, spacing, opacity, sprite)
+fun Layout.background(spacing: Int = 0, opacity: Float, sprite: ResourceLocation = BackgroundWidget.ALL) = BackgroundWidget(this, spacing, opacity, sprite)

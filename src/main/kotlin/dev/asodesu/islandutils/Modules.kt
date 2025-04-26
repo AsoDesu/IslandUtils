@@ -3,10 +3,14 @@ package dev.asodesu.islandutils
 import dev.asodesu.islandutils.api.game.GameManager
 import dev.asodesu.islandutils.api.game.state.StateManager
 import dev.asodesu.islandutils.api.music.MusicManager
+import dev.asodesu.islandutils.features.ClassicHitw
 import dev.asodesu.islandutils.features.FriendsInGame
 import dev.asodesu.islandutils.games.Hub
 import dev.asodesu.islandutils.games.ParkourWarriorDojo
 import dev.asodesu.islandutils.games.Tgttos
+import dev.asodesu.islandutils.music.ClassicHitwMusic
+import dev.asodesu.islandutils.music.HighQualityMusic
+import dev.asodesu.islandutils.music.OldDynaballMusic
 import dev.asodesu.islandutils.music.TgttosDoubleTime
 
 /**
@@ -18,7 +22,8 @@ object Modules {
     // modules which are defined as objects
     val objects = listOf(
         StateManager,
-        FriendsInGame
+        FriendsInGame,
+        ClassicHitw
     )
 
     // the game manager, the order here does matter.
@@ -40,6 +45,9 @@ object Modules {
             "music.global.overtime_loop_music"
         ),
         modifiers = listOf(
+            HighQualityMusic,
+            OldDynaballMusic,
+            ClassicHitwMusic,
             TgttosDoubleTime
         )
     )

@@ -1,8 +1,8 @@
 package dev.asodesu.islandutils.api.options.option
 
 import dev.asodesu.islandutils.api.appendLine
-import dev.asodesu.islandutils.api.newLine
 import dev.asodesu.islandutils.api.buildComponent
+import dev.asodesu.islandutils.api.newLine
 import dev.asodesu.islandutils.api.options.ConfigEntry
 import dev.asodesu.islandutils.api.style
 import kotlinx.serialization.KSerializer
@@ -26,10 +26,23 @@ class Option<T>(
     val component = Component.translatable("islandutils.options.$name")
     private val descriptionComponent = Component.translatable("islandutils.options.$name.desc")
         .withStyle(ChatFormatting.DARK_AQUA)
-    var value = default
+    private var value = default
+
+    var onChange: MutableList<((T, T) -> Unit)> = mutableListOf()
 
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {
         return value
+    }
+
+    fun onChange(func: (T, T) -> Unit) = apply {
+        this.onChange += func
+    }
+
+    fun get() = value
+    fun set(newValue: T) {
+        val oldValue = this.value
+        this.value = newValue
+        this.onChange.forEach { it(oldValue, newValue) }
     }
 
     override fun render() = renderer.render(this).also { widget ->
@@ -46,7 +59,7 @@ class Option<T>(
     override fun load(json: JsonObject) {
         val element = json[name] ?: return
         val obj = Json.decodeFromJsonElement(serializer, element)
-        this.value = obj
+        set(obj)
     }
 
     override fun save(json: JsonObjectBuilder) {

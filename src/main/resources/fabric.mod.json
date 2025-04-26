@@ -22,6 +22,7 @@
 			}
 		]
 	},
+	"accessWidener" : "islandutils.accesswidener",
 	"mixins": [
 		"islandutils.mixins.json"
 	],

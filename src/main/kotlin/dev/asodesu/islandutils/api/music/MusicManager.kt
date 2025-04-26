@@ -57,7 +57,7 @@ class MusicManager(val knownTracks: List<String>, val modifiers: List<MusicModif
 
         val info = SoundInfo(soundLocation, packet.pitch, packet.volume)
         modifiers.forEach {
-            if (it.shouldApply(info) && it.enableOption.value) it.modify(info)
+            if (it.shouldApply(info) && it.enableOption.get()) it.modify(info)
         }
 
         val instance = MusicSoundInstance(
