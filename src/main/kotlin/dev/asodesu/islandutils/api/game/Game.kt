@@ -1,5 +1,7 @@
 package dev.asodesu.islandutils.api.game
 
+import dev.asodesu.islandutils.api.events.EventKey
+import dev.asodesu.islandutils.api.events.MutableListEvent
 import org.slf4j.LoggerFactory
 
 /**
@@ -9,7 +11,7 @@ import org.slf4j.LoggerFactory
  * @param id An identifier for this game (only used within mod,
  *  doesn't need to match island counterpart)
  */
-abstract class Game(val id: String) {
+abstract class Game(val id: String) : EventKey() {
     protected val logger = LoggerFactory.getLogger("IU-Game'$id'")
 
     /**

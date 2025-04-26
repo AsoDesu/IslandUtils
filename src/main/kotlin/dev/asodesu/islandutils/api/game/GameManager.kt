@@ -37,6 +37,7 @@ class GameManager(vararg contexts: GameContext) : Module("GameManager") {
         }
 
         val newActiveGame = context.create(packet)
+        active.unregisterEvents()
         active.unregister()
         GameEvents.GAME_CHANGE.invoker().onGameChange(active, newActiveGame)
 
@@ -46,6 +47,7 @@ class GameManager(vararg contexts: GameContext) : Module("GameManager") {
 
     private fun resetGame() {
         logger.info("Reset active game")
+        active.unregisterEvents()
         active.unregister()
         GameEvents.GAME_CHANGE.invoker().onGameChange(active, EmptyGame)
 
