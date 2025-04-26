@@ -15,7 +15,7 @@ class MutableListEvent<T : Any>(private val invokerFactory: (List<T>) -> T) {
         rebuildInvoker()
     }
 
-    fun register(key: EventKey?, listener: T): RegisteredListener<T> {
+    fun register(key: EventKey? = null, listener: T): RegisteredListener<T> {
         return addListener(listener)
             .also { key?.add(it) }
     }
