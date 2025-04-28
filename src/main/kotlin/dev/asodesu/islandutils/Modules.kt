@@ -5,6 +5,7 @@ import dev.asodesu.islandutils.api.game.state.StateManager
 import dev.asodesu.islandutils.api.music.MusicManager
 import dev.asodesu.islandutils.features.ClassicHitw
 import dev.asodesu.islandutils.features.FriendsInGame
+import dev.asodesu.islandutils.games.HoleInTheWall
 import dev.asodesu.islandutils.games.Hub
 import dev.asodesu.islandutils.games.ParkourWarriorDojo
 import dev.asodesu.islandutils.games.Tgttos
@@ -30,8 +31,9 @@ object Modules {
     val gameManager = GameManager(
         Hub,
         Tgttos,
+        HoleInTheWall,
         // ParkourWarriorSurvivor
-        ParkourWarriorDojo
+        ParkourWarriorDojo,
     )
 
     val musicManager = MusicManager(

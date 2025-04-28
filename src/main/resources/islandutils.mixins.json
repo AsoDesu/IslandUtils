@@ -11,6 +11,7 @@
     "client": [
         "OptionsButtonMixin",
         "SoundInterceptorMixin",
+        "TitleInterceptorMixin",
         "features.CommandSuggestionHandlerMixin",
         "sound.ApplyInjectedSoundsMixin"
     ]
