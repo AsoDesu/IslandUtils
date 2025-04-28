@@ -3,11 +3,13 @@ package dev.asodesu.islandutils.api.music
 import dev.asodesu.islandutils.api.debug
 import dev.asodesu.islandutils.api.minecraft
 import dev.asodesu.islandutils.api.modules.Module
+import dev.asodesu.islandutils.api.sound.SoundEvents
+import dev.asodesu.islandutils.api.sound.SoundPlayCallback
+import dev.asodesu.islandutils.api.sound.SoundStopCallback
+import dev.asodesu.islandutils.api.sound.info.SoundInfo
 import dev.asodesu.islandutils.options.MusicOptions
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.minecraft.client.Minecraft
-import net.minecraft.network.protocol.game.ClientboundSoundPacket
-import net.minecraft.network.protocol.game.ClientboundStopSoundPacket
 
 class MusicManager(val knownTracks: List<String>, val modifiers: List<MusicModifier>) : Module("MusicManager") {
     private val enabled by MusicOptions.enabled
@@ -16,6 +18,8 @@ class MusicManager(val knownTracks: List<String>, val modifiers: List<MusicModif
 
     override fun init() {
         ClientTickEvents.END_CLIENT_TICK.register(::tick)
+        SoundEvents.SOUND_PLAY.addListener(::handleSoundPlay)
+        SoundEvents.SOUND_STOP.addListener(::handleSoundStop)
     }
 
     fun tick(client: Minecraft) {
@@ -41,30 +45,30 @@ class MusicManager(val knownTracks: List<String>, val modifiers: List<MusicModif
         }
     }
 
-    // called from mixin, return true to cancel vanilla
-    fun handlePacket(packet: ClientboundSoundPacket): Boolean {
-        if (!enabled) return false
+    fun handleSoundPlay(info: SoundInfo, ci: SoundPlayCallback.Info) {
+        if (!enabled) return
+        if (info.sound.namespace != "mcc") return
 
-        val soundLocation = packet.sound.value().location
-        if (!soundLocation.path.startsWith("music.")) return false
-        if (!knownTracks.contains(soundLocation.path)) return false // ignore music tracks that we don't care about
+        val soundLocation = info.sound
+        if (!soundLocation.path.startsWith("music.")) return
+        if (!knownTracks.contains(soundLocation.path)) return // ignore music tracks that we don't care about
 
         val existingSounds = playingSounds.filter { it.unmodifiedSound == soundLocation }
         if (existingSounds.isNotEmpty()) {
             existingSounds.forEach { it.tag(LoopTag.RESTARTED) }
-            return true
+            return ci.cancel()
         }
 
-        val info = SoundInfo(soundLocation, packet.pitch, packet.volume)
+        val newSound = info.toMutable()
         modifiers.forEach {
-            if (it.shouldApply(info) && it.enableOption.get()) it.modify(info)
+            if (it.shouldApply(info) && it.enableOption.get()) it.modify(newSound)
         }
 
         val instance = MusicSoundInstance(
-            sound = info.sound,
-            pitch = info.pitch,
-            volume = info.volume,
-            category = packet.source,
+            sound = newSound.sound,
+            pitch = newSound.pitch,
+            volume = newSound.volume,
+            category = newSound.category,
             loop = true,
 
             unmodifiedSound = soundLocation
@@ -72,15 +76,14 @@ class MusicManager(val knownTracks: List<String>, val modifiers: List<MusicModif
         playingSounds += instance
         minecraft.soundManager.play(instance)
         debug("Playing ${soundLocation.path} as a looping track")
-        return true
+        ci.cancel()
     }
 
-    // called from mixin
-    fun handlePacket(packet: ClientboundStopSoundPacket): Boolean {
+    fun handleSoundStop(packet: SoundStopCallback.StopInfo, ci: SoundStopCallback.Info) {
         // functionality similar to that of vanilla stopping behaviour (defined in SoundEngine#stop)
         val source = packet.source
         val name = packet.name
-        return if (source != null) {
+        val cancel = if (source != null) {
             // source is set, name may or may not be set
             // fade all sounds on this source, or on this source with this name
             playingSounds.tagIf(LoopTag.STOPPED) { it.source == source && (name == null || it.unmodifiedSound == name) }
@@ -91,6 +94,8 @@ class MusicManager(val knownTracks: List<String>, val modifiers: List<MusicModif
             // source is null, name is set, fade all with this name
             playingSounds.tagIf(LoopTag.STOPPED) { it.unmodifiedSound == name }
         }
+
+        if (cancel) ci.cancel()
     }
 
     private fun MutableList<MusicSoundInstance>.tagIf(tag: LoopTag, func: (MusicSoundInstance) -> Boolean): Boolean {

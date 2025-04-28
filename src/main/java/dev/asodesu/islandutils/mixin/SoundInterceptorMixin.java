@@ -2,17 +2,28 @@ package dev.asodesu.islandutils.mixin;
 
 import dev.asodesu.islandutils.Modules;
 import dev.asodesu.islandutils.api.MinecraftExtKt;
+import dev.asodesu.islandutils.api.sound.SoundEvents;
+import dev.asodesu.islandutils.api.sound.SoundStopCallback;
+import dev.asodesu.islandutils.api.sound.info.SoundInfo;
+import dev.asodesu.islandutils.api.sound.SoundPlayCallback;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientCommonPacketListenerImpl;
 import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.multiplayer.CommonListenerCookie;
+import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
-import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPacketListener.class)
-public class SoundInterceptorMixin {
+public abstract class SoundInterceptorMixin extends ClientCommonPacketListenerImpl {
+    protected SoundInterceptorMixin(Minecraft minecraft, Connection connection, CommonListenerCookie commonListenerCookie) {
+        super(minecraft, connection, commonListenerCookie);
+    }
 
     @Inject(
             method = "handleSoundEvent",
@@ -26,10 +37,36 @@ public class SoundInterceptorMixin {
     public void handleSoundEvent(ClientboundSoundPacket clientboundSoundPacket, CallbackInfo ci) {
         if (!MinecraftExtKt.isOnline()) return;
 
-        ResourceLocation sound = clientboundSoundPacket.getSound().value().location();
-        if (!sound.getNamespace().equals("mcc")) return; // only mcc sounds
-        if(Modules.INSTANCE.getMusicManager().handlePacket(clientboundSoundPacket))
+        final SoundInfo[] replacedInfo = {null};
+        SoundInfo info = SoundInfo.Companion.fromPacket(clientboundSoundPacket);
+        SoundPlayCallback.Info callbackInfo = new SoundPlayCallback.Info() {
+            @Override
+            public void replace(@NotNull SoundInfo info) {
+                replacedInfo[0] = info;
+            }
+
+            @Override
+            public void cancel() {
+                ci.cancel();
+            }
+        };
+        SoundEvents.getSOUND_PLAY().invoker().onSoundPlay(info, callbackInfo);
+
+        SoundInfo newSoundInfo = replacedInfo[0];
+        if (newSoundInfo != null) {
             ci.cancel();
+            this.minecraft.level.playSeededSound(
+                            this.minecraft.player,
+                            clientboundSoundPacket.getX(),
+                            clientboundSoundPacket.getY(),
+                            clientboundSoundPacket.getZ(),
+                            newSoundInfo.toSoundEvent(),
+                            newSoundInfo.getCategory(),
+                            newSoundInfo.getVolume(),
+                            newSoundInfo.getPitch(),
+                            clientboundSoundPacket.getSeed()
+                    );
+        }
     }
 
     @Inject(
@@ -44,8 +81,12 @@ public class SoundInterceptorMixin {
     public void handleSoundEvent(ClientboundStopSoundPacket clientboundStopSoundPacket, CallbackInfo ci) {
         if (!MinecraftExtKt.isOnline()) return;
 
-        if (Modules.INSTANCE.getMusicManager().handlePacket(clientboundStopSoundPacket))
-            ci.cancel();
+        SoundStopCallback.StopInfo info = new SoundStopCallback.StopInfo(
+                clientboundStopSoundPacket.getName(),
+                clientboundStopSoundPacket.getSource()
+        );
+        SoundStopCallback.Info callbackInfo = ci::cancel;
+        SoundEvents.getSOUND_STOP().invoker().onSoundStop(info, callbackInfo);
     }
 
 }

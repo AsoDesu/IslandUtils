@@ -1,0 +1,14 @@
+package dev.asodesu.islandutils.api.sound.info
+
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.sounds.SoundSource
+
+class MutableSoundInfo(
+    override var sound: ResourceLocation,
+    override var category: SoundSource = SoundSource.MASTER,
+    override var pitch: Float,
+    override var volume: Float,
+    override var fixedRange: Float? = null,
+) : SoundInfo {
+    constructor(from: SoundInfo) : this(from.sound, from.category, from.pitch, from.volume, from.fixedRange)
+}

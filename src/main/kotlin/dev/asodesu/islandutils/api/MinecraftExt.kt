@@ -5,6 +5,7 @@ import net.minecraft.client.multiplayer.ClientPacketListener
 import net.minecraft.client.multiplayer.chat.ChatListener
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.sounds.SoundEvent
 
 /**
  * The current minecraft client instance
@@ -29,6 +30,8 @@ object Resources {
     fun islandUtils(path: String) = ResourceLocation.fromNamespaceAndPath("islandutils", path)
     fun mcc(path: String) = ResourceLocation.fromNamespaceAndPath("mcc", path)
 }
+
+fun ResourceLocation.toSoundEvent() = SoundEvent.createVariableRangeEvent(this)
 
 /**
  * The current active server connection
