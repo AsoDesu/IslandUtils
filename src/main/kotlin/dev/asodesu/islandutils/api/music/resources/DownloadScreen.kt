@@ -1,7 +1,7 @@
 package dev.asodesu.islandutils.api.music.resources
 
 import dev.asodesu.islandutils.api.music.resources.handler.DownloadProgressListener
-import dev.asodesu.islandutils.api.options.screen.widgets.background
+import dev.asodesu.islandutils.api.ui.background
 import dev.asodesu.islandutils.api.ui.ProgressBarWidget
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.Button

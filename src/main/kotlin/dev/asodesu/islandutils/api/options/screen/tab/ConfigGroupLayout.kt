@@ -2,7 +2,7 @@ package dev.asodesu.islandutils.api.options.screen.tab
 
 import dev.asodesu.islandutils.api.minecraft
 import dev.asodesu.islandutils.api.options.ConfigGroup
-import dev.asodesu.islandutils.api.options.screen.widgets.LayoutDelegate
+import dev.asodesu.islandutils.api.ui.LayoutDelegate
 import net.minecraft.client.gui.components.StringWidget
 import net.minecraft.client.gui.layouts.LinearLayout
 import net.minecraft.client.gui.layouts.SpacerElement

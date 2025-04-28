@@ -1,4 +1,4 @@
-package dev.asodesu.islandutils.api.options.screen.widgets
+package dev.asodesu.islandutils.api.ui
 
 import dev.asodesu.islandutils.api.minecraft
 import dev.asodesu.islandutils.api.rect
@@ -12,10 +12,10 @@ import net.minecraft.network.chat.Component
 import net.minecraft.util.ARGB
 import net.minecraft.util.Mth
 
-abstract class FlatButton(message: Component) : AbstractWidget(0, 0, 150, 20, message) {
+abstract class FlatButton(message: Component, width: Int = 150, height: Int = 20) : AbstractWidget(0, 0, width, height, message) {
     protected open val COLOR = vecRgb(45, 54, 91)
     protected open val COLOR_FOCUSED = vecRgb(65, 78, 130)
-    protected val PADDING = 8
+    protected open val PADDING = 8
 
     var ticksSinceLastHover = 2f
 

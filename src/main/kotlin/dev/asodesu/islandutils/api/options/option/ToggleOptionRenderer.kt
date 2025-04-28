@@ -1,7 +1,7 @@
 package dev.asodesu.islandutils.api.options.option
 
 import dev.asodesu.islandutils.api.Resources
-import dev.asodesu.islandutils.api.options.screen.widgets.FlatButton
+import dev.asodesu.islandutils.api.ui.FlatButton
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.layouts.LayoutElement
 import net.minecraft.client.renderer.RenderType

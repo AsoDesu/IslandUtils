@@ -4,9 +4,9 @@ import dev.asodesu.islandutils.api.options.Config
 import dev.asodesu.islandutils.api.options.ConfigEntry
 import dev.asodesu.islandutils.api.options.ConfigSection
 import dev.asodesu.islandutils.api.options.screen.tab.ConfigScreenTab
-import dev.asodesu.islandutils.api.options.screen.widgets.BackgroundWidget
-import dev.asodesu.islandutils.api.options.screen.widgets.FlatButton
-import dev.asodesu.islandutils.api.options.screen.widgets.background
+import dev.asodesu.islandutils.api.ui.BackgroundWidget
+import dev.asodesu.islandutils.api.ui.FlatButton
+import dev.asodesu.islandutils.api.ui.background
 import java.util.concurrent.CompletableFuture
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.components.StringWidget

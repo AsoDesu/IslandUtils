@@ -1,4 +1,4 @@
-package dev.asodesu.islandutils.api.options.screen.widgets
+package dev.asodesu.islandutils.api.ui
 
 import java.util.function.Consumer
 import net.minecraft.client.gui.components.AbstractWidget
