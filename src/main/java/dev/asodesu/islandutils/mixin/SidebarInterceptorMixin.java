@@ -1,7 +1,7 @@
 package dev.asodesu.islandutils.mixin;
 
 import dev.asodesu.islandutils.api.MinecraftExtKt;
-import dev.asodesu.islandutils.api.sidebar.SidebarEventsHandler;
+import dev.asodesu.islandutils.api.sidebar.SidebarEvents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.scores.Score;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,6 +15,6 @@ public class SidebarInterceptorMixin {
     @Inject(method = "display(Lnet/minecraft/network/chat/Component;)V", at = @At("TAIL"))
     public void display(Component component, CallbackInfo ci) {
         if (!MinecraftExtKt.isOnline()) return;
-        SidebarEventsHandler.INSTANCE.handleSidebarUpdate(component);
+        SidebarEvents.INSTANCE.getLINE_UPDATE().invoker().onSidebarLine(component);
     }
 }
