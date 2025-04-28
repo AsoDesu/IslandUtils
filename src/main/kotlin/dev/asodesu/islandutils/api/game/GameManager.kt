@@ -3,6 +3,7 @@ package dev.asodesu.islandutils.api.game
 import com.noxcrew.noxesium.NoxesiumFabricMod
 import com.noxcrew.noxesium.network.NoxesiumPackets
 import com.noxcrew.noxesium.network.clientbound.ClientboundMccServerPacket
+import dev.asodesu.islandutils.api.debug
 import dev.asodesu.islandutils.api.game.context.GameContext
 import dev.asodesu.islandutils.api.modules.Module
 
@@ -27,6 +28,7 @@ class GameManager(vararg contexts: GameContext) : Module("GameManager") {
     }
 
     private fun onMccServer(packet: ClientboundMccServerPacket) {
+        debug("Server: $packet")
         GameEvents.SERVER_UPDATE.invoker().onServerUpdate(packet)
 
         val context = registeredGames.firstOrNull { it.check(packet) }
