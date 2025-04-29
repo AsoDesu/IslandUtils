@@ -1,21 +1,11 @@
 package dev.asodesu.islandutils.api.music.resources.handler
 
-import dev.asodesu.islandutils.api.minecraft
-import dev.asodesu.islandutils.api.music.resources.DownloadScreen
 import dev.asodesu.islandutils.api.music.resources.RemoteResources
-import dev.asodesu.islandutils.api.options.screen.ConfigScreen
 import net.minecraft.network.chat.Component
-import org.slf4j.LoggerFactory
 
-class MultiDownloadHandler(assets: List<String>) : DownloadProgressListener {
-    private val logger = LoggerFactory.getLogger("IU-Download")
-    private var downloadScreen: DownloadScreen? = null
+class MultiDownloadHandler(assets: Collection<String>) : DownloadHandler() {
     private val downloadQueue = mutableListOf<String>()
     private var i = 0
-    private var thread: Thread? = null
-
-    override var progress: Double = 0.0
-    override var state: Component = Component.empty()
 
     init {
         assets.forEach {
@@ -23,15 +13,13 @@ class MultiDownloadHandler(assets: List<String>) : DownloadProgressListener {
             if (!RemoteResources.downloaded(it)) downloadQueue += it
         }
         if (downloadQueue.isNotEmpty()) {
-            if (minecraft.screen is ConfigScreen) {
-                downloadScreen = DownloadScreen(this, minecraft.screen)
-                minecraft.setScreen(downloadScreen)
-            }
             thread = Thread(::run).also { it.start() }
+        } else {
+            finally()
         }
     }
 
-    fun run() {
+    override fun run() {
         for (asset in downloadQueue) {
             i++
             try {
@@ -44,7 +32,7 @@ class MultiDownloadHandler(assets: List<String>) : DownloadProgressListener {
                 }
             }
         }
-        minecraft.submit { downloadScreen?.close() }
+        finally()
     }
 
     override fun progress(asset: String, progress: Double) {
@@ -52,17 +40,5 @@ class MultiDownloadHandler(assets: List<String>) : DownloadProgressListener {
         val scaledProgress = progress / downloadQueue.size
         this.progress = startingProgress + scaledProgress
         this.state = Component.literal("($i/${downloadQueue.size}) $asset")
-    }
-
-    override fun fail(asset: String, e: Exception) {
-        logger.error("Failed to download '$asset'", e)
-    }
-
-    override fun done(asset: String) {
-        logger.info("Downloaded asset '$asset'!")
-    }
-
-    override fun cancel() {
-        thread?.interrupt()
     }
 }

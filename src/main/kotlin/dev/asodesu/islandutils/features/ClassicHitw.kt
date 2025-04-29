@@ -5,7 +5,7 @@ import dev.asodesu.islandutils.api.Resources
 import dev.asodesu.islandutils.api.game.activeGame
 import dev.asodesu.islandutils.api.minecraft
 import dev.asodesu.islandutils.api.modules.Module
-import dev.asodesu.islandutils.api.music.resources.handler.MultiDownloadHandler
+import dev.asodesu.islandutils.api.music.resources.handler.DownloadJob
 import dev.asodesu.islandutils.api.sound.SoundEvents
 import dev.asodesu.islandutils.api.sound.SoundPlayCallback
 import dev.asodesu.islandutils.api.sound.info.SoundInfo
@@ -20,7 +20,9 @@ import kotlin.time.Duration.Companion.seconds
 
 object ClassicHitw : Module("ClassicHitw") {
     const val MUSIC_ASSET = "classic_hitw/music"
-    private val ANNOUCER_ASSETS = listOf(
+
+    val MUSIC_DOWNLOAD = DownloadJob.single(MUSIC_ASSET)
+    val ANNOUNCER_DOWNLOAD = DownloadJob.multi(
         "classic_hitw/announcer/archery",
         "classic_hitw/announcer/arrowstorm",
         "classic_hitw/announcer/bombsquad",
@@ -119,6 +121,4 @@ object ClassicHitw : Module("ClassicHitw") {
         val soundEvent = Resources.islandUtils("classic_hitw.announcer.$trapSoundKey").toSoundEvent()
         minecraft.soundManager.play(SimpleSoundInstance.forUI(soundEvent, 1f, 1f))
     }
-
-    fun downloadAnnoucer() = minecraft.submit { MultiDownloadHandler(ANNOUCER_ASSETS) }
 }

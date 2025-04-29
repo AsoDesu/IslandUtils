@@ -110,7 +110,7 @@ class ConfigScreen(
             tab!!.close()
         }
 
-        tab = section.render().apply {
+        tab = section.render(configFrame).apply {
             init()
             x = configFrame.x
             y = configFrame.y
@@ -133,6 +133,7 @@ class ConfigScreen(
         minecraft?.setScreen(parent)
     }
 
+    var lastClicked: FlatButton? = null
     override fun mouseClicked(d: Double, e: Double, i: Int): Boolean {
         // taken from super method
 
@@ -147,11 +148,23 @@ class ConfigScreen(
             val guiEventListener = optional.get()
             if (guiEventListener.mouseClicked(d, e, i)) {
                 if (guiEventListener !is FlatButton) this.focused = guiEventListener
-                else this.focused = null
+                else {
+                    this.lastClicked = guiEventListener
+                    this.focused = null
+                }
                 if (i == 0) this.isDragging = true
             }
             return true
         }
+    }
+
+    override fun mouseReleased(d: Double, e: Double, i: Int): Boolean {
+        val handle = super.mouseReleased(d, e, i)
+        lastClicked?.let {
+            lastClicked = null
+            return it.mouseReleased(d, e, i)
+        }
+        return handle
     }
 
 }

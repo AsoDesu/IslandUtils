@@ -13,7 +13,7 @@ class ConfigGroupLayout(private val group: ConfigGroup) : LayoutDelegate() {
         addChild(StringWidget(group.component, minecraft.font).alignLeft())
         addChild(LinearLayout.vertical().spacing(3).apply {
             group.children().forEach {
-                addChild(it.render())
+                addChild(it.render(this))
             }
         })
     }

@@ -13,7 +13,7 @@ class SectionScreenTab(private val section: ConfigSection) : ConfigScreenTab {
         addChild(SpacerElement.height(0))
 
         section.children().forEach {
-            addChild(it.render())
+            addChild(it.render(this))
         }
     }
 

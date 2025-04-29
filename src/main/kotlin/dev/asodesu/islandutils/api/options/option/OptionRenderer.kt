@@ -1,7 +1,8 @@
 package dev.asodesu.islandutils.api.options.option
 
+import net.minecraft.client.gui.layouts.Layout
 import net.minecraft.client.gui.layouts.LayoutElement
 
 interface OptionRenderer<T> {
-    fun render(option: Option<T>): LayoutElement
+    fun render(option: Option<T>, layout: Layout): LayoutElement
 }

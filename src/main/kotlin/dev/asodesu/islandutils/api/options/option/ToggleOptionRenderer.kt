@@ -3,11 +3,12 @@ package dev.asodesu.islandutils.api.options.option
 import dev.asodesu.islandutils.api.Resources
 import dev.asodesu.islandutils.api.ui.FlatButton
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.layouts.Layout
 import net.minecraft.client.gui.layouts.LayoutElement
 import net.minecraft.client.renderer.RenderType
 
 object ToggleOptionRenderer : OptionRenderer<Boolean> {
-    override fun render(option: Option<Boolean>): LayoutElement {
+    override fun render(option: Option<Boolean>, layout: Layout): LayoutElement {
         return ToggleButton(option)
     }
 

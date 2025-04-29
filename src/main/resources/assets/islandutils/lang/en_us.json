@@ -8,6 +8,12 @@
 
     "islandutils.options.section.discord": "Discord",
 
+    "islandutils.options.section.classic_hitw": "Classic HITW",
+    "islandutils.options.classic_hitw_annoucer": "Enable trap annoucer voice lines",
+    "islandutils.options.classic_hitw_annoucer.desc": "Enables the trap annoucement voice lines from the original 'Super Hole In The Wall' map",
+    "islandutils.options.classic_hitw_music": "Enable Classic HITW music",
+    "islandutils.options.classic_hitw_music.desc": "Replaces the Hole In The Wall music with the music from the original 'Super Hole In The Wall' map",
+
     "islandutils.options.section.misc": "Miscellaneous",
     "islandutils.options.test": "Test Option",
     "islandutils.options.section.misc.friendnotifs": "Friend Notifications",

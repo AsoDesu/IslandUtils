@@ -13,8 +13,10 @@ fun GuiGraphics.rect(x: Int, y: Int, width: Int, height: Int, color: Int) {
     this.fill(x, y, x + width, y + height, color)
 }
 
-fun GuiGraphics.rectBorder(x: Int, y: Int, width: Int, height: Int, color: Int) {
-    this.renderOutline(x, y, width, height, color)
+fun GuiGraphics.scissor(x: Int, y: Int, width: Int, height: Int, apply: () -> Unit) {
+    this.enableScissor(x, y, x + width, y + height)
+    apply()
+    this.disableScissor()
 }
 
 fun vecRgb(red: Int, green: Int, blue: Int) = Vec3(red / 255.0, green / 255.0, blue / 255.0)

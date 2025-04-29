@@ -12,6 +12,7 @@ import kotlinx.serialization.json.JsonObjectBuilder
 import net.minecraft.ChatFormatting
 import net.minecraft.client.gui.components.AbstractWidget
 import net.minecraft.client.gui.components.Tooltip
+import net.minecraft.client.gui.layouts.Layout
 import net.minecraft.network.chat.Component
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -20,15 +21,14 @@ class Option<T>(
     private val name: String,
     private val default: T,
     private val serializer: KSerializer<T>,
-    private val renderer: OptionRenderer<T>,
+    private var renderer: OptionRenderer<T>,
     private val hasDescription: Boolean
 ) : ReadOnlyProperty<Any?, T>, ConfigEntry {
     val component = Component.translatable("islandutils.options.$name")
     private val descriptionComponent = Component.translatable("islandutils.options.$name.desc")
         .withStyle(ChatFormatting.DARK_AQUA)
     private var value = default
-
-    var onChange: MutableList<((T, T) -> Unit)> = mutableListOf()
+    private var onChange: MutableList<((T, T) -> Unit)> = mutableListOf()
 
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {
         return value
@@ -36,6 +36,9 @@ class Option<T>(
 
     fun onChange(func: (T, T) -> Unit) = apply {
         this.onChange += func
+    }
+    fun withRenderer(renderer: OptionRenderer<T>) = apply {
+        this.renderer = renderer
     }
 
     fun get() = value
@@ -45,7 +48,8 @@ class Option<T>(
         this.onChange.forEach { it(oldValue, newValue) }
     }
 
-    override fun render() = renderer.render(this).also { widget ->
+    fun renderer() = renderer
+    override fun render(layout: Layout) = renderer.render(this, layout).also { widget ->
         if (widget is AbstractWidget) {
             val tooltip = buildComponent {
                 appendLine(component.style { withBold(true) })
@@ -59,7 +63,7 @@ class Option<T>(
     override fun load(json: JsonObject) {
         val element = json[name] ?: return
         val obj = Json.decodeFromJsonElement(serializer, element)
-        set(obj)
+        this.value = obj
     }
 
     override fun save(json: JsonObjectBuilder) {

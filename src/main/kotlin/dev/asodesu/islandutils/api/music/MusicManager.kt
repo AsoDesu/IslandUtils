@@ -20,6 +20,11 @@ class MusicManager(val knownTracks: List<String>, val modifiers: List<MusicModif
         ClientTickEvents.END_CLIENT_TICK.register(::tick)
         SoundEvents.SOUND_PLAY.addListener(::handleSoundPlay)
         SoundEvents.SOUND_STOP.addListener(::handleSoundStop)
+
+        modifiers.forEach {
+            val download = it.downloadJob() ?: return@forEach
+            if (it.enableOption.get()) download.start()
+        }
     }
 
     fun tick(client: Minecraft) {

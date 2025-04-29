@@ -2,7 +2,7 @@ package dev.asodesu.islandutils.api.music.resources
 
 import dev.asodesu.islandutils.api.Resources
 import dev.asodesu.islandutils.api.configDir
-import dev.asodesu.islandutils.api.music.resources.handler.DownloadProgressListener
+import dev.asodesu.islandutils.api.music.resources.handler.DownloadHandler
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.FileOutputStream
@@ -26,7 +26,7 @@ object RemoteResources {
         file(asset).deleteIfExists()
     }
 
-    fun download(asset: String, progressListener: DownloadProgressListener? = null) {
+    fun download(asset: String, progressListener: DownloadHandler? = null) {
         val outputFile = file(asset)
         try {
             FileUtil.createDirectoriesSafe(outputFile.parent)

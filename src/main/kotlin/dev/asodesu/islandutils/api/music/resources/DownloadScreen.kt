@@ -1,8 +1,8 @@
 package dev.asodesu.islandutils.api.music.resources
 
-import dev.asodesu.islandutils.api.music.resources.handler.DownloadProgressListener
-import dev.asodesu.islandutils.api.ui.background
+import dev.asodesu.islandutils.api.music.resources.handler.DownloadHandler
 import dev.asodesu.islandutils.api.ui.ProgressBarWidget
+import dev.asodesu.islandutils.api.ui.background
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.components.StringWidget
@@ -12,7 +12,7 @@ import net.minecraft.client.gui.layouts.LinearLayout
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 
-class DownloadScreen(val download: DownloadProgressListener, val parent: Screen?) : Screen(Component.literal("Downloading")) {
+class DownloadScreen(val download: DownloadHandler, val parent: Screen?) : Screen(Component.literal("Downloading")) {
     var progressBar: ProgressBarWidget? = null
     var text: StringWidget? = null
 
@@ -40,14 +40,11 @@ class DownloadScreen(val download: DownloadProgressListener, val parent: Screen?
     override fun render(guiGraphics: GuiGraphics, i: Int, j: Int, f: Float) {
         progressBar?.progress(download.progress)
         text?.message = download.state
+        if (download.finished)
+            minecraft?.submit { minecraft?.setScreen(parent) }
 
         super.render(guiGraphics, i, j, f)
     }
 
     override fun shouldCloseOnEsc() = false
-
-    fun close() {
-        minecraft!!.setScreen(parent)
-    }
-
 }

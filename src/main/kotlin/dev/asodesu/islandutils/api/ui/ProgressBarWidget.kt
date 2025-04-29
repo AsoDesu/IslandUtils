@@ -8,14 +8,21 @@ import net.minecraft.client.renderer.RenderType
 import net.minecraft.network.chat.Component
 import net.minecraft.util.ARGB
 
-class ProgressBarWidget(x: Int = 0, y: Int = 0, width: Int = 150, height: Int = 20) : AbstractWidget(x, y, width, height, Component.empty()) {
+class ProgressBarWidget(
+    val foregroundColor: Int = ARGB.white(1f),
+    val backgroundColor: Int = ARGB.color(255, 0, 0, 0),
+    x: Int = 0,
+    y: Int = 0,
+    width: Int = 150,
+    height: Int = 20
+) : AbstractWidget(x, y, width, height, Component.empty()) {
     private val SPRITE = Resources.islandUtils("menu/progress_bar")
     private var progress = 0.0
 
     override fun renderWidget(guiGraphics: GuiGraphics, i: Int, j: Int, f: Float) {
         val progressWidth = this.width * progress
-        guiGraphics.blitSprite(RenderType::guiTextured, SPRITE, this.x, this.y, this.width, this.height, ARGB.color(255, 0, 0, 0))
-        guiGraphics.blitSprite(RenderType::guiTextured, SPRITE, this.x, this.y, progressWidth.toInt(), this.height, ARGB.white(1f))
+        guiGraphics.blitSprite(RenderType::guiTextured, SPRITE, this.x, this.y, this.width, this.height, backgroundColor)
+        guiGraphics.blitSprite(RenderType::guiTextured, SPRITE, this.x, this.y, progressWidth.toInt(), this.height, foregroundColor)
     }
 
     fun progress(double: Double) {

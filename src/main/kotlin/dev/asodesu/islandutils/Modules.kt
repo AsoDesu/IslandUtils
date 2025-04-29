@@ -12,6 +12,7 @@ import dev.asodesu.islandutils.games.Tgttos
 import dev.asodesu.islandutils.music.ClassicHitwMusic
 import dev.asodesu.islandutils.music.HighQualityMusic
 import dev.asodesu.islandutils.music.OldDynaballMusic
+import dev.asodesu.islandutils.music.TgttosDomeMusic
 import dev.asodesu.islandutils.music.TgttosDoubleTime
 
 /**
@@ -47,9 +48,10 @@ object Modules {
             "music.global.overtime_loop_music"
         ),
         modifiers = listOf(
+            ClassicHitwMusic,
             HighQualityMusic,
             OldDynaballMusic,
-            ClassicHitwMusic,
+            TgttosDomeMusic,
             TgttosDoubleTime
         )
     )
