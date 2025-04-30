@@ -31,7 +31,7 @@ abstract class Config(val file: File, val fileVersion: String = "2.0.0") {
             return
         }
 
-        val versionString = (json["_version"] as? JsonPrimitive)?.toString()
+        val versionString = (json["_version"] as? JsonPrimitive)?.content
         if (versionString == null || versionString != fileVersion) {
             // TODO: DFU
             logger.info("Config version '$versionString' differs from expected version '$fileVersion'")
