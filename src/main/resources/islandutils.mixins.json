@@ -2,17 +2,19 @@
     "required": true,
     "package": "dev.asodesu.islandutils.mixin",
     "compatibilityLevel": "JAVA_21",
-    "mixins": [
-        "SidebarInterceptorMixin"
-    ],
+    "mixins": [],
     "injectors": {
         "defaultRequire": 1
     },
     "client": [
+        "chest.ChestMenuInterceptorMixin",
+        "chest.ChestScreenInterceptorMixin",
+        "FontLoaderMixin",
         "OptionsButtonMixin",
         "SoundInterceptorMixin",
         "TitleInterceptorMixin",
         "features.CommandSuggestionHandlerMixin",
-        "sound.ApplyInjectedSoundsMixin"
+        "sound.ApplyInjectedSoundsMixin",
+        "SidebarInterceptorMixin"
     ]
 }

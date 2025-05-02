@@ -19,6 +19,12 @@ fun GuiGraphics.scissor(x: Int, y: Int, width: Int, height: Int, apply: () -> Un
     this.disableScissor()
 }
 
+fun GuiGraphics.pose(apply: () -> Unit) {
+    pose().pushPose()
+    apply()
+    pose().popPose()
+}
+
 fun vecRgb(red: Int, green: Int, blue: Int) = Vec3(red / 255.0, green / 255.0, blue / 255.0)
 
 fun MutableComponent.appendLine(component: Component): MutableComponent {

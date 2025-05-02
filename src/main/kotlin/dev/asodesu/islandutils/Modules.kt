@@ -1,10 +1,13 @@
 package dev.asodesu.islandutils
 
+import dev.asodesu.islandutils.api.chest.analysis.ChestAnalysisManager
 import dev.asodesu.islandutils.api.game.GameManager
 import dev.asodesu.islandutils.api.game.state.StateManager
 import dev.asodesu.islandutils.api.music.MusicManager
 import dev.asodesu.islandutils.features.ClassicHitw
 import dev.asodesu.islandutils.features.FriendsInGame
+import dev.asodesu.islandutils.features.crafting.CraftingChestAnalyser
+import dev.asodesu.islandutils.features.crafting.notif.CraftingNotifier
 import dev.asodesu.islandutils.games.HoleInTheWall
 import dev.asodesu.islandutils.games.Hub
 import dev.asodesu.islandutils.games.ParkourWarriorDojo
@@ -25,7 +28,8 @@ object Modules {
     val objects = listOf(
         StateManager,
         FriendsInGame,
-        ClassicHitw
+        ClassicHitw,
+        CraftingNotifier
     )
 
     // the game manager, the order here does matter.
@@ -54,5 +58,9 @@ object Modules {
             TgttosDomeMusic,
             TgttosDoubleTime
         )
+    )
+
+    val chestAnalysis = ChestAnalysisManager(
+        CraftingChestAnalyser.Factory
     )
 }

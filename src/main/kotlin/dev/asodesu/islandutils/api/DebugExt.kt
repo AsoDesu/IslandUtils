@@ -9,6 +9,6 @@ val debugMode by MiscOptions.Debug.debugMode
 
 private val logger = LoggerFactory.getLogger("IU-DEBUG")
 fun debug(str: String) {
-    if (debugMode) send(Component.literal("[ISLANDUTILS] $str").withStyle(ChatFormatting.GRAY))
-    logger.info(str)
+    if (debugMode) send(Component.literal("[IslandUtils] $str").withStyle(ChatFormatting.GRAY))
+    else logger.info(str)
 }

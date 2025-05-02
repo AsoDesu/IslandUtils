@@ -2,6 +2,7 @@
     "menu.islandutils": "IslandUtils",
     "islandutils.feature.friends.game": "Friends in this game",
     "islandutils.feature.friends.lobby": "Friends in this lobby",
+    "islandutils.feature.crafting.complete": "CRAFTING COMPLETE",
 
     "islandutils.options.section.music": "Music",
     "islandutils.options.music_enabled": "Enable Music Features",

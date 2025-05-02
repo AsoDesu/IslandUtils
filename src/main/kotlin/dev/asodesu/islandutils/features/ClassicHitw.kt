@@ -6,6 +6,7 @@ import dev.asodesu.islandutils.api.game.activeGame
 import dev.asodesu.islandutils.api.minecraft
 import dev.asodesu.islandutils.api.modules.Module
 import dev.asodesu.islandutils.api.music.resources.handler.DownloadJob
+import dev.asodesu.islandutils.api.play
 import dev.asodesu.islandutils.api.sound.SoundEvents
 import dev.asodesu.islandutils.api.sound.SoundPlayCallback
 import dev.asodesu.islandutils.api.sound.info.SoundInfo
@@ -13,7 +14,6 @@ import dev.asodesu.islandutils.api.style
 import dev.asodesu.islandutils.api.toSoundEvent
 import dev.asodesu.islandutils.games.HoleInTheWall
 import dev.asodesu.islandutils.options.ClassicHitwOptions
-import net.minecraft.client.resources.sounds.SimpleSoundInstance
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.TextColor
 import kotlin.time.Duration.Companion.seconds
@@ -119,6 +119,6 @@ object ClassicHitw : Module("ClassicHitw") {
 
     private fun playTrapSound(trapSoundKey: String) {
         val soundEvent = Resources.islandUtils("classic_hitw.announcer.$trapSoundKey").toSoundEvent()
-        minecraft.soundManager.play(SimpleSoundInstance.forUI(soundEvent, 1f, 1f))
+        minecraft.soundManager.play(soundEvent)
     }
 }

@@ -1,7 +1,7 @@
 package dev.asodesu.islandutils.api.music.resources
 
 import dev.asodesu.islandutils.api.Resources
-import dev.asodesu.islandutils.api.configDir
+import dev.asodesu.islandutils.api.islandUtilsFolder
 import dev.asodesu.islandutils.api.music.resources.handler.DownloadHandler
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
@@ -14,7 +14,7 @@ import kotlin.io.path.exists
 
 object RemoteResources {
     private val assetsBaseUrl = "https://raw.githubusercontent.com/AsoDesu/islandutils-assets/2.0.0/assets/"
-    private val assetsFolder = configDir.resolve("islandutils_assets")
+    private val assetsFolder = islandUtilsFolder.resolve("assets")
 
     fun downloaded(asset: String) = file(asset).exists()
 

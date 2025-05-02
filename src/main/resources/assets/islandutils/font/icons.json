@@ -1,5 +1,7 @@
 {
     "providers": [
-        {"type":"bitmap","file": "mcc:island_interface/social/icon.png","chars": ["\ue001"],"ascent":8,"height":8}
+        {"type":"bitmap","file": "mcc:island_interface/social/icon.png","chars": ["\ue001"],"ascent":8,"height":8},
+        {"type":"bitmap","file": "mcc:_fonts/fusion_crafting.png","chars": ["\ue002"],"ascent":8,"height":16},
+        {"type":"bitmap","file": "mcc:_fonts/crafting.png","chars": ["\ue003"],"ascent":8,"height":16}
     ]
 }

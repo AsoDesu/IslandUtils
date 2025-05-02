@@ -1,8 +1,8 @@
 package dev.asodesu.islandutils.api.options
 
+import dev.asodesu.islandutils.api.json.decode
 import dev.asodesu.islandutils.api.options.screen.ConfigScreen
 import java.io.File
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
@@ -23,9 +23,8 @@ abstract class Config(val file: File, val fileVersion: String = "2.0.0") {
         }
         logger.info("Loading ${file.name} config...")
 
-        val text = file.readText()
         val json = try {
-            Json.decodeFromString<JsonObject>(text)
+            file.readText().decode<JsonObject>()
         } catch (e: Exception) {
             logger.error("Failed to load config file", e)
             return
