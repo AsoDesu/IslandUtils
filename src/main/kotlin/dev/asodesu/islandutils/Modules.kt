@@ -6,6 +6,7 @@ import dev.asodesu.islandutils.api.game.state.StateManager
 import dev.asodesu.islandutils.api.music.MusicManager
 import dev.asodesu.islandutils.features.ClassicHitw
 import dev.asodesu.islandutils.features.FriendsInGame
+import dev.asodesu.islandutils.features.RemnantHighlight
 import dev.asodesu.islandutils.features.crafting.CraftingChestAnalyser
 import dev.asodesu.islandutils.features.crafting.notif.CraftingNotifier
 import dev.asodesu.islandutils.games.HoleInTheWall
@@ -61,6 +62,11 @@ object Modules {
     )
 
     val chestAnalysis = ChestAnalysisManager(
-        CraftingChestAnalyser.Factory
+        factories = listOf(
+            CraftingChestAnalyser.Factory
+        ),
+        analysers = listOf(
+            RemnantHighlight
+        )
     )
 }

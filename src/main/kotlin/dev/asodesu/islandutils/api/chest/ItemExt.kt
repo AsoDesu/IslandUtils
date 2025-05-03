@@ -8,8 +8,10 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.component.CustomData
 import kotlin.jvm.optionals.getOrNull
 
+val ItemStack.loreOrNull: List<Component>?
+    get() = this.components.get(DataComponents.LORE)?.lines
 val ItemStack.lore: List<Component>
-    get() = this.components.get(DataComponents.LORE)?.lines ?: emptyList()
+    get() = loreOrNull ?: emptyList()
 
 fun List<Component>.anyLineContains(str: String) = this.any { it.string.contains(str) }
 

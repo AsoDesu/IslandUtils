@@ -1,5 +1,6 @@
 package dev.asodesu.islandutils.api.extentions
 
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
@@ -19,9 +20,9 @@ fun GuiGraphics.scissor(x: Int, y: Int, width: Int, height: Int, apply: () -> Un
     this.disableScissor()
 }
 
-fun GuiGraphics.pose(apply: () -> Unit) {
+fun GuiGraphics.pose(apply: PoseStack.() -> Unit) {
     pose().pushPose()
-    apply()
+    apply(pose())
     pose().popPose()
 }
 

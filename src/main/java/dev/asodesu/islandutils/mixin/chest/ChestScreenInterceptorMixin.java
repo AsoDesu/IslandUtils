@@ -5,11 +5,13 @@ import dev.asodesu.islandutils.api.chest.analysis.ChestAnalyser;
 import dev.asodesu.islandutils.api.chest.analysis.ContainerScreenMixinHelper;
 import dev.asodesu.islandutils.api.chest.font.ChestBackgrounds;
 import dev.asodesu.islandutils.api.extentions.MinecraftExtKt;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,7 +26,7 @@ import java.util.List;
 @Mixin(AbstractContainerScreen.class)
 public class ChestScreenInterceptorMixin implements ContainerScreenMixinHelper {
     @Unique @Nullable ChestAnalyser analyser;
-    @Unique Collection<ResourceLocation> menuComponents;
+    @Unique Collection<ResourceLocation> menuComponents = List.of();
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void init(AbstractContainerMenu abstractContainerMenu, Inventory inventory, Component component, CallbackInfo ci) {
@@ -32,6 +34,30 @@ public class ChestScreenInterceptorMixin implements ContainerScreenMixinHelper {
 
         menuComponents = ChestBackgrounds.INSTANCE.get(component);
         analyser = Modules.INSTANCE.getChestAnalysis().createAnalyser(menuComponents);
+    }
+
+    @Inject(
+            method = "render",
+            at = @At( // call after our inital translation
+                    value = "INVOKE",
+                    target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V",
+                    shift = At.Shift.AFTER
+            )
+    )
+    private void render(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
+        if (analyser != null) analyser.render(guiGraphics);
+    }
+
+    @Inject(
+            method = "renderSlot",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V",
+                    shift = At.Shift.AFTER
+            )
+    )
+    private void render(GuiGraphics guiGraphics, Slot slot, CallbackInfo ci) {
+        if (analyser != null) analyser.renderSlot(guiGraphics, slot);
     }
 
     @Unique

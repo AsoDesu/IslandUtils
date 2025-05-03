@@ -43,7 +43,7 @@ class CraftingToast(private val craftingItem: CraftingItem) : Toast {
         guiGraphics.renderFakeItem(craftingItem.item, 8, 8)
 
         guiGraphics.pose {
-            guiGraphics.pose().translate(0.0, 0.0, 200.0)
+            translate(0.0, 0.0, 200.0)
             guiGraphics.drawString(font, craftingItem.type.icon, 6, 8 + ITEM_HEIGHT - 6, ARGB.white(1f), false)
         }
     }

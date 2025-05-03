@@ -3,14 +3,14 @@ package dev.asodesu.islandutils.api.chest.analysis
 import dev.asodesu.islandutils.api.modules.Module
 import net.minecraft.resources.ResourceLocation
 
-class ChestAnalysisManager(vararg factories: ChestAnalyserFactory) : Module("ChestAnalysis") {
-    private val analysers = factories.toList()
+class ChestAnalysisManager(factories: List<ChestAnalyserFactory>, val analysers: List<ChestAnalyser>) : Module("ChestAnalysis") {
+    private val factories = factories.toList()
 
     override fun init() {
     }
 
     fun createAnalyser(menuComponents: Collection<ResourceLocation>): ChestAnalyser? {
-        val factories = analysers.filter {
+        val factories = factories.filter {
             try {
                 it.shouldApply(menuComponents)
             } catch (e: Exception) {
@@ -19,12 +19,13 @@ class ChestAnalysisManager(vararg factories: ChestAnalyserFactory) : Module("Che
             }
         }
 
-        return if (factories.isEmpty()) null
-        else if (factories.size == 1) {
-            factories[0].createCatching(menuComponents)
-        } else {
-            MultiChestAnalyser(factories.mapNotNull { it.createCatching(menuComponents) })
-        }
+        return MultiChestAnalyser(buildList {
+            factories.forEach { factory ->
+                val analyser = factory.createCatching(menuComponents) ?: return@forEach
+                add(analyser)
+            }
+            addAll(analysers)
+        })
     }
 
     private fun ChestAnalyserFactory.createCatching(menuComponents: Collection<ResourceLocation>): ChestAnalyser? {
