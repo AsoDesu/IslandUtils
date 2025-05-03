@@ -1,4 +1,4 @@
-package dev.asodesu.islandutils.api
+package dev.asodesu.islandutils.api.extentions
 
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component
@@ -35,8 +35,11 @@ fun MutableComponent.newLine(): MutableComponent {
     return this.append("\n")
 }
 
-fun MutableComponent.style(func: Style.() -> Style): Component {
+fun MutableComponent.copyAndStyle(func: Style.() -> Style): Component {
     return this.copy().withStyle { it.func() }
+}
+fun MutableComponent.style(func: Style.() -> Style): Component {
+    return this.withStyle { it.func() }
 }
 
 fun buildComponent(func: MutableComponent.() -> Unit): Component {

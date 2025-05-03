@@ -1,10 +1,10 @@
 package dev.asodesu.islandutils.mixin.chest;
 
 import dev.asodesu.islandutils.Modules;
-import dev.asodesu.islandutils.api.MinecraftExtKt;
 import dev.asodesu.islandutils.api.chest.analysis.ChestAnalyser;
 import dev.asodesu.islandutils.api.chest.analysis.ContainerScreenMixinHelper;
 import dev.asodesu.islandutils.api.chest.font.ChestBackgrounds;
+import dev.asodesu.islandutils.api.extentions.MinecraftExtKt;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

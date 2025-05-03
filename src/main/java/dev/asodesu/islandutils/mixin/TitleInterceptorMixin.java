@@ -1,12 +1,11 @@
 package dev.asodesu.islandutils.mixin;
 
-import dev.asodesu.islandutils.api.MinecraftExtKt;
+import dev.asodesu.islandutils.api.extentions.MinecraftExtKt;
 import dev.asodesu.islandutils.api.game.GameExtKt;
 import dev.asodesu.islandutils.features.ClassicHitw;
 import dev.asodesu.islandutils.games.HoleInTheWall;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
-import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

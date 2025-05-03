@@ -2,10 +2,10 @@ package dev.asodesu.islandutils.api.game.state
 
 import com.noxcrew.noxesium.network.NoxesiumPackets
 import com.noxcrew.noxesium.network.clientbound.ClientboundMccGameStatePacket
-import dev.asodesu.islandutils.api.debug
+import dev.asodesu.islandutils.api.extentions.debug
 import dev.asodesu.islandutils.api.game.GameEvents
 import dev.asodesu.islandutils.api.modules.Module
-import dev.asodesu.islandutils.api.nullGameState
+import dev.asodesu.islandutils.api.extentions.nullGameState
 
 object StateManager : Module("StateManager") {
     var current = nullGameState()

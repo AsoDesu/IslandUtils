@@ -1,4 +1,4 @@
-package dev.asodesu.islandutils.api
+package dev.asodesu.islandutils.api.extentions
 
 import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientPacketListener
@@ -48,11 +48,13 @@ private val mcciDomains = listOf(
     "mccisland.com"
 )
 
+fun isMccIp(ip: String?): Boolean {
+    if (ip == null) return false
+    val lowercase = ip.lowercase()
+    return mcciDomains.any { lowercase.contains(it) }
+}
+
 /**
  * If the player is currently online on MCC Island
  */
-val isOnline: Boolean
-    get() {
-        val ip = minecraft.currentServer?.ip?.lowercase() ?: return false
-        return mcciDomains.any { ip.contains(it) }
-    }
+val isOnline: Boolean get() = isMccIp(minecraft.currentServer?.ip)

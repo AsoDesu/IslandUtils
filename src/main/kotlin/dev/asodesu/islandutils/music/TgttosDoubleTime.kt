@@ -2,8 +2,8 @@ package dev.asodesu.islandutils.music
 
 import dev.asodesu.islandutils.api.game.activeGame
 import dev.asodesu.islandutils.api.music.MusicModifier
-import dev.asodesu.islandutils.api.sound.info.MutableSoundInfo
-import dev.asodesu.islandutils.api.sound.info.SoundInfo
+import dev.asodesu.islandutils.api.events.sound.info.MutableSoundInfo
+import dev.asodesu.islandutils.api.events.sound.info.SoundInfo
 import dev.asodesu.islandutils.games.Tgttos
 import dev.asodesu.islandutils.options.MusicOptions
 

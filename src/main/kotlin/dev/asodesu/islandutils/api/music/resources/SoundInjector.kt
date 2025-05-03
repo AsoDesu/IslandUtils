@@ -1,6 +1,6 @@
 package dev.asodesu.islandutils.api.music.resources
 
-import dev.asodesu.islandutils.api.minecraft
+import dev.asodesu.islandutils.api.extentions.minecraft
 import java.nio.file.Path
 import net.minecraft.client.resources.sounds.Sound
 import net.minecraft.client.sounds.WeighedSoundEvents

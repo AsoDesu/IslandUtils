@@ -2,13 +2,13 @@ package dev.asodesu.islandutils.features
 
 import dev.asodesu.islandutils.Font
 import dev.asodesu.islandutils.api.Scheduler.runAfter
-import dev.asodesu.islandutils.api.buildComponent
-import dev.asodesu.islandutils.api.connection
+import dev.asodesu.islandutils.api.extentions.buildComponent
+import dev.asodesu.islandutils.api.extentions.connection
+import dev.asodesu.islandutils.api.extentions.minecraft
+import dev.asodesu.islandutils.api.extentions.send
 import dev.asodesu.islandutils.api.game.GameEvents
 import dev.asodesu.islandutils.api.game.inLobby
-import dev.asodesu.islandutils.api.minecraft
 import dev.asodesu.islandutils.api.modules.Module
-import dev.asodesu.islandutils.api.send
 import dev.asodesu.islandutils.options.MiscOptions
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
@@ -55,6 +55,8 @@ object FriendsInGame : Module("FriendsInGame") {
         val lang = if (inLobby) "lobby" else "game"
 
         val component = buildComponent {
+            withStyle { it.withColor(ChatFormatting.GREEN) }
+
             append(Component.literal("[").append(Font.SOCIAL_ICON).append("] "))
             append(Component.translatable("islandutils.feature.friends.$lang").append(": "))
             append(Component.literal(friendString).withStyle(ChatFormatting.YELLOW))

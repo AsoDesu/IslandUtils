@@ -1,4 +1,4 @@
-package dev.asodesu.islandutils.api
+package dev.asodesu.islandutils.api.extentions
 
 import com.noxcrew.noxesium.network.clientbound.ClientboundMccGameStatePacket
 

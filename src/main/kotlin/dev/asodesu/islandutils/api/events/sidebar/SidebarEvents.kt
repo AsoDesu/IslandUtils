@@ -1,4 +1,4 @@
-package dev.asodesu.islandutils.api.sidebar
+package dev.asodesu.islandutils.api.events.sidebar
 
 import dev.asodesu.islandutils.api.events.MutableListEvent
 

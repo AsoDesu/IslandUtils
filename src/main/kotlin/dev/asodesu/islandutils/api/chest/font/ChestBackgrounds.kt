@@ -1,6 +1,6 @@
 package dev.asodesu.islandutils.api.chest.font
 
-import dev.asodesu.islandutils.api.Resources
+import dev.asodesu.islandutils.api.extentions.Resources
 import java.util.*
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component

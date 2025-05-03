@@ -1,6 +1,6 @@
 package dev.asodesu.islandutils.mixin.features;
 
-import dev.asodesu.islandutils.api.MinecraftExtKt;
+import dev.asodesu.islandutils.api.extentions.MinecraftExtKt;
 import dev.asodesu.islandutils.features.FriendsInGame;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.protocol.game.ClientboundCommandSuggestionsPacket;

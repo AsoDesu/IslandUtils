@@ -1,7 +1,7 @@
 package dev.asodesu.islandutils.api.music.resources
 
-import dev.asodesu.islandutils.api.Resources
-import dev.asodesu.islandutils.api.islandUtilsFolder
+import dev.asodesu.islandutils.api.extentions.Resources
+import dev.asodesu.islandutils.api.extentions.islandUtilsFolder
 import dev.asodesu.islandutils.api.music.resources.handler.DownloadHandler
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream

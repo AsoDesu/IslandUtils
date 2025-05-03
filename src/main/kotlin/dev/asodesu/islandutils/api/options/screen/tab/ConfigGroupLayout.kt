@@ -1,6 +1,6 @@
 package dev.asodesu.islandutils.api.options.screen.tab
 
-import dev.asodesu.islandutils.api.minecraft
+import dev.asodesu.islandutils.api.extentions.minecraft
 import dev.asodesu.islandutils.api.options.ConfigGroup
 import dev.asodesu.islandutils.api.ui.LayoutDelegate
 import net.minecraft.client.gui.components.StringWidget

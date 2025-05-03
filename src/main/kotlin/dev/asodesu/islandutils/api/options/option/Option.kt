@@ -1,10 +1,10 @@
 package dev.asodesu.islandutils.api.options.option
 
-import dev.asodesu.islandutils.api.appendLine
-import dev.asodesu.islandutils.api.buildComponent
-import dev.asodesu.islandutils.api.newLine
+import dev.asodesu.islandutils.api.extentions.appendLine
+import dev.asodesu.islandutils.api.extentions.buildComponent
+import dev.asodesu.islandutils.api.extentions.newLine
 import dev.asodesu.islandutils.api.options.ConfigEntry
-import dev.asodesu.islandutils.api.style
+import dev.asodesu.islandutils.api.extentions.copyAndStyle
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -52,7 +52,7 @@ class Option<T>(
     override fun render(layout: Layout) = renderer.render(this, layout).also { widget ->
         if (widget is AbstractWidget) {
             val tooltip = buildComponent {
-                appendLine(component.style { withBold(true) })
+                appendLine(component.copyAndStyle { withBold(true) })
                 newLine()
                 append(descriptionComponent)
             }

@@ -1,6 +1,6 @@
 package dev.asodesu.islandutils.api.ui
 
-import dev.asodesu.islandutils.api.Resources
+import dev.asodesu.islandutils.api.extentions.Resources
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.Renderable
 import net.minecraft.client.gui.layouts.Layout

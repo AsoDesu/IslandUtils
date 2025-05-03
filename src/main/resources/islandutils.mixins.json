@@ -7,14 +7,16 @@
         "defaultRequire": 1
     },
     "client": [
-        "chest.ChestMenuInterceptorMixin",
-        "chest.ChestScreenInterceptorMixin",
         "FontLoaderMixin",
         "OptionsButtonMixin",
+        "SidebarInterceptorMixin",
         "SoundInterceptorMixin",
         "TitleInterceptorMixin",
+        "chest.ChestMenuInterceptorMixin",
+        "chest.ChestScreenInterceptorMixin",
         "features.CommandSuggestionHandlerMixin",
-        "sound.ApplyInjectedSoundsMixin",
-        "SidebarInterceptorMixin"
+        "serverlist.JoinMultiplayerTickMixin",
+        "serverlist.ServerListEntryRenderMixin",
+        "sound.ApplyInjectedSoundsMixin"
     ]
 }

@@ -1,6 +1,6 @@
-package dev.asodesu.islandutils.api.sidebar
+package dev.asodesu.islandutils.api.events.sidebar
 
-import dev.asodesu.islandutils.api.debug
+import dev.asodesu.islandutils.api.extentions.debug
 import dev.asodesu.islandutils.api.events.EventKey
 import net.minecraft.network.chat.Component
 import kotlin.properties.ReadOnlyProperty

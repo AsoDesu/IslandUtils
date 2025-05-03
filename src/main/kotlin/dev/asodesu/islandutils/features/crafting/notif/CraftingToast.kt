@@ -1,7 +1,7 @@
 package dev.asodesu.islandutils.features.crafting.notif
 
-import dev.asodesu.islandutils.api.Resources
-import dev.asodesu.islandutils.api.pose
+import dev.asodesu.islandutils.api.extentions.Resources
+import dev.asodesu.islandutils.api.extentions.pose
 import dev.asodesu.islandutils.features.crafting.items.CraftingItem
 import net.minecraft.ChatFormatting
 import net.minecraft.client.gui.Font

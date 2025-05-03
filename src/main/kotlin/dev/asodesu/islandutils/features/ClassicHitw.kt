@@ -1,17 +1,17 @@
 package dev.asodesu.islandutils.features
 
 import dev.asodesu.islandutils.api.Debounce
-import dev.asodesu.islandutils.api.Resources
+import dev.asodesu.islandutils.api.events.sound.SoundEvents
+import dev.asodesu.islandutils.api.events.sound.SoundPlayCallback
+import dev.asodesu.islandutils.api.events.sound.info.SoundInfo
+import dev.asodesu.islandutils.api.extentions.Resources
+import dev.asodesu.islandutils.api.extentions.minecraft
+import dev.asodesu.islandutils.api.extentions.play
+import dev.asodesu.islandutils.api.extentions.style
+import dev.asodesu.islandutils.api.extentions.toSoundEvent
 import dev.asodesu.islandutils.api.game.activeGame
-import dev.asodesu.islandutils.api.minecraft
 import dev.asodesu.islandutils.api.modules.Module
 import dev.asodesu.islandutils.api.music.resources.handler.DownloadJob
-import dev.asodesu.islandutils.api.play
-import dev.asodesu.islandutils.api.sound.SoundEvents
-import dev.asodesu.islandutils.api.sound.SoundPlayCallback
-import dev.asodesu.islandutils.api.sound.info.SoundInfo
-import dev.asodesu.islandutils.api.style
-import dev.asodesu.islandutils.api.toSoundEvent
 import dev.asodesu.islandutils.games.HoleInTheWall
 import dev.asodesu.islandutils.options.ClassicHitwOptions
 import net.minecraft.network.chat.Component

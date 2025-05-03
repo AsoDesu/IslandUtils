@@ -2,10 +2,11 @@ package dev.asodesu.islandutils.features.crafting
 
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
-import dev.asodesu.islandutils.api.debugMode
-import dev.asodesu.islandutils.api.style
+import dev.asodesu.islandutils.api.extentions.debugMode
+import dev.asodesu.islandutils.api.extentions.style
 import dev.asodesu.islandutils.features.crafting.items.CraftingItem
 import dev.asodesu.islandutils.features.crafting.items.SavedCraftingItems
+import dev.asodesu.islandutils.features.crafting.notif.CraftingNotifier
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal
 import net.minecraft.core.component.DataComponents
@@ -14,6 +15,12 @@ import net.minecraft.network.chat.TextColor
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.component.CustomModelData
+
+fun craftingCommand() = literal("crafting")
+    .executes { ctx ->
+        ctx.source.sendFeedback(CraftingNotifier.commandResponse())
+        1
+    }
 
 fun craftingDebugCommand() = literal("crafting")
     .then(craftingDebugAddCraftCommand())

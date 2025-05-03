@@ -1,11 +1,11 @@
 package dev.asodesu.islandutils.api.options.download
 
-import dev.asodesu.islandutils.api.minecraft
+import dev.asodesu.islandutils.api.extentions.minecraft
 import dev.asodesu.islandutils.api.music.resources.handler.DownloadJob
 import dev.asodesu.islandutils.api.options.option.Option
 import dev.asodesu.islandutils.api.options.option.OptionRenderer
-import dev.asodesu.islandutils.api.rect
-import dev.asodesu.islandutils.api.scissor
+import dev.asodesu.islandutils.api.extentions.rect
+import dev.asodesu.islandutils.api.extentions.scissor
 import dev.asodesu.islandutils.api.ui.ProgressBarWidget
 import dev.asodesu.islandutils.api.ui.tween.Easing
 import dev.asodesu.islandutils.api.ui.tween.Tween

@@ -1,6 +1,6 @@
 package dev.asodesu.islandutils.api.ui.tween
 
-import dev.asodesu.islandutils.api.ticks
+import dev.asodesu.islandutils.api.extentions.ticks
 import net.minecraft.util.Mth
 import net.minecraft.world.phys.Vec3
 import kotlin.time.Duration

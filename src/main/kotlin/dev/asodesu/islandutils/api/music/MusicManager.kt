@@ -1,12 +1,12 @@
 package dev.asodesu.islandutils.api.music
 
-import dev.asodesu.islandutils.api.debug
-import dev.asodesu.islandutils.api.minecraft
+import dev.asodesu.islandutils.api.extentions.debug
+import dev.asodesu.islandutils.api.extentions.minecraft
 import dev.asodesu.islandutils.api.modules.Module
-import dev.asodesu.islandutils.api.sound.SoundEvents
-import dev.asodesu.islandutils.api.sound.SoundPlayCallback
-import dev.asodesu.islandutils.api.sound.SoundStopCallback
-import dev.asodesu.islandutils.api.sound.info.SoundInfo
+import dev.asodesu.islandutils.api.events.sound.SoundEvents
+import dev.asodesu.islandutils.api.events.sound.SoundPlayCallback
+import dev.asodesu.islandutils.api.events.sound.SoundStopCallback
+import dev.asodesu.islandutils.api.events.sound.info.SoundInfo
 import dev.asodesu.islandutils.options.MusicOptions
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.minecraft.client.Minecraft

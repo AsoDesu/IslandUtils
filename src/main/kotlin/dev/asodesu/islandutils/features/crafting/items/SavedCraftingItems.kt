@@ -1,6 +1,6 @@
 package dev.asodesu.islandutils.features.crafting.items
 
-import dev.asodesu.islandutils.api.islandUtilsFolder
+import dev.asodesu.islandutils.api.extentions.islandUtilsFolder
 import dev.asodesu.islandutils.api.json.decode
 import dev.asodesu.islandutils.api.json.encode
 import dev.asodesu.islandutils.api.modules.Module

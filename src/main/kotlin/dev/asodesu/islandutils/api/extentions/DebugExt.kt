@@ -1,4 +1,4 @@
-package dev.asodesu.islandutils.api
+package dev.asodesu.islandutils.api.extentions
 
 import dev.asodesu.islandutils.options.MiscOptions
 import net.minecraft.ChatFormatting

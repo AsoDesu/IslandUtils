@@ -1,4 +1,4 @@
-package dev.asodesu.islandutils.api.sound
+package dev.asodesu.islandutils.api.events.sound
 
 import dev.asodesu.islandutils.api.events.MutableListEvent
 

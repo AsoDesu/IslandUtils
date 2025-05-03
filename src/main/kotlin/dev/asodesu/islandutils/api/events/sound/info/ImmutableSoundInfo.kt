@@ -1,4 +1,4 @@
-package dev.asodesu.islandutils.api.sound.info
+package dev.asodesu.islandutils.api.events.sound.info
 
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundSource

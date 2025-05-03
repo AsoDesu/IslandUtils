@@ -3,7 +3,7 @@ package dev.asodesu.islandutils.api.game
 import com.noxcrew.noxesium.NoxesiumFabricMod
 import com.noxcrew.noxesium.network.NoxesiumPackets
 import com.noxcrew.noxesium.network.clientbound.ClientboundMccServerPacket
-import dev.asodesu.islandutils.api.debug
+import dev.asodesu.islandutils.api.extentions.debug
 import dev.asodesu.islandutils.api.game.context.GameContext
 import dev.asodesu.islandutils.api.modules.Module
 

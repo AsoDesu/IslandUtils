@@ -1,6 +1,6 @@
-package dev.asodesu.islandutils.api.sound
+package dev.asodesu.islandutils.api.events.sound
 
-import dev.asodesu.islandutils.api.sound.info.SoundInfo
+import dev.asodesu.islandutils.api.events.sound.info.SoundInfo
 
 fun interface SoundPlayCallback {
     fun onSoundPlay(info: SoundInfo, ci: Info)

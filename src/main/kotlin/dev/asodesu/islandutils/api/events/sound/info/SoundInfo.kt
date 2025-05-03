@@ -1,4 +1,4 @@
-package dev.asodesu.islandutils.api.sound.info
+package dev.asodesu.islandutils.api.events.sound.info
 
 import java.util.*
 import net.minecraft.network.protocol.game.ClientboundSoundPacket

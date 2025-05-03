@@ -1,6 +1,6 @@
 package dev.asodesu.islandutils
 
-import dev.asodesu.islandutils.api.Resources
+import dev.asodesu.islandutils.api.extentions.Resources
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style

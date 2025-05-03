@@ -1,4 +1,4 @@
-package dev.asodesu.islandutils.api
+package dev.asodesu.islandutils.api.extentions
 
 private val TIME_REGEX = "(\\d+)([dhms])".toRegex()
 

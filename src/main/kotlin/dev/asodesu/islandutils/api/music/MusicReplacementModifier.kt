@@ -1,7 +1,7 @@
 package dev.asodesu.islandutils.api.music
 
-import dev.asodesu.islandutils.api.sound.info.MutableSoundInfo
-import dev.asodesu.islandutils.api.sound.info.SoundInfo
+import dev.asodesu.islandutils.api.events.sound.info.MutableSoundInfo
+import dev.asodesu.islandutils.api.events.sound.info.SoundInfo
 import net.minecraft.resources.ResourceLocation
 
 interface MusicReplacementModifier : MusicModifier {

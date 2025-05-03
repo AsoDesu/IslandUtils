@@ -1,10 +1,10 @@
 package dev.asodesu.islandutils.api.ui
 
-import dev.asodesu.islandutils.api.minecraft
-import dev.asodesu.islandutils.api.rect
+import dev.asodesu.islandutils.api.extentions.minecraft
+import dev.asodesu.islandutils.api.extentions.rect
 import dev.asodesu.islandutils.api.ui.tween.Easing
 import dev.asodesu.islandutils.api.ui.tween.Tween
-import dev.asodesu.islandutils.api.vecRgb
+import dev.asodesu.islandutils.api.extentions.vecRgb
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.AbstractWidget
 import net.minecraft.client.gui.narration.NarrationElementOutput

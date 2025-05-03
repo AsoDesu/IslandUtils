@@ -1,7 +1,7 @@
 package dev.asodesu.islandutils.features.crafting
 
 import dev.asodesu.islandutils.Font
-import dev.asodesu.islandutils.api.Resources
+import dev.asodesu.islandutils.api.extentions.Resources
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 

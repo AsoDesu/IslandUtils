@@ -1,4 +1,4 @@
-package dev.asodesu.islandutils.api
+package dev.asodesu.islandutils.api.extentions
 
 import java.nio.file.Path
 import net.fabricmc.loader.api.FabricLoader

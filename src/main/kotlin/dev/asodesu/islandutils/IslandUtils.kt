@@ -1,8 +1,9 @@
 package dev.asodesu.islandutils
 
 import dev.asodesu.islandutils.api.Scheduler
-import dev.asodesu.islandutils.api.islandUtilsFolder
+import dev.asodesu.islandutils.api.extentions.islandUtilsFolder
 import dev.asodesu.islandutils.api.modules.ModuleManager
+import dev.asodesu.islandutils.features.crafting.craftingCommand
 import dev.asodesu.islandutils.options.Options
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
@@ -21,6 +22,7 @@ object IslandUtils : ModInitializer {
 
 		ClientCommandRegistrationCallback.EVENT.register { dispatcher, _ ->
 			dispatcher.register(islandUtilsCommand())
+			dispatcher.register(craftingCommand())
 		}
 	}
 }

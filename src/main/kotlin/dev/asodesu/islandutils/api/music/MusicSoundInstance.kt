@@ -1,7 +1,7 @@
 package dev.asodesu.islandutils.api.music
 
-import dev.asodesu.islandutils.api.debug
-import dev.asodesu.islandutils.api.ticks
+import dev.asodesu.islandutils.api.extentions.debug
+import dev.asodesu.islandutils.api.extentions.ticks
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance
 import net.minecraft.client.resources.sounds.SoundInstance
 import net.minecraft.resources.ResourceLocation

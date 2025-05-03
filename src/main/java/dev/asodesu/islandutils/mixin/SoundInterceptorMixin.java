@@ -1,11 +1,10 @@
 package dev.asodesu.islandutils.mixin;
 
-import dev.asodesu.islandutils.Modules;
-import dev.asodesu.islandutils.api.MinecraftExtKt;
-import dev.asodesu.islandutils.api.sound.SoundEvents;
-import dev.asodesu.islandutils.api.sound.SoundStopCallback;
-import dev.asodesu.islandutils.api.sound.info.SoundInfo;
-import dev.asodesu.islandutils.api.sound.SoundPlayCallback;
+import dev.asodesu.islandutils.api.events.sound.SoundEvents;
+import dev.asodesu.islandutils.api.events.sound.SoundStopCallback;
+import dev.asodesu.islandutils.api.events.sound.info.SoundInfo;
+import dev.asodesu.islandutils.api.events.sound.SoundPlayCallback;
+import dev.asodesu.islandutils.api.extentions.MinecraftExtKt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientCommonPacketListenerImpl;
 import net.minecraft.client.multiplayer.ClientPacketListener;

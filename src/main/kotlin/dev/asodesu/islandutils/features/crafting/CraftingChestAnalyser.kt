@@ -5,8 +5,8 @@ import dev.asodesu.islandutils.api.chest.analysis.ChestAnalyserFactory
 import dev.asodesu.islandutils.api.chest.anyLineContains
 import dev.asodesu.islandutils.api.chest.customItemId
 import dev.asodesu.islandutils.api.chest.lore
-import dev.asodesu.islandutils.api.debug
-import dev.asodesu.islandutils.api.getTimeSeconds
+import dev.asodesu.islandutils.api.extentions.debug
+import dev.asodesu.islandutils.api.extentions.getTimeSeconds
 import dev.asodesu.islandutils.features.crafting.items.CraftingItem
 import dev.asodesu.islandutils.features.crafting.items.SavedCraftingItems
 import net.minecraft.network.chat.TextColor

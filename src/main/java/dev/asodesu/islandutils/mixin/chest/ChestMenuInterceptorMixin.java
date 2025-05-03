@@ -1,8 +1,8 @@
 package dev.asodesu.islandutils.mixin.chest;
 
-import dev.asodesu.islandutils.api.MinecraftExtKt;
 import dev.asodesu.islandutils.api.chest.analysis.ChestAnalyser;
 import dev.asodesu.islandutils.api.chest.analysis.ContainerScreenMixinHelper;
+import dev.asodesu.islandutils.api.extentions.MinecraftExtKt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
