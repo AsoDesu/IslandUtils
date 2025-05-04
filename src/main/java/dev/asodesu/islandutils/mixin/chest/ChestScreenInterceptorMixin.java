@@ -40,11 +40,7 @@ public class ChestScreenInterceptorMixin implements ContainerScreenHelper {
 
     @Inject(
             method = "render",
-            at = @At( // call after our inital translation
-                    value = "INVOKE",
-                    target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V",
-                    shift = At.Shift.AFTER
-            )
+            at = @At("TAIL")
     )
     private void render(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
         if (analyser != null) analyser.render(guiGraphics, this);
