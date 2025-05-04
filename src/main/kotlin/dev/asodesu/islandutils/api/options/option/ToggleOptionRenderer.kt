@@ -13,8 +13,8 @@ object ToggleOptionRenderer : OptionRenderer<Boolean> {
     }
 
     class ToggleButton(val option: Option<Boolean>) : FlatButton(option.component) {
-        val TOGGLE_ON = Resources.islandUtils("widget/toggle_on")
-        val TOGGLE_OFF = Resources.islandUtils("widget/toggle_off")
+        val TOGGLE_ON = Resources.islandUtils("widget/toggle/on")
+        val TOGGLE_OFF = Resources.islandUtils("widget/toggle/off")
         val TOGGLE_WIDTH = 24
         val TOGGLE_HEIGHT = 12
 

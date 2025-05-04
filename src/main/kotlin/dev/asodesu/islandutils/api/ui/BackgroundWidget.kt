@@ -16,9 +16,9 @@ class BackgroundWidget(
 ) : Renderable {
 
     companion object {
-        val LEFT = Resources.islandUtils("menu/options_background_left")
-        val ALL = Resources.islandUtils("menu/options_background")
-        val RIGHT = Resources.islandUtils("menu/options_background_right")
+        val LEFT = Resources.islandUtils("widget/background/left")
+        val ALL = Resources.islandUtils("widget/background/all")
+        val RIGHT = Resources.islandUtils("widget/background/right")
     }
 
     override fun render(guiGraphics: GuiGraphics, i: Int, j: Int, f: Float) {
