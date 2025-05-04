@@ -5,11 +5,13 @@ import dev.asodesu.islandutils.api.game.GameManager
 import dev.asodesu.islandutils.api.game.state.StateManager
 import dev.asodesu.islandutils.api.music.MusicManager
 import dev.asodesu.islandutils.features.ClassicHitw
+import dev.asodesu.islandutils.features.FishingUpgradeHighlight
 import dev.asodesu.islandutils.features.FriendsInGame
 import dev.asodesu.islandutils.features.RemnantHighlight
 import dev.asodesu.islandutils.features.crafting.CraftingChestAnalyser
 import dev.asodesu.islandutils.features.crafting.notif.CraftingNotifier
 import dev.asodesu.islandutils.features.scavenging.ScavengingTotals
+import dev.asodesu.islandutils.games.Fishing
 import dev.asodesu.islandutils.games.HoleInTheWall
 import dev.asodesu.islandutils.games.Hub
 import dev.asodesu.islandutils.games.ParkourWarriorDojo
@@ -36,11 +38,12 @@ object Modules {
 
     // the game manager, the order here does matter.
     val gameManager = GameManager(
-        Hub,
+        Fishing,
         Tgttos,
         HoleInTheWall,
         // ParkourWarriorSurvivor
         ParkourWarriorDojo,
+        Hub
     )
 
     val musicManager = MusicManager(
@@ -65,7 +68,8 @@ object Modules {
     val chestAnalysis = ChestAnalysisManager(
         factories = listOf(
             CraftingChestAnalyser.Factory,
-            ScavengingTotals.Factory
+            ScavengingTotals.Factory,
+            FishingUpgradeHighlight
         ),
         analysers = listOf(
             RemnantHighlight

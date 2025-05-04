@@ -7,6 +7,7 @@ object MiscOptions : ConfigSection("section.misc") {
 
     val scavengingTotals = toggle("chest_scavenging_totals", desc = true, def = true)
     val remnantHighlight = toggle("chest_remnant_highlight", desc = true, def = true)
+    val fishingUpgrades = toggle("chest_fishing_upgrade", desc = true, def = true)
 
     object FriendsInGame : ConfigGroup("section.misc.friendnotifs") {
         val inGame = toggle(name = "friendnotifs_in_game", desc = true, def = true)
