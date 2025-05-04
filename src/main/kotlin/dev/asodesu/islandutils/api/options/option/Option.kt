@@ -2,9 +2,9 @@ package dev.asodesu.islandutils.api.options.option
 
 import dev.asodesu.islandutils.api.extentions.appendLine
 import dev.asodesu.islandutils.api.extentions.buildComponent
+import dev.asodesu.islandutils.api.extentions.copyAndStyle
 import dev.asodesu.islandutils.api.extentions.newLine
 import dev.asodesu.islandutils.api.options.ConfigEntry
-import dev.asodesu.islandutils.api.extentions.copyAndStyle
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -50,13 +50,16 @@ class Option<T>(
 
     fun renderer() = renderer
     override fun render(layout: Layout) = renderer.render(this, layout).also { widget ->
+
+        val tooltip = Tooltip.create(buildComponent {
+            appendLine(component.copyAndStyle { withBold(true) })
+            newLine()
+            append(descriptionComponent)
+        })
         if (widget is AbstractWidget) {
-            val tooltip = buildComponent {
-                appendLine(component.copyAndStyle { withBold(true) })
-                newLine()
-                append(descriptionComponent)
-            }
-            widget.tooltip = Tooltip.create(tooltip)
+            widget.tooltip = tooltip
+        } else if (widget is Layout) {
+            widget.visitWidgets { it.tooltip = tooltip }
         }
     }
 

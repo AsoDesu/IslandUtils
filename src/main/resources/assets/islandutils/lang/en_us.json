@@ -17,6 +17,14 @@
 
     "islandutils.options.section.music": "Music",
     "islandutils.options.music_enabled": "Enable Music Features",
+    "islandutils.options.music_highq": "High(er) quality music",
+    "islandutils.options.music_highq.desc": "Enables High(er) quality music, this replaces the music on island with higher quality versions.\n\nNote: This does not apply to Hub music or Dynaball",
+    "islandutils.options.music_olddynaball": "Legacy Dynaball music",
+    "islandutils.options.music_olddynaball.desc": "Replaces Island's Dynaball music with 'Shoot 'em Up (NGS Live)' by Issac Wilkins\n(The music previously used by IslandUtils before the official music)",
+    "islandutils.options.music_tgttosdouble": "TGTTOS: Double time",
+    "islandutils.options.music_tgttosdouble.desc": "Speeds up the music when the TGTTOS Double Time modifier is active",
+    "islandutils.options.music_tgttosdome": "TGTTOS: To The Dome!",
+    "islandutils.options.music_tgttosdome.desc": "Replaces the TGTTOS music with when",
 
     "islandutils.options.section.discord": "Discord",
 
@@ -33,6 +41,12 @@
     "islandutils.options.notifs_crafting.desc": "Enables notifications for your completed Blueprint Assembler or Fusion Forge items",
 
     "islandutils.options.section.misc": "Miscellaneous",
+    "islandutils.options.chest_scavenging_totals": "Show scavenging totals",
+    "islandutils.options.chest_scavenging_totals.desc": "Enables showing your total rewards when scavenging items. These are shown in the menu and when hovering over the Confirm button",
+    "islandutils.options.chest_remnant_highlight": "Highlight item remnants",
+    "islandutils.options.chest_remnant_highlight.desc": "Enables a red background behind item remnants which can be scavenged",
+    "islandutils.options.chest_fishing_upgrade": "Highlight available fishing upgrades",
+    "islandutils.options.chest_fishing_upgrade.desc": "Enables icons on available fishing upgrades",
     "islandutils.options.section.misc.friendnotifs": "Friend Notifications",
     "islandutils.options.friendnotifs_in_game": "Send friend notifications in games",
     "islandutils.options.friendnotifs_in_game.desc": "Enables sending 'Friends in this game' notifications",

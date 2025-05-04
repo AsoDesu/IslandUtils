@@ -31,7 +31,7 @@ class FishingUpgradeHighlight : ChestAnalyser {
     }
 
     companion object : ChestAnalyserFactory {
-        private val enabled by MiscOptions.scavengingTotals
+        private val enabled by MiscOptions.fishingUpgrades
         override fun shouldApply(menuComponents: Collection<ResourceLocation>) = enabled && activeGame is Fishing
         override fun create(menuComponents: Collection<ResourceLocation>) = FishingUpgradeHighlight()
     }
