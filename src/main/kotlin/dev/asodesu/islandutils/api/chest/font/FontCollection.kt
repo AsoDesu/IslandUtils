@@ -6,7 +6,8 @@ import net.minecraft.resources.ResourceLocation
 
 object FontCollection {
     val collections = mutableMapOf(
-        ChestBackgrounds.FONT_KEY to ChestBackgrounds
+        ChestBackgrounds.FONT_KEY to ChestBackgrounds,
+        Icons.FONT_KEY to Icons,
     )
 
     fun add(font: ResourceLocation, definition: GlyphProviderDefinition) {
