@@ -1,7 +1,7 @@
 package dev.asodesu.islandutils.mixin.chest;
 
 import dev.asodesu.islandutils.api.chest.analysis.ChestAnalyser;
-import dev.asodesu.islandutils.api.chest.analysis.ContainerScreenMixinHelper;
+import dev.asodesu.islandutils.api.chest.analysis.ContainerScreenHelper;
 import dev.asodesu.islandutils.api.extentions.MinecraftExtKt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -60,7 +60,7 @@ public class ChestMenuInterceptorMixin {
         if (screen instanceof AbstractContainerScreen<?> containerScreen) {
             if (containerScreen.getMenu() != (Object)this) return null;
         }
-        if (!(screen instanceof ContainerScreenMixinHelper helper)) return null;
+        if (!(screen instanceof ContainerScreenHelper helper)) return null;
         return helper.getAnalyser();
     }
 

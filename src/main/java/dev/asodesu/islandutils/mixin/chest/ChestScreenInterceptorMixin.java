@@ -2,7 +2,7 @@ package dev.asodesu.islandutils.mixin.chest;
 
 import dev.asodesu.islandutils.Modules;
 import dev.asodesu.islandutils.api.chest.analysis.ChestAnalyser;
-import dev.asodesu.islandutils.api.chest.analysis.ContainerScreenMixinHelper;
+import dev.asodesu.islandutils.api.chest.analysis.ContainerScreenHelper;
 import dev.asodesu.islandutils.api.chest.font.ChestBackgrounds;
 import dev.asodesu.islandutils.api.extentions.MinecraftExtKt;
 import net.minecraft.client.gui.GuiGraphics;
@@ -15,6 +15,7 @@ import net.minecraft.world.inventory.Slot;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -24,7 +25,8 @@ import java.util.Collection;
 import java.util.List;
 
 @Mixin(AbstractContainerScreen.class)
-public class ChestScreenInterceptorMixin implements ContainerScreenMixinHelper {
+public class ChestScreenInterceptorMixin implements ContainerScreenHelper {
+    @Shadow @Nullable protected Slot hoveredSlot;
     @Unique @Nullable ChestAnalyser analyser;
     @Unique Collection<ResourceLocation> menuComponents = List.of();
 
@@ -45,7 +47,7 @@ public class ChestScreenInterceptorMixin implements ContainerScreenMixinHelper {
             )
     )
     private void render(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
-        if (analyser != null) analyser.render(guiGraphics);
+        if (analyser != null) analyser.render(guiGraphics, this);
     }
 
     @Inject(
@@ -57,7 +59,7 @@ public class ChestScreenInterceptorMixin implements ContainerScreenMixinHelper {
             )
     )
     private void render(GuiGraphics guiGraphics, Slot slot, CallbackInfo ci) {
-        if (analyser != null) analyser.renderSlot(guiGraphics, slot);
+        if (analyser != null) analyser.renderSlot(guiGraphics, this, slot);
     }
 
     @Unique
@@ -70,5 +72,17 @@ public class ChestScreenInterceptorMixin implements ContainerScreenMixinHelper {
     @Override
     public @NotNull Collection<ResourceLocation> getMenuComponents() {
         return menuComponents;
+    }
+
+    @Unique
+    @Override
+    public @Nullable Slot getHoveredSlot() {
+        return hoveredSlot;
+    }
+
+    @Unique
+    @Override
+    public @NotNull AbstractContainerScreen<?> getScreen() {
+        return (AbstractContainerScreen<?>)(Object)this;
     }
 }
