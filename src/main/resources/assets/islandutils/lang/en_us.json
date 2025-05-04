@@ -9,7 +9,7 @@
     "islandutils.feature.crafting.complete": "CRAFTING COMPLETE",
 
     "islandutils.feature.scavenging.into": "You will earn:",
-    "islandutils.feature.scavenging.reward": " ▪  %s%s",
+    "islandutils.feature.scavenging.reward": " ▪  %s",
     "islandutils.feature.scavenging.manual": "Manual Scavenge",
 
     "islandutils.notifications.title": "Notifications",
