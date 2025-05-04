@@ -5,6 +5,9 @@ import dev.asodesu.islandutils.api.options.ConfigSection
 
 object MiscOptions : ConfigSection("section.misc") {
 
+    val scavengingTotals = toggle("chest_scavenging_totals", desc = true, def = true)
+    val remnantHighlight = toggle("chest_remnant_highlight", desc = true, def = true)
+
     object FriendsInGame : ConfigGroup("section.misc.friendnotifs") {
         val inGame = toggle(name = "friendnotifs_in_game", desc = true, def = true)
         val inLobby = toggle(name = "friendnotifs_in_lobby", desc = true, def = true)

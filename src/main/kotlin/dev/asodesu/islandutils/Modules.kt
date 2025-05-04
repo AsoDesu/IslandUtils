@@ -9,6 +9,7 @@ import dev.asodesu.islandutils.features.FriendsInGame
 import dev.asodesu.islandutils.features.RemnantHighlight
 import dev.asodesu.islandutils.features.crafting.CraftingChestAnalyser
 import dev.asodesu.islandutils.features.crafting.notif.CraftingNotifier
+import dev.asodesu.islandutils.features.scavenging.ScavengingTotals
 import dev.asodesu.islandutils.games.HoleInTheWall
 import dev.asodesu.islandutils.games.Hub
 import dev.asodesu.islandutils.games.ParkourWarriorDojo
@@ -63,7 +64,8 @@ object Modules {
 
     val chestAnalysis = ChestAnalysisManager(
         factories = listOf(
-            CraftingChestAnalyser.Factory
+            CraftingChestAnalyser.Factory,
+            ScavengingTotals.Factory
         ),
         analysers = listOf(
             RemnantHighlight

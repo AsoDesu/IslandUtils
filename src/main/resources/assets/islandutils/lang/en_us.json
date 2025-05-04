@@ -2,12 +2,15 @@
     "menu.islandutils": "IslandUtils",
     "islandutils.feature.friends.game": "Friends in this game",
     "islandutils.feature.friends.lobby": "Friends in this lobby",
-
     "islandutils.feature.crafting.chat.list": "CRAFTING ITEMS:",
     "islandutils.feature.crafting.chat.item": "%s %s - %s",
     "islandutils.feature.crafting.chat.complete": "Complete",
     "islandutils.feature.crafting.chat.notification": "%s has finished crafting!",
     "islandutils.feature.crafting.complete": "CRAFTING COMPLETE",
+
+    "islandutils.feature.scavenging.into": "You will earn:",
+    "islandutils.feature.scavenging.reward": " ▪  %s%s",
+    "islandutils.feature.scavenging.manual": "Manual Scavenge",
 
     "islandutils.notifications.title": "Notifications",
     "islandutils.notifications.crafting.complete": "Completed Crafts:",
