@@ -61,7 +61,7 @@ class ConfigScreen(
             }, LayoutSettings::alignVerticallyTop)
 
             addChild(LinearLayout.vertical().apply {
-                val doneComponent = Component.literal("Done")
+                val doneComponent = Component.translatable("gui.done")
                 addChild(Button.builder(doneComponent) { close() }.build(), LayoutSettings::alignVerticallyBottom)
             }, LayoutSettings::alignVerticallyBottom)
         }
