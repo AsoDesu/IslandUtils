@@ -9,7 +9,7 @@ import dev.asodesu.islandutils.api.extentions.send
 import dev.asodesu.islandutils.api.game.GameEvents
 import dev.asodesu.islandutils.api.game.inLobby
 import dev.asodesu.islandutils.api.modules.Module
-import dev.asodesu.islandutils.options.MiscOptions
+import dev.asodesu.islandutils.options.NotificationOptions
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.network.protocol.game.ClientboundCommandSuggestionsPacket.Entry
@@ -19,8 +19,8 @@ import kotlin.time.Duration.Companion.seconds
 object FriendsInGame : Module("FriendsInGame") {
     const val TRANSACTION_ID = 6775161
 
-    private val enabledInGame by MiscOptions.FriendsInGame.inGame
-    private val enabledInLobby by MiscOptions.FriendsInGame.inLobby
+    private val enabledInGame by NotificationOptions.FriendsInGame.inGame
+    private val enabledInLobby by NotificationOptions.FriendsInGame.inLobby
 
     var friends = listOf<String>()
 
