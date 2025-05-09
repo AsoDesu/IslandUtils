@@ -4,6 +4,7 @@ import dev.asodesu.islandutils.api.chest.analysis.ChestAnalysisManager
 import dev.asodesu.islandutils.api.game.GameManager
 import dev.asodesu.islandutils.api.game.state.StateManager
 import dev.asodesu.islandutils.api.music.MusicManager
+import dev.asodesu.islandutils.api.music.MusicManager.Track
 import dev.asodesu.islandutils.features.ClassicHitw
 import dev.asodesu.islandutils.features.FishingUpgradeHighlight
 import dev.asodesu.islandutils.features.FriendsInGame
@@ -48,13 +49,15 @@ object Modules {
 
     val musicManager = MusicManager(
         knownTracks = listOf(
-            "music.global.parkour_warrior",
-            "music.global.battle_box",
-            "music.global.dynaball",
-            "music.global.hole_in_the_wall",
-            "music.global.sky_battle",
-            "music.global.tgttosawaf",
-            "music.global.overtime_loop_music"
+            Track("music.global.parkour_warrior"),
+            Track("music.global.battle_box"),
+            Track("music.global.dynaball"),
+            Track("music.global.hole_in_the_wall"),
+            Track("music.global.sky_battle"),
+            Track("music.global.tgttosawaf"),
+            Track("music.global.overtime_loop_music"),
+            Track("music.global.overtime_intro_music"),
+            Track("music.global.gameendmusic", loop = false),
         ),
         modifiers = listOf(
             ClassicHitwMusic,

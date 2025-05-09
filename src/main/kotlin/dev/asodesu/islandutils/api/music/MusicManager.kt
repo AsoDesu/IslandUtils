@@ -1,19 +1,20 @@
 package dev.asodesu.islandutils.api.music
 
-import dev.asodesu.islandutils.api.extentions.debug
-import dev.asodesu.islandutils.api.extentions.minecraft
-import dev.asodesu.islandutils.api.modules.Module
 import dev.asodesu.islandutils.api.events.sound.SoundEvents
 import dev.asodesu.islandutils.api.events.sound.SoundPlayCallback
 import dev.asodesu.islandutils.api.events.sound.SoundStopCallback
 import dev.asodesu.islandutils.api.events.sound.info.SoundInfo
+import dev.asodesu.islandutils.api.extentions.debug
+import dev.asodesu.islandutils.api.extentions.minecraft
+import dev.asodesu.islandutils.api.modules.Module
 import dev.asodesu.islandutils.options.MusicOptions
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.minecraft.client.Minecraft
 
-class MusicManager(val knownTracks: List<String>, val modifiers: List<MusicModifier>) : Module("MusicManager") {
+class MusicManager(knownTracks: List<Track>, val modifiers: List<MusicModifier>) : Module("MusicManager") {
     private val enabled by MusicOptions.enabled
 
+    private val knownTracks: Map<String, Track> = knownTracks.associateBy { it.key }
     private val playingSounds = mutableListOf<MusicSoundInstance>()
 
     override fun init() {
@@ -56,7 +57,7 @@ class MusicManager(val knownTracks: List<String>, val modifiers: List<MusicModif
 
         val soundLocation = info.sound
         if (!soundLocation.path.startsWith("music.")) return
-        if (!knownTracks.contains(soundLocation.path)) return // ignore music tracks that we don't care about
+        val trackInfo = knownTracks[soundLocation.path] ?: return // ignore music tracks that we don't care about
 
         val existingSounds = playingSounds.filter { it.unmodifiedSound == soundLocation }
         if (existingSounds.isNotEmpty()) {
@@ -65,6 +66,7 @@ class MusicManager(val knownTracks: List<String>, val modifiers: List<MusicModif
         }
 
         val newSound = info.toMutable()
+        newSound.loop = trackInfo.loop
         modifiers.forEach {
             if (it.shouldApply(info) && it.enableOption.get()) it.modify(newSound)
         }
@@ -74,7 +76,7 @@ class MusicManager(val knownTracks: List<String>, val modifiers: List<MusicModif
             pitch = newSound.pitch,
             volume = newSound.volume,
             category = newSound.category,
-            loop = true,
+            loop = newSound.loop,
 
             unmodifiedSound = soundLocation
         )
@@ -111,4 +113,6 @@ class MusicManager(val knownTracks: List<String>, val modifiers: List<MusicModif
             } else false
         }
     }
+
+    class Track(val key: String, val loop: Boolean = true)
 }

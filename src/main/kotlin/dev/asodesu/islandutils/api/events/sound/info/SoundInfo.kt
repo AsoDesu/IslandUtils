@@ -13,6 +13,7 @@ interface SoundInfo {
     val pitch: Float
     val volume: Float
     val fixedRange: Float?
+    val loop: Boolean
 
     fun toSoundEvent() = SoundEvent(sound, Optional.ofNullable(fixedRange))
 
@@ -25,7 +26,8 @@ interface SoundInfo {
             category = packet.source,
             pitch = packet.pitch,
             volume = packet.volume,
-            fixedRange = packet.sound.value().fixedRange.getOrNull()
+            fixedRange = packet.sound.value().fixedRange.getOrNull(),
+            loop = false
         )
     }
 }

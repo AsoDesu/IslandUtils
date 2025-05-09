@@ -14,7 +14,10 @@ object HighQualityMusic : MusicReplacementModifier {
         "music.global.hole_in_the_wall" to "music/hole_in_the_wall",
         "music.global.sky_battle" to "music/sky_battle",
         "music.global.tgttosawaf" to "music/tgttos",
-        "music.global.rocket_spleef" to "music/tgttos",
+        "music.global.rocket_spleef" to "music/rocket_spleef_rush",
+        "music.global.overtime_intro_music" to "music/overtime_intro_music",
+        "music.global.overtime_loop_music" to "music/overtime_loop_music",
+        "music.global.gameendmusic" to "music/game_end_music",
     )
     val DOWNLOAD_JOB = DownloadJob.multi(musicOverrides.values)
 
