@@ -2,7 +2,9 @@
     "required": true,
     "package": "dev.asodesu.islandutils.mixin",
     "compatibilityLevel": "JAVA_21",
-    "mixins": [],
+    "mixins": [
+        "ItemTooltipMixin"
+    ],
     "injectors": {
         "defaultRequire": 1
     },
