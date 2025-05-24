@@ -16,7 +16,7 @@ class ProgressBarWidget(
     width: Int = 150,
     height: Int = 20
 ) : AbstractWidget(x, y, width, height, Component.empty()) {
-    private val SPRITE = Resources.islandUtils("widget/progress_bar")
+    private val SPRITE = Resources.islandUtils("widget/rounded_1")
     private var progress = 0.0
 
     override fun renderWidget(guiGraphics: GuiGraphics, i: Int, j: Int, f: Float) {

@@ -28,16 +28,11 @@ class BackgroundWidget(
         val width = layout.width + spacing + spacing
         val height = layout.height + spacing + spacing
 
-        guiGraphics.blitSprite(
-            RenderType::guiTextured,
-            sprite,
-            x,
-            y,
-            width,
-            height,
-            ARGB.white(this.opacity)
-        )
+        guiGraphics.blitRoundedBox(x, y, width, height, sprite, opacity)
     }
 }
 
 fun Layout.background(spacing: Int = 0, opacity: Float, sprite: ResourceLocation = BackgroundWidget.ALL) = BackgroundWidget(this, spacing, opacity, sprite)
+fun GuiGraphics.blitRoundedBox(x: Int, y: Int, width: Int, height: Int, sprite: ResourceLocation = BackgroundWidget.ALL, opacity: Float = 1f) {
+    this.blitSprite(RenderType::guiTextured, sprite, x, y, width, height, ARGB.white(opacity))
+}
