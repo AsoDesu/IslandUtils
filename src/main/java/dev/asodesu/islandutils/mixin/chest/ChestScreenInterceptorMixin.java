@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Collection;
 import java.util.List;
@@ -27,6 +28,8 @@ import java.util.List;
 @Mixin(AbstractContainerScreen.class)
 public class ChestScreenInterceptorMixin implements ContainerScreenHelper {
     @Shadow @Nullable protected Slot hoveredSlot;
+    @Shadow protected int imageWidth;
+    @Shadow protected int imageHeight;
     @Unique @Nullable ChestAnalyser analyser;
     @Unique Collection<ResourceLocation> menuComponents = List.of();
 
@@ -38,12 +41,14 @@ public class ChestScreenInterceptorMixin implements ContainerScreenHelper {
         analyser = Modules.INSTANCE.getChestAnalysis().createAnalyser(menuComponents);
     }
 
-    @Inject(
-            method = "render",
-            at = @At("TAIL")
-    )
+    @Inject(method = "render", at = @At("TAIL"))
     private void render(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
         if (analyser != null) analyser.render(guiGraphics, this);
+    }
+
+    @Inject(method = "tick", at = @At("TAIL"))
+    private void tick(CallbackInfo ci) {
+        if (analyser != null) analyser.tick(this);
     }
 
     @Inject(
@@ -56,6 +61,26 @@ public class ChestScreenInterceptorMixin implements ContainerScreenHelper {
     )
     private void render(GuiGraphics guiGraphics, Slot slot, CallbackInfo ci) {
         if (analyser != null) analyser.renderSlot(guiGraphics, this, slot);
+    }
+
+    @Inject(method = "mouseDragged", at = @At("TAIL"))
+    private void mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY, CallbackInfoReturnable<Boolean> cir) {
+        if (analyser != null) analyser.mouseDragged(this, mouseX, mouseY, dragX, dragY);
+    }
+
+    @Inject(method = "mouseReleased", at = @At("TAIL"))
+    private void mouseReleased(double mouseX, double mouseY, int keyCode, CallbackInfoReturnable<Boolean> cir) {
+        if (analyser != null) analyser.mouseReleased(this, mouseX, mouseY, keyCode);
+    }
+
+    @Inject(method = "keyPressed", at = @At("TAIL"))
+    private void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+        if (analyser != null) analyser.keyPressed(this, keyCode, scanCode, modifiers);
+    }
+
+    @Inject(method = "onClose", at = @At("HEAD"))
+    private void onClose(CallbackInfo ci) {
+        if (analyser != null) analyser.close(this);
     }
 
     @Unique
@@ -80,5 +105,17 @@ public class ChestScreenInterceptorMixin implements ContainerScreenHelper {
     @Override
     public @NotNull AbstractContainerScreen<?> getScreen() {
         return (AbstractContainerScreen<?>)(Object)this;
+    }
+
+    @Unique
+    @Override
+    public int getImageWidth() {
+        return imageWidth;
+    }
+
+    @Unique
+    @Override
+    public int getImageHeight() {
+        return imageHeight;
     }
 }

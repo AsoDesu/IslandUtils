@@ -6,6 +6,11 @@ import net.minecraft.world.item.ItemStack
 
 class MultiChestAnalyser(private val analysers: List<ChestAnalyser>) : ChestAnalyser {
     override fun analyse(item: ItemStack, slot: Int) = analysers.forEach { it.analyse(item, slot) }
+    override fun tick(helper: ContainerScreenHelper) = analysers.forEach { it.tick(helper) }
     override fun render(guiGraphics: GuiGraphics, helper: ContainerScreenHelper) = analysers.forEach { it.render(guiGraphics, helper) }
     override fun renderSlot(guiGraphics: GuiGraphics, helper: ContainerScreenHelper, slot: Slot) = analysers.forEach { it.renderSlot(guiGraphics, helper, slot) }
+    override fun mouseDragged(helper: ContainerScreenHelper, mouseX: Double, mouseY: Double, deltaX: Double, deltaY: Double) = analysers.forEach { it.mouseDragged(helper, mouseX, mouseY, deltaX, deltaY) }
+    override fun keyPressed(helper: ContainerScreenHelper, keyCode: Int, scanCode: Int, modifiers: Int) = analysers.forEach { it.keyPressed(helper, keyCode, scanCode, modifiers) }
+    override fun mouseReleased(helper: ContainerScreenHelper, mouseX: Double, mouseY: Double, keyCode: Int) = analysers.forEach { it.mouseReleased(helper, mouseX, mouseY, keyCode) }
+    override fun close(helper: ContainerScreenHelper) = analysers.forEach { it.close(helper) }
 }

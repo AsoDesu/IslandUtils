@@ -8,6 +8,8 @@ interface ContainerScreenHelper {
     fun getMenuComponents(): Collection<ResourceLocation>
     fun getAnalyser(): ChestAnalyser?
 
+    val imageWidth: Int
+    val imageHeight: Int
     fun getHoveredSlot(): Slot?
     fun getScreen(): AbstractContainerScreen<*>
 }
