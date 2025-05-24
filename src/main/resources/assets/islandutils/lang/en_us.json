@@ -28,6 +28,13 @@
     "islandutils.options.music_tgttosdome": "TGTTOS: To The Dome!",
     "islandutils.options.music_tgttosdome.desc": "Replaces the TGTTOS music with when",
 
+    "islandutils.options.section.cosmetics": "Cosmetic Previews",
+    "islandutils.options.cosmetics_enabled": "Enable Cosmetic Previews",
+    "islandutils.options.cosmetics_show_on_hover": "Show hovered cosmetics on player",
+    "islandutils.options.cosmetics_show_on_hover.desc": "Updated the cosmetic preview with the item you're hovering over",
+    "islandutils.options.cosmetics_show_in_all_menus": "Show in all menus",
+    "islandutils.options.cosmetics_show_in_all_menus.desc": "Shows the cosmetic preview player in all menus instead of only menus containing cosmetic items",
+
     "islandutils.options.section.discord": "Discord",
 
     "islandutils.options.section.classic_hitw": "Classic HITW",
