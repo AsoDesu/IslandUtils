@@ -5,6 +5,7 @@ import dev.asodesu.islandutils.api.game.GameManager
 import dev.asodesu.islandutils.api.game.state.StateManager
 import dev.asodesu.islandutils.api.music.MusicManager
 import dev.asodesu.islandutils.api.music.MusicManager.Track
+import dev.asodesu.islandutils.cosmetics.CosmeticUI
 import dev.asodesu.islandutils.features.ClassicHitw
 import dev.asodesu.islandutils.features.FishingUpgradeHighlight
 import dev.asodesu.islandutils.features.FriendsInGame
@@ -72,7 +73,8 @@ object Modules {
         factories = listOf(
             CraftingChestAnalyser.Factory,
             ScavengingTotals.Factory,
-            FishingUpgradeHighlight
+            FishingUpgradeHighlight,
+            CosmeticUI.Factory
         ),
         analysers = listOf(
             RemnantHighlight

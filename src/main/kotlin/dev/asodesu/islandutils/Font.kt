@@ -17,6 +17,10 @@ object Font {
     val ASSEMBLER_ICON = icon("\ue003")
     val ACTION_CLICK_LEFT = icon("\ue004")
     val ACTION_CLICK_RIGHT = icon("\ue005")
+    val HAT_BADGE = icon("\ue006")
+    val ACCESSORY_BADGE = icon("\ue007")
+    val CLOAK_BADGE = icon("\ue008")
+    val ROD_BADGE = icon("\ue009")
 
     private fun icon(char: String): Component {
         return Component.literal(char).withStyle(ICONS_STYLE)
