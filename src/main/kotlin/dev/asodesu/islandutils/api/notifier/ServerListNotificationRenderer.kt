@@ -1,5 +1,6 @@
 package dev.asodesu.islandutils.api.notifier
 
+import dev.asodesu.islandutils.api.extentions.isInsideBox
 import dev.asodesu.islandutils.api.extentions.isMccIp
 import dev.asodesu.islandutils.api.extentions.minecraft
 import dev.asodesu.islandutils.options.NotificationOptions
@@ -21,13 +22,11 @@ object ServerListNotificationRenderer {
         if (!enabled || !isMccIp(entry.serverData.ip)) return
         if (Notifier.isEmpty()) return
 
-        val iconX = x - ICON_SIZE - 5
-        val iconBoundX = iconX + ICON_PADDING_X
+        val iconX = x - ICON_SIZE - ICON_PADDING_X
         val iconY = y + ((SERVER_ICON_SIZE - ICON_SIZE) / 2)
-        val iconBoundY = iconY + ICON_SIZE
 
         // check if we're mousing over the notification
-        if (mouseX >= iconX && mouseY >= iconY && mouseX <= iconBoundX && mouseY <= iconBoundY) {
+        if (isInsideBox(mouseX, mouseY, iconX, iconY, ICON_SIZE, ICON_SIZE)) {
             guiGraphics.renderTooltip(minecraft.font, Notifier.get(), Optional.empty(), mouseX, mouseY)
         }
 
