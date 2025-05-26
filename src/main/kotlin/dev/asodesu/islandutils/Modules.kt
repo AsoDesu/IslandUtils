@@ -7,6 +7,7 @@ import dev.asodesu.islandutils.api.music.MusicManager
 import dev.asodesu.islandutils.api.music.MusicManager.Track
 import dev.asodesu.islandutils.cosmetics.CosmeticUI
 import dev.asodesu.islandutils.features.ClassicHitw
+import dev.asodesu.islandutils.features.CommandKeybind
 import dev.asodesu.islandutils.features.FishingUpgradeHighlight
 import dev.asodesu.islandutils.features.FriendsInGame
 import dev.asodesu.islandutils.features.RemnantHighlight
@@ -35,7 +36,9 @@ object Modules {
         StateManager,
         FriendsInGame,
         ClassicHitw,
-        CraftingNotifier
+        CraftingNotifier,
+        CommandKeybind("disguise", -1, "disguise"),
+        CommandKeybind("plobbymenu", -1, "plobby"),
     )
 
     // the game manager, the order here does matter.

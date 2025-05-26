@@ -63,5 +63,9 @@
     "islandutils.options.chest_fishing_upgrade.desc": "Enables icons on available fishing upgrades",
     "islandutils.options.section.misc.debug": "Debug Options",
     "islandutils.options.debug_mode": "Debug Mode",
-    "islandutils.options.debug_mode.desc": "Enables Debugging Options"
+    "islandutils.options.debug_mode.desc": "Enables Debugging Options",
+
+    "key.category.islandutils": "IslandUtils",
+    "key.islandutils.disguise": "Toggle Disguise",
+    "key.islandutils.plobbymenu": "Open Plobby Menu"
 }
