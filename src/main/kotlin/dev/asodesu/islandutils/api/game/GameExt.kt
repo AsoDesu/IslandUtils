@@ -1,6 +1,7 @@
 package dev.asodesu.islandutils.api.game
 
 import dev.asodesu.islandutils.Modules
+import dev.asodesu.islandutils.games.Fishing
 import dev.asodesu.islandutils.games.Hub
 
 /**
@@ -21,6 +22,13 @@ val activeGame: Game
  */
 val inLobby: Boolean
     get() = activeGame is Hub
+
+/**
+ * If the player is in the lobby or fishing, by checking if the
+ * current active game is `Hub` or `Fishing`
+ */
+val inLobbyOrFishing: Boolean
+    get() = activeGame is Hub || activeGame is Fishing
 
 /**
  * If the player is in game, by checking if the current

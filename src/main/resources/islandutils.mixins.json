@@ -3,6 +3,7 @@
     "package": "dev.asodesu.islandutils.mixin",
     "compatibilityLevel": "JAVA_21",
     "mixins": [
+        "HideBlankSlotsMixin",
         "ItemTooltipMixin"
     ],
     "injectors": {
