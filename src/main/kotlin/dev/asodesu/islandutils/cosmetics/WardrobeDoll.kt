@@ -3,7 +3,7 @@ package dev.asodesu.islandutils.cosmetics
 import dev.asodesu.islandutils.api.extentions.minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screens.inventory.InventoryScreen
-import net.minecraft.world.entity.LivingEntity
+import net.minecraft.client.player.LocalPlayer
 import org.joml.Quaternionf
 import org.joml.Vector3f
 import kotlin.math.atan
@@ -17,7 +17,7 @@ class WardrobeDoll(private val wardrobe: Wardrobe) {
         renderDoll(guiGraphics, x.toFloat(), y.toFloat(), size, player)
     }
 
-    private fun renderDoll(guiGraphics: GuiGraphics, x: Float, y: Float, size: Int, livingEntity: LivingEntity) {
+    private fun renderDoll(guiGraphics: GuiGraphics, x: Float, y: Float, size: Int, livingEntity: LocalPlayer) {
         guiGraphics.pose().pushPose()
         guiGraphics.pose().translate(0f, 0f, 150f)
 
@@ -32,20 +32,22 @@ class WardrobeDoll(private val wardrobe: Wardrobe) {
         val preXRot = livingEntity.xRot
         val preYHeadRot0 = livingEntity.yHeadRotO
         val preYHeadRot = livingEntity.yHeadRot
+        val preCrouching = livingEntity.crouching
 
         livingEntity.yBodyRot = xRot
         livingEntity.yRot = xRot
         livingEntity.xRot = yRotation * -20f
         livingEntity.yHeadRot = livingEntity.yRot
         livingEntity.yHeadRotO = livingEntity.yRot
+        livingEntity.crouching = false
 
         // store original items
         val originalItems = wardrobe.slots.associateWith { it.getFromEntity(livingEntity) }
 
         val vector3f = Vector3f(0.0f, livingEntity.bbHeight / 2.0f + 0.0625f, 0.0f)
-
-        wardrobe.apply(livingEntity)
-        InventoryScreen.renderEntityInInventory(guiGraphics, x, y, size.toFloat(), vector3f, quaternionf, quaternionf2, livingEntity)
+        val sizef = size.toFloat()
+        wardrobe.apply(guiGraphics, livingEntity)
+        InventoryScreen.renderEntityInInventory(guiGraphics, x, y, sizef, vector3f, quaternionf, quaternionf2, livingEntity)
 
         // restore original items
         originalItems.forEach { (type, item) -> type.setToEntity(livingEntity, item) }
@@ -55,6 +57,7 @@ class WardrobeDoll(private val wardrobe: Wardrobe) {
         livingEntity.xRot = preXRot
         livingEntity.yHeadRotO = preYHeadRot0
         livingEntity.yHeadRot = preYHeadRot
+        livingEntity.crouching = preCrouching
 
         guiGraphics.pose().popPose()
     }

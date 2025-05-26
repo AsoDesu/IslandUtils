@@ -12,6 +12,7 @@
     "client": [
         "FontLoaderMixin",
         "OptionsButtonMixin",
+        "PlayerCloakRenderLayerMixin",
         "SidebarInterceptorMixin",
         "SoundInterceptorMixin",
         "TitleInterceptorMixin",

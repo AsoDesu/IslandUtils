@@ -45,10 +45,10 @@ abstract class CosmeticType {
 
     abstract fun getFromEntity(entity: LivingEntity): ItemStack
     abstract fun setToEntity(entity: LivingEntity, item: ItemStack)
-    open fun render(entity: LivingEntity, cosmeticItem: CosmeticItem) = setToEntity(entity, cosmeticItem.item)
+    open fun render(guiGraphics: GuiGraphics, entity: LivingEntity, cosmeticItem: CosmeticItem) = setToEntity(entity, cosmeticItem.item)
 
-    open fun renderUI(guiGraphics: GuiGraphics, x: Int, y: Int, width: Int, height: Int = UI_DISPLAY_HEIGHT, cosmeticItem: CosmeticItem = get()) {
-        val badge = badge ?: return
+    open fun renderUI(guiGraphics: GuiGraphics, x: Int, y: Int, width: Int, height: Int = UI_DISPLAY_HEIGHT, cosmeticItem: CosmeticItem = get()): Boolean {
+        val badge = badge ?: return false
         val font = minecraft.font
 
         val itemX = width - ITEM_SIZE - UI_ITEM_PADDING
@@ -68,6 +68,7 @@ abstract class CosmeticType {
         if (isInsideBox(xPos, yPos, x + itemX, y + itemY, ITEM_SIZE, ITEM_SIZE)) {
             guiGraphics.renderTooltip(minecraft.font, cosmeticItem.tooltip, Optional.empty(), xPos, yPos)
         }
+        return true
     }
 
     fun checkAndUpdateHover(item: ItemStack) {
@@ -86,7 +87,7 @@ abstract class CosmeticType {
         val itemId = item.customItemId ?: return false
         return check(itemId)
     }
-    fun check(itemId: ResourceLocation) = names.any { itemId.path?.contains(it) == true }
+    fun check(itemId: ResourceLocation) = names.any { !itemId.path.endsWith("icon_empty") && itemId.path.contains(".$it.") }
 
     fun ItemStack.toCosmetic() = CosmeticItem(this)
 }

@@ -70,7 +70,7 @@ class CosmeticUI(private val wardrobe: Wardrobe) : ChestAnalyser {
         y += size // offset by size to be placed below the doll
         y += UI_DOLL_BOTTOM_PADDING
         wardrobe.slots.forEach {
-            it.renderUI(guiGraphics, x, y, size)
+            if (!it.renderUI(guiGraphics, x, y, size)) return@forEach
             y += CosmeticType.UI_DISPLAY_HEIGHT + UI_DISPLAY_GAP
         }
     }
