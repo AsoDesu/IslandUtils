@@ -12,6 +12,9 @@
     "islandutils.feature.scavenging.reward": " ▪  %s",
     "islandutils.feature.scavenging.manual": "Manual Scavenge",
 
+    "islandutils.confirm_disconnect.title": "Are you sure you want to disconnect?",
+    "islandutils.confirm_disconnect.disconnect": "Leave The Server",
+
     "islandutils.notifications.title": "Notifications",
     "islandutils.notifications.crafting.complete": "Completed Crafts:",
 
@@ -61,6 +64,8 @@
     "islandutils.options.chest_remnant_highlight.desc": "Enables a red background behind item remnants which can be scavenged",
     "islandutils.options.chest_fishing_upgrade": "Highlight available fishing upgrades",
     "islandutils.options.chest_fishing_upgrade.desc": "Enables icons on available fishing upgrades",
+    "islandutils.options.confirm_disconnect": "Enable confirm when disconnecting",
+    "islandutils.options.confirm_disconnect.desc": "Enables a confirmation screen when disconnecting",
     "islandutils.options.section.misc.debug": "Debug Options",
     "islandutils.options.debug_mode": "Debug Mode",
     "islandutils.options.debug_mode.desc": "Enables Debugging Options",
