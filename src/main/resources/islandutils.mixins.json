@@ -1,42 +1,28 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "net.asodev.islandutils.mixins",
-  "compatibilityLevel": "JAVA_17",
-  "refmap": "islandutils.refmap.json",
-  "mixins": [
-    "ItemIDMixin",
-    "accessors.WalkAnimStateAccessor",
-    "cosmetics.ChestScreenMixin",
-    "cosmetics.FontLoaderMixin",
-    "cosmetics.PreviewTutorialMixin",
-    "discord.ConnectionMixin",
-    "discord.ScoreDisplayMixin",
-    "resources.PackRepositoryMixin",
-    "ui.SlotMixin"
-  ],
-  "client": [
-    "BossUIMixin",
-    "accessors.ContainerScreenAccessor",
-    "accessors.SoundEngineAccessor",
-    "accessors.SoundManagerAccessor",
-    "cosmetics.UIMixin",
-    "crafting.CraftingPacketMixin",
-    "crafting.RemnantHighlightMixin",
-    "crafting.ScavengingScreenMixin",
-    "discord.JoinMCCIMixin",
-    "network.PacketListenerMixin",
-    "notif.ServerSelectionMixin",
-    "plobby.PlobbyChestMixin",
-    "resources.MultiplayerJoinMixin",
-    "splits.HologramMixin",
-    "ui.ChatScreenMixin",
-    "ui.CommandSuggestionsAccessor",
-    "ui.FishingUpgradeHighlightMixin",
-    "ui.OptionsMixin",
-    "ui.PauseScreenMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  }
+    "required": true,
+    "package": "dev.asodesu.islandutils.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "mixins": [
+        "HideBlankSlotsMixin",
+        "ItemTooltipMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    },
+    "client": [
+        "AddChatChannelButtonsMixin",
+        "ConfirmDisconnectButtonMixin",
+        "FontLoaderMixin",
+        "OptionsButtonMixin",
+        "PlayerCloakRenderLayerMixin",
+        "SidebarInterceptorMixin",
+        "SoundInterceptorMixin",
+        "TitleInterceptorMixin",
+        "chest.ChestMenuInterceptorMixin",
+        "chest.ChestScreenInterceptorMixin",
+        "features.CommandSuggestionHandlerMixin",
+        "serverlist.JoinMultiplayerTickMixin",
+        "serverlist.ServerListEntryRenderMixin",
+        "sound.ApplyInjectedSoundsMixin"
+    ]
 }

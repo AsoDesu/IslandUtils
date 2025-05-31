@@ -1,0 +1,13 @@
+{
+    "providers": [
+        {"type":"bitmap","file": "mcc:island_interface/social/icon.png","chars": ["\ue001"],"ascent":8,"height":8},
+        {"type":"bitmap","file": "mcc:_fonts/fusion_crafting.png","chars": ["\ue002"],"ascent":8,"height":16},
+        {"type":"bitmap","file": "mcc:_fonts/crafting.png","chars": ["\ue003"],"ascent":8,"height":16},
+        {"type":"bitmap","file": "mcc:_fonts/click_action_left.png","chars": ["\ue004"],"ascent":8,"height":8},
+        {"type":"bitmap","file": "mcc:_fonts/click_action_right.png","chars": ["\ue005"],"ascent":8,"height":8},
+        {"type":"bitmap","file": "mcc:_fonts/tooltips/hat.png","chars": ["\ue006"],"ascent":8,"height":9},
+        {"type":"bitmap","file": "mcc:_fonts/tooltips/accessory.png","chars": ["\ue007"],"ascent":8,"height":9},
+        {"type":"bitmap","file": "mcc:_fonts/tooltips/back.png","chars": ["\ue008"],"ascent":8,"height":9},
+        {"type":"bitmap","file": "mcc:_fonts/tooltips/fishing_rod.png","chars": ["\ue009"],"ascent":8,"height":9}
+    ]
+}

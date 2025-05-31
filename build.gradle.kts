@@ -1,83 +1,67 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
+    kotlin("jvm") version "2.0.20"
+    kotlin("plugin.serialization") version "2.0.20"
     id("fabric-loom") version "1.10-SNAPSHOT"
-    id("maven-publish")
+    java
 }
 
-version = "${properties["mod_version"]!!}${extraVersion()}"
-group = properties["maven_group"]!!
-val targetJavaVersion = 21
+group = property("maven_group")!!
+version = "${property("mod_version")}${extraVersion()}"
 
 repositories {
-    mavenCentral()
-    maven("https://maven.shedaniel.me/")
-    maven("https://jitpack.io")
+    maven("https://maven.noxcrew.com/public")
+    maven("https://maven.enginehub.org/repo/")
     maven("https://maven.terraformersmc.com/releases/")
-    maven("https://maven.isxander.dev/releases")
-    maven("https://maven.isxander.dev/snapshots")
-    maven("https://oss.sonatype.org/content/repositories/snapshots/")
-    maven(uri("https://maven.noxcrew.com/public"))
-    maven(uri("https://maven.enginehub.org/repo/"))
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = "Modrinth"
-                url = uri("https://api.modrinth.com/maven")
-            }
-        }
-        filter {
-            includeGroup("maven.modrinth")
-        }
-    }
+    maven("https://api.modrinth.com/maven")
 }
 
 dependencies {
-    // Minecraft
-    minecraft("com.mojang:minecraft:${properties["minecraft_version"]!!}")
+    minecraft("com.mojang:minecraft:${property("minecraft_version")}")
     mappings(loom.officialMojangMappings())
+    modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
 
-    // Fabric
-    modImplementation("net.fabricmc:fabric-loader:${properties["loader_version"]!!}")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:${properties["fabric_version"]!!}")
+    modImplementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin_version")}")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}")
+    modApi("com.noxcrew.noxesium:fabric:${property("noxesium_version")}")
 
-    // Other mods
-    modApi("dev.isxander:yet-another-config-lib:${properties["yacl_version"]!!}") {
-        exclude(group = "com.twelvemonkeys.common")
-        exclude(group = "com.twelvemonkeys.imageio")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/islandutils.accesswidener")
+}
+
+tasks {
+    processResources {
+        inputs.property("version", project.version)
+        filesMatching("fabric.mod.json") {
+            expand(getProperties())
+            expand(mutableMapOf("version" to project.version))
+        }
     }
-    modApi("com.terraformersmc:modmenu:${properties["mod_menu_version"]!!}")
-    modApi("com.noxcrew.noxesium:fabric:${properties["noxesium_version"]!!}")
 
-    // Other libraries
-    include("com.github.JnCrMx:discord-game-sdk4j:v0.5.5")
-    implementation("com.github.JnCrMx:discord-game-sdk4j:v0.5.5")
+    jar {
+        from("LICENSE") {
+            rename { "${it}_${project.base.archivesName.get()}" }
+        }
+    }
+
+    compileKotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_21)
+        }
+    }
+
+    compileJava {
+        options.release = 21
+    }
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
-}
-
-tasks.jar {
-    from("LICENSE") {
-        rename { "${it}_${properties["archives_base_name"]!!}" }
-    }
-}
-
-tasks.processResources {
-    inputs.property("version", project.version)
-    filteringCharset = "UTF-8"
-
-    filesMatching("fabric.mod.json") {
-        expand("version" to project.version)
-    }
-}
-
-loom {
-    accessWidenerPath.set(file("src/main/resources/islandutils.accesswidener"))
-
-    mixin {
-        defaultRefmapName.set("islandutils.refmap.json")
-    }
 }
 
 fun extraVersion(): String {
@@ -87,6 +71,6 @@ fun extraVersion(): String {
         val runNumber = env["GITHUB_RUN_NUMBER"]!!
         "-pre+$runNumber-$branch"
     } else {
-        "+${properties["minecraft_version"]}"
+        "+${property("minecraft_version")}"
     }
 }
