@@ -1,11 +1,12 @@
 package dev.asodesu.islandutils.games
 
 import com.noxcrew.noxesium.network.clientbound.ClientboundMccServerPacket
+import dev.asodesu.islandutils.api.events.sidebar.sidebar
 import dev.asodesu.islandutils.api.game.Game
 import dev.asodesu.islandutils.api.game.context.SimpleGameContext
-import dev.asodesu.islandutils.api.events.sidebar.sidebar
 
 class Tgttos : Game("tgttos") {
+    override val hasTeamChat = false
     val modifier by sidebar("MODIFIER: ([\\w ]+)")
 
     companion object : SimpleGameContext("tgttos") {

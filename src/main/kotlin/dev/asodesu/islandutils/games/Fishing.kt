@@ -5,6 +5,7 @@ import dev.asodesu.islandutils.api.game.Game
 import dev.asodesu.islandutils.api.game.context.GameContext
 
 class Fishing(val island: String) : Game("lobby") {
+    override val hasTeamChat = false
 
     companion object : GameContext {
         private val temperatures = listOf("temperate", "tropical", "barren")

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory
  */
 abstract class Game(val id: String) : EventKey() {
     protected val logger = LoggerFactory.getLogger("IU-Game'$id'")
+    abstract val hasTeamChat: Boolean
 
     /**
      * Called when the player changes servers away from this game.
