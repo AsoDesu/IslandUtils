@@ -5,8 +5,8 @@ import net.asodev.islandutils.util.Utils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.inventory.Slot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,7 +30,7 @@ public class RemnantHighlightMixin {
 
         int x = slot.x;
         int y = slot.y;
-        guiGraphics.fill(RenderPipelines.GUI, x, y, x + 16, y + 16, 9257316);
+        guiGraphics.fill(RenderPipelines.GUI, x, y, x + 16, y + 16, ARGB.opaque(9257316));
     }
 
 }
