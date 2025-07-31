@@ -23,7 +23,7 @@ public class CraftingItem {
 
     private Component title;
     private Item type;
-    private int customModelData;
+    private ResourceLocation itemModel;
 
     private long finishesCrafting;
     private CraftingMenuType craftingMenuType;
@@ -34,7 +34,7 @@ public class CraftingItem {
         JsonObject object = new JsonObject();
         object.add("title", ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE, title).getOrThrow());
         object.addProperty("type", BuiltInRegistries.ITEM.getKey(type).toString());
-        object.addProperty("customModelData", customModelData);
+        object.addProperty("itemModel", itemModel.toString());
         object.addProperty("finishesCrafting", finishesCrafting);
         object.addProperty("craftingMenuType", craftingMenuType.name());
         object.addProperty("hasSentNotif", hasSentNotif);
@@ -54,8 +54,7 @@ public class CraftingItem {
                 .orElseThrow(() -> new IllegalStateException("Item with type " + typeKey + " does not exist."));
         item.setType(itemType.value());
 
-        item.setCustomModelData(object.get("customModelData").getAsInt());
-
+        item.setItemModel(ResourceLocation.parse(object.get("itemModel").getAsString()));
 
         String craftingTypeString = object.get("craftingMenuType").getAsString();
         item.setCraftingMenuType(CraftingMenuType.valueOf(craftingTypeString.toUpperCase()));
@@ -69,7 +68,7 @@ public class CraftingItem {
 
     public ItemStack getStack() {
         ItemStack stack = new ItemStack(type);
-        stack.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of((float) customModelData), List.of(), List.of(), List.of()));
+        stack.set(DataComponents.ITEM_MODEL, getItemModel());
         return stack;
     }
 
@@ -98,12 +97,12 @@ public class CraftingItem {
         this.type = type;
     }
 
-    public int getCustomModelData() {
-        return customModelData;
+    public ResourceLocation getItemModel() {
+        return itemModel;
     }
 
-    public void setCustomModelData(int customModelData) {
-        this.customModelData = customModelData;
+    public void setItemModel(ResourceLocation itemModel) {
+        this.itemModel = itemModel;
     }
 
     public long getFinishesCrafting() {
@@ -143,7 +142,7 @@ public class CraftingItem {
         return "CraftingItem{" +
                 "title=" + title +
                 ", type=" + type +
-                ", customModelData=" + customModelData +
+                ", itemModel=" + itemModel.toString() +
                 ", finishesCrafting=" + finishesCrafting +
                 ", craftingMenuType=" + craftingMenuType +
                 ", hasSentNotif=" + hasSentNotif +
