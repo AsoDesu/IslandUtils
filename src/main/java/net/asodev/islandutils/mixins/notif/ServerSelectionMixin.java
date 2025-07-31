@@ -26,7 +26,6 @@ import java.util.Optional;
 
 @Mixin(ServerSelectionList.OnlineServerEntry.class)
 public class ServerSelectionMixin {
-    @Shadow @Final private JoinMultiplayerScreen screen;
     @Shadow @Final private ServerData serverData;
     private static ResourceLocation NOTIF_TEXTURE = ResourceLocation.withDefaultNamespace("textures/gui/sprites/icon/unseen_notification.png");
     private static Component NOTIF_TITLE = Component.literal("Notifications").withStyle(Style.EMPTY.withUnderlined(true));
@@ -44,16 +43,16 @@ public class ServerSelectionMixin {
         List<Component> notifs = MccIslandNotifs.getNotifLines();
         if (notifs.isEmpty()) return;
 
-        List<ClientTooltipComponent> tooltip = new ArrayList<>();
-        tooltip.add(ClientTooltipComponent.create(NOTIF_TITLE.getVisualOrderText()));
-        tooltip.add(ClientTooltipComponent.create(Component.empty().getVisualOrderText()));
-        tooltip.addAll(notifs.stream().map(Component::getVisualOrderText).map(ClientTooltipComponent::create).toList());
+        List<Component> tooltip = new ArrayList<>();
+        tooltip.add(NOTIF_TITLE);
+        tooltip.add(Component.empty());
+        tooltip.addAll(notifs);
 
         int nx = x - 10 - 2;
         int ny = y + 8 + 2;
 
         if (mouseX >= nx && mouseY >= ny && mouseX < nx + 10 && mouseY < ny + 10) {
-            guiGraphics.renderTooltip(Minecraft.getInstance().font, tooltip, mouseX, mouseY, DefaultTooltipPositioner.INSTANCE, null);
+            guiGraphics.setTooltipForNextFrame(Minecraft.getInstance().font, tooltip, Optional.empty(), mouseX, mouseY);
         }
 
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, NOTIF_TEXTURE, nx, ny, 0, 0, 10, 10, 10, 10);
