@@ -35,9 +35,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.List;
-
-import static net.asodev.islandutils.util.Utils.customModelData;
+import static net.asodev.islandutils.util.Utils.getCustomItemID;
 
 
 @Mixin(AbstractContainerScreen.class)
@@ -158,15 +156,15 @@ public abstract class ChestScreenMixin extends Screen {
     @Unique
     private void setPreview(ItemStack item) {
         CosmeticType type = CosmeticState.getType(item);
-        float hoverCMD = customModelData(item);
+        ResourceLocation hoverCMD = getCustomItemID(item);
         if (type == CosmeticType.HAT) setOrNotSet(CosmeticState.hatSlot, hoverCMD);
         else if (type == CosmeticType.ACCESSORY) setOrNotSet(CosmeticState.accessorySlot, hoverCMD);
         else if (type == CosmeticType.MAIN_HAND) setOrNotSet(CosmeticState.mainHandSlot, hoverCMD);
     }
 
     @Unique
-    private void setOrNotSet(Cosmetic cosmetic, float itemCMD) {
-        if (cosmetic.preview == null || itemCMD != customModelData(cosmetic.preview.item))
+    private void setOrNotSet(Cosmetic cosmetic, ResourceLocation itemCMD) {
+        if (cosmetic.preview == null || itemCMD != getCustomItemID(cosmetic.preview.item))
             cosmetic.preview = new CosmeticSlot(hoveredSlot);
         else
             cosmetic.preview = null;

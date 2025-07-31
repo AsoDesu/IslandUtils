@@ -69,23 +69,9 @@ public class Utils {
         if (!folder.exists()) folder.mkdir();
     }
 
-    public static float customModelData(ItemStack item) {
-        CustomModelData customModelData = item.get(DataComponents.CUSTOM_MODEL_DATA);
-        return customModelData == null ? 0f : customModelData.floats().getFirst();
-    }
-
     public static ResourceLocation getCustomItemID(ItemStack item) {
-        CustomData customDataComponent = item.get(DataComponents.CUSTOM_DATA);
-        if (customDataComponent == null) return null;
-
-        CompoundTag tag = customDataComponent.getUnsafe();
-        CompoundTag publicBukkitValues = tag.getCompound("PublicBukkitValues").orElse(null);
-        if (publicBukkitValues == null) return null;
-
-        String customItemId = publicBukkitValues.getString("mcc:custom_item_id").orElse(null);
-        if (customItemId == null || customItemId.isEmpty()) return null;
-
-        return ResourceLocation.parse(customItemId);
+        var base = item.get(DataComponents.ITEM_MODEL);
+        return base == null ? null : ResourceLocation.fromNamespaceAndPath(base.getNamespace(), base.getPath().replace("/", "."));
     }
 
     public static boolean isProdMCCI(String hostname) {
