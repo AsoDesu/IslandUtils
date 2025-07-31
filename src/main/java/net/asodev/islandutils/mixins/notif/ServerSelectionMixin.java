@@ -3,9 +3,12 @@ package net.asodev.islandutils.mixins.notif;
 import net.asodev.islandutils.state.MccIslandNotifs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
 import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
 import net.minecraft.client.gui.screens.multiplayer.ServerSelectionList;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -41,19 +44,19 @@ public class ServerSelectionMixin {
         List<Component> notifs = MccIslandNotifs.getNotifLines();
         if (notifs.isEmpty()) return;
 
-        List<Component> tooltip = new ArrayList<>();
-        tooltip.add(NOTIF_TITLE);
-        tooltip.add(Component.empty());
-        tooltip.addAll(notifs);
+        List<ClientTooltipComponent> tooltip = new ArrayList<>();
+        tooltip.add(ClientTooltipComponent.create(NOTIF_TITLE.getVisualOrderText()));
+        tooltip.add(ClientTooltipComponent.create(Component.empty().getVisualOrderText()));
+        tooltip.addAll(notifs.stream().map(Component::getVisualOrderText).map(ClientTooltipComponent::create).toList());
 
         int nx = x - 10 - 2;
         int ny = y + 8 + 2;
 
         if (mouseX >= nx && mouseY >= ny && mouseX < nx + 10 && mouseY < ny + 10) {
-            guiGraphics.renderTooltip(Minecraft.getInstance().font, tooltip, Optional.empty(), mouseX, mouseY);
+            guiGraphics.renderTooltip(Minecraft.getInstance().font, tooltip, mouseX, mouseY, DefaultTooltipPositioner.INSTANCE, null);
         }
 
-        guiGraphics.blit(RenderType::guiTextured, NOTIF_TEXTURE, nx, ny, 0, 0, 10, 10, 10, 10);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, NOTIF_TEXTURE, nx, ny, 0, 0, 10, 10, 10, 10);
     }
 
 }

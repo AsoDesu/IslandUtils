@@ -2,12 +2,14 @@ package net.asodev.islandutils.modules.crafting.state;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.serialization.JsonOps;
 import net.asodev.islandutils.modules.crafting.CraftingMenuType;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +32,7 @@ public class CraftingItem {
 
     public JsonObject toJson() {
         JsonObject object = new JsonObject();
-        object.addProperty("title", Component.Serializer.toJson(title, RegistryAccess.EMPTY));
+        object.add("title", ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE, title).getOrThrow());
         object.addProperty("type", BuiltInRegistries.ITEM.getKey(type).toString());
         object.addProperty("customModelData", customModelData);
         object.addProperty("finishesCrafting", finishesCrafting);
@@ -44,8 +46,8 @@ public class CraftingItem {
         JsonObject object = element.getAsJsonObject();
         CraftingItem item = new CraftingItem();
 
-        String jsonTitle = object.get("title").getAsString();
-        item.setTitle(Component.Serializer.fromJson(jsonTitle, RegistryAccess.EMPTY));
+        JsonElement jsonTitle = object.get("title");
+        item.setTitle(ComponentSerialization.CODEC.decode(JsonOps.INSTANCE, jsonTitle).getOrThrow().getFirst());
 
         ResourceLocation typeKey = ResourceLocation.parse(object.get("type").getAsString());
         Holder.Reference<Item> itemType = BuiltInRegistries.ITEM.get(typeKey)

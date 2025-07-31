@@ -14,6 +14,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
@@ -69,12 +70,9 @@ public abstract class ChestScreenMixin extends Screen {
         else if (CosmeticState.accessorySlot.preview != null && CosmeticState.accessorySlot.preview.matchesSlot(slot)) shouldRender = true;
         else if (CosmeticState.mainHandSlot.preview != null && CosmeticState.mainHandSlot.preview.matchesSlot(slot)) shouldRender = true;
 
-        guiGraphics.pose().pushPose();
         if (shouldRender) {
-            guiGraphics.pose().translate(0.0f, 0.0f, 105f);
-            guiGraphics.blitSprite(RenderType::guiTextured, PREVIEW, slot.x-3, slot.y-4, 22, 24);
+            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, PREVIEW, slot.x-3, slot.y-4, 22, 24);
         }
-        guiGraphics.pose().popPose();
     }
 
     @Inject(method = "render", at = @At("TAIL"))

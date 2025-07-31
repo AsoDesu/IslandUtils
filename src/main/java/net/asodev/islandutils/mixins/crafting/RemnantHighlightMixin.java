@@ -4,6 +4,7 @@ import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.Slot;
@@ -29,10 +30,7 @@ public class RemnantHighlightMixin {
 
         int x = slot.x;
         int y = slot.y;
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().translate(0.0f, 0.0f, 105.0f);
-        guiGraphics.fill(RenderType.gui(), x, y, x + 16, y + 16, 0, 9257316);
-        guiGraphics.pose().popPose();
+        guiGraphics.fill(RenderPipelines.GUI, x, y, x + 16, y + 16, 9257316);
     }
 
 }

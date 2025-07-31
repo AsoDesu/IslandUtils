@@ -93,9 +93,12 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
 
         CosmeticUI.renderPlayerInInventory(
                 guiGraphics,
-                x, // x
-                y,  // y
-                size , // size
+                // TODO Confirm if this placement matches the intended location!
+                x - size, // x0
+                (this.height / 2) - size, // y0
+                x + size, // x1
+                y, // y1
+                size, // size
                 player); // Entity
 
         walkAnim.setPosition(animPos);

@@ -6,6 +6,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.toasts.Toast;
 import net.minecraft.client.gui.components.toasts.ToastManager;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -41,7 +42,7 @@ public class CraftingToast implements Toast {
 
     @Override
     public void render(GuiGraphics guiGraphics, Font font, long l) {
-        guiGraphics.blitSprite(RenderType::guiTextured, ISLAND_TOASTS_TEXTURE, 0, 0, this.width(), this.height());
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, ISLAND_TOASTS_TEXTURE, 0, 0, this.width(), this.height());
         int y = 7;
         guiGraphics.drawString(font, description, 30, y, -16777216, false);
         y += 5 + 4;
