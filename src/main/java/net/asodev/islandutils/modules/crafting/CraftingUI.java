@@ -6,6 +6,7 @@ import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.TimeUtil;
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
@@ -55,7 +56,7 @@ public class CraftingUI {
                 craftingItem.setSlot(slot);
                 craftingItem.setType(item.getItem());
                 craftingItem.setTitle(item.getHoverName());
-                craftingItem.setCustomModelData(Math.round(Utils.customModelData(item))); // Keeping this as int so existing crafting items don't break
+                craftingItem.setItemModel(item.getOrDefault(DataComponents.ITEM_MODEL, ResourceLocation.withDefaultNamespace("missingno")));
 
                 CraftingItems.addItem(craftingItem);
 

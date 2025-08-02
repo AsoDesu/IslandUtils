@@ -84,7 +84,7 @@ public class CosmeticState {
     }
 
     public static boolean isCosmeticMenu(AbstractContainerScreen<ChestMenu> screen) {
-        if (screen.getTitle().getString().contains("WARDROBE")) return true;
+        if (screen.getTitle().getString().contains("MY PROFILE")) return true;
 
         ChestMenu menu = screen.getMenu();
         List<ItemStack> slots = new ArrayList<>(menu.slots.stream().map(Slot::getItem).toList());

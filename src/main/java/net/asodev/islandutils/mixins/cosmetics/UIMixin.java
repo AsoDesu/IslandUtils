@@ -88,14 +88,17 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         player.attackAnim = 0;
 
         int size = Double.valueOf(Math.ceil(this.imageHeight / 2.5)).intValue();
+        int bounds = this.imageHeight;
         int x = (this.width - this.imageWidth) / 4;
         int y = (this.height / 2) + size;
 
         CosmeticUI.renderPlayerInInventory(
                 guiGraphics,
-                x, // x
-                y,  // y
-                size , // size
+                x - bounds, // x0
+                (this.height / 2) - bounds, // y0
+                x + bounds, // x1
+                (this.height / 2) + bounds, // y1
+                size, // size
                 player); // Entity
 
         walkAnim.setPosition(animPos);

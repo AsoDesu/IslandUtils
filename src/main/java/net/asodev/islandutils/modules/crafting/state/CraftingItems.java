@@ -9,6 +9,7 @@ import net.asodev.islandutils.util.Scheduler;
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,7 +121,7 @@ public class CraftingItems {
         // Legendary = #FF8000
         // Mythic = #F94242
 
-        item.setCustomModelData(7924);
+        item.setItemModel(ResourceLocation.parse("mcc:island_interface/style_perks/arcane_quests"));
         item.setFinishesCrafting(System.currentTimeMillis() + delay * 1000);
         item.setHasSentNotif(false);
         item.setSlot(slot);

@@ -54,11 +54,7 @@ public class ScavengingItemHandler {
         // 20 = y pos from top of footer to top of button
         // 5 = bottom padding
         int y = topPos + 152 + 20 - 5;
-
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().translate(0, 0, 105); // z-index: 105
         guiGraphics.drawString(font, silverComponent, x, y, 16777215, false);
-        guiGraphics.pose().popPose();
 
         return width;
     }
