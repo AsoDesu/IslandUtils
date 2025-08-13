@@ -4,6 +4,7 @@ import net.asodev.islandutils.modules.cosmetics.CosmeticState;
 import net.asodev.islandutils.modules.crafting.CraftingUI;
 import net.asodev.islandutils.modules.scavenging.Scavenging;
 import net.asodev.islandutils.modules.splits.LevelTimer;
+import net.asodev.islandutils.state.MccIslandState;
 import net.minecraft.client.gui.font.providers.BitmapProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -39,7 +40,9 @@ public class FontLoaderMixin {
                 case "_fonts/tooltips/hat.png" -> CosmeticState.HAT_COMP = comp;
                 case "_fonts/tooltips/accessory.png" -> CosmeticState.ACCESSORY_COMP = comp;
                 case "_fonts/tooltips/hair.png" -> CosmeticState.HAIR_COMP = comp;
-                case "_fonts/medals.png" -> LevelTimer.medalCharacter = character;
+                case "_fonts/medals.png" -> {
+                    if (MccIslandState.isOnline() && LevelTimer.medalCharacter.isEmpty()) LevelTimer.medalCharacter = character;
+                }
                 case "_fonts/split_up.png" -> LevelTimer.splitUpComponent = comp;
                 case "_fonts/split_down.png" -> LevelTimer.splitDownComponent = comp;
             }
