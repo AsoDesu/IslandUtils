@@ -83,6 +83,8 @@
   "text.autoconfig.islandutils.option.silverPreview.@Tooltip": "Shows all the items you'll earn in the Scavenging menu",
   "text.autoconfig.islandutils.option.channelSwitchers": "Show chat channel buttons",
   "text.autoconfig.islandutils.option.channelSwitchers.@Tooltip": "Shows the chat channel switcher buttons above the chat box",
+  "text.autoconfig.islandutils.option.showProgressBar": "Show progress bars",
+  "text.autoconfig.islandutils.option.showProgressBar.@Tooltip": "Adds an progress bar to inventories for menu items with progress in their tooltip, such as quests or fishing islands",
   "text.autoconfig.islandutils.option.hideSliders": "Hide Sound Sliders if not Online",
   "text.autoconfig.islandutils.option.hideSliders.@Tooltip": "Hides the Music Sliders if you're not on MCC Island",
   "text.autoconfig.islandutils.option.showFishingUpgradeIcon": "Show fishing upgrade icons",

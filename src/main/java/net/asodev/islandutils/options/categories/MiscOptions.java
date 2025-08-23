@@ -19,6 +19,7 @@ public class MiscOptions implements OptionsCategory {
     boolean silverPreview = true;
     boolean channelSwitchers = true;
     boolean showFishingUpgradeIcon = true;
+    boolean showProgressBar = true;
     boolean enableConfigButton = true;
     boolean debugMode = false;
 
@@ -43,6 +44,9 @@ public class MiscOptions implements OptionsCategory {
     }
     public boolean isShowFishingUpgradeIcon() {
         return showFishingUpgradeIcon;
+    }
+    public boolean isShowProgressBar() {
+        return showProgressBar;
     }
 
     public boolean isDebugMode() {
@@ -83,7 +87,6 @@ public class MiscOptions implements OptionsCategory {
                 .build();
         Option<Boolean> fishingUpgradeOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.showFishingUpgradeIcon"))
-                .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.showFishingUpgradeIcon.@Tooltip")))
                 .controller(TickBoxControllerBuilder::create)
                 .binding(defaults.showFishingUpgradeIcon, () -> showFishingUpgradeIcon, value -> this.showFishingUpgradeIcon = value)
                 .build();
@@ -92,6 +95,12 @@ public class MiscOptions implements OptionsCategory {
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.enableConfigButton.@Tooltip")))
                 .controller(TickBoxControllerBuilder::create)
                 .binding(defaults.enableConfigButton, () -> enableConfigButton, value -> this.enableConfigButton = value)
+                .build();
+        Option<Boolean> progressBarOption = Option.<Boolean>createBuilder()
+                .name(Component.translatable("text.autoconfig.islandutils.option.showProgressBar"))
+                .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.showProgressBar.@Tooltip")))
+                .controller(TickBoxControllerBuilder::create)
+                .binding(defaults.showProgressBar, () -> showProgressBar, value -> this.showProgressBar = value)
                 .build();
         Option<Boolean> debugOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.debugMode"))
@@ -114,6 +123,7 @@ public class MiscOptions implements OptionsCategory {
                 .option(channelsOption)
                 .option(fishingUpgradeOption)
                 .option(buttonOption)
+                .option(progressBarOption)
                 .group(OptionGroup.createBuilder()
                         .name(Component.translatable("text.autoconfig.islandutils.group.debugOptions"))
                         .collapsed(true)
