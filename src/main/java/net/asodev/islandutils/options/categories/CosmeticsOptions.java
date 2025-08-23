@@ -14,6 +14,7 @@ public class CosmeticsOptions implements OptionsCategory {
     boolean showOnHover = true;
     boolean showOnOnlyCosmeticMenus = true;
     boolean showReputationBar = true;
+    boolean showChromaBar = true;
 
     public boolean isShowPlayerPreview() {
         return showPlayerPreview;
@@ -29,6 +30,10 @@ public class CosmeticsOptions implements OptionsCategory {
 
     public boolean isShowReputationBar() {
         return showReputationBar;
+    }
+
+    public boolean isShowChromaBar() {
+        return showChromaBar;
     }
 
     @Override
@@ -53,12 +58,18 @@ public class CosmeticsOptions implements OptionsCategory {
                 .controller(TickBoxControllerBuilder::create)
                 .binding(defaults.showReputationBar, () -> showReputationBar, value -> this.showReputationBar = value)
                 .build();
+        Option<Boolean> showChromaBarOption = Option.<Boolean>createBuilder()
+                .name(Component.translatable("text.autoconfig.islandutils.option.showChromaBar"))
+                .controller(TickBoxControllerBuilder::create)
+                .binding(defaults.showChromaBar, () -> showChromaBar, value -> this.showChromaBar = value)
+                .build();
         return ConfigCategory.createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.category.cosmetics"))
                 .option(showPreviewOption)
                 .option(showHoverOption)
                 .option(showOnlyCosmeticMenusOption)
                 .option(showReputationBarOption)
+                .option(showChromaBarOption)
                 .build();
     }
 }
