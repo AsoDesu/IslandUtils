@@ -10,7 +10,7 @@
     "cosmetics.ChestScreenMixin",
     "cosmetics.FontLoaderMixin",
     "cosmetics.PreviewTutorialMixin",
-    "cosmetics.ItemBarMixin",
+    "ItemBarMixin",
     "discord.ConnectionMixin",
     "discord.ScoreDisplayMixin",
     "resources.PackRepositoryMixin",
