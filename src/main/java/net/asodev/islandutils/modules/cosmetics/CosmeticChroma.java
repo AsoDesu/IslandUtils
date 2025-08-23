@@ -13,6 +13,8 @@ public enum CosmeticChroma {
     MAGICAL,
     GRAYSCALE;
 
+    public static final int COUNT = 5;
+
     public static Optional<CosmeticChroma> fromChar(char c) {
         return Optional.ofNullable(switch (c) {
             case '\uE02E' -> MECHANICAL;
@@ -35,6 +37,6 @@ public enum CosmeticChroma {
     }
 
     public static Fraction toFraction(List<CosmeticChroma> chromas) {
-        return Fraction.getFraction(chromas.size(), 5);
+        return Fraction.getFraction(chromas.size(), COUNT);
     }
 }
