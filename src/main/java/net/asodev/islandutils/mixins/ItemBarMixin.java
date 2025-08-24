@@ -6,6 +6,7 @@ import net.asodev.islandutils.util.BarInfo;
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.ARGB;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.math.Fraction;
 import org.spongepowered.asm.mixin.Mixin;
@@ -86,6 +87,12 @@ public class ItemBarMixin {
         var fraction = isQuest ? progresses.stream().max(Fraction::compareTo) : progresses.stream().findFirst();
 
         var isNonBrokenTool = lore.contains(PROGRESS_TOOL_USES_LABEL);
+        if (isNonBrokenTool) {
+            return fraction.map(f -> {
+                var color = Mth.hsvToRgb(f.floatValue() / 3.0F, 1.0F, 1.0F);
+                return new BarInfo(f, color);
+            });
+        }
 
         return fraction.map(f -> new BarInfo(f, PROGRESS_BAR_COLOR));
     }
