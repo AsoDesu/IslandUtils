@@ -8,15 +8,12 @@ import net.minecraft.client.gui.components.LerpingBossEvent;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * We're using a mixin rather than HudRenderCallback because
@@ -30,6 +27,9 @@ public class BossUIMixin {
     @Shadow @Final
     Map<UUID, LerpingBossEvent> events;
 
+    @Unique
+    private static final List<String> QUEUE_BOSSBAR_PATTERNS = List.of("(((((", "TELEPORTING (", "TELEPORTED!");
+
     @Inject(method = "render", at = @At("HEAD"))
     private void render(GuiGraphics guiGraphics, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
@@ -38,10 +38,16 @@ public class BossUIMixin {
         Collections.reverse(list);
         int size = list.size();
         for (LerpingBossEvent event : list) {
-            if (!event.getName().getString().equals("")) break;
-            size--;
+            var eventName = event.getName().getString();
+            if (eventName.isEmpty()) {
+                size--;
+            } else if (QUEUE_BOSSBAR_PATTERNS.stream().anyMatch(eventName::contains)) {
+                size++;
+            }
         }
         SplitUI.renderInstance(guiGraphics, size);
     }
+
+
 
 }
