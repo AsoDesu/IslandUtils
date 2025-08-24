@@ -71,7 +71,7 @@ public class ItemBarMixin {
         if (isBrokenTool) return Optional.of(new BarInfo(Fraction.ZERO, PROGRESS_BAR_COLOR));
 
         var isRepairableTool = lore.contains(PROGRESS_TOOL_REPAIRABLE_LABEL);
-        if (isRepairableTool) return Optional.of(new BarInfo(Fraction.getFraction(1, 100), REPAIRABLE_BAR_COLOR));
+        if (isRepairableTool) return Optional.of(new BarInfo(Fraction.ONE, REPAIRABLE_BAR_COLOR));
 
         var matcher = PROGRESS_REGEX.matcher(lore);
         var progresses = new ArrayList<Fraction>();
