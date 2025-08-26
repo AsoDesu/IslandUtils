@@ -43,11 +43,34 @@ public class CraftingToast implements Toast {
     @Override
     public void render(GuiGraphics guiGraphics, Font font, long l) {
         guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, ISLAND_TOASTS_TEXTURE, 0, 0, this.width(), this.height());
-        int y = 7;
-        guiGraphics.drawString(font, description, 30, y, -16777216, false);
-        y += 5 + 4;
-        guiGraphics.drawString(font, displayName, 30, y, -11534256, false);
 
+        List<FormattedCharSequence> a = font.split(Component.literal(displayName).withColor(0xffffff), 125);
+        if (a.size() == 1) {
+            int y = 7;
+            guiGraphics.drawString(font, description, 30, y, -16777216, false);
+            y += 5 + 4;
+            guiGraphics.drawString(font, displayName, 30, y, -11534256, false);
+        } else {
+            float f = 300.0f;
+            int k;
+            if(l < 1500L){
+                k = Mth.floor(Mth.clamp((float) (1500L - l) / f, 0.0f, 1.0f) * 255.0f) << 24 | 67108864;
+                guiGraphics.drawString(font, description, 30, 11, 1 | k, false);
+            } else {
+                k = Mth.floor(Mth.clamp((float)(l - 1500L) / f, 0.0F, 1.0F) * 252.0F) << 24 | 67108864;
+                int b = this.height() / 2;
+                int c = a.size();
+                Objects.requireNonNull(font);
+                int d = b - c * 9 / 2;
+
+                for (Iterator<FormattedCharSequence> e = a.iterator(); e.hasNext(); d += 9){
+                    FormattedCharSequence g = e.next();
+                    guiGraphics.drawString(font, g, 30, d, 16777215 | k, false);
+                    Objects.requireNonNull(font);
+                }
+            }
+        }
+        
         guiGraphics.renderFakeItem(itemStack, 8, 8);
     }
 }
