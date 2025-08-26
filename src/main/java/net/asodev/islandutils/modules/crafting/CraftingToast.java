@@ -14,6 +14,10 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+
 import static net.asodev.islandutils.util.Utils.MCC_HUD_FONT;
 
 public class CraftingToast implements Toast {
