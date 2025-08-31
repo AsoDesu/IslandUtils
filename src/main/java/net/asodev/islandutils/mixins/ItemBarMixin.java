@@ -9,6 +9,7 @@ import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.math.Fraction;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,6 +25,8 @@ import java.util.stream.Collectors;
 public class ItemBarMixin {
     @Unique
     private static final Pattern PROGRESS_REGEX = Pattern.compile(".*\\n[\\uE001\\uE269\\uE26C\\uE266]* (\\d+)%.*");
+    @Unique
+    private static final Pattern PROGRESS_TRUE_ZERO_REGEX = Pattern.compile(".*\\n[\\uE001\uE266]* 0%.*");
     @Unique
     private static final String PROGRESS_COSMETIC_LABEL = "Left-Click to Equip\n";
     @Unique
@@ -74,13 +77,7 @@ public class ItemBarMixin {
         var isRepairableTool = lore.contains(PROGRESS_TOOL_REPAIRABLE_LABEL);
         if (isRepairableTool) return Optional.of(new BarInfo(Fraction.ONE, REPAIRABLE_BAR_COLOR));
 
-        var matcher = PROGRESS_REGEX.matcher(lore);
-        var progresses = new ArrayList<Fraction>();
-        while (matcher.find()) {
-            var percentage = Integer.parseInt(matcher.group(1));
-            var fraction = Fraction.getFraction(percentage, 100);
-            progresses.add(fraction);
-        }
+        var progresses = getProgresses(lore);
         if (progresses.isEmpty()) return Optional.empty();
 
         var isQuest = lore.contains(PROGRESS_QUEST_LABEL);
@@ -95,6 +92,25 @@ public class ItemBarMixin {
         }
 
         return fraction.map(f -> new BarInfo(f, PROGRESS_BAR_COLOR));
+    }
+
+    @Unique
+    private static @NotNull ArrayList<Fraction> getProgresses(String lore) {
+        var matcher = PROGRESS_REGEX.matcher(lore);
+        var progresses = new ArrayList<Fraction>();
+        while (matcher.find()) {
+            var percentage = Integer.parseInt(matcher.group(1));
+            if (percentage == 0) {
+                var trueZeroMatcher = PROGRESS_TRUE_ZERO_REGEX.matcher(matcher.group(0));
+                if (!trueZeroMatcher.matches()) {
+                    percentage = 1;
+                }
+            }
+
+            var fraction = Fraction.getFraction(percentage, 100);
+            progresses.add(fraction);
+        }
+        return progresses;
     }
 
     @Unique
