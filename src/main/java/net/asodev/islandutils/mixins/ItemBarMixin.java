@@ -36,6 +36,8 @@ public class ItemBarMixin {
     @Unique
     private static final String PROGRESS_BADGE_LOCKED_LABEL = "\nUnlock this slot by reaching the below\namount of Skill Trophies.\n";
     @Unique
+    private static final String PROGRESS_OUTFIT_LOCKED_LABEL = "Locked Outfit Slot\n\nSave a loadout of cosmetics and their";
+    @Unique
     private static final String PROGRESS_QUEST_LABEL = "\nComplete any of the below tasks to\nfinish the quest.\n";
     @Unique
     private static final String PROGRESS_TOOL_USES_LABEL = "\nUses Remaining: ";
@@ -67,7 +69,8 @@ public class ItemBarMixin {
 
         var isCosmetic = lore.contains(PROGRESS_COSMETIC_LABEL) || lore.contains(PROGRESS_COSMETIC_LABEL_2);
         var isProfileBadge = lore.contains(PROGRESS_BADGE_PINNED_LABEL) || lore.contains(PROGRESS_BADGE_LOCKED_LABEL);
-        if (isCosmetic || isProfileBadge) return Optional.empty();
+        var isOutfitSlot = lore.contains(PROGRESS_OUTFIT_LOCKED_LABEL);
+        if (isCosmetic || isProfileBadge || isOutfitSlot) return Optional.empty();
 
         var isBrokenTool = lore.contains(PROGRESS_TOOL_BROKEN_LABEL);
         if (isBrokenTool) return Optional.of(new BarInfo(Fraction.ZERO, ARGB.alpha(0)));
