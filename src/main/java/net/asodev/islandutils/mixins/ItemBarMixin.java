@@ -53,8 +53,6 @@ public class ItemBarMixin {
     private static final Pattern CHROMA_REGEX = Pattern.compile(".*\\n([\\uE02A\\uE02E\\uE02F\\uE02C\\uE02D\\uE02B]{5}) - (\\d+)\\uE328\\n.*");
 
     @Unique
-    private static final int PROGRESS_BAR_COLOR = ARGB.colorFromFloat(1.0F, 0.33F, 1.0F, 0.33F);
-    @Unique
     private static final int REPAIRABLE_BAR_COLOR = ARGB.colorFromFloat(1.0F, 1.0F, 0.33F, 0.33F);
 
     @Unique
@@ -72,7 +70,7 @@ public class ItemBarMixin {
         if (isCosmetic || isProfileBadge) return Optional.empty();
 
         var isBrokenTool = lore.contains(PROGRESS_TOOL_BROKEN_LABEL);
-        if (isBrokenTool) return Optional.of(new BarInfo(Fraction.ZERO, PROGRESS_BAR_COLOR));
+        if (isBrokenTool) return Optional.of(new BarInfo(Fraction.ZERO, ARGB.alpha(0)));
 
         var isRepairableTool = lore.contains(PROGRESS_TOOL_REPAIRABLE_LABEL);
         if (isRepairableTool) return Optional.of(new BarInfo(Fraction.ONE, REPAIRABLE_BAR_COLOR));
@@ -91,7 +89,7 @@ public class ItemBarMixin {
             });
         }
 
-        return fraction.map(f -> new BarInfo(f, PROGRESS_BAR_COLOR));
+        return fraction.map(f -> new BarInfo(f, IslandOptions.getMisc().getProgressBarColorARGB()));
     }
 
     @Unique

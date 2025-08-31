@@ -4,10 +4,14 @@ import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionDescription;
 import dev.isxander.yacl3.api.OptionGroup;
+import dev.isxander.yacl3.api.controller.ColorControllerBuilder;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
 import net.asodev.islandutils.options.saving.Ignore;
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.ARGB;
+
+import java.awt.*;
 
 public class MiscOptions implements OptionsCategory {
     @Ignore
@@ -22,6 +26,7 @@ public class MiscOptions implements OptionsCategory {
     boolean showProgressBar = true;
     boolean enableConfigButton = true;
     boolean debugMode = false;
+    int progressBarColorARGB = ARGB.opaque(Color.WHITE.getRGB());
 
     public boolean isPauseConfirm() {
         return pauseConfirm;
@@ -47,6 +52,9 @@ public class MiscOptions implements OptionsCategory {
     }
     public boolean isShowProgressBar() {
         return showProgressBar;
+    }
+    public int getProgressBarColorARGB() {
+        return progressBarColorARGB;
     }
 
     public boolean isDebugMode() {
@@ -102,6 +110,15 @@ public class MiscOptions implements OptionsCategory {
                 .controller(TickBoxControllerBuilder::create)
                 .binding(defaults.showProgressBar, () -> showProgressBar, value -> this.showProgressBar = value)
                 .build();
+        Option<Color> progressBarColorOption = Option.<Color>createBuilder()
+                .name(Component.translatable("text.autoconfig.islandutils.option.progressBarColor"))
+                .controller(ColorControllerBuilder::create)
+                .binding(
+                    new Color(defaults.progressBarColorARGB & 0xFFFFFF),
+                    () -> new Color(progressBarColorARGB & 0xFFFFFF),
+                    value -> this.progressBarColorARGB = ARGB.opaque(value.getRGB())
+                )
+                .build();
         Option<Boolean> debugOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.debugMode"))
                 .description(OptionDescription.of(Component.translatable("text.autoconfig.islandutils.option.debugMode.@Tooltip")))
@@ -124,6 +141,7 @@ public class MiscOptions implements OptionsCategory {
                 .option(fishingUpgradeOption)
                 .option(buttonOption)
                 .option(progressBarOption)
+                .option(progressBarColorOption)
                 .group(OptionGroup.createBuilder()
                         .name(Component.translatable("text.autoconfig.islandutils.group.debugOptions"))
                         .collapsed(true)
