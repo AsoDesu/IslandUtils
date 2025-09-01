@@ -14,8 +14,10 @@ public class DojoSplitUI implements SplitUI {
     private static final ResourceLocation BAR_TEXTURE = ResourceLocation.fromNamespaceAndPath("island", "pkw_splits");
     private static final int MCC_BAR_WIDTH = 130;
     public static Style MCC_HUD_STYLE = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mcc", "hud"));
+    public static Style SMALL_SPLIT_FONT_STYLE = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("island", "split"));
 
-    private LevelTimer timer;
+    private final LevelTimer timer;
+    private int timerWidth;
 
     public DojoSplitUI(LevelTimer timer) {
         this.timer = timer;
@@ -49,7 +51,8 @@ public class DojoSplitUI implements SplitUI {
         Font font = Minecraft.getInstance().font;
         String formattedTime = String.format("%.3f", timer.getCurrentSplitTime());
         Component splitTime = Component.literal(formattedTime);
-        int tx = x + this.width() - font.width(splitTime) - 2;
+        timerWidth = font.width(splitTime);
+        int tx = x + this.width() - timerWidth - 2;
         int ty = y + 2;
         guiGraphics.drawString(font, splitTime, tx, ty, 16777215 | 255 << 24, true);
     }
@@ -69,8 +72,8 @@ public class DojoSplitUI implements SplitUI {
         }
 
         Font font = Minecraft.getInstance().font;
-        Component improvementTime = Component.literal(formattedTime).withStyle(MCC_HUD_STYLE.withColor(color));
-        int tx = x + 12 + (this.width() / 2) - (font.width(improvementTime) / 2);
+        Component improvementTime = Component.literal(formattedTime).withStyle(SMALL_SPLIT_FONT_STYLE.withColor(color));
+        int tx = x + this.width() - timerWidth - 2 - font.width(improvementTime) - 8;
         int ty = y + 2;
         guiGraphics.drawString(font, improvementTime, tx, ty, 16777215 | 255 << 24, true);
     }
