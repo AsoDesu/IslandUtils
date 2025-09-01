@@ -1,6 +1,5 @@
 package net.asodev.islandutils.modules.splits.ui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.asodev.islandutils.modules.splits.LevelTimer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -24,8 +23,8 @@ public class DojoSplitUI implements SplitUI {
 
     @Override
     public void render(GuiGraphics guiGraphics, int bossBars) {
-        int x = (guiGraphics.guiWidth() / 2) - (MCC_BAR_WIDTH / 2);
-        int y = Double.valueOf((bossBars * 18.5)).intValue();
+        int x = Math.round(((float)guiGraphics.guiWidth() / 2.0f) - ((float)MCC_BAR_WIDTH / 2.0f) - 1.0f);
+        int y = Double.valueOf((bossBars * 18.5)).intValue() + 1;
         guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, BAR_TEXTURE, x, y, this.width(), this.height());
 
         renderLevelName(guiGraphics, x, y);
@@ -34,6 +33,7 @@ public class DojoSplitUI implements SplitUI {
             renderSplitImprovement(guiGraphics, x, y);
         }
     }
+
     public void renderLevelName(GuiGraphics guiGraphics, int x, int y) {
         Font font = Minecraft.getInstance().font; // Minecraft is incapable of getting this itself
         Component levelName = Component.literal(timer.getLevelName()).withStyle(MCC_HUD_STYLE);
@@ -74,7 +74,6 @@ public class DojoSplitUI implements SplitUI {
         int ty = y + 2;
         guiGraphics.drawString(font, improvementTime, tx, ty, 16777215 | 255 << 24, true);
     }
-
 
     private int width() {
         return 130;
