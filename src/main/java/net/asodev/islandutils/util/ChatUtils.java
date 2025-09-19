@@ -4,24 +4,25 @@ import net.asodev.islandutils.options.IslandOptions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
 public class ChatUtils {
+
     private static final Logger LOGGER = LoggerFactory.getLogger("IslandUtils");
-    public static final Style iconsFontStyle = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(ResourceLocation.fromNamespaceAndPath("island","icons"));
-    public static final String prefix = "&b[&eIslandUtils&b]";
+
+    public static final String CHAT_PREFIX = "&b[&eIslandUtils&b]";
+
+
     public static String translate(String s) {
         return s.replaceAll("&", "§");
     }
 
     public static void send(String s) {
-        send(Component.literal(translate(prefix + " " + s)));
+        send(Component.literal(translate(CHAT_PREFIX + " " + s)));
     }
 
     public static void debug(String s, Object... args) {
@@ -45,4 +46,6 @@ public class ChatUtils {
         return result.orElse(null);
     }
 
+    public ChatUtils() {
+    }
 }

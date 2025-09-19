@@ -1,21 +1,16 @@
 package net.asodev.islandutils.modules.scavenging;
 
-import net.asodev.islandutils.mixins.accessors.ContainerScreenAccessor;
+import net.asodev.islandutils.util.FontUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.world.inventory.ChestMenu;
 
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static net.asodev.islandutils.modules.cosmetics.CosmeticState.MCC_ICONS;
-import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 
 public class ScavengingItemHandler {
     private static final int MENU_WIDTH = 176;
@@ -29,6 +24,7 @@ public class ScavengingItemHandler {
     public ScavengingItemHandler(String item, String character) {
         this(item, character, character);
     }
+
     public ScavengingItemHandler(String item, String character, String detectString) {
         this.character = character;
         this.pattern = Pattern.compile("(\\d+).*" + detectString);
@@ -42,8 +38,8 @@ public class ScavengingItemHandler {
         if (!(minecraft.screen instanceof ContainerScreen screen)) return 0;
 
         Component silverComponent = Component.literal(String.valueOf(total))
-                .append(Component.literal("_").withStyle(iconsFontStyle))
-                .append(Component.literal(character).withStyle(Style.EMPTY.withFont(MCC_ICONS)));
+                .append(Component.literal("_").withStyle(FontUtils.MCC_ICONS_STYLE))
+                .append(Component.literal(character).withStyle(FontUtils.MCC_ICONS_STYLE));
         int width = font.width(silverComponent);
 
         x -= width;
@@ -68,13 +64,15 @@ public class ScavengingItemHandler {
         try {
             long amount = Long.parseLong(amountText);
             return total.create(amount);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         return total;
     }
 
     public String getCharacter() {
         return character;
     }
+
     public Pattern getPattern() {
         return pattern;
     }
@@ -86,6 +84,7 @@ public class ScavengingItemHandler {
         ScavengingItemHandler that = (ScavengingItemHandler) o;
         return Objects.equals(name, that.name);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(name);

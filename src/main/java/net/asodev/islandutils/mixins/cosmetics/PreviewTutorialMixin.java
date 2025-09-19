@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import net.asodev.islandutils.modules.cosmetics.CosmeticState;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.util.ChatUtils;
+import net.asodev.islandutils.util.FontUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -18,13 +19,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.List;
 import java.util.function.Consumer;
-
-import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 
 @Mixin(ItemStack.class)
 public class PreviewTutorialMixin {
@@ -37,7 +33,7 @@ public class PreviewTutorialMixin {
 
     @Unique
     private static final Component previewComponent = Component.empty()
-            .append(Component.literal("\ue005").setStyle(iconsFontStyle))
+            .append(FontUtils.ICON_MIDDLE_CLICK)
             .append(Component.literal(" > ").setStyle(style0))
             .append(Component.keybind("key.pickItem").append(" to ").setStyle(style1))
             .append(Component.literal("Preview on player").setStyle(style2));
