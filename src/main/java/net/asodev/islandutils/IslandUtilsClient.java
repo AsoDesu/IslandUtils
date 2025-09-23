@@ -67,7 +67,7 @@ public class IslandUtilsClient implements ClientModInitializer {
             URI releaseUri = URI.create(IslandUtils.availableUpdate.releaseUrl());
             Style style = Style.EMPTY.withClickEvent(new ClickEvent.OpenUrl(releaseUri));
             Component link = Component.literal(IslandUtils.availableUpdate.releaseUrl()).setStyle(style);
-            Component text = Component.literal(ChatUtils.translate(ChatUtils.prefix + " Download Here: &f")).append(link);
+            Component text = Component.literal(ChatUtils.translate(ChatUtils.CHAT_PREFIX + " Download Here: &f")).append(link);
 
             ChatUtils.send(text);
         } else if (IslandUtils.isPreRelease()) {

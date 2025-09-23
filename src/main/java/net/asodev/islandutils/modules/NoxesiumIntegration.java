@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class NoxesiumIntegration {
-    private static Logger LOGGER = LoggerFactory.getLogger(NoxesiumIntegration.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NoxesiumIntegration.class);
 
     public void init() {
         NoxesiumFabricMod.initialize();
