@@ -7,6 +7,7 @@ import net.asodev.islandutils.options.categories.SplitsCategory;
 import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
+import net.asodev.islandutils.util.FontUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -94,10 +95,9 @@ public class LevelTimer {
     public void sendSplitCompeteMessage() {
         if (!options.isSendSplitTime()) return;
         String time = String.format("%.3fs", getCurrentSplitTime());
-        Style tickFont = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("island", "icons")).withColor(ChatFormatting.WHITE);
 
         MutableComponent component = Component.literal("[").withStyle(ChatFormatting.GREEN)
-                .append(Component.literal("\ue009").withStyle(tickFont))
+                .append(FontUtils.ICON_TICK_SMALL)
                 .append("] " + levelName + " complete in: ")
                 .append(Component.literal(time).withStyle(Style.EMPTY.withColor(ChatFormatting.WHITE)));
         if (options.isShowSplitImprovements()) {

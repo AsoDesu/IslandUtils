@@ -4,8 +4,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
 import net.asodev.islandutils.modules.crafting.CraftingMenuType;
+import net.asodev.islandutils.util.FontUtils;
 import net.minecraft.core.Holder;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -13,11 +13,6 @@ import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomModelData;
-
-import java.util.List;
-
-import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 
 public class CraftingItem {
 
@@ -81,8 +76,7 @@ public class CraftingItem {
     }
 
     public Component getTypeIcon() {
-        String icon = this.getCraftingMenuType() == CraftingMenuType.FORGE ? "\ue006" : "\ue007";
-        return Component.literal(icon).withStyle(iconsFontStyle);
+        return this.getCraftingMenuType() == CraftingMenuType.FORGE ? FontUtils.FUSION_CRAFTING : FontUtils.CRAFTING;
     }
 
     public void setTitle(Component title) {

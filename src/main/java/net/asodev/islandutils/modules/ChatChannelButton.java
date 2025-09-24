@@ -2,13 +2,12 @@ package net.asodev.islandutils.modules;
 
 import net.asodev.islandutils.modules.plobby.PlobbyFeatures;
 import net.asodev.islandutils.state.MccIslandState;
+import net.asodev.islandutils.util.FontUtils;
 import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 
 /**
  * A button that appears in the chat screen to select a chat channel.
@@ -20,25 +19,10 @@ public record ChatChannelButton(
         String name,
         Component text
 ) {
-    private static final ChatChannelButton LOCAL = new ChatChannelButton(
-            "local",
-            Component.literal("\ue002").withStyle(iconsFontStyle)
-    );
-
-    private static final ChatChannelButton PARTY = new ChatChannelButton(
-            "party",
-            Component.literal("\ue003").withStyle(iconsFontStyle)
-    );
-
-    private static final ChatChannelButton TEAM = new ChatChannelButton(
-            "team",
-            Component.literal("\ue004").withStyle(iconsFontStyle)
-    );
-
-    private static final ChatChannelButton PLOBBY = new ChatChannelButton(
-            "plobby",
-            Component.literal("\ue011").withStyle(iconsFontStyle)
-    );
+    private static final ChatChannelButton LOCAL = new ChatChannelButton("local", FontUtils.CHAT_CHANNEL_LOCAL);
+    private static final ChatChannelButton PARTY = new ChatChannelButton("party", FontUtils.CHAT_CHANNEL_PARTY);
+    private static final ChatChannelButton TEAM = new ChatChannelButton("team", FontUtils.CHAT_CHANNEL_TEAM);
+    private static final ChatChannelButton PLOBBY = new ChatChannelButton("plobby", FontUtils.CHAT_CHANNEL_PLOBBY);
 
     /**
      * Gets an immutable list of the buttons to add to the chat screen at this point in time.

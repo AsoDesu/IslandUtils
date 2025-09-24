@@ -7,6 +7,7 @@ import net.asodev.islandutils.modules.cosmetics.CosmeticUI;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.CosmeticsOptions;
 import net.asodev.islandutils.state.MccIslandState;
+import net.asodev.islandutils.util.FontUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -115,12 +116,12 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         y += 8;
         int backgroundColor = 0x60000000;
         guiGraphics.fill(x-(size / 2) - 2, y, x+(size / 2)+2, y + 19, backgroundColor);
-        guiGraphics.drawString(this.font, CosmeticState.HAT_COMP, x-(size / 2) + 4, y + 6, 16777215 | 255 << 24);
+        guiGraphics.drawString(this.font, FontUtils.TOOLTIP_HAT, x-(size / 2) + 4, y + 6, 16777215 | 255 << 24);
         guiGraphics.renderItem(this.minecraft.player, hatSlot, itemPos, y+2, x + y * this.imageWidth);
 
         y += 19 + 4;
         guiGraphics.fill(x-(size / 2) - 2, y, x+(size / 2)+2, y + 19, backgroundColor);
-        guiGraphics.drawString(this.font, CosmeticState.ACCESSORY_COMP, x-(size / 2) + 4, y + 6, 16777215 | 255 << 24);
+        guiGraphics.drawString(this.font, FontUtils.TOOLTIP_ACCESSORY, x-(size / 2) + 4, y + 6, 16777215 | 255 << 24);
         guiGraphics.renderItem(this.minecraft.player, accSlot, itemPos, y+2, x + y * this.imageWidth);
     }
 

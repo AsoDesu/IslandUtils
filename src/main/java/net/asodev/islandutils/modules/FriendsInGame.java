@@ -6,6 +6,7 @@ import net.asodev.islandutils.options.categories.MiscOptions;
 import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
+import net.asodev.islandutils.util.FontUtils;
 import net.asodev.islandutils.util.Scheduler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -16,8 +17,6 @@ import net.minecraft.network.protocol.game.ServerboundCommandSuggestionPacket;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static net.asodev.islandutils.util.ChatUtils.iconsFontStyle;
 
 public class FriendsInGame {
     public static final int TRANSACTION_ID = 6775161;
@@ -52,13 +51,13 @@ public class FriendsInGame {
             }
         }
         if (!hasFriends) return;
-        String friendString = friendsInThisGame.toString().replaceFirst(", ","");
+        String friendString = friendsInThisGame.toString().replaceFirst(", ", "");
 
         String text = "Friends in this game";
         if (MccIslandState.getGame() == Game.HUB) text = "Friends in this lobby";
 
         Component component = Component.literal("[").withStyle(ChatFormatting.GREEN)
-                .append(Component.literal("\ue001").withStyle(iconsFontStyle))
+                .append(FontUtils.ICON_SOCIAL)
                 .append(Component.literal("] " + text + ": ").withStyle(ChatFormatting.GREEN))
                 .append(Component.literal(friendString).withStyle(ChatFormatting.YELLOW));
         ChatUtils.send(component);

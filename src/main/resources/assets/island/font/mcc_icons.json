@@ -1,0 +1,64 @@
+{
+    "providers": [
+        {
+            "type":"space",
+            "advances":{" ": 4.0, "_": 2.0}
+        },
+        {
+            "type": "bitmap",
+            "file": "mcc:island_interface/social/icon.png",
+            "chars": ["\ue001"],
+            "ascent": 7,
+            "height": 8
+        },
+        {
+            "type": "bitmap",
+            "file": "mcc:_fonts/header_icons/fusion_crafting.png",
+            "chars": ["\ue002"],
+            "ascent": 7,
+            "height": 16
+        },
+        {
+            "type": "bitmap",
+            "file": "mcc:_fonts/header_icons/crafting.png",
+            "chars": ["\ue003"],
+            "ascent": 8,
+            "height": 16
+        },
+        {
+            "type": "bitmap",
+            "file": "mcc:_fonts/icon/tick_small.png",
+            "chars": ["\ue005"],
+            "ascent": 8,
+            "height": 8
+        },
+        {
+            "type": "bitmap",
+            "file": "mcc:_fonts/icon/cancel.png",
+            "chars": ["\ue006"],
+            "ascent": 8,
+            "height": 8
+        },
+        {
+            "type": "bitmap",
+            "file": "mcc:_fonts/icon/tooltips/hat.png",
+            "chars": ["\ue007"],
+            "ascent": 8,
+            "height": 9
+        },
+        {
+            "type": "bitmap",
+            "file": "mcc:_fonts/icon/tooltips/accessory.png",
+            "chars": ["\ue008"],
+            "ascent": 8,
+            "height": 9
+        },
+        {
+            "type": "bitmap",
+            "file": "mcc:_fonts/icon/tooltips/hair.png",
+            "chars": ["\ue009"],
+            "ascent": 8,
+            "height": 9
+        }
+    ]
+}

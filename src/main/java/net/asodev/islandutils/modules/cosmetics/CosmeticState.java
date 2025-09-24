@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
@@ -21,25 +20,28 @@ import java.util.Objects;
 
 public class CosmeticState {
 
-    public static final ResourceLocation MCC_ICONS = ResourceLocation.fromNamespaceAndPath("mcc", "icon");
-    public static Component HAIR_COMP = Component.literal("\uE0E7").setStyle(Style.EMPTY.withFont(MCC_ICONS));
-    public static Component HAT_COMP = Component.literal("\uE0E8").setStyle(Style.EMPTY.withFont(MCC_ICONS));
-    public static Component ACCESSORY_COMP = Component.literal("\uE0DA").setStyle(Style.EMPTY.withFont(MCC_ICONS));
-
-    @Nullable public static Player inspectingPlayer;
+    @Nullable
+    public static Player inspectingPlayer;
     public static float yRot = 155;
     public static float xRot = -5;
 
     public static Cosmetic hatSlot = new Cosmetic(CosmeticType.HAT);
     public static Cosmetic accessorySlot = new Cosmetic(CosmeticType.ACCESSORY);
     public static Cosmetic mainHandSlot = new Cosmetic(CosmeticType.MAIN_HAND);
-    @Nullable public static Integer hoveredColor;
+    @Nullable
+    public static Integer hoveredColor;
 
     public static Cosmetic getCosmeticByType(CosmeticType type) {
         switch (type) {
-            case HAT -> { return hatSlot; }
-            case ACCESSORY -> { return accessorySlot; }
-            case MAIN_HAND -> { return mainHandSlot; }
+            case HAT -> {
+                return hatSlot;
+            }
+            case ACCESSORY -> {
+                return accessorySlot;
+            }
+            case MAIN_HAND -> {
+                return mainHandSlot;
+            }
         }
         return null;
     }
@@ -65,6 +67,7 @@ public class CosmeticState {
         DyedItemColor dyedItemColor = itemStack.get(DataComponents.DYED_COLOR);
         return dyedItemColor != null ? dyedItemColor.rgb() : null;
     }
+
     public static ItemStack applyColor(ItemStack itemStack) {
         if (hoveredColor == null) return itemStack;
         DyedItemColor itemColor = new DyedItemColor(hoveredColor);
@@ -89,7 +92,7 @@ public class CosmeticState {
         ChestMenu menu = screen.getMenu();
         List<ItemStack> slots = new ArrayList<>(menu.slots.stream().map(Slot::getItem).toList());
         slots.add(menu.getCarried());
-        for (ItemStack slot : slots){
+        for (ItemStack slot : slots) {
             CosmeticType type = CosmeticState.getType(slot);
             if (type != null) return true;
         }
