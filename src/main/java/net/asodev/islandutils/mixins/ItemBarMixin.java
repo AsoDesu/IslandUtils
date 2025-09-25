@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
 @Mixin(ItemStack.class)
 public class ItemBarMixin {
     @Unique
-    private static final Pattern PROGRESS_REGEX = Pattern.compile(".*\\n[\\uE001\\uE269\\uE26C\\uE266]* (\\d+)%.*");
+    private static final Pattern PROGRESS_REGEX = Pattern.compile(".*\\n[\\uE001\\uE26A\\uE26D\\uE267]* (\\d+)%.*");
     @Unique
-    private static final Pattern PROGRESS_TRUE_ZERO_REGEX = Pattern.compile(".*\\n[\\uE001\uE266]* 0%.*");
+    private static final Pattern PROGRESS_TRUE_ZERO_REGEX = Pattern.compile(".*\\n[\\uE001\\uE267]* 0%.*");
     @Unique
     private static final String PROGRESS_COSMETIC_LABEL = "Left-Click to Equip\n";
     @Unique
@@ -52,7 +52,7 @@ public class ItemBarMixin {
     @Unique
     private static final String CHROMA_LABEL = "\nChromas Unlocked:\n";
     @Unique
-    private static final Pattern CHROMA_REGEX = Pattern.compile(".*\\n([\\uE02A\\uE02E\\uE02F\\uE02C\\uE02D\\uE02B]{5}) - (\\d+)\\uE328\\n.*");
+    private static final Pattern CHROMA_REGEX = Pattern.compile(".*\\n([\\uE02A\\uE02E\\uE02F\\uE02C\\uE02D\\uE02B]{5}) - (\\d+)\\uE329\\n.*");
 
     @Unique
     private static final int REPAIRABLE_BAR_COLOR = ARGB.colorFromFloat(1.0F, 1.0F, 0.33F, 0.33F);
