@@ -87,7 +87,7 @@ public abstract class ItemIDMixin implements DataComponentHolder {
         if (!(screen instanceof AbstractContainerScreen<?> containerScreen)) return Optional.empty();
         Slot hoveredSlot = ((ContainerScreenAccessor) containerScreen).getHoveredSlot();
 
-        if (!hoveredSlot.hasItem()) return Optional.empty();
+        if (hoveredSlot == null || !hoveredSlot.hasItem()) return Optional.empty();
         if (hoveredSlot.getItem() != me) return Optional.empty();
         return Optional.of(hoveredSlot);
     }
