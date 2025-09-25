@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
 @Mixin(ItemStack.class)
 public class ItemBarMixin {
     @Unique
-    private static final Pattern PROGRESS_REGEX = Pattern.compile(".*\\n[\\uE001\\uE26A\\uE26D\\uE267]* (\\d+)%.*");
+    private static final Pattern PROGRESS_REGEX = Pattern.compile(".*\\n[\\uE001\\uE272\\uE267\\uE26A\\uE26C\\uE26D\\uE26F]* (\\d+)%.*");
     @Unique
-    private static final Pattern PROGRESS_TRUE_ZERO_REGEX = Pattern.compile(".*\\n[\\uE001\\uE267]* 0%.*");
+    private static final Pattern PROGRESS_TRUE_ZERO_REGEX = Pattern.compile(".*\\n[\\uE001\\uE267\\uE26C]* 0%.*");
     @Unique
     private static final String PROGRESS_COSMETIC_LABEL = "Left-Click to Equip\n";
     @Unique
@@ -42,7 +42,11 @@ public class ItemBarMixin {
     @Unique
     private static final String PROGRESS_TOOL_USES_LABEL = "\nUses Remaining: ";
     @Unique
+    private static final String PROGRESS_TOOL_LINE_LABEL = "\nYour equipped line adds to your\n";
+    @Unique
     private static final String PROGRESS_TOOL_REPAIRABLE_LABEL = "\nThis item is out of uses! You can Repair\nit to restore all its uses, you can only\ndo this once per item.\n";
+    @Unique
+    private static final String PROGRESS_TOOL_REPAIRED_LABEL = "\nThis item has previously been repaired.\n";
     @Unique
     private static final String PROGRESS_TOOL_BROKEN_LABEL = "\nThis item is out of uses! You've already\nrepaired it once, so cannot do so\nagain.";
 
@@ -76,7 +80,7 @@ public class ItemBarMixin {
         if (isBrokenTool) return Optional.of(new BarInfo(Fraction.ZERO, ARGB.alpha(0)));
 
         var isRepairableTool = lore.contains(PROGRESS_TOOL_REPAIRABLE_LABEL);
-        if (isRepairableTool) return Optional.of(new BarInfo(Fraction.ONE, REPAIRABLE_BAR_COLOR));
+        if (isRepairableTool) return Optional.of(new BarInfo(Fraction.ONE_HALF, REPAIRABLE_BAR_COLOR));
 
         var progresses = getProgresses(lore);
         if (progresses.isEmpty()) return Optional.empty();
@@ -87,6 +91,11 @@ public class ItemBarMixin {
         var isNonBrokenTool = lore.contains(PROGRESS_TOOL_USES_LABEL);
         if (isNonBrokenTool) {
             return fraction.map(f -> {
+                var canRepairTool = !lore.contains(PROGRESS_TOOL_LINE_LABEL);
+                if (canRepairTool) {
+                    var isRepairedTool = lore.contains(PROGRESS_TOOL_REPAIRED_LABEL);
+                    f = (isRepairedTool ? f : f.add(Fraction.ONE)).divideBy(Fraction.getFraction(2, 1));
+                }
                 var color = Mth.hsvToRgb(f.floatValue() / 3.0F, 1.0F, 1.0F);
                 return new BarInfo(f, color);
             });
