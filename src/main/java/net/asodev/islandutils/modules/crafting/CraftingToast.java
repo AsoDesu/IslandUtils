@@ -50,28 +50,25 @@ public class CraftingToast implements Toast {
     public void render(GuiGraphics guiGraphics, Font font, long l) {
         guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, ISLAND_TOASTS_TEXTURE, 0, 0, this.width(), this.height());
 
-        List<FormattedCharSequence> a = font.split(displayName, 125);
+        List<FormattedCharSequence> sequences = font.split(displayName, 125);
         if (a.size() == 1) {
             int y = 7;
             guiGraphics.drawString(font, description, 30, y, -16777216, false);
             y += 5 + 4;
             guiGraphics.drawString(font, displayName, 30, y, -11534256, false);
         } else {
-            float f = 300.0f;
-            int k;
+            float fadeDuration = 300.0f;
             if(l < 1500L){
-                k = Mth.floor(Mth.clamp((float) (1500L - l) / f, 0.0f, 1.0f) * 255.0f) << 24 | 67108864;
-                guiGraphics.drawString(font, description, 30, 11, 1 | k, false);
+                guiGraphics.drawString(font, description, 30, 11, 1 | (Mth.floor(Mth.clamp((float) (1500L - l) / fadeDuration, 0.0f, 1.0f) * 255.0f) << 24 | 67108864), false);
             } else {
-                k = Mth.floor(Mth.clamp((float)(l - 1500L) / f, 0.0F, 1.0F) * 252.0F) << 24 | 67108864;
-                int b = this.height() / 2;
-                int c = a.size();
+                int rows = this.height() / 2;
+                int sequenceSize = sequences.size();
                 Objects.requireNonNull(font);
-                int d = b - c * 9 / 2;
+                int row = rows - sequenceSize * 9 / 2;
 
-                for (Iterator<FormattedCharSequence> e = a.iterator(); e.hasNext(); d += 9){
-                    FormattedCharSequence g = e.next();
-                    guiGraphics.drawString(font, g, 30, d, 16777215 | k, false);
+                for (Iterator<FormattedCharSequence> sequenceIterator = sequences.iterator(); sequenceIterator.hasNext(); row += 9){
+                    FormattedCharSequence sequence = sequenceIterator.next();
+                    guiGraphics.drawString(font, sequence, 30, row, 16777215 | (Mth.floor(Mth.clamp((float)(l - 1500L) / fadeDuration, 0.0F, 1.0F) * 252.0F) << 24 | 67108864), false);
                     Objects.requireNonNull(font);
                 }
             }
