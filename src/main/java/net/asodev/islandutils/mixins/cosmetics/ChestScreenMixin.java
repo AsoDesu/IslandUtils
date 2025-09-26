@@ -14,10 +14,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
@@ -33,9 +35,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.List;
-
-import static net.asodev.islandutils.util.Utils.customModelData;
+import static net.asodev.islandutils.util.Utils.getCustomItemID;
 
 
 @Mixin(AbstractContainerScreen.class)
@@ -53,8 +53,8 @@ public abstract class ChestScreenMixin extends Screen {
     @Inject(method = "<init>", at = @At("TAIL"))
     private void onInit(AbstractContainerMenu abstractContainerMenu, Inventory inventory, Component component, CallbackInfo ci) {
         LocalPlayer player = Minecraft.getInstance().player;
-        CosmeticState.hatSlot.setOriginal(new CosmeticSlot(player.getInventory().armor.get(3)));
-        CosmeticState.accessorySlot.setOriginal(new CosmeticSlot(player.getInventory().offhand.get(0)));
+        CosmeticState.hatSlot.setOriginal(new CosmeticSlot(player.getInventory().getItem(EquipmentSlot.HEAD.getIndex(36))));
+        CosmeticState.accessorySlot.setOriginal(new CosmeticSlot(player.getInventory().getItem(40)));
     }
 
     @Inject(method = "renderSlot", at = @At("TAIL"))
@@ -68,12 +68,9 @@ public abstract class ChestScreenMixin extends Screen {
         else if (CosmeticState.accessorySlot.preview != null && CosmeticState.accessorySlot.preview.matchesSlot(slot)) shouldRender = true;
         else if (CosmeticState.mainHandSlot.preview != null && CosmeticState.mainHandSlot.preview.matchesSlot(slot)) shouldRender = true;
 
-        guiGraphics.pose().pushPose();
         if (shouldRender) {
-            guiGraphics.pose().translate(0.0f, 0.0f, 105f);
-            guiGraphics.blitSprite(RenderType::guiTextured, PREVIEW, slot.x-3, slot.y-4, 22, 24);
+            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, PREVIEW, slot.x-3, slot.y-4, 22, 24);
         }
-        guiGraphics.pose().popPose();
     }
 
     @Inject(method = "render", at = @At("TAIL"))
@@ -159,15 +156,15 @@ public abstract class ChestScreenMixin extends Screen {
     @Unique
     private void setPreview(ItemStack item) {
         CosmeticType type = CosmeticState.getType(item);
-        int hoverCMD = customModelData(item);
+        ResourceLocation hoverCMD = getCustomItemID(item);
         if (type == CosmeticType.HAT) setOrNotSet(CosmeticState.hatSlot, hoverCMD);
         else if (type == CosmeticType.ACCESSORY) setOrNotSet(CosmeticState.accessorySlot, hoverCMD);
         else if (type == CosmeticType.MAIN_HAND) setOrNotSet(CosmeticState.mainHandSlot, hoverCMD);
     }
 
     @Unique
-    private void setOrNotSet(Cosmetic cosmetic, int itemCMD) {
-        if (cosmetic.preview == null || itemCMD != customModelData(cosmetic.preview.item))
+    private void setOrNotSet(Cosmetic cosmetic, ResourceLocation itemCMD) {
+        if (cosmetic.preview == null || itemCMD != getCustomItemID(cosmetic.preview.item))
             cosmetic.preview = new CosmeticSlot(hoveredSlot);
         else
             cosmetic.preview = null;

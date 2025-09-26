@@ -32,7 +32,7 @@ public class UpdateManager {
 
     public CompletableFuture<List<ModrinthVersion>> checkForUpdates() throws Exception {
         CompletableFuture<List<ModrinthVersion>> f = new CompletableFuture<>();
-        String version = "[\"" + SharedConstants.getCurrentVersion().getName() + "\"]";
+        String version = "[\"" + SharedConstants.getCurrentVersion().name() + "\"]";
         String url = String.format(
                 "https://api.modrinth.com/v2/project/island-utils/version?game_versions=%s&loaders=%s",
                 URLEncoder.encode(version, StandardCharsets.UTF_8),

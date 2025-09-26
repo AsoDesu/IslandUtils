@@ -8,7 +8,7 @@ import org.joml.Vector3f;
 
 public class CosmeticUI {
 
-    public static void renderPlayerInInventory(GuiGraphics guiGraphics, int x, int y, int size, LivingEntity livingEntity) {
+    public static void renderPlayerInInventory(GuiGraphics guiGraphics, int x0, int y0, int x1, int y1, int size, LivingEntity livingEntity) {
         float yRot = CosmeticState.yRot;
         float xRot = (float)Math.atan(CosmeticState.xRot / 40.0f);
 
@@ -26,8 +26,6 @@ public class CosmeticUI {
         livingEntity.yHeadRotO = livingEntity.yBodyRot;
         livingEntity.setXRot(xRot * -20f); // magic value - InventoryScreen#renderEntityInInventoryFollowsMouse [setXRot]
 
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().translate(0f, 0f, 105f); // translate to 105 on the z
         float f = 0.0625F; // magic value - InventoryScreen#renderBg [renderEntityInInventoryFollowsMouse]
         float livingEntityScale = livingEntity.getScale();
 
@@ -40,14 +38,13 @@ public class CosmeticUI {
         Vector3f vector3f = new Vector3f(0.0F, livingEntity.getBbHeight() / 2.0F + f * livingEntityScale, 0.0F);
         InventoryScreen.renderEntityInInventory(
                 guiGraphics,
-                x, y - size,
+                x0, y0, x1, y1,
                 size / livingEntityScale,
                 vector3f,
                 quaternionf,
                 quaternionf2,
                 livingEntity
         );
-        guiGraphics.pose().popPose();
 
         // restore rotations
         livingEntity.yBodyRot = preYBodyRot;

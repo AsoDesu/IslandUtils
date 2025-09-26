@@ -2,7 +2,7 @@ package net.asodev.islandutils.modules;
 
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.Slot;
@@ -20,10 +20,7 @@ public class FishingUpgradeIcon {
 
         int x = slot.x + 1;
         int y = slot.y + 1;
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().translate(0.0F, 0.0F, 400F);
-        guiGraphics.blitSprite(RenderType::guiTextured, UPGRADE_ICON_LOCATION, x, y, 16, 16);
-        guiGraphics.pose().popPose();
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, UPGRADE_ICON_LOCATION, x, y, 16, 16);
     }
 
 }
