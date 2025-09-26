@@ -1,18 +1,14 @@
 package net.asodev.islandutils.mixins.network;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.asodev.islandutils.IslandUtilsClient;
 import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.modules.ClassicAnnouncer;
-import net.asodev.islandutils.modules.FriendsInGame;
 import net.asodev.islandutils.modules.cosmetics.CosmeticSlot;
 import net.asodev.islandutils.modules.cosmetics.CosmeticState;
 import net.asodev.islandutils.modules.cosmetics.CosmeticType;
 import net.asodev.islandutils.modules.music.MusicManager;
 import net.asodev.islandutils.modules.splits.LevelTimer;
-import net.asodev.islandutils.modules.splits.SplitManager;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
@@ -28,15 +24,7 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.protocol.game.ClientboundBossEventPacket;
-import net.minecraft.network.protocol.game.ClientboundCommandSuggestionsPacket;
-import net.minecraft.network.protocol.game.ClientboundContainerSetContentPacket;
-import net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket;
-import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
-import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
-import net.minecraft.network.protocol.game.ClientboundSoundPacket;
-import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
-import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
+import net.minecraft.network.protocol.game.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -45,24 +33,18 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import static net.asodev.islandutils.modules.FriendsInGame.TRANSACTION_ID;
 
 @Mixin(ClientPacketListener.class)
 public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl {
 
     // I should really separate these mixins...
 
-    @Shadow private CommandDispatcher<CommandSourceStack> commands;
+    @Shadow
+    private CommandDispatcher<CommandSourceStack> commands;
 
     protected PacketListenerMixin(Minecraft minecraft, Connection connection, CommonListenerCookie commonListenerCookie) {
         super(minecraft, connection, commonListenerCookie);
@@ -98,7 +80,8 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         }
     }
 
-    @Inject(method = "handleContainerContent", at = @At("TAIL")) // Cosmetic previews, whenever we get our cosmetics back after closing menu
+    @Inject(method = "handleContainerContent", at = @At("TAIL"))
+    // Cosmetic previews, whenever we get our cosmetics back after closing menu
     private void containerContent(ClientboundContainerSetContentPacket clientboundContainerSetContentPacket, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
         Player player = Minecraft.getInstance().player;
@@ -111,11 +94,12 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
     }
 
     private static Pattern timerPattern = Pattern.compile("(\\d+:\\d+)");
+
     @Inject(method = "handleBossUpdate", at = @At("HEAD")) // Discord presence, time left
     private void handleBossUpdate(ClientboundBossEventPacket clientboundBossEventPacket, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
         // Create a handler for the bossbar
-        ClientboundBossEventPacket.Handler bossbarHandler = new ClientboundBossEventPacket.Handler(){
+        ClientboundBossEventPacket.Handler bossbarHandler = new ClientboundBossEventPacket.Handler() {
             @Override
             public void updateName(UUID uUID, Component component) {
                 if (!component.getString().contains(":")) return; // If we don't have a timer, move on with our lives
@@ -128,16 +112,18 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
                     String minsText = split[0]; // Get the left side
                     String secsText = split[1]; // Get the right side
 
-                    int mins = Integer.parseInt( minsText.substring( Math.max(minsText.length() - 2, 0)) ); // Get the last 2 character of the left side
-                    int secs = Integer.parseInt( secsText.substring(0, 2) ); // Get the first 2 on the right side
+                    int mins = Integer.parseInt(minsText.substring(Math.max(minsText.length() - 2, 0))); // Get the last 2 character of the left side
+                    int secs = Integer.parseInt(secsText.substring(0, 2)); // Get the first 2 on the right side
 
-                    long secondsLeft = ((mins * 60L) + secs+1);
+                    long secondsLeft = ((mins * 60L) + secs + 1);
                     long finalUnix = System.currentTimeMillis() + (secondsLeft * 1000); // Get the timestamp when the game will end
 
                     DiscordPresenceUpdator.timeLeftBossbar = uUID; // why do i do this again?
                     DiscordPresenceUpdator.updateTimeLeft(finalUnix); // Update our time left!!
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                }
             }
+
             @Override
             public void remove(UUID uUID) { // tbf, i don't this is ever called, but y'know, just to be sure
                 if (DiscordPresenceUpdator.timeLeftBossbar == uUID)
@@ -147,20 +133,9 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         clientboundBossEventPacket.dispatch(bossbarHandler); // Execute the handler!
     }
 
-    @Inject(method = "handleCommandSuggestions", cancellable = true, at = @At("HEAD")) // "Friends in this game: "
-    private void commandSuggestionsResponse(ClientboundCommandSuggestionsPacket clientboundCommandSuggestionsPacket, CallbackInfo ci) {
-        if (clientboundCommandSuggestionsPacket.id() == TRANSACTION_ID) { // If we get back suggestions from our previous request
-            ci.cancel(); // Stop minecraft... please.
-            List<String> friends = clientboundCommandSuggestionsPacket // our friends suggestions
-                    .suggestions() // the suggestions
-                    .stream().map(ClientboundCommandSuggestionsPacket.Entry::text) // the text of the suggestions
-                    .collect(Collectors.toList()); // a list of the suggestions
-            FriendsInGame.setFriends(friends); // Set our friends!
-        }
-    }
-
     TextColor textColor = ChatUtils.parseColor("#FFA800"); // Trap Title Text Color
     Style style = Style.EMPTY.withColor(textColor); // Style for the trap color
+
     @Inject(method = "setSubtitleText", at = @At("HEAD"), cancellable = true)
     private void titleText(ClientboundSetSubtitleTextPacket clientboundSetSubtitleTextPacket, CallbackInfo ci) {
         if (MccIslandState.getGame() == Game.HITW) {

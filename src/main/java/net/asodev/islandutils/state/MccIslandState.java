@@ -25,6 +25,7 @@ public class MccIslandState {
     public static Game getGame() {
         return game;
     }
+
     public static void setGame(Game game) {
         if (MccIslandState.game != game) {
             ChatUtils.debug("MccIslandState - Changed game to: " + game);
