@@ -63,6 +63,8 @@
   "text.autoconfig.islandutils.option.clearSplits.@Tooltip": "Це очистить усі ваші збережені сегменти часу. Це не може бути скасувано.",
   "text.autoconfig.islandutils.option.saveMode": "Режим збереження часу сегментів",
   "text.autoconfig.islandutils.option.saveMode.@Tooltip": "Який час сегментів зберігати\n\n§lНайкращий час§r: Використовує ваш найкращий час на сегменті\n\n§lСередній час§r: Використовує ваш середній час на сегменті",
+  "islandutils.clearSplits.confirmScreen.title": "Ви впевнені, що хочете видалити дані про ваші сегменти?",
+  "islandutils.clearSplits.confirmScreen.subtitle": "Цю дію неможливо відмінити",
   "islandutils.splittype.best": "Найкращий час",
   "islandutils.splittype.avg": "Середній час",
 
@@ -82,6 +84,7 @@
   "text.autoconfig.islandutils.option.hideSliders": "Приховати повзунки звуку, якщо не на MCCI",
   "text.autoconfig.islandutils.option.hideSliders.@Tooltip": "Приховує позвзунки музики, якщо ви не на MCC Island",
   "text.autoconfig.islandutils.option.showFishingUpgradeIcon": "Показувати значки покращень у режимі риболовлі",
+  "text.autoconfig.islandutils.option.showFishingUpgradeIcon.@Tooltip": "Показує значок біля рибальських перків, доступних для покращення",
 
   "text.autoconfig.islandutils.category.classic_hitw": "Класична HITW",
   "text.autoconfig.islandutils.option.classicHITW": "Класичний диктор Hole In The Wall",
@@ -135,5 +138,7 @@
   "islandutils.discordPresence.place.hub": "Хабі",
   "islandutils.discordPresense.state.remaining": "Залишилося: %s",
   "islandutils.discordPresense.state.round": "Раунд: %s",
-  "islandutils.discordPresense.state.leap": "Ривок: %s"
+  "islandutils.discordPresense.state.leap": "Ривок: %s",
+  "islandutils.discordPresence.smallText.fishing": "Риболовить",
+  "islandutils.discordPresence.largeText.fishing": "Риболовить"
 }

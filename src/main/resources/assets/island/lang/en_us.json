@@ -28,6 +28,7 @@
   "text.autoconfig.islandutils.category.discord": "Discord Presence",
   "text.autoconfig.islandutils.group.presenceDisplayOptions": "Presence Display Options",
   "text.autoconfig.islandutils.option.discordPresence": "Enable Discord Presence",
+  "text.autoconfig.islandutils.option.discordPresence.@Tooltip": "Display game activity on Discord",
   "text.autoconfig.islandutils.option.showGame": "Show Game",
   "text.autoconfig.islandutils.option.showGame.@Tooltip": "Show the game that you're playing",
   "text.autoconfig.islandutils.option.showGameInfo": "Show Game Details",
@@ -62,6 +63,8 @@
   "text.autoconfig.islandutils.option.clearSplits.@Tooltip": "This will clear all of your saved segments. These can not be recovered.",
   "text.autoconfig.islandutils.option.saveMode": "Split save mode",
   "text.autoconfig.islandutils.option.saveMode.@Tooltip": "How to save splits\n\n§lBest Time§r: Uses your best time on each segment\n\n§lAverage Time§r: Uses your average time on a segment",
+  "islandutils.clearSplits.confirmScreen.title": "Are you sure you want to clear your splits?",
+  "islandutils.clearSplits.confirmScreen.subtitle": "This action is irreversible",
   "islandutils.splittype.best": "Best Time",
   "islandutils.splittype.avg": "Average Time",
 
@@ -81,6 +84,7 @@
   "text.autoconfig.islandutils.option.hideSliders": "Hide Sound Sliders if not Online",
   "text.autoconfig.islandutils.option.hideSliders.@Tooltip": "Hides the Music Sliders if you're not on MCC Island",
   "text.autoconfig.islandutils.option.showFishingUpgradeIcon": "Show fishing upgrade icons",
+  "text.autoconfig.islandutils.option.showFishingUpgradeIcon.@Tooltip": "Shows an upgrade icon next to upgradable Fishing Perks",
 
   "text.autoconfig.islandutils.category.classic_hitw": "Classic HITW",
   "text.autoconfig.islandutils.option.classicHITW": "Classic Hole In The Wall Announcer",
@@ -134,5 +138,7 @@
   "islandutils.discordPresence.place.hub": "Hub",
   "islandutils.discordPresense.state.remaining": "Remaining: %s",
   "islandutils.discordPresense.state.round": "Round: %s",
-  "islandutils.discordPresense.state.leap": "Leap: %s"
+  "islandutils.discordPresense.state.leap": "Leap: %s",
+  "islandutils.discordPresence.smallText.fishing": "Fishing",
+  "islandutils.discordPresence.largeText.fishing": "Fishing"
 }

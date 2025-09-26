@@ -46,10 +46,10 @@ public class FishingPresenceUpdator {
             activity.assets().setLargeText(place);
 
             activity.assets().setSmallImage("fishing");
-            activity.assets().setSmallText("Fishing");
+            activity.assets().setSmallText(I18n.get("islandutils.discordPresence.smallText.fishing"));
         } else {
             activity.assets().setLargeImage("fishing");
-            activity.assets().setLargeText("Fishing");
+            activity.assets().setLargeText(I18n.get("islandutils.discordPresence.largeText.fishing"));
         }
     }
 }
