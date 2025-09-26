@@ -51,7 +51,7 @@ public class CraftingToast implements Toast {
         guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, ISLAND_TOASTS_TEXTURE, 0, 0, this.width(), this.height());
 
         List<FormattedCharSequence> sequences = font.split(displayName, 125);
-        if (a.size() == 1) {
+        if (sequences.size() == 1) {
             int y = 7;
             guiGraphics.drawString(font, description, 30, y, -16777216, false);
             y += 5 + 4;
