@@ -3,6 +3,7 @@ package net.asodev.islandutils.discord;
 import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
+import net.minecraft.client.resources.language.I18n;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -40,15 +41,15 @@ public class FishingPresenceUpdator {
 
         String place = islandNames.get(MccIslandState.getSubType());
         if (place != null) {
-            activity.setDetails("In the " + place);
+            activity.setDetails(I18n.get("islandutils.discordPresence.details.inThePlace",place));
             activity.assets().setLargeImage(MccIslandState.getSubType().toLowerCase());
             activity.assets().setLargeText(place);
 
             activity.assets().setSmallImage("fishing");
-            activity.assets().setSmallText("Fishing");
+            activity.assets().setSmallText(I18n.get("islandutils.discordPresence.smallText.fishing"));
         } else {
             activity.assets().setLargeImage("fishing");
-            activity.assets().setLargeText("Fishing");
+            activity.assets().setLargeText(I18n.get("islandutils.discordPresence.largeText.fishing"));
         }
     }
 }

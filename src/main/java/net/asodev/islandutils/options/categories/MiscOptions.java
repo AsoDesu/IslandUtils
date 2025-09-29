@@ -102,10 +102,10 @@ public class MiscOptions implements OptionsCategory {
                 .build();
 
         return ConfigCategory.createBuilder()
-                .name(Component.literal("Miscellaneous"))
+                .name(Component.translatable("text.autoconfig.islandutils.category.misc"))
                 .option(pauseOption)
                 .group(OptionGroup.createBuilder()
-                        .name(Component.literal("Friends Notifier"))
+                        .name(Component.translatable("text.autoconfig.islandutils.group.friendsNotifier"))
                         .collapsed(false)
                         .option(showFriendsOption)
                         .option(showFriendsLobbyOption)
@@ -115,7 +115,7 @@ public class MiscOptions implements OptionsCategory {
                 .option(fishingUpgradeOption)
                 .option(buttonOption)
                 .group(OptionGroup.createBuilder()
-                        .name(Component.literal("Debug Options"))
+                        .name(Component.translatable("text.autoconfig.islandutils.group.debugOptions"))
                         .collapsed(true)
                         .option(debugOption)
                         .build())

@@ -38,7 +38,7 @@ public class ClassicOptions implements OptionsCategory {
                 .build();
 
         return ConfigCategory.createBuilder()
-                .name(Component.literal("Classic HITW"))
+                .name(Component.translatable("text.autoconfig.islandutils.category.classic_hitw"))
                 .option(classicHITWOption)
                 .option(classicMusicOption)
                 .build();

@@ -122,7 +122,7 @@ public class IslandOptions {
         List<ConfigCategory> yaclCategories = categories.stream().map(OptionsCategory::getCategory).toList();
 
         return YetAnotherConfigLib.createBuilder()
-                .title(Component.literal("IslandUtils Options"))
+                .title(Component.translatable("text.autoconfig.islandutils.title"))
                 .save(IslandOptions::save)
                 .categories(yaclCategories)
                 .build()

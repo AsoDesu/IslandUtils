@@ -28,7 +28,7 @@ import java.util.Optional;
 public class ServerSelectionMixin {
     @Shadow @Final private ServerData serverData;
     private static ResourceLocation NOTIF_TEXTURE = ResourceLocation.withDefaultNamespace("textures/gui/sprites/icon/unseen_notification.png");
-    private static Component NOTIF_TITLE = Component.literal("Notifications").withStyle(Style.EMPTY.withUnderlined(true));
+    private static Component NOTIF_TITLE = Component.translatable("islandutils.message.core.notifTitle").withStyle(Style.EMPTY.withUnderlined(true));
 
     @Inject(
             method = "render",
@@ -47,7 +47,7 @@ public class ServerSelectionMixin {
         tooltip.add(NOTIF_TITLE);
         tooltip.add(Component.empty());
         tooltip.addAll(notifs);
-
+        
         int nx = x - 10 - 2;
         int ny = y + 8 + 2;
 

@@ -98,7 +98,8 @@ public class LevelTimer {
 
         MutableComponent component = Component.literal("[").withStyle(ChatFormatting.GREEN)
                 .append(FontUtils.ICON_TICK_SMALL)
-                .append("] " + levelName + " complete in: ")
+                .append("] ")
+                .append(Component.translatable("islandutils.message.pkwSplits.splitComplete", levelName))
                 .append(Component.literal(time).withStyle(Style.EMPTY.withColor(ChatFormatting.WHITE)));
         if (options.isShowSplitImprovements()) {
             component.append(Component.empty().withStyle(ChatFormatting.WHITE).append(getSplitImprovementComponent()));

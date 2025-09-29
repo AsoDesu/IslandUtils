@@ -44,7 +44,7 @@ public class CosmeticsOptions implements OptionsCategory {
                 .binding(defaults.showOnOnlyCosmeticMenus, () -> showOnOnlyCosmeticMenus, value -> this.showOnOnlyCosmeticMenus = value)
                 .build();
         return ConfigCategory.createBuilder()
-                .name(Component.literal("Cosmetics"))
+                .name(Component.translatable("text.autoconfig.islandutils.category.cosmetics"))
                 .option(showPreviewOption)
                 .option(showHoverOption)
                 .option(showInOnlyCosmeticMenu)

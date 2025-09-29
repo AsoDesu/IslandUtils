@@ -10,11 +10,8 @@ public class PlobbyOptions implements OptionsCategory {
 
     @Override
     public ConfigCategory getCategory() {
-
-
-
         return ConfigCategory.createBuilder()
-                .name(Component.literal("Plobby Integration"))
+                .name(Component.translatable("text.autoconfig.islandutils.category.plobbyIntegration"))
                 .build();
     }
 }

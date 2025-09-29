@@ -36,12 +36,13 @@ public class PauseScreenMixin extends Screen {
     private Button.Builder createPause(Component component, Button.OnPress onPress) {
         if (!MccIslandState.isOnline() || !IslandOptions.getMisc().isPauseConfirm()) return Button.builder(component, onPress);
         if (component == CommonComponents.GUI_DISCONNECT) {
-            Component message = Component.literal("Are you sure you want to leave?").withStyle(ChatFormatting.AQUA);
-            Component no = Component.literal("Cancel");
-            Component yes = Component.literal("Disconnect").withStyle(ChatFormatting.RED);
+            Component title = Component.translatable("islandutils.message.disconnectWarnTitle");
+            Component message = Component.translatable("islandutils.message.disconnectWarn").withStyle(ChatFormatting.AQUA);
+            Component no = Component.translatable("islandutils.message.disconnectWarnCancel");
+            Component yes = Component.translatable("islandutils.message.disconnectWarnDisconnect").withStyle(ChatFormatting.RED);
 
             return Button.builder(component, (button) -> {
-                ConfirmScreen screen = new ConfirmScreen((bool) -> callback(bool, button), Component.literal("Leave the server"), message, yes, no);
+                ConfirmScreen screen = new ConfirmScreen((bool) -> callback(bool, button), title, message, yes, no);
                 Minecraft.getInstance().setScreen(screen);
             });
         }
