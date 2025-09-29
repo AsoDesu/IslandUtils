@@ -4,12 +4,21 @@ import com.noxcrew.noxesium.network.clientbound.ClientboundMccGameStatePacket;
 import net.asodev.islandutils.state.Game;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
+import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.function.Consumer;
 
 public class IslandUtilsEvents {
+
+    public static Event<PacketReceived> PACKET_RECEIVED = EventFactory.createArrayBacked(PacketReceived.class, callbacks -> (packet, callbackInfo) -> {
+        for (PacketReceived callback : callbacks) {
+            callback.onPacketReceived(packet, callbackInfo);
+        }
+    });
 
     public static Event<GameChangeCallback> GAME_CHANGE = EventFactory.createArrayBacked(GameChangeCallback.class, callbacks -> game -> {
         for (GameChangeCallback callback : callbacks) {
@@ -47,6 +56,11 @@ public class IslandUtilsEvents {
     });
 
     @FunctionalInterface
+    public interface PacketReceived {
+        void onPacketReceived(Packet<?> packet, CallbackInfo callbackInfo);
+    }
+
+    @FunctionalInterface
     public interface GameChangeCallback {
         void onGameChange(Game to);
     }
@@ -78,6 +92,7 @@ public class IslandUtilsEvents {
         public void cancel() {
             shouldCancel = true;
         }
+
         public void replace(T replacement) {
             this.replacement = replacement;
         }
@@ -85,6 +100,7 @@ public class IslandUtilsEvents {
         public void withCancel(Consumer<Boolean> consumer) {
             if (shouldCancel) consumer.accept(shouldCancel);
         }
+
         public void withReplacement(Consumer<T> consumer) {
             if (replacement != null) consumer.accept(replacement);
         }
