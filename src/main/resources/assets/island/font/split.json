@@ -1,0 +1,11 @@
+{
+    "providers": [
+        {
+            "type": "bitmap",
+            "file": "island:gui/split_font.png",
+            "chars": ["01234567", "89.-+s\u0000\u0000"],
+            "ascent": 8,
+            "height": 8
+        }
+    ]
+}
