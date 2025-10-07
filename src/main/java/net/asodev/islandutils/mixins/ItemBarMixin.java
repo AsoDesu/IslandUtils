@@ -32,6 +32,10 @@ public class ItemBarMixin {
     @Unique
     private static final String PROGRESS_COSMETIC_LABEL_2 = "Left-Click to Unequip\n";
     @Unique
+    private static final String PROGRESS_BADGE_EARNED_LABEL = "Click to Display on Profile";
+    @Unique
+    private static final String PROGRESS_BADGE_INCOMPLETE_LABEL = "\n\nStage incomplete\n\n";
+    @Unique
     private static final String PROGRESS_BADGE_PINNED_LABEL = "Shift-Click to Unpin";
     @Unique
     private static final String PROGRESS_BADGE_LOCKED_LABEL = "\nUnlock this slot by reaching the below\namount of Skill Trophies.\n";
@@ -72,9 +76,10 @@ public class ItemBarMixin {
         if (!IslandOptions.getMisc().isShowProgressBar()) return Optional.empty();
 
         var isCosmetic = lore.contains(PROGRESS_COSMETIC_LABEL) || lore.contains(PROGRESS_COSMETIC_LABEL_2);
+        var isNonEarnedBadge = lore.contains(PROGRESS_BADGE_INCOMPLETE_LABEL) && !lore.contains(PROGRESS_BADGE_EARNED_LABEL);
         var isProfileBadge = lore.contains(PROGRESS_BADGE_PINNED_LABEL) || lore.contains(PROGRESS_BADGE_LOCKED_LABEL);
         var isOutfitSlot = lore.contains(PROGRESS_OUTFIT_LOCKED_LABEL);
-        if (isCosmetic || isProfileBadge || isOutfitSlot) return Optional.empty();
+        if (isCosmetic || isNonEarnedBadge || isProfileBadge || isOutfitSlot) return Optional.empty();
 
         var isBrokenTool = lore.contains(PROGRESS_TOOL_BROKEN_LABEL);
         if (isBrokenTool) return Optional.of(new BarInfo(Fraction.ZERO, ARGB.alpha(0)));
