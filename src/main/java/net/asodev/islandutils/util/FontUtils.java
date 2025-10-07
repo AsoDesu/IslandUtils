@@ -1,17 +1,24 @@
 package net.asodev.islandutils.util;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 public class FontUtils {
 
+    public static final ResourceLocation MCC_HUD_FONT = ResourceLocation.fromNamespaceAndPath("mcc", "hud");
     public static final ResourceLocation MCC_ICONS_FONT = ResourceLocation.fromNamespaceAndPath("island", "mcc_icons");
     public static final ResourceLocation CUSTOM_ICONS_FONT = ResourceLocation.fromNamespaceAndPath("island", "custom_icons");
+    public static final ResourceLocation CUSTOM_SPLIT_FONT = ResourceLocation.fromNamespaceAndPath("island", "split");
 
+    public static final Style MCC_HUD_STYLE = Style.EMPTY.withFont(MCC_HUD_FONT);
     public static final Style MCC_ICONS_STYLE = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(MCC_ICONS_FONT);
     public static final Style CUSTOM_ICONS_STYLE = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(CUSTOM_ICONS_FONT);
+    public static final Style CUSTOM_SPLIT_STYLE = Style.EMPTY.withFont(CUSTOM_SPLIT_FONT);
 
     public static Component CRAFTING = Component.literal("\ue003").withStyle(MCC_ICONS_STYLE);
     public static Component FUSION_CRAFTING = Component.literal("\ue002").withStyle(MCC_ICONS_STYLE);
@@ -28,6 +35,16 @@ public class FontUtils {
     public static Component TOOLTIP_HAT = Component.literal("\ue007").withStyle(MCC_ICONS_STYLE);
     public static Component TOOLTIP_ACCESSORY = Component.literal("\ue008").withStyle(MCC_ICONS_STYLE);
     public static Component TOOLTIP_HAIR = Component.literal("\ue009").withStyle(MCC_ICONS_STYLE);
+
+    @Nullable
+    private static Font minecraftFont;
+
+    public static Font getMinecraftFont() {
+        if (minecraftFont == null) {
+            minecraftFont = Minecraft.getInstance().font;
+        }
+        return minecraftFont;
+    }
 
     private FontUtils() {
     }
