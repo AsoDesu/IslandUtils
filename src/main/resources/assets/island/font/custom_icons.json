@@ -38,6 +38,13 @@
       "chars": ["\ue006"],
       "ascent": 8,
       "height": 9
+    },
+    {
+      "type": "bitmap",
+      "file": "island:icons/upgrade.png",
+      "chars": ["\ue007"],
+      "ascent": 8,
+      "height": 10
     }
   ]
 }
