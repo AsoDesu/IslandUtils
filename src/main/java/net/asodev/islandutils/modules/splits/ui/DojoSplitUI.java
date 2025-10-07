@@ -7,14 +7,13 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+
+import static net.asodev.islandutils.util.FontUtils.*;
 
 public class DojoSplitUI implements SplitUI {
     private static final ResourceLocation BAR_TEXTURE = ResourceLocation.fromNamespaceAndPath("island", "pkw_splits");
     private static final int MCC_BAR_WIDTH = 130;
-    public static Style MCC_HUD_STYLE = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mcc", "hud"));
-    public static Style SMALL_SPLIT_FONT_STYLE = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("island", "split"));
 
     private final LevelTimer timer;
     private int timerWidth;
@@ -37,24 +36,22 @@ public class DojoSplitUI implements SplitUI {
     }
 
     public void renderLevelName(GuiGraphics guiGraphics, int x, int y) {
-        Font font = Minecraft.getInstance().font; // Minecraft is incapable of getting this itself
-        Component levelName = Component.literal(timer.getLevelName()).withStyle(MCC_HUD_STYLE);
-        int LEVEL_NAME_WIDTH = 25; // Width of the dark area for the level name
+        final int LEVEL_NAME_WIDTH = 25; // Width of the dark area for the level name
 
-        int txoff = (LEVEL_NAME_WIDTH / 2) - (font.width(levelName) / 2); // Offset needed to center the level name
+        Component levelName = Component.literal(timer.getLevelName()).withStyle(MCC_HUD_STYLE);
+        int txoff = (LEVEL_NAME_WIDTH / 2) - (getMinecraftFont().width(levelName) / 2); // Offset needed to center the level name
         int tx = x + txoff + 1; // The X coordinate to render the level name
         int ty = y + 2; // The Y coordinate to render the level name
-        guiGraphics.drawString(font, levelName, tx, ty, 16777215 | 255 << 24, true);
+        guiGraphics.drawString(getMinecraftFont(), levelName, tx, ty, 16777215 | 255 << 24, true);
     }
 
     public void renderSplitTime(GuiGraphics guiGraphics, int x, int y) {
-        Font font = Minecraft.getInstance().font;
         String formattedTime = String.format("%.3f", timer.getCurrentSplitTime());
         Component splitTime = Component.literal(formattedTime);
-        timerWidth = font.width(splitTime);
+        timerWidth = getMinecraftFont().width(splitTime);
         int tx = x + this.width() - timerWidth - 2;
         int ty = y + 2;
-        guiGraphics.drawString(font, splitTime, tx, ty, 16777215 | 255 << 24, true);
+        guiGraphics.drawString(getMinecraftFont(), splitTime, tx, ty, 16777215 | 255 << 24, true);
     }
 
     public void renderSplitImprovement(GuiGraphics guiGraphics, int x, int y) {
@@ -72,7 +69,7 @@ public class DojoSplitUI implements SplitUI {
         }
 
         Font font = Minecraft.getInstance().font;
-        Component improvementTime = Component.literal(formattedTime).withStyle(SMALL_SPLIT_FONT_STYLE.withColor(color));
+        Component improvementTime = Component.literal(formattedTime).withStyle(CUSTOM_SPLIT_STYLE.withColor(color));
         int tx = x + this.width() - timerWidth - 2 - font.width(improvementTime) - 8;
         int ty = y + 2;
         guiGraphics.drawString(font, improvementTime, tx, ty, 16777215 | 255 << 24, true);
