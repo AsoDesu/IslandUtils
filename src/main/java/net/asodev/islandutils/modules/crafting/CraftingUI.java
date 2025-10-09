@@ -36,7 +36,7 @@ public class CraftingUI {
             return;
         }
 
-        List<Component> lores = Utils.getLores(item);
+        List<Component> lores = Utils.getTooltipLines(item);
         if (lores != null && isActive(lores)) {
             String timeLeftString = null;
             for (Component line : lores) {

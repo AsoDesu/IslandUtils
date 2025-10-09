@@ -5,6 +5,7 @@ import net.asodev.islandutils.util.updater.schema.AvailableUpdate;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.*;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,11 +20,24 @@ public class ChatUtils {
     public static final String CHAT_PREFIX = "&b[&eIslandUtils&b]";
 
     public static final int UPDATE_AVAILABLE_COLOR = TextColor.parseColor("#d1ffab").getOrThrow().getValue();
-    public static final int PRE_RELEASE_COLOR = TextColor.parseColor("#ff9191").getOrThrow().getValue();
+    public static final int PRE_RELEASE_COLOR_CHANNEL = TextColor.parseColor("#ff9191").getOrThrow().getValue();
+    public static final int PRE_RELEASE_COLOR = TextColor.parseColor("#ff5959").getOrThrow().getValue();
     public static final int UPDATE_NAME_COLOR = TextColor.parseColor("#fffbab").getOrThrow().getValue();
+    public static final int UPDATE_CLICK_COLOR = TextColor.parseColor("#abdbff").getOrThrow().getValue();
 
-    private static MutableComponent getUpdatePrefix(ChatFormatting color) {
-        return Component.literal("[").withStyle(color).append(FontUtils.ICON_UPGRADE).append(Component.literal("] ").withStyle(color));
+    private static MutableComponent getUpdatePrefix(AvailableUpdate.VersionState type) {
+        Component icon;
+        int color;
+        if (type == AvailableUpdate.VersionState.UPDATE) {
+            icon = FontUtils.ICON_UPGRADE;
+            color = UPDATE_AVAILABLE_COLOR;
+        } else {
+            icon = FontUtils.ICON_WARNING;
+            color = PRE_RELEASE_COLOR;
+        }
+
+
+        return Component.literal("[").withColor(color).append(icon).append(Component.literal("] ").withColor(color));
     }
 
     public static String translate(String s) {
@@ -38,23 +52,29 @@ public class ChatUtils {
         debug(String.format(s, args));
     }
 
-    public static void sendUpdateNotification(AvailableUpdate availableUpdate) {
+    public static void sendVersionStateMessage(@Nullable AvailableUpdate availableUpdate) {
+        if (availableUpdate != null) sendUpdateNotification(availableUpdate);
+        else sendPreReleaseWarning();
+    }
 
-        var versionComponent = Component.literal(availableUpdate.title()).withColor(UPDATE_NAME_COLOR).withStyle(ChatFormatting.UNDERLINE).withStyle(Style.EMPTY.withClickEvent(new ClickEvent.OpenUrl(URI.create(availableUpdate.releaseUrl()))));
-        var linkStyle = Style.EMPTY.withClickEvent(new ClickEvent.OpenUrl(URI.create(availableUpdate.releaseUrl()))).withUnderlined(true).withHoverEvent(new HoverEvent.ShowText(Component.literal("Click to open in browser!").withStyle(ChatFormatting.GRAY)));
-        var linkComponent = Component.literal(availableUpdate.releaseUrl()).withStyle(linkStyle);
+    private static void sendUpdateNotification(AvailableUpdate availableUpdate) {
+
+        var hoverEvent = new HoverEvent.ShowText(Component.literal("Click to open in browser!").withStyle(ChatFormatting.GRAY));
+        var clickEvent = Style.EMPTY.withClickEvent(new ClickEvent.OpenUrl(URI.create(availableUpdate.releaseUrl()))).withHoverEvent(hoverEvent);
+
+        var versionComponent = Component.literal(availableUpdate.title()).withColor(UPDATE_NAME_COLOR).withStyle(clickEvent);
 
         send(Component.empty());
-        send(getUpdatePrefix(ChatFormatting.GREEN).append(Component.translatable("islandutils.message.core.updateAvailable")).withColor(UPDATE_AVAILABLE_COLOR).append(versionComponent));
-        send(getUpdatePrefix(ChatFormatting.GREEN).append(Component.translatable("islandutils.message.core.updateAvailable.download")).withColor(UPDATE_AVAILABLE_COLOR).append(linkComponent));
+        send(getUpdatePrefix(AvailableUpdate.VersionState.UPDATE).append(Component.translatable("islandutils.message.core.updateAvailable")).withColor(UPDATE_AVAILABLE_COLOR).append(versionComponent));
+        send(getUpdatePrefix(AvailableUpdate.VersionState.UPDATE).append(Component.translatable("islandutils.message.core.updateAvailable.download").withColor(UPDATE_CLICK_COLOR).withStyle(ChatFormatting.UNDERLINE).withStyle(clickEvent)));
         send(Component.empty());
     }
 
-    public static void sendPreReleaseWarning() {
+    private static void sendPreReleaseWarning() {
+        var channel = Component.literal("#test-feedback").withColor(PRE_RELEASE_COLOR_CHANNEL);
         send(Component.empty());
-        send(getUpdatePrefix(ChatFormatting.RED).append(Component.translatable("islandutils.message.core.preReleaseWarn").withColor(PRE_RELEASE_COLOR)));
+        send(getUpdatePrefix(AvailableUpdate.VersionState.PRE_RELEASE).append(Component.translatable("islandutils.message.core.preReleaseWarn").withColor(PRE_RELEASE_COLOR)).append(channel));
         send(Component.empty());
-
     }
 
     public static void debug(String s) {

@@ -5,15 +5,12 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.CustomData;
-import net.minecraft.world.item.component.CustomModelData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +38,7 @@ public class Utils {
             "09445264a9c515c83fc5a0159bda82e25d70d499f80df4a2d1c2f7e2ae6af997"
     );
 
-    public static List<Component> getLores(ItemStack item) {
+    public static List<Component> getTooltipLines(ItemStack item) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return null;
         return item.getTooltipLines(Item.TooltipContext.EMPTY, player, TooltipFlag.Default.NORMAL);
@@ -87,7 +84,7 @@ public class Utils {
             byte[] digest = md.digest();
             output = String.format("%064x", new BigInteger(1, digest));
         } catch (NoSuchAlgorithmException e) {
-            logger.error("Failed to calculate SHA-256 for " + input);
+            logger.error("Failed to calculate SHA-256 for {}", input);
         }
         return output;
     }

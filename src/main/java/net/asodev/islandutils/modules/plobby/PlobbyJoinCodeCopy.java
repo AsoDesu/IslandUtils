@@ -26,7 +26,7 @@ public class PlobbyJoinCodeCopy {
 
     private final static Pattern codePattern = Pattern.compile(".•.([A-Za-z]{2}\\d{4})");
     public static String getJoinCodeFromItem(ItemStack item) {
-        List<Component> lores = Utils.getLores(item);
+        List<Component> lores = Utils.getTooltipLines(item);
         for (Component lore : lores) {
             String loreString = lore.getString();
             Matcher matcher = codePattern.matcher(loreString);

@@ -31,7 +31,9 @@ public abstract class ChatScreenMixin extends Screen {
         super(component);
     }
 
+    @Unique
     private final List<PlainTextButtonNoShadow> buttons = new ArrayList<>();
+    @Unique
     private long lastPress = 0;
 
     @Unique

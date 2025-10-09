@@ -12,7 +12,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.component.DataComponentHolder;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -21,15 +20,12 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.CustomData;
-import net.minecraft.world.item.component.TooltipDisplay;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.List;
 
@@ -46,7 +42,8 @@ public abstract class ItemIDMixin implements DataComponentHolder {
     )
     private void addTooltipLines(Item.TooltipContext tooltipContext, @Nullable Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir, @Local List<Component> list) {
         if (!MccIslandState.isOnline() || !IslandOptions.getMisc().isDebugMode()) return;
-        if (!InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), InputConstants.KEY_LCONTROL)) return;
+        if (!InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), InputConstants.KEY_LCONTROL))
+            return;
 
         MutableComponent toAppend = Component.empty();
         if (this.has(DataComponents.CUSTOM_DATA)) tryAddCustomItemID(toAppend); // Append MCCI Custom Item ID
@@ -66,13 +63,12 @@ public abstract class ItemIDMixin implements DataComponentHolder {
 
     @Unique
     private void tryAddSlotNumber(MutableComponent toAppend) {
-        ItemStack me = (ItemStack)(Object)this;
+        ItemStack me = (ItemStack) (Object) this;
         Screen screen = Minecraft.getInstance().screen;
         if (!(screen instanceof AbstractContainerScreen<?> containerScreen)) return;
         Slot hoveredSlot = ((ContainerScreenAccessor) containerScreen).getHoveredSlot();
 
-        if (!hoveredSlot.hasItem()) return;
-        if (hoveredSlot.getItem() != me) return;
+        if (hoveredSlot == null || !hoveredSlot.hasItem() ||  hoveredSlot.getItem() != me) return;
         Component component = Component.literal(" (" + hoveredSlot.getContainerSlot() + ")").withStyle(ChatFormatting.GRAY);
         toAppend.append(component);
     }

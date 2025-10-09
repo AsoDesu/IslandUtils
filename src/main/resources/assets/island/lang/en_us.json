@@ -110,8 +110,8 @@
   "modmenu.summaryTranslation.islandutils": "A Utility Mod for MCC Island!",
   
   "islandutils.message.core.updateAvailable": "A new Island Utils update is available: ",
-  "islandutils.message.core.updateAvailable.download": "Download here:",
-  "islandutils.message.core.preReleaseWarn": "You are using a pre-release version of IslandUtils! Expect things to be broken and buggy, and report to #test-feedback!",
+  "islandutils.message.core.updateAvailable.download": "Click here to download",
+  "islandutils.message.core.preReleaseWarn": "You are using a pre-release version of IslandUtils! Expect things to be broken and buggy, and report to ",
   "islandutils.message.core.notifTitle": "Notifications",
   "islandutils.message.friends.thisGame": "Friends in this game: ",
   "islandutils.message.friends.thisLobby": "Friends in this lobby: ",

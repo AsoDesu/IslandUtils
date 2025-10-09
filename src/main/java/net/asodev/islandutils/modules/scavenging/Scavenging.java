@@ -69,7 +69,7 @@ public class Scavenging {
     }
 
     public static void applyItems(ItemStack item, ScavengingTotalList list) {
-        List<Component> lores = Utils.getLores(item);
+        List<Component> lores = Utils.getTooltipLines(item);
         if (lores == null) return;
 
         for (Component line : lores) {

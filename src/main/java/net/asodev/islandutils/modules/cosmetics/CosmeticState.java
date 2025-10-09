@@ -51,7 +51,7 @@ public class CosmeticState {
     }
 
     public static boolean canBeEquipped(ItemStack stack) {
-        List<Component> lores = Utils.getLores(stack);
+        List<Component> lores = Utils.getTooltipLines(stack);
         if (lores == null) return false;
         return lores.stream().anyMatch(p -> p.getString().contains("Left-Click to Equip"));
     }

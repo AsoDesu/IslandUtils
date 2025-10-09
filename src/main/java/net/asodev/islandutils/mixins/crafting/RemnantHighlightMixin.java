@@ -23,7 +23,7 @@ public class RemnantHighlightMixin {
         if (!MccIslandState.isOnline()) return;
         if (!slot.hasItem()) return;
 
-        List<Component> lore = Utils.getLores(slot.getItem());
+        List<Component> lore = Utils.getTooltipLines(slot.getItem());
         if (lore == null) return;
         boolean isRemnant = lore.stream().anyMatch(c -> c.getString().contains("This item is the remnant of an item"));
         if (!isRemnant) return;

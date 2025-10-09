@@ -14,18 +14,12 @@ import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.IslandUtilsCommand;
 import net.asodev.islandutils.util.Utils;
-import net.asodev.islandutils.util.updater.schema.AvailableUpdate;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import org.lwjgl.glfw.GLFW;
-
-import java.net.URI;
 
 @Environment(EnvType.CLIENT)
 public class IslandUtilsClient implements ClientModInitializer {
@@ -62,20 +56,7 @@ public class IslandUtilsClient implements ClientModInitializer {
 
     public static void onJoinMCCI(boolean isProduction) {
         System.out.println("Connected to MCCI!");
-//        if (IslandUtils.availableUpdate != null) {
-//            ChatUtils.sendWithPrefix(Component.translatable("islandutils.message.core.updateAvailable", IslandUtils.availableUpdate.title()));
-//
-//            URI releaseUri = URI.create(IslandUtils.availableUpdate.releaseUrl());
-//            Style style = Style.EMPTY.withClickEvent(new ClickEvent.OpenUrl(releaseUri));
-//            Component link = Component.literal(IslandUtils.availableUpdate.releaseUrl()).setStyle(style);
-//            Component text = Component.translatable("islandutils.message.core.updateUrl").append(link);
-//
-//            ChatUtils.sendWithPrefix(text);
-//        } else if (IslandUtils.isPreRelease()) {
-//            ChatUtils.sendWithPrefix(Component.translatable("islandutils.message.core.preReleaseWarn"));
-//        }
-
-        ChatUtils.sendUpdateNotification(new AvailableUpdate("1.7.3", "1.7.3", "https://github.com/AsoDesu/IslandUtils/releases/tag/1.7.2%2B1.21.8"));
+        ChatUtils.sendVersionStateMessage(IslandUtils.availableUpdate);
 
         DiscordPresenceUpdator.create(!isProduction);
         MccIslandState.setGame(Game.HUB);

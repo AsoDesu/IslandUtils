@@ -13,7 +13,6 @@ public class NoxesiumIntegration {
 
     public void init() {
         NoxesiumFabricMod.initialize();
-
         NoxesiumPackets.CLIENT_MCC_SERVER.addListener(this, (any, packet, ctx) -> handleServerPacket(packet));
     }
 

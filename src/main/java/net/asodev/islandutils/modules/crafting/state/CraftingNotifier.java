@@ -31,7 +31,8 @@ import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.lit
 
 public class CraftingNotifier implements ClientTickEvents.EndTick {
     private int tick = 0;
-    public CraftingNotifier() {
+
+    public void register() {
         ClientTickEvents.END_CLIENT_TICK.register(this);
     }
 
