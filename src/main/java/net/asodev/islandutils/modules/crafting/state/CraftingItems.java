@@ -13,7 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spongepowered.asm.mixin.injection.At;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,6 +29,7 @@ public class CraftingItems {
 
     /**
      * Adds an item into the items
+     *
      * @param item The CraftingItem to add
      */
     public static void addItem(CraftingItem item) {
@@ -53,6 +53,7 @@ public class CraftingItems {
     public static <T> void submit(Runnable task) {
         Utils.savingQueue.submit(task);
     }
+
     public static List<CraftingItem> getItems() {
         return items;
     }
@@ -71,6 +72,7 @@ public class CraftingItems {
             }
         });
     }
+
     public static void save() {
         if (saveQueued) {
             return;
@@ -82,6 +84,7 @@ public class CraftingItems {
             saveQueued = false;
         });
     }
+
     public static void saveSync() {
         try {
             Utils.assertIslandFolder();
@@ -129,6 +132,9 @@ public class CraftingItems {
         item.setType(Items.POPPED_CHORUS_FRUIT);
 
         CraftingItems.addItem(item);
+    }
+
+    private CraftingItems() {
     }
 
 }

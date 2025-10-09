@@ -13,7 +13,7 @@ public class FishingUpgradeIcon {
     private static final ResourceLocation UPGRADE_ICON_LOCATION = ResourceLocation.fromNamespaceAndPath("island", "upgrade");
 
     public static void render(Slot slot, GuiGraphics guiGraphics) {
-        List<Component> lore = Utils.getLores(slot.getItem());
+        List<Component> lore = Utils.getTooltipLines(slot.getItem());
         if (lore == null) return;
         boolean canUpgrade = lore.stream().anyMatch(c -> c.getString().contains("Left-Click to Upgrade"));
         if (!canUpgrade) return;

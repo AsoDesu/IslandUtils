@@ -26,6 +26,8 @@ public class FontUtils {
     public static Component ICON_SOCIAL = Component.literal("\ue001").withStyle(MCC_ICONS_STYLE);
     public static Component ICON_TICK_SMALL = Component.literal("\ue005").withStyle(MCC_ICONS_STYLE);
     public static Component ICON_MIDDLE_CLICK = Component.literal("\ue004").withStyle(CUSTOM_ICONS_STYLE);
+    public static Component ICON_UPGRADE = Component.literal("\ue007").withStyle(CUSTOM_ICONS_STYLE);
+    public static Component ICON_WARNING = Component.literal("\ue008").withStyle(CUSTOM_ICONS_STYLE);
 
     public static Component CHAT_CHANNEL_LOCAL = Component.literal("\ue001").withStyle(CUSTOM_ICONS_STYLE);
     public static Component CHAT_CHANNEL_PARTY = Component.literal("\ue002").withStyle(CUSTOM_ICONS_STYLE);
@@ -34,7 +36,6 @@ public class FontUtils {
 
     public static Component TOOLTIP_HAT = Component.literal("\ue007").withStyle(MCC_ICONS_STYLE);
     public static Component TOOLTIP_ACCESSORY = Component.literal("\ue008").withStyle(MCC_ICONS_STYLE);
-    public static Component TOOLTIP_HAIR = Component.literal("\ue009").withStyle(MCC_ICONS_STYLE);
 
     @Nullable
     private static Font minecraftFont;

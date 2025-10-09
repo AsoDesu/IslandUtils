@@ -19,8 +19,9 @@ import java.util.Optional;
 
 public class IslandUtils implements ModInitializer {
     private static final Logger logger = LoggerFactory.getLogger(IslandUtils.class);
-    public static UpdateManager updater;
-    public static ResourcePackUpdater packUpdater;
+    public static UpdateManager updater = new UpdateManager();
+    public static ResourcePackUpdater packUpdater = new ResourcePackUpdater();
+    public static CraftingNotifier craftingNotifier = new CraftingNotifier();
 
     public static Version version;
     public static String versionString;
@@ -38,7 +39,6 @@ public class IslandUtils implements ModInitializer {
             versionString = version.getFriendlyString();
         });
 
-        updater = new UpdateManager();
         isPreRelease = versionString.contains("-pre") || FabricLoader.getInstance().isDevelopmentEnvironment();
         if (!versionString.contains("-pre")) {
             updater.runUpdateCheck();
@@ -49,11 +49,9 @@ public class IslandUtils implements ModInitializer {
         } catch (Exception e) {
             logger.error("Failed to load crafting items", e);
         }
-        new CraftingNotifier();
 
-        packUpdater = new ResourcePackUpdater();
+        craftingNotifier.register();
         packUpdater.get();
-
         Scheduler.create();
     }
 

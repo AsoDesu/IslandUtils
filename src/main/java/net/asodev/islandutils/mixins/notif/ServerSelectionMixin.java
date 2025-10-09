@@ -3,19 +3,16 @@ package net.asodev.islandutils.mixins.notif;
 import net.asodev.islandutils.state.MccIslandNotifs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
-import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
 import net.minecraft.client.gui.screens.multiplayer.ServerSelectionList;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -26,9 +23,14 @@ import java.util.Optional;
 
 @Mixin(ServerSelectionList.OnlineServerEntry.class)
 public class ServerSelectionMixin {
-    @Shadow @Final private ServerData serverData;
-    private static ResourceLocation NOTIF_TEXTURE = ResourceLocation.withDefaultNamespace("textures/gui/sprites/icon/unseen_notification.png");
-    private static Component NOTIF_TITLE = Component.translatable("islandutils.message.core.notifTitle").withStyle(Style.EMPTY.withUnderlined(true));
+    @Shadow
+    @Final
+    private ServerData serverData;
+
+    @Unique
+    private static final ResourceLocation NOTIF_TEXTURE = ResourceLocation.withDefaultNamespace("textures/gui/sprites/icon/unseen_notification.png");
+    @Unique
+    private static final Component NOTIF_TITLE = Component.translatable("islandutils.message.core.notifTitle").withStyle(Style.EMPTY.withUnderlined(true));
 
     @Inject(
             method = "render",
@@ -47,7 +49,7 @@ public class ServerSelectionMixin {
         tooltip.add(NOTIF_TITLE);
         tooltip.add(Component.empty());
         tooltip.addAll(notifs);
-        
+
         int nx = x - 10 - 2;
         int ny = y + 8 + 2;
 
