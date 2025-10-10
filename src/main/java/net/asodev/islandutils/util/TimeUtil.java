@@ -8,10 +8,11 @@ public class TimeUtil {
     static Pattern timeRegex = Pattern.compile("(\\d*)([dhms])");
 
     public static long getTimeSeconds(String string) {
-        long timeSeconds = 0;
+        long timeSeconds = -1;
         Matcher matcher = timeRegex.matcher(string);
 
         while (matcher.find()) {
+            if(timeSeconds == -1) timeSeconds = 0;
             MatchResult result = matcher.toMatchResult();
             int value;
 
