@@ -4,11 +4,13 @@ import com.noxcrew.noxesium.network.clientbound.ClientboundMccGameStatePacket;
 import net.asodev.islandutils.state.Game;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
+import net.minecraft.client.resources.server.PackLoadFeedback;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public class IslandUtilsEvents {
@@ -16,6 +18,12 @@ public class IslandUtilsEvents {
     public static Event<PacketReceived> PACKET_RECEIVED = EventFactory.createArrayBacked(PacketReceived.class, callbacks -> (packet, callbackInfo) -> {
         for (PacketReceived callback : callbacks) {
             callback.onPacketReceived(packet, callbackInfo);
+        }
+    });
+
+    public static Event<PackReportFinalResult> PACK_FINAL_RESULT = EventFactory.createArrayBacked(PackReportFinalResult.class, callbacks -> (uuid, finalResult) -> {
+        for (PackReportFinalResult callback : callbacks) {
+            callback.packReportFinalResult(uuid, finalResult);
         }
     });
 
@@ -57,6 +65,11 @@ public class IslandUtilsEvents {
     @FunctionalInterface
     public interface PacketReceived {
         void onPacketReceived(Packet<?> packet, CallbackInfo callbackInfo);
+    }
+
+    @FunctionalInterface
+    public interface PackReportFinalResult {
+        void packReportFinalResult(UUID uuid, PackLoadFeedback.FinalResult finalResult);
     }
 
     @FunctionalInterface

@@ -11,6 +11,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +40,7 @@ public class Utils {
             "09445264a9c515c83fc5a0159bda82e25d70d499f80df4a2d1c2f7e2ae6af997"
     );
 
-    public static List<Component> getTooltipLines(ItemStack item) {
+    public static @Nullable List<Component> getTooltipLines(ItemStack item) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return null;
         return item.getTooltipLines(Item.TooltipContext.EMPTY, player, TooltipFlag.Default.NORMAL);

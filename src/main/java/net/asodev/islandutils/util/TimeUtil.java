@@ -5,7 +5,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TimeUtil {
-    static Pattern timeRegex = Pattern.compile("(\\d*)([dhms])");
+
+    public static final Pattern TIME_REGEX = Pattern.compile("(?:\\d+d\\s*|\\d+h\\s*|\\d+m\\s*)+");
+    private static final Pattern timeRegex = Pattern.compile("(\\d*)([dhms])");
 
     public static long getTimeSeconds(String string) {
         long timeSeconds = -1;
