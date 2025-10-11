@@ -36,7 +36,15 @@ public class MusicManager {
             "music.global.hole_in_the_wall",
             "music.global.sky_battle",
             "music.global.tgttosawaf",
-            "music.global.overtime_loop_music"
+            "music.global.overtime_loop_music",
+
+            "music.global.hub_classic",
+            "music.global.hub_like",
+            "music.global.hubbin",
+            "music.global.island",
+            "music.global.our_hub",
+            "music.global.relax_hub",
+            "music.global.we_are"
     );
 
     public static void init() {
@@ -82,6 +90,7 @@ public class MusicManager {
 
         MCCSoundInstance instance = newSoundInfo.toSoundInstance();
         currentlyPlaying = instance;
+        ChatUtils.debug("Starting music: " + instance.getLocation());
         Minecraft.getInstance().getSoundManager().play(instance);
     }
 
@@ -112,6 +121,10 @@ public class MusicManager {
             modified = modifier.apply(modified);
         }
         return modified;
+    }
+
+    public static void stop() {
+        currentlyPlaying = null;
     }
 
     public static List<MusicModifier> getModifiers() {

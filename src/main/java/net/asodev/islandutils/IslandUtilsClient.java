@@ -65,5 +65,6 @@ public class IslandUtilsClient implements ClientModInitializer {
         MccIslandState.setGame(Game.HUB);
         IslandUtilsEvents.JOIN_MCCI.invoker().onEvent();
         FontLoaderManager.reset();
+        MusicManager.stop();
     }
 }

@@ -1,5 +1,6 @@
 package net.asodev.islandutils.util;
 
+import net.asodev.islandutils.IslandUtils;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.util.updater.schema.AvailableUpdate;
 import net.minecraft.ChatFormatting;
@@ -53,8 +54,13 @@ public class ChatUtils {
     }
 
     public static void sendVersionStateMessage(@Nullable AvailableUpdate availableUpdate) {
-        if (availableUpdate != null) sendUpdateNotification(availableUpdate);
-        else sendPreReleaseWarning();
+        if (IslandUtils.isPreRelease()) {
+            sendPreReleaseWarning();
+            return;
+        }
+        if (availableUpdate != null) {
+            sendUpdateNotification(availableUpdate);
+        }
     }
 
     private static void sendUpdateNotification(AvailableUpdate availableUpdate) {

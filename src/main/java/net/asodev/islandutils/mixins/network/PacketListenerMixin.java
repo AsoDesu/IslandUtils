@@ -58,7 +58,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         if (!soundLoc.getNamespace().equals("mcc")) return;
 
         if (soundLoc.getPath().startsWith("music.")) {
-            ChatUtils.debug("Starting music " + soundLoc);
+            ChatUtils.debug("Received music start packet: " + soundLoc);
             MusicManager.onMusicSoundPacket(clientboundCustomSoundPacket, this.minecraft);
             ci.cancel();
         }
