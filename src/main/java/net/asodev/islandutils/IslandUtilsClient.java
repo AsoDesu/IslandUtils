@@ -2,6 +2,7 @@ package net.asodev.islandutils;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
+import net.asodev.islandutils.fontloader.FontLoaderManager;
 import net.asodev.islandutils.modules.DisguiseKeybind;
 import net.asodev.islandutils.modules.NoxesiumIntegration;
 import net.asodev.islandutils.modules.music.MusicManager;
@@ -52,6 +53,8 @@ public class IslandUtilsClient implements ClientModInitializer {
         }
         new NoxesiumIntegration().init();
         MusicManager.init();
+
+        IslandUtilsEvents.PACK_FINAL_RESULT.register((uuid, finalResult) -> FontLoaderManager.warnAboutUnfulfilledAssets());
     }
 
     public static void onJoinMCCI(boolean isProduction) {
@@ -61,5 +64,6 @@ public class IslandUtilsClient implements ClientModInitializer {
         DiscordPresenceUpdator.create(!isProduction);
         MccIslandState.setGame(Game.HUB);
         IslandUtilsEvents.JOIN_MCCI.invoker().onEvent();
+        FontLoaderManager.reset();
     }
 }

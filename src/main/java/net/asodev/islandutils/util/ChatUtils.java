@@ -78,11 +78,15 @@ public class ChatUtils {
     }
 
     public static void debug(String s) {
+        debug(s, ChatFormatting.GRAY);
+    }
+
+    public static void debug(String s, ChatFormatting color) {
         if (!IslandOptions.getMisc().isDebugMode()) {
             LOGGER.info("[DEBUG] {}", s);
             return;
         }
-        send(Component.literal("[IslandUtils] " + s).withStyle(ChatFormatting.GRAY));
+        send(Component.literal("[Island Utils] " + s).withStyle(color));
     }
 
     public static void sendWithPrefix(Component component) {

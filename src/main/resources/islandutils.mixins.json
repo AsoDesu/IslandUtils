@@ -8,16 +8,17 @@
     "ItemIDMixin",
     "accessors.WalkAnimStateAccessor",
     "cosmetics.ChestScreenMixin",
-    "cosmetics.FontLoaderMixin",
     "cosmetics.PreviewTutorialMixin",
     "discord.ConnectionMixin",
     "discord.ScoreDisplayMixin",
+    "fontloader.FontLoaderMixin",
     "network.ConnectionMixin",
     "resources.PackRepositoryMixin",
     "ui.SlotMixin"
   ],
   "client": [
     "BossUIMixin",
+    "DownloadedPackSource",
     "accessors.ContainerScreenAccessor",
     "accessors.SoundEngineAccessor",
     "accessors.SoundManagerAccessor",
