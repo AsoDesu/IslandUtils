@@ -1,6 +1,7 @@
 package net.asodev.islandutils.util.resourcepack;
 
 import com.google.gson.Gson;
+import net.asodev.islandutils.IslandUtils;
 import net.asodev.islandutils.util.resourcepack.schema.ResourcePack;
 import net.minecraft.FileUtil;
 import net.minecraft.client.Minecraft;
@@ -40,7 +41,8 @@ import static net.asodev.islandutils.util.ChatUtils.translate;
 public class ResourcePackUpdater {
     public static final Logger logger = LoggerFactory.getLogger(ResourcePackUpdater.class);
 
-    private static final String url = "https://raw.githubusercontent.com/AsoDesu/islandutils-assets/master/pack.json";
+    private static final String url_release = "https://raw.githubusercontent.com/AsoDesu/islandutils-assets/master/pack.json";
+    private static final String url_pre = "https://raw.githubusercontent.com/AsoDesu/islandutils-assets/master/pack_beta.json";
     private static final Component title = Component.literal(translate("Island Utils"));
     private static final Component desc = Component.literal(translate("&6Music Resources"));
     HttpClient client;
@@ -50,6 +52,10 @@ public class ResourcePackUpdater {
     public boolean getting = false;
     public boolean accepted = false;
     public static Pack pack;
+
+    private static String getResourcepackUrl() {
+        return IslandUtils.isPreRelease() ? url_pre : url_release;
+    }
 
     public ResourcePackUpdater() {
         client = HttpClient.newBuilder().build();
@@ -140,7 +146,7 @@ public class ResourcePackUpdater {
     }
 
     private ResourcePack requestUpdate() throws Exception {
-        HttpRequest req = HttpRequest.newBuilder(URI.create(url)).GET().build();
+        HttpRequest req = HttpRequest.newBuilder(URI.create(getResourcepackUrl())).GET().build();
         logger.info("Requesting resource pack: " + req.uri());
         HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
         if (res.statusCode() != 200) {
