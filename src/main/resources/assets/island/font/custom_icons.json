@@ -52,6 +52,20 @@
       "chars": ["\ue008"],
       "ascent": 8,
       "height": 10
+    },
+    {
+      "type": "bitmap",
+      "file": "island:icons/split_up.png",
+      "chars": ["\ue009"],
+      "ascent": 8,
+      "height": 10
+    },
+    {
+      "type": "bitmap",
+      "file": "island:icons/split_down.png",
+      "chars": ["\ue010"],
+      "ascent": 8,
+      "height": 10
     }
   ]
 }

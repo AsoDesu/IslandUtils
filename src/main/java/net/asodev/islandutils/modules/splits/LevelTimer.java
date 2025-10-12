@@ -115,11 +115,11 @@ public class LevelTimer {
         Component icon;
         if (splitImprovement > 0) {
             color = ChatFormatting.RED;
-            icon = splitDownComponent.copy().withStyle(ChatFormatting.WHITE);
+            icon = FontUtils.ICON_SPLIT_UP;
             formattedTime = "+" + formattedTime;
         } else if (splitImprovement < 0) {
             color = ChatFormatting.GREEN;
-            icon = splitUpComponent.copy().withStyle(ChatFormatting.WHITE);
+            icon = FontUtils.ICON_SPLIT_DOWN;
         } else {
             color = ChatFormatting.YELLOW;
             icon = Component.literal("-").withStyle(color);
@@ -200,6 +200,4 @@ public class LevelTimer {
 
     // Font stuff
     public static String medalCharacter = "";
-    public static Component splitUpComponent = Component.empty();
-    public static Component splitDownComponent = Component.empty();
 }

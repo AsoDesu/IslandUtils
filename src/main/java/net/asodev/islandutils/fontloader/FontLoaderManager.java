@@ -22,9 +22,7 @@ public class FontLoaderManager {
             new FontLoaderAsset("_fonts/chest_backgrounds/body/scavenging.png", (ignored, s) -> Scavenging.setDustCharacter(s)),
             new FontLoaderAsset("_fonts/icon/silver.png", (ignored, s) -> Scavenging.setSilverCharacter(s)),
             new FontLoaderAsset("_fonts/icon/coin_small.png", (ignored, s) -> Scavenging.setCoinCharacter(s)),
-            new FontLoaderAsset("_fonts/icon/medals.png", (ignored, s) -> LevelTimer.medalCharacter = s),
-            new FontLoaderAsset("_fonts/icon/split_up.png", (c, ignored) -> LevelTimer.splitUpComponent = c),
-            new FontLoaderAsset("_fonts/icon/split_down.png", (c, ignored) -> LevelTimer.splitDownComponent = c)
+            new FontLoaderAsset("_fonts/icon/medals.png", (ignored, s) -> LevelTimer.medalCharacter = s)
     );
 
     private static final List<FontLoaderAsset> fulfilledAssets = new ArrayList<>();
