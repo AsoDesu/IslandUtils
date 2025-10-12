@@ -15,6 +15,11 @@ public abstract class MusicModifier {
         this.desc = Component.translatableWithFallback("islandutils.music_modifier." + identifier + ".desc", "");
     }
 
+    @Override
+    public String toString() {
+        return identifier;
+    }
+
     public abstract SoundInfo apply(SoundInfo info);
     public abstract boolean shouldApply(ResourceLocation soundLocation);
 

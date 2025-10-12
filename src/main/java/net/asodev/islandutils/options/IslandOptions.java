@@ -54,7 +54,7 @@ public class IslandOptions {
         load();
     }
 
-    private static void load() {
+    public static void load() {
         if (!configFile.exists()) { return; }
         JsonObject object;
         try {
@@ -79,7 +79,7 @@ public class IslandOptions {
             try {
                 saveHandler.save(category, object);
             } catch (IllegalAccessException e) {
-                LOGGER.error("Failed to save category: " + category, e);
+                LOGGER.error("Failed to save category: {}", category, e);
                 return;
             }
         }
