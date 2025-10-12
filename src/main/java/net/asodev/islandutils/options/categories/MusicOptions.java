@@ -11,12 +11,33 @@ import net.asodev.islandutils.options.saving.Ignore;
 import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MusicOptions implements OptionsCategory {
+
     @Ignore
     private static final MusicOptions defaults = new MusicOptions();
+    private final HashMap<MusicModifier, Boolean> modifiers = new HashMap<>();
 
+    public void setModifierEnabled(MusicModifier modifier, Boolean enabled) {
+        modifier.setEnabled(enabled);
+        modifiers.put(modifier, enabled);
+    }
+
+    private Boolean isModifierEnabled(MusicModifier modifier) {
+        if(modifiers.get(modifier) == null) {
+            setModifierEnabled(modifier, modifier.defaultOption());
+        }
+
+        if (modifier.isEnabled() && !modifiers.get(modifier)) {
+            setModifierEnabled(modifier, true);
+        }
+        if (!modifier.isEnabled() && modifiers.get(modifier)) {
+            setModifierEnabled(modifier, false);
+        }
+        return modifiers.get(modifier);
+    }
 
     @Override
     public ConfigCategory getCategory() {
@@ -28,7 +49,7 @@ public class MusicOptions implements OptionsCategory {
                     .name(modifier.name())
                     .description(OptionDescription.of(modifier.desc()))
                     .controller(TickBoxControllerBuilder::create)
-                    .binding(modifier.defaultOption(), modifier::isEnabled, modifier::setEnabled)
+                    .binding(modifier.defaultOption(), () -> isModifierEnabled(modifier), (enabled) -> setModifierEnabled(modifier, enabled))
                     .build();
             modifierOptions.add(option);
         }
