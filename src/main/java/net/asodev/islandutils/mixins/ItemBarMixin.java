@@ -184,7 +184,7 @@ public class ItemBarMixin {
     @Unique
     private Optional<BarInfo> getItemBar() {
         var itemStack = (ItemStack)(Object)this;
-        var lore = Utils.getLores(itemStack);
+        var lore = Utils.getTooltipLines(itemStack);
         if (lore == null) return Optional.empty();
 
         var loreStr = lore.stream().map(Component::getString).collect(Collectors.joining("\n"));
