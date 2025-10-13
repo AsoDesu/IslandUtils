@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
+import java.util.Optional;
 
 public class IslandUtilsSaveHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(IslandOptions.class);
@@ -29,7 +30,9 @@ public class IslandUtilsSaveHandler {
 
     public void load(OptionsCategory category, JsonObject object) {
         if (category instanceof MusicOptions musicOptions) {
-            var modifiers = object.getAsJsonObject("modifiers");
+            var modifiers = Optional.ofNullable(object.getAsJsonObject("modifiers"))
+                .orElseGet(JsonObject::new);
+
             MusicManager.getModifiers().forEach((modifier) -> {
                 if (!modifiers.has(modifier.identifier())) {
                     musicOptions.setModifierEnabled(modifier, modifier.defaultOption());
