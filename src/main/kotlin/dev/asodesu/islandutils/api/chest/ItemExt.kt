@@ -22,6 +22,4 @@ val ItemStack.publicBukkitValues: CompoundTag?
     get() = this.customData?.unsafe?.getCompound("PublicBukkitValues")?.getOrNull()
 
 val ItemStack.customItemId: ResourceLocation?
-    get() = this.publicBukkitValues?.getString("mcc:custom_item_id")?.getOrNull()?.let { value ->
-        ResourceLocation.tryParse(value)
-    }
+    get() = this.get(DataComponents.ITEM_MODEL)

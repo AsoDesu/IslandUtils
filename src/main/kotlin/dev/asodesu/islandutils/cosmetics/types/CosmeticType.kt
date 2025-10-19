@@ -87,7 +87,7 @@ abstract class CosmeticType {
         val itemId = item.customItemId ?: return false
         return check(itemId)
     }
-    fun check(itemId: ResourceLocation) = names.any { !itemId.path.endsWith("icon_empty") && itemId.path.contains(".$it.") }
+    fun check(itemId: ResourceLocation) = names.any { !itemId.path.endsWith("icon_empty") && itemId.path.contains("/$it/") }
 
     fun ItemStack.toCosmetic() = CosmeticItem(this)
 }
