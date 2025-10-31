@@ -60,7 +60,7 @@ public class ItemBarMixin {
     @Unique
     private static final String CHROMA_LABEL = "\nChromas Unlocked:\n";
     @Unique
-    private static final Pattern CHROMA_REGEX = Pattern.compile(".*\\n([\\uE02A\\uE02E\\uE02F\\uE02C\\uE02D\\uE02B]{5}) - (\\d+)\\uE329\\n.*");
+    private static final Pattern CHROMA_REGEX = Pattern.compile(".*\\n([\\uE02A\\uE02E\\uE02F\\uE02C\\uE02D\\uE02B]{5}) - (\\d+)\\uE330\\n.*");
 
     @Unique
     private static final int REPAIRABLE_BAR_COLOR = ARGB.colorFromFloat(1.0F, 1.0F, 0.33F, 0.33F);
