@@ -13,8 +13,8 @@ public class CosmeticsOptions implements OptionsCategory {
     boolean showPlayerPreview = true;
     boolean showOnHover = true;
     boolean showOnOnlyCosmeticMenus = true;
-    boolean showReputationBar = true;
-    boolean showChromaBar = true;
+    boolean showReputationBar = false;
+    boolean showChromaBar = false;
 
     public boolean isShowPlayerPreview() {
         return showPlayerPreview;
