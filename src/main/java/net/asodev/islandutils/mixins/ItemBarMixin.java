@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Mixin(ItemStack.class)
 public class ItemBarMixin {
     @Unique
-    private static final Pattern PROGRESS_REGEX = Pattern.compile(".*\\n[\\uE001\\uE272\\uE267\\uE26A\\uE26C\\uE26D\\uE26F\\uE270\\uE273]* (\\d+)%.*");
+    private static final Pattern PROGRESS_REGEX = Pattern.compile(".*\\n[\\uE001\\uE272\\uE267\\uE26A\\uE26C\\uE26D\\uE26F\\uE270\\uE273\\uE275]* (\\d+)%.*");
     @Unique
     private static final Pattern PROGRESS_TRUE_ZERO_REGEX = Pattern.compile(".*\\n[\\uE001\\uE267\\uE26C\\uE26D]* 0%.*");
     @Unique
