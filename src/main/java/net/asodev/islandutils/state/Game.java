@@ -1,9 +1,12 @@
 package net.asodev.islandutils.state;
 
 import com.noxcrew.noxesium.network.clientbound.ClientboundMccServerPacket;
+import net.asodev.islandutils.options.IslandOptions;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.NoSuchElementException;
 
@@ -20,6 +23,8 @@ public enum Game {
     DYNABALL("Dynaball", "dynaball", getMusicLocation("dynaball"), true),
     ROCKET_SPLEEF_RUSH("Rocket Spleef Rush", "rocket_spleef", getMusicLocation("rsr")),
     SKY_BATTLE("Sky Battle", "sky_battle", getMusicLocation("sky_battle"), true);
+
+    public static final Logger logger = LoggerFactory.getLogger(Game.class);
 
     private final @NotNull String name;
     private final @Nullable String islandId;
@@ -62,7 +67,10 @@ public enum Game {
     }
 
     public static Game fromPacket(ClientboundMccServerPacket packet) throws NoSuchElementException {
-        System.out.println("ServerType: " + packet.serverType() + ", AssociatedGame: " + packet.associatedGame() + ", SubType: " + packet.subType());
+        if (IslandOptions.getMisc().isDebugMode()) {
+            logger.info("Game::fromPacket: serverType = {}, associatedGame = {}, subType = {}",
+                    packet.serverType(), packet.associatedGame(), packet.subType());
+        }
 
         if (packet.serverType().equals("lobby")) {
             return HUB;
