@@ -24,9 +24,17 @@ import java.util.stream.Collectors;
 @Mixin(ItemStack.class)
 public class ItemBarMixin {
     @Unique
-    private static final Pattern PROGRESS_REGEX = Pattern.compile(".*\\n[\\uE001\\uE272\\uE267\\uE26A\\uE26C\\uE26D\\uE26F\\uE270\\uE273\\uE275]* (\\d+)%.*");
+    private static final String BAR_SEGMENT_SPACE = "\\uE001";
     @Unique
-    private static final Pattern PROGRESS_TRUE_ZERO_REGEX = Pattern.compile(".*\\n[\\uE001\\uE267\\uE26C\\uE26D\\uE26F]* 0%.*");
+    private static final String BAR_SEGMENT_EMPTY = "\\uE27C";
+    @Unique
+    private static final String BAR_SEGMENT_HALF = "\\uE282";
+    @Unique
+    private static final String BAR_SEGMENT_FULL = "\\uE27F";
+    @Unique
+    private static final Pattern PROGRESS_REGEX = Pattern.compile(".*\\n[" + BAR_SEGMENT_SPACE + BAR_SEGMENT_EMPTY + BAR_SEGMENT_HALF + BAR_SEGMENT_FULL + "]* (\\d+)%.*");
+    @Unique
+    private static final Pattern PROGRESS_TRUE_ZERO_REGEX = Pattern.compile(".*\\n[" + BAR_SEGMENT_SPACE + BAR_SEGMENT_EMPTY + "]* 0%.*");
     @Unique
     private static final String PROGRESS_COSMETIC_LABEL = "Left-Click to Equip\n";
     @Unique
@@ -60,7 +68,9 @@ public class ItemBarMixin {
     @Unique
     private static final String CHROMA_LABEL = "\nChromas Unlocked:\n";
     @Unique
-    private static final Pattern CHROMA_REGEX = Pattern.compile(".*\\n([\\uE02A\\uE02E\\uE02F\\uE02C\\uE02D\\uE02B]{5}) - (\\d+)\\uE330\\n.*");
+    private static final String STYLE_TROPHY_ICON = "\\uE34D";
+    @Unique
+    private static final Pattern CHROMA_REGEX = Pattern.compile(".*\\n(" + CosmeticChroma.CHAR_REGEX + "{5}) - (\\d+)" + STYLE_TROPHY_ICON + "\\n.*");
 
     @Unique
     private static final int REPAIRABLE_BAR_COLOR = ARGB.colorFromFloat(1.0F, 1.0F, 0.33F, 0.33F);

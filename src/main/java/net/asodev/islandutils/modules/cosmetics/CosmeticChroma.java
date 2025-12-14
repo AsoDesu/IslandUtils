@@ -1,5 +1,7 @@
 package net.asodev.islandutils.modules.cosmetics;
 
+import com.google.common.collect.EnumHashBiMap;
+import com.google.common.collect.ImmutableMap;
 import net.minecraft.util.ARGB;
 import org.apache.commons.lang3.math.Fraction;
 
@@ -13,17 +15,27 @@ public enum CosmeticChroma {
     MAGICAL,
     GRAYSCALE;
 
-    public static final int COUNT = 5;
+    private static final char EMPTY_CHAR = '\uE02A';
+    private static final EnumHashBiMap<CosmeticChroma, Character> CHARS = EnumHashBiMap.create(
+        ImmutableMap.of(
+            MECHANICAL, '\uE02E',
+            NATURAL, '\uE02F',
+            OCEANIC, '\uE02C',
+            MAGICAL, '\uE02D',
+            GRAYSCALE, '\uE02B'
+        )
+    );
+    public static final String CHAR_REGEX =
+            "[" + EMPTY_CHAR + String.join("", CHARS.values().stream().map(String::valueOf).toList()) + "]";
+
+    public static final int COUNT = CHARS.size();
+
+    public final char toChar() {
+        return Optional.ofNullable(CHARS.get(this)).orElse(EMPTY_CHAR);
+    }
 
     public static Optional<CosmeticChroma> fromChar(char c) {
-        return Optional.ofNullable(switch (c) {
-            case '\uE02E' -> MECHANICAL;
-            case '\uE02F' -> NATURAL;
-            case '\uE02C' -> OCEANIC;
-            case '\uE02D' -> MAGICAL;
-            case '\uE02B' -> GRAYSCALE;
-            default -> null;
-        });
+        return Optional.ofNullable(CHARS.inverse().get(c));
     }
     
     public int toColor() {
