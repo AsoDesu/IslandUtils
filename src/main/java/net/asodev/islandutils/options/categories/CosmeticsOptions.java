@@ -13,6 +13,8 @@ public class CosmeticsOptions implements OptionsCategory {
     boolean showPlayerPreview = true;
     boolean showOnHover = true;
     boolean showOnOnlyCosmeticMenus = true;
+    boolean showReputationBar = false;
+    boolean showChromaBar = false;
 
     public boolean isShowPlayerPreview() {
         return showPlayerPreview;
@@ -24,6 +26,14 @@ public class CosmeticsOptions implements OptionsCategory {
 
     public boolean isShowOnOnlyCosmeticMenus() {
         return showOnOnlyCosmeticMenus;
+    }
+
+    public boolean isShowReputationBar() {
+        return showReputationBar;
+    }
+
+    public boolean isShowChromaBar() {
+        return showChromaBar;
     }
 
     @Override
@@ -38,16 +48,28 @@ public class CosmeticsOptions implements OptionsCategory {
                 .controller(TickBoxControllerBuilder::create)
                 .binding(defaults.showOnHover, () -> showOnHover, value -> this.showOnHover = value)
                 .build();
-        Option<Boolean> showInOnlyCosmeticMenu = Option.<Boolean>createBuilder()
+        Option<Boolean> showOnlyCosmeticMenusOption = Option.<Boolean>createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.option.showOnOnlyCosmeticMenus"))
                 .controller(TickBoxControllerBuilder::create)
                 .binding(defaults.showOnOnlyCosmeticMenus, () -> showOnOnlyCosmeticMenus, value -> this.showOnOnlyCosmeticMenus = value)
+                .build();
+        Option<Boolean> showReputationBarOption = Option.<Boolean>createBuilder()
+                .name(Component.translatable("text.autoconfig.islandutils.option.showReputationBar"))
+                .controller(TickBoxControllerBuilder::create)
+                .binding(defaults.showReputationBar, () -> showReputationBar, value -> this.showReputationBar = value)
+                .build();
+        Option<Boolean> showChromaBarOption = Option.<Boolean>createBuilder()
+                .name(Component.translatable("text.autoconfig.islandutils.option.showChromaBar"))
+                .controller(TickBoxControllerBuilder::create)
+                .binding(defaults.showChromaBar, () -> showChromaBar, value -> this.showChromaBar = value)
                 .build();
         return ConfigCategory.createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.category.cosmetics"))
                 .option(showPreviewOption)
                 .option(showHoverOption)
-                .option(showInOnlyCosmeticMenu)
+                .option(showOnlyCosmeticMenusOption)
+                .option(showReputationBarOption)
+                .option(showChromaBarOption)
                 .build();
     }
 }

@@ -9,6 +9,7 @@
     "accessors.WalkAnimStateAccessor",
     "cosmetics.ChestScreenMixin",
     "cosmetics.PreviewTutorialMixin",
+    "ItemBarMixin",
     "discord.ConnectionMixin",
     "discord.ScoreDisplayMixin",
     "fontloader.FontLoaderMixin",
