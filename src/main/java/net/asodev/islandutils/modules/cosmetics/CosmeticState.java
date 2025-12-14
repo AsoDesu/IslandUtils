@@ -82,6 +82,7 @@ public class CosmeticState {
         if (path.endsWith(".icon_empty") || path.endsWith(".icon")) return null;
         if (path.contains("hat.") || path.contains("hair.")) return CosmeticType.HAT;
         if (path.contains("accessory.")) return CosmeticType.ACCESSORY;
+        if (path.contains("weapon_skins.")) return CosmeticType.MAIN_HAND;
         if (path.startsWith("island_lobby.fishing.rods")) return CosmeticType.MAIN_HAND;
         return null;
     }
