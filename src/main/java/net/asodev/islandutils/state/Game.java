@@ -1,15 +1,16 @@
 package net.asodev.islandutils.state;
 
 import com.noxcrew.noxesium.network.clientbound.ClientboundMccServerPacket;
-import net.asodev.islandutils.discord.FishingPresenceUpdator;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.NoSuchElementException;
 
 public enum Game {
 
-    HUB("Hub", "", null),
-    FISHING("Hub", "", null),
+    HUB("Hub", ""),
+    FISHING("Fishing", ""),
 
     TGTTOS("TGTTOS", "tgttos", getMusicLocation("tgttos")),
     HITW("Hole in the Wall", "hole_in_the_wall", getMusicLocation("hitw")),
@@ -20,32 +21,36 @@ public enum Game {
     ROCKET_SPLEEF_RUSH("Rocket Spleef Rush", "rocket_spleef", getMusicLocation("rsr")),
     SKY_BATTLE("Sky Battle", "sky_battle", getMusicLocation("sky_battle"), true);
 
-    final private String name;
-    final private String islandId;
-    final private String subType;
-    final private ResourceLocation musicLocation;
-    private boolean hasTeamChat = false;
-    Game(String name, String islandId, ResourceLocation location) {
-        this.name = name;
-        this.islandId = islandId;
-        this.subType = null;
-        this.musicLocation = location;
+    private final @NotNull String name;
+    private final @Nullable String islandId;
+    private final @Nullable String subType;
+    private final @Nullable ResourceLocation musicLocation;
+    private final boolean hasTeamChat;
+
+    Game(@NotNull String name, @Nullable String islandId) {
+        this(name, islandId, null, null, false);
     }
-    Game(String name, String islandId, ResourceLocation location, boolean hasTeamChat) {
-        this(name, islandId, location);
-        this.hasTeamChat = hasTeamChat;
+    Game(@NotNull String name, @Nullable String islandId, @Nullable ResourceLocation musicLocation) {
+        this(name, islandId, null, musicLocation, false);
     }
-    Game(String name, String islandId, String subType, ResourceLocation location) {
+    Game(@NotNull String name, @Nullable String islandId, @Nullable ResourceLocation musicLocation, boolean hasTeamChat) {
+        this(name, islandId, null, musicLocation, hasTeamChat);
+    }
+    Game(@NotNull String name, @Nullable String islandId, @Nullable String subType, @Nullable ResourceLocation musicLocation) {
+        this(name, islandId, subType, musicLocation, false);
+    }
+    Game(@NotNull String name, @Nullable String islandId, @Nullable String subType, @Nullable ResourceLocation musicLocation, boolean hasTeamChat) {
         this.name = name;
         this.islandId = islandId;
         this.subType = subType;
-        this.musicLocation = location;
+        this.musicLocation = musicLocation;
+        this.hasTeamChat = hasTeamChat;
     }
 
-    public String getName() {
+    public @NotNull String getName() {
         return name;
     }
-    public ResourceLocation getMusicLocation() {
+    public @Nullable ResourceLocation getMusicLocation() {
         return musicLocation;
     }
     public boolean hasTeamChat() {
@@ -57,15 +62,16 @@ public enum Game {
     }
 
     public static Game fromPacket(ClientboundMccServerPacket packet) throws NoSuchElementException {
+        System.out.println("ServerType: " + packet.serverType() + ", AssociatedGame: " + packet.associatedGame() + ", SubType: " + packet.subType());
+
         if (packet.serverType().equals("lobby")) {
-            for (String temperature : FishingPresenceUpdator.temperatures) {
-                if (packet.subType().startsWith(temperature + "_")) return FISHING;
-            }
             return HUB;
+        } else if (packet.serverType().equals("fishing")) {
+            return FISHING;
         }
 
         for (Game game : values()) {
-            if (game.islandId.equals(packet.associatedGame())) {
+            if (game.islandId != null && game.islandId.equals(packet.associatedGame())) {
                 if (game.subType != null && !game.subType.equals(packet.subType()))
                     continue;
                 return game;
