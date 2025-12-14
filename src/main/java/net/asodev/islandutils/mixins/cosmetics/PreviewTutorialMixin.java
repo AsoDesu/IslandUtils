@@ -1,8 +1,9 @@
 package net.asodev.islandutils.mixins.cosmetics;
 
-import com.llamalad7.mixinextras.sugar.Local;
 import net.asodev.islandutils.modules.cosmetics.CosmeticState;
 import net.asodev.islandutils.options.IslandOptions;
+import net.asodev.islandutils.state.Game;
+import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.FontUtils;
 import net.minecraft.ChatFormatting;
@@ -49,6 +50,7 @@ public class PreviewTutorialMixin {
     private void injectedTooltipLines(Item.TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, @Nullable Player player, TooltipFlag tooltipFlag, Consumer<Component> consumer, CallbackInfo ci) {
         if (CosmeticState.getType((ItemStack) (Object) this) == null) return;
         if (!IslandOptions.getCosmetics().isShowPlayerPreview()) return;
+        if (MccIslandState.getGame() != Game.HUB && MccIslandState.getGame() != Game.FISHING) return;
         consumer.accept(previewComponent);
     }
 
