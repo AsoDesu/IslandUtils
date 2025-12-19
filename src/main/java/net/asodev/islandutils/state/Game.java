@@ -50,6 +50,9 @@ public enum Game {
     public boolean hasTeamChat() {
         return hasTeamChat;
     }
+    public boolean isHubGame() {
+        return this == FISHING || this == HUB;
+    }
 
     public static ResourceLocation getMusicLocation(String name) {
         return ResourceLocation.fromNamespaceAndPath("island", "island.music." + name);

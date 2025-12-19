@@ -1,5 +1,7 @@
 package net.asodev.islandutils.modules.cosmetics;
 
+import net.asodev.islandutils.options.IslandOptions;
+import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -98,6 +100,15 @@ public class CosmeticState {
             if (type != null) return true;
         }
         return false;
+    }
+
+    public static boolean shouldShowCosmeticPreview() {
+        // don't show if we're not on mcci
+        if (!MccIslandState.isOnline()) return false;
+        // don't show if we have them disabled
+        if (!IslandOptions.getCosmetics().isShowPlayerPreview()) return false;
+        // if we have chosen to NOT show in games and we are in a game, disable. otherwise show!
+        return IslandOptions.getCosmetics().isShowInGames() || MccIslandState.getGame().isHubGame();
     }
 
     public static boolean itemsMatch(ItemStack item, ItemStack compare) {

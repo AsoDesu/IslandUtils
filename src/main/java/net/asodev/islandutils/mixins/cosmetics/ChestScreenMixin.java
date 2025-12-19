@@ -61,8 +61,7 @@ public abstract class ChestScreenMixin extends Screen {
 
     @Inject(method = "renderSlot", at = @At("TAIL"))
     private void renderSlot(GuiGraphics guiGraphics, Slot slot, CallbackInfo ci) {
-        if (!MccIslandState.isOnline()) return;
-        if (MccIslandState.getGame() != Game.HUB && MccIslandState.getGame() != Game.FISHING) return;
+        if (!CosmeticState.shouldShowCosmeticPreview()) return;
         if (!slot.hasItem()) return;
 
         boolean shouldRender = false;
@@ -114,8 +113,7 @@ public abstract class ChestScreenMixin extends Screen {
 
     @Inject(method = "mouseDragged", at = @At("HEAD"))
     private void mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY, CallbackInfoReturnable<Boolean> cir) {
-        if (!MccIslandState.isOnline()) return;
-        if (MccIslandState.getGame() != Game.HUB && MccIslandState.getGame() != Game.FISHING) return;
+        if (!CosmeticState.shouldShowCosmeticPreview()) return;
 
         CosmeticState.yRot = CosmeticState.yRot - Double.valueOf(deltaX).floatValue();
         CosmeticState.xRot = CosmeticState.xRot - Double.valueOf(deltaY).floatValue();
@@ -133,7 +131,8 @@ public abstract class ChestScreenMixin extends Screen {
     @Inject(method = "slotClicked", at = @At("HEAD"))
     private void slotClicked(Slot slot, int i, int j, ClickType clickType, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
-        if (MccIslandState.getGame() != Game.HUB && MccIslandState.getGame() != Game.FISHING) return;
+        if (!MccIslandState.getGame().isHubGame()) return;
+
         if (slot == null || !slot.hasItem()) return;
         ItemStack stack = slot.getItem();
         if (CosmeticState.canBeEquipped(stack)) {
@@ -148,10 +147,8 @@ public abstract class ChestScreenMixin extends Screen {
 
     @Unique
     private void triggerPreviewClicked(int keyCode) {
-        if (!MccIslandState.isOnline()) return;
-        if (!IslandOptions.getCosmetics().isShowPlayerPreview()) return;
+        if (!CosmeticState.shouldShowCosmeticPreview()) return;
         if (hoveredSlot == null || !hoveredSlot.hasItem()) return;
-        if (MccIslandState.getGame() != Game.HUB && MccIslandState.getGame() != Game.FISHING) return;
         InputConstants.Key previewBind = KeyBindingHelper.getBoundKeyOf(minecraft.options.keyPickItem);
         if (keyCode == previewBind.getValue()) {
             ItemStack item = hoveredSlot.getItem();

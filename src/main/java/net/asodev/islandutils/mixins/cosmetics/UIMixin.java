@@ -34,11 +34,9 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
 
     @Inject(method = "renderBg", at = @At("TAIL"))
     public void renderBg(GuiGraphics guiGraphics, float f, int i, int j, CallbackInfo ci) {
-        if (!MccIslandState.isOnline()) return;
-        if (MccIslandState.getGame() != Game.HUB && MccIslandState.getGame() != Game.FISHING) return;
+        if (!CosmeticState.shouldShowCosmeticPreview()) return;
 
         CosmeticsOptions options = IslandOptions.getCosmetics();
-        if (!options.isShowPlayerPreview()) return;
         boolean isCosmeticMenu = false;
         if (options.isShowOnOnlyCosmeticMenus() && !(isCosmeticMenu = CosmeticState.isCosmeticMenu(this))) return;
 

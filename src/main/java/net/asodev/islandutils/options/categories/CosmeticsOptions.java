@@ -13,6 +13,7 @@ public class CosmeticsOptions implements OptionsCategory {
     boolean showPlayerPreview = true;
     boolean showOnHover = true;
     boolean showOnOnlyCosmeticMenus = true;
+    boolean showInGames = true;
 
     public boolean isShowPlayerPreview() {
         return showPlayerPreview;
@@ -24,6 +25,10 @@ public class CosmeticsOptions implements OptionsCategory {
 
     public boolean isShowOnOnlyCosmeticMenus() {
         return showOnOnlyCosmeticMenus;
+    }
+
+    public boolean isShowInGames() {
+        return showInGames;
     }
 
     @Override
@@ -43,11 +48,17 @@ public class CosmeticsOptions implements OptionsCategory {
                 .controller(TickBoxControllerBuilder::create)
                 .binding(defaults.showOnOnlyCosmeticMenus, () -> showOnOnlyCosmeticMenus, value -> this.showOnOnlyCosmeticMenus = value)
                 .build();
+        Option<Boolean> showInGamesOption = Option.<Boolean>createBuilder()
+                .name(Component.translatable("text.autoconfig.islandutils.option.showInGames"))
+                .controller(TickBoxControllerBuilder::create)
+                .binding(defaults.showInGames, () -> showInGames, value -> this.showInGames = value)
+                .build();
         return ConfigCategory.createBuilder()
                 .name(Component.translatable("text.autoconfig.islandutils.category.cosmetics"))
                 .option(showPreviewOption)
                 .option(showHoverOption)
                 .option(showInOnlyCosmeticMenu)
+                .option(showInGamesOption)
                 .build();
     }
 }
