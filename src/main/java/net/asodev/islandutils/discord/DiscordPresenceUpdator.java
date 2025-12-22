@@ -7,13 +7,14 @@ import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.DiscordOptions;
 import net.asodev.islandutils.state.Game;
-import net.minecraft.client.resources.language.I18n;
 import net.asodev.islandutils.state.MccIslandState;
+import net.minecraft.client.resources.language.I18n;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public class DiscordPresenceUpdator {
 
@@ -23,6 +24,9 @@ public class DiscordPresenceUpdator {
 
     // dear contributors:
     // i am sorry.
+
+    // from contributors:
+    // it's ok :)
 
     @Nullable public static Activity activity;
     public static UUID timeLeftBossbar = null;
@@ -97,7 +101,7 @@ public class DiscordPresenceUpdator {
                     activity.setDetails(I18n.get("islandutils.discordPresence.details.inThePlace", I18n.get("islandutils.discordPresence.place.hub")));
                 else
                     activity.setDetails(I18n.get("islandutils.discordPresence.details.inHub"));
-                
+
                 REMAIN_STATE = null;
                 ROUND_STATE = null;
                 activity.setState("");
@@ -199,6 +203,7 @@ public class DiscordPresenceUpdator {
             overrideActivityWithBigRat();
         }
 
+        recreateActivity(activity);
         try { core.activityManager().updateActivity(activity); }
         catch (Exception e) { e.printStackTrace(); }
     }
@@ -241,6 +246,63 @@ public class DiscordPresenceUpdator {
 
             if (!options.discordPresence) clear();
         } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    // Discord Game SDK does not accept empty strings as payload
+    // to deal with that we recreate it with only valid fields
+    public static void recreateActivity(@Nullable Activity oldActivity) throws RuntimeException {
+        if (oldActivity == null) {
+            activity = null;
+            return;
+        }
+
+        Activity newActivity = new Activity();
+
+        copyIfNotBlank(oldActivity.getDetails(), newActivity::setDetails);
+        copyIfNotBlank(oldActivity.getState(), newActivity::setState);
+
+        copyIfNotBlank(
+                oldActivity.assets().getLargeImage(),
+                newActivity.assets()::setLargeImage
+        );
+        copyIfNotBlank(
+                oldActivity.assets().getLargeText(),
+                newActivity.assets()::setLargeText
+        );
+        copyIfNotBlank(
+                oldActivity.assets().getSmallImage(),
+                newActivity.assets()::setSmallImage
+        );
+        copyIfNotBlank(
+                oldActivity.assets().getSmallText(),
+                newActivity.assets()::setSmallText
+        );
+
+        copyTimestampsSafely(oldActivity, newActivity);
+
+        activity = newActivity;
+    }
+
+    private static void copyIfNotBlank(@Nullable String value, Consumer<String> setter) {
+        if (value != null && !value.isBlank()) {
+            setter.accept(value);
+        }
+    }
+
+    private static void copyTimestampsSafely(Activity oldActivity, Activity newActivity) {
+        try {
+            Instant start = oldActivity.timestamps().getStart();
+            if (start != null && !start.equals(Instant.ofEpochSecond(0))) {
+                newActivity.timestamps().setStart(start);
+            }
+        } catch (Exception ignored) {}
+
+        try {
+            Instant end = oldActivity.timestamps().getEnd();
+            if (end != null && !end.equals(Instant.ofEpochSecond(0))) {
+                newActivity.timestamps().setEnd(end);
+            }
+        } catch (Exception ignored) {}
     }
 
 }
