@@ -48,8 +48,8 @@ dependencies {
     modApi("com.noxcrew.noxesium:fabric:${properties["noxesium_version"]!!}")
 
     // Other libraries
-    include("com.github.JnCrMx:discord-game-sdk4j:v0.5.5")
-    implementation("com.github.JnCrMx:discord-game-sdk4j:v0.5.5")
+    include("com.github.JnCrMx:discord-game-sdk4j:v1.0.0")
+    implementation("com.github.JnCrMx:discord-game-sdk4j:v1.0.0")
 }
 
 java {
