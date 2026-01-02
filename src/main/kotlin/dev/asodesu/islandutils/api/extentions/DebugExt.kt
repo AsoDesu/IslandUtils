@@ -21,7 +21,7 @@ fun debug(str: String) {
 
 fun addDebugTooltip(item: ItemStack, consumer: Consumer<Component>) {
     if (!debugMode) return
-    if (!InputConstants.isKeyDown(minecraft.window.window, InputConstants.KEY_LCONTROL)) return
+    if (!InputConstants.isKeyDown(minecraft.window, InputConstants.KEY_LCONTROL)) return
 
     val customItemId = item.customItemId
     consumer.accept(buildComponent {

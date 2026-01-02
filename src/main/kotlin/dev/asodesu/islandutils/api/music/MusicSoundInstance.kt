@@ -4,7 +4,7 @@ import dev.asodesu.islandutils.api.extentions.debug
 import dev.asodesu.islandutils.api.extentions.ticks
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance
 import net.minecraft.client.resources.sounds.SoundInstance
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundSource
 import net.minecraft.util.Mth
@@ -13,13 +13,13 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 class MusicSoundInstance(
-    sound: ResourceLocation,
+    sound: Identifier,
     category: SoundSource,
     loop: Boolean = false,
     pitch: Float = 1f,
     volume: Float = 1f,
 
-    val unmodifiedSound: ResourceLocation = sound
+    val unmodifiedSound: Identifier = sound
 ) : AbstractTickableSoundInstance(SoundEvent.createVariableRangeEvent(sound), category, randomSource) {
     companion object {
         private val randomSource = RandomSource.create()

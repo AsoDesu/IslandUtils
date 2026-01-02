@@ -10,7 +10,7 @@ import net.minecraft.client.gui.layouts.SpacerElement
 class ConfigGroupLayout(private val group: ConfigGroup) : LayoutDelegate() {
     override val layout: LinearLayout = LinearLayout.vertical().spacing(3).apply {
         addChild(SpacerElement.height(2))
-        addChild(StringWidget(group.component, minecraft.font).alignLeft())
+        addChild(StringWidget(group.component, minecraft.font))
         addChild(LinearLayout.vertical().spacing(3).apply {
             group.children().forEach {
                 addChild(it.render(this))

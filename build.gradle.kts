@@ -1,9 +1,9 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm") version "2.0.20"
-    kotlin("plugin.serialization") version "2.0.20"
-    id("fabric-loom") version "1.10-SNAPSHOT"
+    kotlin("jvm") version "2.3.0"
+    kotlin("plugin.serialization") version "2.3.0"
+    id("net.fabricmc.fabric-loom-remap") version "1.14-SNAPSHOT"
     java
 }
 
@@ -15,6 +15,7 @@ repositories {
     maven("https://maven.enginehub.org/repo/")
     maven("https://maven.terraformersmc.com/releases/")
     maven("https://api.modrinth.com/maven")
+    maven("https://maven.fabricmc.net/")
 }
 
 dependencies {
@@ -26,7 +27,7 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}")
     modApi("com.noxcrew.noxesium:fabric:${property("noxesium_version")}")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
 }
 
 loom {

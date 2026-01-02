@@ -28,7 +28,7 @@ public abstract class SoundInterceptorMixin extends ClientCommonPacketListenerIm
             method = "handleSoundEvent",
             at = @At(
                     value = "INVOKE", // remove potential duplicates
-                    target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/util/thread/BlockableEventLoop;)V",
+                    target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/network/PacketProcessor;)V",
                     shift = At.Shift.AFTER
             ),
             cancellable = true
@@ -72,7 +72,7 @@ public abstract class SoundInterceptorMixin extends ClientCommonPacketListenerIm
             method = "handleStopSoundEvent",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/util/thread/BlockableEventLoop;)V",
+                    target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/network/PacketProcessor;)V",
                     shift = At.Shift.AFTER
             ),
             cancellable = true

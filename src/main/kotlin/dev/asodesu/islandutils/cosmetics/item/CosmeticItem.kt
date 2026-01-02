@@ -16,10 +16,12 @@ class CosmeticItem(val item: ItemStack) {
     val isEmpty = item.isEmpty
     val customItemId = item.customItemId ?: Resources.islandUtils("empty")
     val tooltip: List<Component>
+    val badge: Component?
 
     init {
         if (isEmpty) {
             tooltip = emptyList()
+            badge = null
         } else {
             val lore = item.lore
             val itemName = item.hoverName
@@ -35,6 +37,7 @@ class CosmeticItem(val item: ItemStack) {
                 add(Component.empty())
                 addAll(descriptionLines)
             }
+            badge = rarityAndType.toFlatList().getOrNull(1)
         }
     }
 }

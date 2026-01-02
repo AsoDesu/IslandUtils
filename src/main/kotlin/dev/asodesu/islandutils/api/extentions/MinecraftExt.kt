@@ -6,7 +6,7 @@ import net.minecraft.client.multiplayer.chat.ChatListener
 import net.minecraft.client.resources.sounds.SimpleSoundInstance
 import net.minecraft.client.sounds.SoundManager
 import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.sounds.SoundEvent
 
 /**
@@ -29,12 +29,12 @@ fun send(component: Component) {
 }
 
 object Resources {
-    fun islandUtils(path: String): ResourceLocation = ResourceLocation.fromNamespaceAndPath("islandutils", path)
-    fun mcc(path: String): ResourceLocation = ResourceLocation.fromNamespaceAndPath("mcc", path)
+    fun islandUtils(path: String): Identifier = Identifier.fromNamespaceAndPath("islandutils", path)
+    fun mcc(path: String): Identifier = Identifier.fromNamespaceAndPath("mcc", path)
 }
 
-fun ResourceLocation.toSoundEvent() = SoundEvent.createVariableRangeEvent(this)
-fun SoundManager.play(resourceLocation: ResourceLocation, volume: Float = 1f, pitch: Float = 1f) = this.play(resourceLocation.toSoundEvent(), volume, pitch)
+fun Identifier.toSoundEvent() = SoundEvent.createVariableRangeEvent(this)
+fun SoundManager.play(identifier: Identifier, volume: Float = 1f, pitch: Float = 1f) = this.play(identifier.toSoundEvent(), volume, pitch)
 fun SoundManager.play(event: SoundEvent, volume: Float = 1f, pitch: Float = 1f) = this.play(SimpleSoundInstance.forUI(event, pitch, volume))
 
 /**

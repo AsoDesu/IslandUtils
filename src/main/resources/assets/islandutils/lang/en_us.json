@@ -25,11 +25,11 @@
     "islandutils.options.music_highq": "Higher quality music",
     "islandutils.options.music_highq.desc": "Enables Higher quality music, this replaces the music on island with higher quality versions.\n\nNote: This does not apply to Hub music or Dynaball",
     "islandutils.options.music_olddynaball": "Legacy Dynaball music",
-    "islandutils.options.music_olddynaball.desc": "Replaces Island's Dynaball music with 'Shoot 'em Up (NGS Live)' by Issac Wilkins\n(The music previously used by IslandUtils before the official music)",
+    "islandutils.options.music_olddynaball.desc": "Replaces Island's Dynaball music with 'Shoot 'em Up (NGS Live)' by Issac Wilkins\n\n(The music previously used by IslandUtils before the official music)",
     "islandutils.options.music_tgttosdouble": "TGTTOS: Double time",
     "islandutils.options.music_tgttosdouble.desc": "Speeds up the music when the TGTTOS Double Time modifier is active",
     "islandutils.options.music_tgttosdome": "TGTTOS: To The Dome!",
-    "islandutils.options.music_tgttosdome.desc": "Replaces the TGTTOS music with when",
+    "islandutils.options.music_tgttosdome.desc": "Replaces the TGTTOS music with 'One Minute to MCC' during the 'To The Dome!' map",
 
     "islandutils.options.section.cosmetics": "Cosmetic Previews",
     "islandutils.options.cosmetics_enabled": "Enable Cosmetic Previews",
@@ -37,6 +37,8 @@
     "islandutils.options.cosmetics_show_on_hover.desc": "Updated the cosmetic preview with the item you're hovering over",
     "islandutils.options.cosmetics_show_in_all_menus": "Show in all menus",
     "islandutils.options.cosmetics_show_in_all_menus.desc": "Shows the cosmetic preview player in all menus instead of only menus containing cosmetic items",
+    "islandutils.options.cosmetics_show_in_games": "Show in games",
+    "islandutils.options.cosmetics_show_in_games.desc": "Shows cosmetic preview in games",
 
     "islandutils.options.section.discord": "Discord",
 
@@ -66,6 +68,8 @@
     "islandutils.options.chest_fishing_upgrade.desc": "Enables icons on available fishing upgrades",
     "islandutils.options.confirm_disconnect": "Enable confirm when disconnecting",
     "islandutils.options.confirm_disconnect.desc": "Enables a confirmation screen when disconnecting",
+    "islandutils.options.chat_channel_buttons": "Show chat channel switcher",
+    "islandutils.options.chat_channel_buttons.desc": "Enabled buttons in chat to switch chat channels",
     "islandutils.options.section.misc.debug": "Debug Options",
     "islandutils.options.debug_mode": "Debug Mode",
     "islandutils.options.debug_mode.desc": "Enables Debugging Options",

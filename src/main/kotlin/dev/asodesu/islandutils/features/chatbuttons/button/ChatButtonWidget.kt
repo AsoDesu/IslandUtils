@@ -7,6 +7,7 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.AbstractButton
 import net.minecraft.client.gui.narration.NarrationElementOutput
 import net.minecraft.client.gui.navigation.FocusNavigationEvent
+import net.minecraft.client.input.InputWithModifiers
 import net.minecraft.network.chat.Component
 
 abstract class ChatButtonWidget(
@@ -30,5 +31,5 @@ abstract class ChatButtonWidget(
         return null
     }
 
-    override fun onPress() = channelButton.onPress()
+    override fun onPress(inputWithModifiers: InputWithModifiers) = channelButton.onPress()
 }

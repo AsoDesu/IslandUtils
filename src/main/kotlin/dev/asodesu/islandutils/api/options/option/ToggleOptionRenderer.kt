@@ -5,7 +5,7 @@ import dev.asodesu.islandutils.api.ui.FlatButton
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.layouts.Layout
 import net.minecraft.client.gui.layouts.LayoutElement
-import net.minecraft.client.renderer.RenderType
+import net.minecraft.client.renderer.RenderPipelines
 
 object ToggleOptionRenderer : OptionRenderer<Boolean> {
     override fun render(option: Option<Boolean>, layout: Layout): LayoutElement {
@@ -23,7 +23,7 @@ object ToggleOptionRenderer : OptionRenderer<Boolean> {
 
             val toggleX = x + this.width - TOGGLE_WIDTH - PADDING
             val toggleY = y + (this.height - TOGGLE_HEIGHT) / 2
-            guiGraphics.blitSprite(RenderType::guiTextured, sprite, toggleX, toggleY, TOGGLE_WIDTH, TOGGLE_HEIGHT)
+            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, toggleX, toggleY, TOGGLE_WIDTH, TOGGLE_HEIGHT)
         }
 
         override fun onPress() {

@@ -1,11 +1,11 @@
 package dev.asodesu.islandutils.api.chest.analysis
 
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.world.inventory.Slot
 
 interface ContainerScreenHelper {
-    fun getMenuComponents(): Collection<ResourceLocation>
+    fun getMenuComponents(): Collection<Identifier>
     fun getAnalyser(): ChestAnalyser?
 
     val imageWidth: Int

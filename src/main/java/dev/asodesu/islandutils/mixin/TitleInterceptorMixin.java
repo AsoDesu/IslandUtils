@@ -18,7 +18,7 @@ public class TitleInterceptorMixin {
             method = "setSubtitleText",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/util/thread/BlockableEventLoop;)V",
+                    target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/network/PacketProcessor;)V",
                     shift = At.Shift.AFTER
             ),
             cancellable = true

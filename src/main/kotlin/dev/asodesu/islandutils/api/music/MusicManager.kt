@@ -82,7 +82,7 @@ class MusicManager(knownTracks: List<Track>, val modifiers: List<MusicModifier>)
         )
         playingSounds += instance
         minecraft.soundManager.play(instance)
-        debug("Playing ${soundLocation.path} as a looping track")
+        debug("Playing ${soundLocation.path}[${newSound.sound.path}] as a looping track")
         ci.cancel()
     }
 

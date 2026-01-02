@@ -25,6 +25,7 @@ interface CurrencyRenderer {
         override fun render(total: Int) = null
         override fun renderTooltip(total: Int) = buildComponent {
             append(formatTotal(total))
+            append(" ")
             append(currencyComponent)
         }
     }

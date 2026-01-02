@@ -78,6 +78,8 @@ object ClassicHitw : Module("ClassicHitw") {
 
     override fun init() {
         SoundEvents.SOUND_PLAY.addListener(::handleSound)
+
+        if (ClassicHitwOptions.annoucer.get()) ANNOUNCER_DOWNLOAD.start()
     }
 
     // called from mixin

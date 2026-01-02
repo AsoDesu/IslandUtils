@@ -1,8 +1,8 @@
 package dev.asodesu.islandutils.api.extentions
 
-import com.noxcrew.noxesium.network.clientbound.ClientboundMccGameStatePacket
+import com.noxcrew.noxesium.core.mcc.ClientboundMccGameStatePacket
 
-fun nullGameState() = ClientboundMccGameStatePacket("LOADING", "unknown", 0, 0, "unknown", "Unknown")
+fun nullGameState() = ClientboundMccGameStatePacket("none", "unknown_queue", "unknown_phase", "unknown_stage", -1, -1, "unknown_map", "Unknown Map")
 
 object PhaseType {
     const val LOADING = "LOADING"

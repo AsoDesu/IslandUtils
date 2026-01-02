@@ -1,6 +1,7 @@
 package dev.asodesu.islandutils.features
 
 import com.mojang.blaze3d.platform.InputConstants
+import dev.asodesu.islandutils.IslandUtils
 import dev.asodesu.islandutils.api.Debounce
 import dev.asodesu.islandutils.api.extentions.isOnline
 import dev.asodesu.islandutils.api.modules.Module
@@ -22,7 +23,7 @@ class CommandKeybind(
         "key.islandutils.$keybindName",
         type,
         key,
-        "key.category.islandutils"
+        IslandUtils.keyMappingCategory
     )
     private val debounce = Debounce(debounceTime)
 

@@ -5,3 +5,5 @@ accessible field net/minecraft/client/sounds/SoundManager soundCache Ljava/util/
 accessible field net/minecraft/client/player/LocalPlayer crouching Z
 accessible class net/minecraft/client/sounds/SoundManager$Preparations
 accessible class net/minecraft/client/gui/font/FontManager$UnresolvedBuilderBundle
+accessible field net/minecraft/world/item/component/CustomData tag Lnet/minecraft/nbt/CompoundTag;
+accessible method net/minecraft/client/gui/screens/inventory/InventoryScreen extractRenderState (Lnet/minecraft/world/entity/LivingEntity;)Lnet/minecraft/client/renderer/entity/state/EntityRenderState;

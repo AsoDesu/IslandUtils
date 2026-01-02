@@ -10,7 +10,7 @@ import dev.asodesu.islandutils.api.extentions.getTimeSeconds
 import dev.asodesu.islandutils.features.crafting.items.CraftingItem
 import dev.asodesu.islandutils.features.crafting.items.SavedCraftingItems
 import net.minecraft.network.chat.TextColor
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.world.item.ItemStack
 
 class CraftingChestAnalyser(val type: CraftingMenuType) : ChestAnalyser {
@@ -50,11 +50,11 @@ class CraftingChestAnalyser(val type: CraftingMenuType) : ChestAnalyser {
     }
 
     object Factory : ChestAnalyserFactory {
-        override fun shouldApply(menuComponents: Collection<ResourceLocation>): Boolean {
+        override fun shouldApply(menuComponents: Collection<Identifier>): Boolean {
             return CraftingMenuType.entries.any { menuComponents.contains(it.menuComponent) }
         }
 
-        override fun create(menuComponents: Collection<ResourceLocation>): ChestAnalyser {
+        override fun create(menuComponents: Collection<Identifier>): ChestAnalyser {
             val type = CraftingMenuType.entries.first { menuComponents.contains(it.menuComponent) }
             return CraftingChestAnalyser(type)
         }

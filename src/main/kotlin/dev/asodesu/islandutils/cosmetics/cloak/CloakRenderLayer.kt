@@ -2,12 +2,12 @@ package dev.asodesu.islandutils.cosmetics.cloak
 
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
-import net.minecraft.client.model.PlayerModel
-import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.client.model.player.PlayerModel
+import net.minecraft.client.renderer.SubmitNodeCollector
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.RenderLayerParent
 import net.minecraft.client.renderer.entity.layers.RenderLayer
-import net.minecraft.client.renderer.entity.state.PlayerRenderState
+import net.minecraft.client.renderer.entity.state.AvatarRenderState
 import net.minecraft.client.renderer.item.ItemStackRenderState
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.world.entity.LivingEntity
@@ -15,9 +15,9 @@ import net.minecraft.world.item.ItemDisplayContext
 import net.minecraft.world.item.ItemStack
 
 class CloakRenderLayer(
-    parent: RenderLayerParent<PlayerRenderState, PlayerModel>,
-    private val context: EntityRendererProvider.Context
-) : RenderLayer<PlayerRenderState, PlayerModel>(parent) {
+    parent: RenderLayerParent<AvatarRenderState, PlayerModel>,
+    context: EntityRendererProvider.Context
+) : RenderLayer<AvatarRenderState, PlayerModel>(parent) {
     companion object {
         var cloakForNextRender: ItemStack? = null
         var playerEntityForNextRender: LivingEntity? = null
@@ -25,7 +25,7 @@ class CloakRenderLayer(
     private val itemModelResolver = context.itemModelResolver
     private val cloakItem = ItemStackRenderState()
 
-    override fun render(poseStack: PoseStack, multiBufferSource: MultiBufferSource, light: Int, entityRenderState: PlayerRenderState, f: Float, g: Float) {
+    override fun submit(poseStack: PoseStack, submitNodeCollector: SubmitNodeCollector, i: Int, entityRenderState: AvatarRenderState, f: Float, g: Float) {
         val cloak = cloakForNextRender ?: return
         cloakForNextRender = null
 
@@ -39,7 +39,7 @@ class CloakRenderLayer(
         poseStack.mulPose(Axis.YP.rotationDegrees(180.0f))
         poseStack.scale(0.625f, -0.625f, -0.625f)
         itemModelResolver.updateForLiving(cloakItem, cloak, ItemDisplayContext.HEAD, player)
-        cloakItem.render(poseStack, multiBufferSource, light, OverlayTexture.NO_OVERLAY)
+        cloakItem.submit(poseStack, submitNodeCollector, i, OverlayTexture.NO_OVERLAY, entityRenderState.outlineColor)
     }
 
 }

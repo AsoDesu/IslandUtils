@@ -3,14 +3,15 @@ package dev.asodesu.islandutils
 import dev.asodesu.islandutils.api.extentions.Resources
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.FontDescription
 import net.minecraft.network.chat.Style
 
 object Font {
     val HUD = Resources.mcc("hud")
-    val HUD_STYLE = Style.EMPTY.withFont(HUD)
+    val HUD_STYLE = Style.EMPTY.withFont(FontDescription.Resource(HUD))
 
     val ICONS = Resources.islandUtils("icons")
-    val ICONS_STYLE = Style.EMPTY.withFont(ICONS).withColor(ChatFormatting.WHITE)
+    val ICONS_STYLE = Style.EMPTY.withFont(FontDescription.Resource(ICONS)).withColor(ChatFormatting.WHITE)
 
     val SOCIAL_ICON = icon("\ue001")
     val FUSION_ICON = icon("\ue002")

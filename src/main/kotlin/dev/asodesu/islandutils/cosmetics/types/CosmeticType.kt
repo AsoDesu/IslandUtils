@@ -6,11 +6,10 @@ import dev.asodesu.islandutils.api.extentions.isInsideBox
 import dev.asodesu.islandutils.api.extentions.minecraft
 import dev.asodesu.islandutils.api.extentions.pose
 import dev.asodesu.islandutils.cosmetics.item.CosmeticItem
-import java.util.*
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.renderer.RenderType
+import net.minecraft.client.renderer.RenderPipelines
 import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.util.ARGB
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.ItemStack
@@ -55,9 +54,9 @@ abstract class CosmeticType {
         val itemY = UI_ITEM_PADDING
 
         guiGraphics.pose {
-            translate(x.toDouble(), y.toDouble(), 0.0)
-            guiGraphics.blitSprite(RenderType::guiTextured, BACKGROUND_SPRITE, 0, 0, width, height, BACKGROUND_COLOR)
-            guiGraphics.drawString(font, badge, UI_BADGE_PADDING_X, ((height - font.lineHeight) / 2)+1, ARGB.white(1f))
+            translate(x.toFloat(), y.toFloat())
+            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, BACKGROUND_SPRITE, 0, 0, width, height, BACKGROUND_COLOR)
+            guiGraphics.drawString(font, badge, UI_BADGE_PADDING_X, ((height - font.lineHeight) / 2), ARGB.white(1f))
             guiGraphics.renderItem(cosmeticItem.item, itemX, itemY)
         }
 
@@ -66,7 +65,7 @@ abstract class CosmeticType {
         val xPos = mouseHandler.getScaledXPos(window).toInt()
         val yPos = mouseHandler.getScaledYPos(window).toInt()
         if (isInsideBox(xPos, yPos, x + itemX, y + itemY, ITEM_SIZE, ITEM_SIZE)) {
-            guiGraphics.renderTooltip(minecraft.font, cosmeticItem.tooltip, Optional.empty(), xPos, yPos)
+            guiGraphics.setComponentTooltipForNextFrame(minecraft.font, cosmeticItem.tooltip, xPos, yPos)
         }
         return true
     }
@@ -87,7 +86,7 @@ abstract class CosmeticType {
         val itemId = item.customItemId ?: return false
         return check(itemId)
     }
-    fun check(itemId: ResourceLocation) = names.any { !itemId.path.endsWith("icon_empty") && itemId.path.contains("/$it/") }
+    fun check(itemId: Identifier) = names.any { !itemId.path.endsWith("icon_empty") && itemId.path.contains("/$it/") }
 
     fun ItemStack.toCosmetic() = CosmeticItem(this)
 }

@@ -1,8 +1,7 @@
 package dev.asodesu.islandutils.api.game
 
-import com.noxcrew.noxesium.NoxesiumFabricMod
-import com.noxcrew.noxesium.network.NoxesiumPackets
-import com.noxcrew.noxesium.network.clientbound.ClientboundMccServerPacket
+import com.noxcrew.noxesium.core.mcc.ClientboundMccServerPacket
+import com.noxcrew.noxesium.core.mcc.MccPackets
 import dev.asodesu.islandutils.api.extentions.debug
 import dev.asodesu.islandutils.api.game.context.GameContext
 import dev.asodesu.islandutils.api.modules.Module
@@ -21,8 +20,7 @@ class GameManager(vararg contexts: GameContext) : Module("GameManager") {
     override fun init() {
         logger.info("GameManager initialised with ${registeredGames.size} games.")
 
-        NoxesiumFabricMod.initialize() // jank?
-        NoxesiumPackets.CLIENT_MCC_SERVER.addListener(this) { _, packet, _ ->
+        MccPackets.CLIENTBOUND_MCC_SERVER.addListener(this, ClientboundMccServerPacket::class.java) { _, packet, _ ->
             this.onMccServer(packet)
         }
     }

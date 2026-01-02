@@ -15,7 +15,7 @@
 	"icon": "assets/islandutils/icon.png",
 	"environment": "client",
 	"entrypoints": {
-		"main": [
+		"noxesium": [
 			{
 				"value": "dev.asodesu.islandutils.IslandUtils",
 				"adapter": "kotlin"

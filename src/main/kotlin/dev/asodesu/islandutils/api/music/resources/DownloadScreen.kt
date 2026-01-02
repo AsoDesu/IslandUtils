@@ -28,7 +28,7 @@ class DownloadScreen(val download: DownloadHandler, val parent: Screen?) : Scree
                 })
 
                 progressBar = addChild(ProgressBarWidget(width = 300, height = 10))
-                text = addChild(StringWidget(300, 8, Component.empty(), font).alignLeft())
+                text = addChild(StringWidget(300, 8, Component.empty(), font))
             })
         }
 

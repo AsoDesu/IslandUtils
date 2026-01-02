@@ -2,11 +2,11 @@ package dev.asodesu.islandutils.api.music
 
 import dev.asodesu.islandutils.api.events.sound.info.MutableSoundInfo
 import dev.asodesu.islandutils.api.events.sound.info.SoundInfo
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 interface MusicReplacementModifier : MusicModifier {
-    fun replace(server: ResourceLocation): ResourceLocation?
-    fun check(server: ResourceLocation): Boolean
+    fun replace(server: Identifier): Identifier?
+    fun check(server: Identifier): Boolean
 
     override fun modify(info: MutableSoundInfo) {
         replace(info.sound)

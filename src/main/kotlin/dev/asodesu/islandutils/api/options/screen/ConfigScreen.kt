@@ -15,6 +15,7 @@ import net.minecraft.client.gui.layouts.LayoutSettings
 import net.minecraft.client.gui.layouts.LinearLayout
 import net.minecraft.client.gui.layouts.SpacerElement
 import net.minecraft.client.gui.screens.Screen
+import net.minecraft.client.input.MouseButtonEvent
 import net.minecraft.network.chat.Component
 import kotlin.math.min
 
@@ -134,35 +135,35 @@ class ConfigScreen(
     }
 
     var lastClicked: FlatButton? = null
-    override fun mouseClicked(d: Double, e: Double, i: Int): Boolean {
+    override fun mouseClicked(mouseButtonEvent: MouseButtonEvent, bl: Boolean): Boolean {
         // taken from super method
 
         // this fixes an annoying bug? in minecraft where the buttons
         //  remain focussed after you click them, which makes our flat
         //  buttons look REAL bad
 
-        val optional = this.getChildAt(d, e)
+        val optional = this.getChildAt(mouseButtonEvent.x, mouseButtonEvent.y)
         if (optional.isEmpty) {
             return false
         } else {
             val guiEventListener = optional.get()
-            if (guiEventListener.mouseClicked(d, e, i)) {
+            if (guiEventListener.mouseClicked(mouseButtonEvent, bl)) {
                 if (guiEventListener !is FlatButton) this.focused = guiEventListener
                 else {
                     this.lastClicked = guiEventListener
                     this.focused = null
                 }
-                if (i == 0) this.isDragging = true
+                if (mouseButtonEvent.isDown) this.isDragging = true
             }
             return true
         }
     }
 
-    override fun mouseReleased(d: Double, e: Double, i: Int): Boolean {
-        val handle = super.mouseReleased(d, e, i)
+    override fun mouseReleased(mouseButtonEvent: MouseButtonEvent): Boolean {
+        val handle = super.mouseReleased(mouseButtonEvent)
         lastClicked?.let {
             lastClicked = null
-            return it.mouseReleased(d, e, i)
+            return it.mouseReleased(mouseButtonEvent)
         }
         return handle
     }

@@ -2,13 +2,14 @@ package dev.asodesu.islandutils.api.ui
 
 import dev.asodesu.islandutils.api.extentions.minecraft
 import dev.asodesu.islandutils.api.extentions.rect
+import dev.asodesu.islandutils.api.extentions.vecRgb
 import dev.asodesu.islandutils.api.ui.tween.Easing
 import dev.asodesu.islandutils.api.ui.tween.Tween
-import dev.asodesu.islandutils.api.extentions.vecRgb
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.AbstractWidget
 import net.minecraft.client.gui.narration.NarrationElementOutput
-import net.minecraft.client.gui.navigation.CommonInputs
+import net.minecraft.client.input.KeyEvent
+import net.minecraft.client.input.MouseButtonEvent
 import net.minecraft.network.chat.Component
 import net.minecraft.util.ARGB
 import net.minecraft.world.phys.Vec3
@@ -41,6 +42,8 @@ abstract class FlatButton(message: Component, width: Int = 150, height: Int = 20
         val font = minecraft.font
         guiGraphics.drawString(font, message, x + PADDING, y + ((this.height - font.lineHeight) / 2) + 1, ARGB.white(1f))
         renderWidget0(guiGraphics, f)
+
+        this.handleCursor(guiGraphics)
     }
 
     fun buttonState() = when {
@@ -53,19 +56,19 @@ abstract class FlatButton(message: Component, width: Int = 150, height: Int = 20
     abstract fun renderWidget0(guiGraphics: GuiGraphics, f: Float)
     abstract fun onPress()
 
-    override fun onClick(d: Double, e: Double) {
+    override fun onClick(mouseButtonEvent: MouseButtonEvent, bl: Boolean) {
         onPress()
         isClicked = true
     }
-    override fun onRelease(d: Double, e: Double) {
+    override fun onRelease(mouseButtonEvent: MouseButtonEvent) {
         isClicked = false
     }
 
     // appropriated from AbstractButton
-    override fun keyPressed(i: Int, j: Int, k: Int): Boolean {
+    override fun keyPressed(keyEvent: KeyEvent): Boolean {
         if (!this.active || !this.visible) {
             return false
-        } else if (CommonInputs.selected(i)) {
+        } else if (keyEvent.isSelection) {
             this.onPress()
             return true
         } else {

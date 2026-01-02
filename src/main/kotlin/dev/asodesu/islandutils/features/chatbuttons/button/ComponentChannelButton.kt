@@ -19,7 +19,7 @@ class ComponentChannelButton(override val channel: String, private val component
         private val font = minecraft.font
         private val tintColour = ARGB.white(1f)
 
-        override fun renderWidget(guiGraphics: GuiGraphics, i: Int, j: Int, f: Float) {
+        override fun renderContents(guiGraphics: GuiGraphics, i: Int, j: Int, f: Float) {
             guiGraphics.drawString(font, component, this.x, this.y, tintColour, false)
             this.checkAndRenderUnderline(guiGraphics)
         }

@@ -7,17 +7,14 @@ import dev.asodesu.islandutils.api.chest.analysis.ChestAnalyserFactory
 import dev.asodesu.islandutils.api.chest.analysis.ContainerScreenHelper
 import dev.asodesu.islandutils.api.chest.loreOrNull
 import dev.asodesu.islandutils.api.extentions.Resources
-import dev.asodesu.islandutils.api.extentions.appendLine
 import dev.asodesu.islandutils.api.extentions.buildComponent
 import dev.asodesu.islandutils.api.extentions.debug
-import dev.asodesu.islandutils.api.extentions.newLine
-import dev.asodesu.islandutils.api.extentions.pose
 import dev.asodesu.islandutils.api.extentions.style
 import dev.asodesu.islandutils.options.MiscOptions
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.TextColor
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.world.item.ItemStack
 import dev.asodesu.islandutils.api.extentions.minecraft as minecraftClient
 
@@ -41,16 +38,16 @@ class ScavengingTotals : ChestAnalyser {
 
     // currencies we render to the screen
     private val CURRENCY_RENDERERS = listOf(
-        CurrencyRenderer.simpleIcon("_fonts/silver.png"),
-        CurrencyRenderer.simpleIcon("_fonts/coin_small.png"),
-        CurrencyRenderer.simpleIcon("_fonts/material_dust.png"),
-        CurrencyRenderer.simpleIcon("_fonts/royal_reputation.png")
+        CurrencyRenderer.simpleIcon("_fonts/icon/silver.png"),
+        CurrencyRenderer.simpleIcon("_fonts/icon/coin_small.png"),
+        CurrencyRenderer.simpleIcon("_fonts/icon/material_dust.png"),
+        CurrencyRenderer.simpleIcon("_fonts/icon/royal_reputation.png")
     )
 
     private val scavengingItems = mutableMapOf<Int, ScavengingItem>()
     private var currencies = listOf<ScavengingCurrency>()
 
-    private var totalsTooltip: Component? = null
+    private var totalsTooltip: List<Component>? = null
     private var screenComponent: Component? = null
     private var dirty = false
 
@@ -63,13 +60,17 @@ class ScavengingTotals : ChestAnalyser {
             return
         }
 
-        // https://img.lukynka.cloud/wtf.png
         val scavengingItem = ScavengingItem()
         var foundTitle = false
         lores.forEach line@{ line ->
-            // first we need to find the "Scavenges Into:" text
-            if (!foundTitle && line.string.contains(SCAVENGES_TITLE)) {
-                foundTitle = true
+            // first we need to find the "Scavenges Into:" text, if we haven't found it yet, all
+            //  we're going to do is look for it.
+            if (!foundTitle) {
+                if (line.string.contains(SCAVENGES_TITLE)) {
+                    // we have found Scavenges Into! whatever is below this line must be some
+                    //  tasty rewards
+                    foundTitle = true
+                }
             } else {
                 var amount: Int? = null
                 val currency = Component.empty()
@@ -114,20 +115,20 @@ class ScavengingTotals : ChestAnalyser {
         }
 
         currencies = collect()
-        totalsTooltip = buildComponent {
-            appendLine(Component.translatable("islandutils.feature.scavenging.manual"))
-            newLine()
+        totalsTooltip = buildList {
+            add(Component.translatable("islandutils.feature.scavenging.manual"))
+            add(Component.empty())
 
-            appendLine(Component.translatable("islandutils.feature.scavenging.into").style { withColor(SCAVENGING_TITLE_COLOR) })
+            add(Component.translatable("islandutils.feature.scavenging.into").style { withColor(SCAVENGING_TITLE_COLOR) })
             currencies.forEach { currency ->
                 val currencyTooltip = currency.renderer.renderTooltip(currency.total)
-                appendLine(
+                add(
                     Component.translatable("islandutils.feature.scavenging.reward", currencyTooltip)
                         .style { withColor(CURRENCY_TOTAL_COLOR) }
                 )
             }
-            newLine()
-            append(Messages.action(Font.ACTION_CLICK_LEFT, "Click", "Scavenge Items"))
+            add(Component.empty())
+            add(Messages.action(Font.ACTION_CLICK_LEFT, "Click", "Scavenge Items"))
         }
 
         screenComponent = buildComponent {
@@ -149,11 +150,11 @@ class ScavengingTotals : ChestAnalyser {
         }.sortedBy { it.total }
     }
 
-    override fun render(guiGraphics: GuiGraphics, helper: ContainerScreenHelper) {
+    override fun render(guiGraphics: GuiGraphics, mouseX: Int, mouseY: Int, helper: ContainerScreenHelper) {
         if (dirty) updateScreenComponents()
         val screen = helper.getScreen()
         if (helper.getHoveredSlot()?.index in CONFIRM_BUTTON_SLOTS) {
-            totalsTooltip?.let { screen.setTooltipForNextRenderPass(it) }
+            totalsTooltip?.let { guiGraphics.setComponentTooltipForNextFrame(minecraft.font, it, mouseX, mouseY) }
         }
 
         screenComponent?.let { component ->
@@ -162,21 +163,18 @@ class ScavengingTotals : ChestAnalyser {
             val footerContainerOffset = (MCC_FOOTER_PADDING - minecraft.font.lineHeight) / 2
             val y = ((screen.height - CHEST_MENU_HEIGHT) / 2) + MCC_MENU_Y_OFFSET + MCC_HEADER_TO_FOOTER_HEIGHT + footerContainerOffset + 1
 
-            guiGraphics.pose {
-                translate(0f, 0f, 105f)
-                guiGraphics.drawString(minecraft.font, component, x, y, 16777215, false)
-            }
+            guiGraphics.drawString(minecraft.font, component, x, y, -0x1, false)
         }
     }
 
     object Factory : ChestAnalyserFactory {
-        private val MENU_COMPONENT = Resources.mcc("_fonts/body/scavenging.png")
+        private val MENU_COMPONENT = Resources.mcc("_fonts/chest_backgrounds/body/scavenging.png")
         private val enabled by MiscOptions.scavengingTotals
 
-        override fun shouldApply(menuComponents: Collection<ResourceLocation>): Boolean {
+        override fun shouldApply(menuComponents: Collection<Identifier>): Boolean {
             return enabled && menuComponents.contains(MENU_COMPONENT)
         }
 
-        override fun create(menuComponents: Collection<ResourceLocation>) = ScavengingTotals()
+        override fun create(menuComponents: Collection<Identifier>) = ScavengingTotals()
     }
 }

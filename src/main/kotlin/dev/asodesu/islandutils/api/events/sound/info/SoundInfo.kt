@@ -2,13 +2,13 @@ package dev.asodesu.islandutils.api.events.sound.info
 
 import java.util.*
 import net.minecraft.network.protocol.game.ClientboundSoundPacket
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundSource
 import kotlin.jvm.optionals.getOrNull
 
 interface SoundInfo {
-    val sound: ResourceLocation
+    val sound: Identifier
     val category: SoundSource
     val pitch: Float
     val volume: Float

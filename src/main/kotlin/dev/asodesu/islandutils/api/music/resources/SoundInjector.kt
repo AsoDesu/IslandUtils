@@ -4,20 +4,21 @@ import dev.asodesu.islandutils.api.extentions.minecraft
 import java.nio.file.Path
 import net.minecraft.client.resources.sounds.Sound
 import net.minecraft.client.sounds.WeighedSoundEvents
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.server.packs.resources.IoSupplier
 import net.minecraft.server.packs.resources.Resource
 import net.minecraft.util.valueproviders.ConstantFloat
 
 object SoundInjector {
-    private val registryOverrides = mutableMapOf<ResourceLocation, WeighedSoundEvents>()
-    private val soundCacheOverrides = mutableMapOf<ResourceLocation, Resource>()
+    private val registryOverrides = mutableMapOf<Identifier, WeighedSoundEvents>()
+    private val soundCacheOverrides = mutableMapOf<Identifier, Resource>()
+    private val islandUtilsPackResources = IslandUtilsPackResources()
 
-    fun inject(location: ResourceLocation, path: Path) {
-        val fileLocation = ResourceLocation.fromNamespaceAndPath(location.namespace, location.path + "_file")
+    fun inject(location: Identifier, path: Path) {
+        val fileLocation = Identifier.fromNamespaceAndPath(location.namespace, location.path + "_file")
         val soundFileLocation = Sound.SOUND_LISTER.idToFile(fileLocation)
 
-        val resource = Resource(null, IoSupplier.create(path))
+        val resource = Resource(islandUtilsPackResources, IoSupplier.create(path))
 
         val soundEvents = WeighedSoundEvents(location, "")
         soundEvents.addSound(

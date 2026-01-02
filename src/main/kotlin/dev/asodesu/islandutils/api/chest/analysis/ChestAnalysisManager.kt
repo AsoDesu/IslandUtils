@@ -1,7 +1,7 @@
 package dev.asodesu.islandutils.api.chest.analysis
 
 import dev.asodesu.islandutils.api.modules.Module
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 class ChestAnalysisManager(factories: List<ChestAnalyserFactory>, val analysers: List<ChestAnalyser>) : Module("ChestAnalysis") {
     private val factories = factories.toList()
@@ -9,7 +9,7 @@ class ChestAnalysisManager(factories: List<ChestAnalyserFactory>, val analysers:
     override fun init() {
     }
 
-    fun createAnalyser(menuComponents: Collection<ResourceLocation>): ChestAnalyser? {
+    fun createAnalyser(menuComponents: Collection<Identifier>): ChestAnalyser? {
         val factories = factories.filter {
             try {
                 it.shouldApply(menuComponents)
@@ -28,7 +28,7 @@ class ChestAnalysisManager(factories: List<ChestAnalyserFactory>, val analysers:
         })
     }
 
-    private fun ChestAnalyserFactory.createCatching(menuComponents: Collection<ResourceLocation>): ChestAnalyser? {
+    private fun ChestAnalyserFactory.createCatching(menuComponents: Collection<Identifier>): ChestAnalyser? {
         return try {
             create(menuComponents)
         } catch (e: Exception) {

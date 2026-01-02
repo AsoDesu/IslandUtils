@@ -8,7 +8,7 @@ import java.io.BufferedOutputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.net.URI
-import net.minecraft.FileUtil
+import net.minecraft.util.FileUtil
 import kotlin.io.path.deleteIfExists
 import kotlin.io.path.exists
 

@@ -7,8 +7,10 @@ import dev.asodesu.islandutils.api.chest.font.ChestBackgrounds;
 import dev.asodesu.islandutils.api.extentions.MinecraftExtKt;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
@@ -31,7 +33,7 @@ public class ChestScreenInterceptorMixin implements ContainerScreenHelper {
     @Shadow protected int imageWidth;
     @Shadow protected int imageHeight;
     @Unique @Nullable ChestAnalyser analyser;
-    @Unique Collection<ResourceLocation> menuComponents = List.of();
+    @Unique Collection<Identifier> menuComponents = List.of();
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void init(AbstractContainerMenu abstractContainerMenu, Inventory inventory, Component component, CallbackInfo ci) {
@@ -43,7 +45,9 @@ public class ChestScreenInterceptorMixin implements ContainerScreenHelper {
 
     @Inject(method = "render", at = @At("TAIL"))
     private void render(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
-        if (analyser != null) analyser.render(guiGraphics, this);
+        if (analyser != null) {
+            analyser.render(guiGraphics, i, j, this);
+        }
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
@@ -51,31 +55,29 @@ public class ChestScreenInterceptorMixin implements ContainerScreenHelper {
         if (analyser != null) analyser.tick(this);
     }
 
-    @Inject(
-            method = "renderSlot",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V",
-                    shift = At.Shift.AFTER
-            )
-    )
-    private void render(GuiGraphics guiGraphics, Slot slot, CallbackInfo ci) {
-        if (analyser != null) analyser.renderSlot(guiGraphics, this, slot);
+    @Inject(method = "renderSlot", at = @At("HEAD"))
+    private void renderHead(GuiGraphics guiGraphics, Slot slot, int i, int j, CallbackInfo ci) {
+        if (analyser != null) analyser.renderSlotBack(guiGraphics, this, slot);
     }
 
-    @Inject(method = "mouseDragged", at = @At("TAIL"))
-    private void mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY, CallbackInfoReturnable<Boolean> cir) {
-        if (analyser != null) analyser.mouseDragged(this, mouseX, mouseY, dragX, dragY);
+    @Inject(method = "renderSlot", at = @At("TAIL"))
+    private void renderTail(GuiGraphics guiGraphics, Slot slot, int i, int j, CallbackInfo ci) {
+        if (analyser != null) analyser.renderSlotFront(guiGraphics, this, slot);
+    }
+
+    @Inject(method = "mouseDragged", at = @At("HEAD"))
+    private void mouseDragged(MouseButtonEvent mouseButtonEvent, double dragX, double dragY, CallbackInfoReturnable<Boolean> cir) {
+        if (analyser != null) analyser.mouseDragged(this, mouseButtonEvent.x(), mouseButtonEvent.y(), dragX, dragY);
     }
 
     @Inject(method = "mouseReleased", at = @At("TAIL"))
-    private void mouseReleased(double mouseX, double mouseY, int keyCode, CallbackInfoReturnable<Boolean> cir) {
-        if (analyser != null) analyser.mouseReleased(this, mouseX, mouseY, keyCode);
+    private void mouseReleased(MouseButtonEvent mouseButtonEvent, CallbackInfoReturnable<Boolean> cir) {
+        if (analyser != null) analyser.mouseReleased(this, mouseButtonEvent.x(), mouseButtonEvent.y(), mouseButtonEvent.button());
     }
 
     @Inject(method = "keyPressed", at = @At("TAIL"))
-    private void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        if (analyser != null) analyser.keyPressed(this, keyCode, scanCode, modifiers);
+    private void keyPressed(KeyEvent keyEvent, CallbackInfoReturnable<Boolean> cir) {
+        if (analyser != null) analyser.keyPressed(this, keyEvent.key(), keyEvent.scancode(), keyEvent.modifiers());
     }
 
     @Inject(method = "onClose", at = @At("HEAD"))
@@ -91,7 +93,7 @@ public class ChestScreenInterceptorMixin implements ContainerScreenHelper {
 
     @Unique
     @Override
-    public @NotNull Collection<ResourceLocation> getMenuComponents() {
+    public @NotNull Collection<Identifier> getMenuComponents() {
         return menuComponents;
     }
 

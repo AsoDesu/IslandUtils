@@ -43,7 +43,7 @@ class DownloaderOptionRenderer<T>(private val renderer: OptionRenderer<T>, priva
 
         init {
             layout = LinearLayout.vertical().spacing(3).apply {
-                stringWidget = addChild(StringWidget(150, 8, Component.empty(), minecraft.font).alignLeft())
+                stringWidget = addChild(StringWidget(150, 8, Component.empty(), minecraft.font))
                 progressBar = addChild(ProgressBarWidget(height = 8, backgroundColor = ARGB.color(255, 25, 30, 51)))
             }
             arrangeLayout()
@@ -75,7 +75,7 @@ class DownloaderOptionRenderer<T>(private val renderer: OptionRenderer<T>, priva
 
                 widgets.forEach { it.render(guiGraphics, i, j, f) }
             }
-            this.tooltip = null
+            this.setTooltip(null)
         }
 
         private fun tickTween(tickDeta: Float) {

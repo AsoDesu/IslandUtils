@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component
 
 class SectionScreenTab(private val section: ConfigSection) : ConfigScreenTab {
     override val layout: LinearLayout = LinearLayout.vertical().spacing(3).apply {
-        addChild(StringWidget(Component.translatable("islandutils.options.${section.name}"), minecraft.font).alignLeft())
+        addChild(StringWidget(Component.translatable("islandutils.options.${section.name}"), minecraft.font))
         addChild(SpacerElement.height(0))
 
         section.children().forEach {

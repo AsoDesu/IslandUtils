@@ -4,15 +4,15 @@ import dev.asodesu.islandutils.api.extentions.Resources
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.Renderable
 import net.minecraft.client.gui.layouts.Layout
-import net.minecraft.client.renderer.RenderType
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.client.renderer.RenderPipelines
+import net.minecraft.resources.Identifier
 import net.minecraft.util.ARGB
 
 class BackgroundWidget(
     private val layout: Layout,
     private val spacing: Int,
     private val opacity: Float,
-    val sprite: ResourceLocation = ALL
+    val sprite: Identifier = ALL
 ) : Renderable {
 
     companion object {
@@ -32,7 +32,7 @@ class BackgroundWidget(
     }
 }
 
-fun Layout.background(spacing: Int = 0, opacity: Float, sprite: ResourceLocation = BackgroundWidget.ALL) = BackgroundWidget(this, spacing, opacity, sprite)
-fun GuiGraphics.blitRoundedBox(x: Int, y: Int, width: Int, height: Int, sprite: ResourceLocation = BackgroundWidget.ALL, opacity: Float = 1f) {
-    this.blitSprite(RenderType::guiTextured, sprite, x, y, width, height, ARGB.white(opacity))
+fun Layout.background(spacing: Int = 0, opacity: Float, sprite: Identifier = BackgroundWidget.ALL) = BackgroundWidget(this, spacing, opacity, sprite)
+fun GuiGraphics.blitRoundedBox(x: Int, y: Int, width: Int, height: Int, sprite: Identifier = BackgroundWidget.ALL, opacity: Float = 1f) {
+    this.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, x, y, width, height, ARGB.white(opacity))
 }

@@ -4,7 +4,7 @@ import dev.asodesu.islandutils.api.music.MusicReplacementModifier
 import dev.asodesu.islandutils.api.music.resources.RemoteResources
 import dev.asodesu.islandutils.api.music.resources.handler.DownloadJob
 import dev.asodesu.islandutils.options.MusicOptions
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 object HighQualityMusic : MusicReplacementModifier {
     override val enableOption by lazy { MusicOptions.Modifiers.highQualityMusic } // lazyload because options access download
@@ -21,7 +21,7 @@ object HighQualityMusic : MusicReplacementModifier {
     )
     val DOWNLOAD_JOB = DownloadJob.multi(musicOverrides.values)
 
-    override fun replace(server: ResourceLocation) = musicOverrides[server.path]?.let { RemoteResources.key(it) }
-    override fun check(server: ResourceLocation) = musicOverrides.containsKey(server.path)
+    override fun replace(server: Identifier) = musicOverrides[server.path]?.let { RemoteResources.key(it) }
+    override fun check(server: Identifier) = musicOverrides.containsKey(server.path)
     override fun downloadJob() = DOWNLOAD_JOB
 }

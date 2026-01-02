@@ -5,7 +5,7 @@ import dev.asodesu.islandutils.api.music.MusicReplacementModifier
 import dev.asodesu.islandutils.api.music.resources.RemoteResources
 import dev.asodesu.islandutils.api.music.resources.handler.DownloadJob
 import dev.asodesu.islandutils.options.MusicOptions
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 object TgttosDomeMusic : MusicReplacementModifier {
     override val enableOption by lazy { MusicOptions.Modifiers.tgttosDome } // lazyload because options access download
@@ -15,8 +15,8 @@ object TgttosDomeMusic : MusicReplacementModifier {
     private val REPLACEMENT_ASSET_KEY = RemoteResources.key(REPLACEMENT_ASSET)
     val DOWNLOAD_JOB = DownloadJob.single(REPLACEMENT_ASSET)
 
-    override fun replace(server: ResourceLocation): ResourceLocation = REPLACEMENT_ASSET_KEY
-    override fun check(server: ResourceLocation): Boolean {
+    override fun replace(server: Identifier): Identifier = REPLACEMENT_ASSET_KEY
+    override fun check(server: Identifier): Boolean {
         return server.path == MUSIC_KEY && StateManager.current.mapId == "to_the_dome"
     }
     override fun downloadJob() = DOWNLOAD_JOB

@@ -8,13 +8,13 @@ import dev.asodesu.islandutils.api.chest.anyLineContains
 import dev.asodesu.islandutils.api.chest.customItemId
 import dev.asodesu.islandutils.api.chest.lore
 import dev.asodesu.islandutils.api.extentions.Resources
-import dev.asodesu.islandutils.api.extentions.pose
+import dev.asodesu.islandutils.api.game.inGame
 import dev.asodesu.islandutils.cosmetics.item.CosmeticItem
 import dev.asodesu.islandutils.cosmetics.types.CosmeticType
 import dev.asodesu.islandutils.options.CosmeticOptions
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.renderer.RenderType
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.client.renderer.RenderPipelines
+import net.minecraft.resources.Identifier
 import net.minecraft.world.inventory.Slot
 import net.minecraft.world.item.ItemStack
 import kotlin.math.ceil
@@ -27,7 +27,7 @@ class CosmeticUI(private val wardrobe: Wardrobe) : ChestAnalyser {
 
     private var isCosmeticMenu = false
     private var lastHoveredSlot = -1
-    private var lastHoveredItemType = ResourceLocation.withDefaultNamespace("default")
+    private var lastHoveredItemType = Identifier.withDefaultNamespace("default")
     private var previewKeyMapping: Int = InputConstants.MOUSE_BUTTON_MIDDLE
 
     override fun analyse(item: ItemStack, slot: Int) {
@@ -41,7 +41,7 @@ class CosmeticUI(private val wardrobe: Wardrobe) : ChestAnalyser {
         isCosmeticMenu = true
     }
 
-    override fun render(guiGraphics: GuiGraphics, helper: ContainerScreenHelper) {
+    override fun render(guiGraphics: GuiGraphics, mouseX: Int, mouseY: Int, helper: ContainerScreenHelper) {
         if (shouldRender()) return
 
         // update hovered item
@@ -50,7 +50,7 @@ class CosmeticUI(private val wardrobe: Wardrobe) : ChestAnalyser {
             val item = hoveredSlot?.item ?: ItemStack.EMPTY
             // only trigger updates when we change what slot we're hovering
             val hoveredSlotIndex = hoveredSlot?.index ?: -1
-            val hoveredItemType = hoveredSlot?.item?.customItemId
+            val hoveredItemType = item.customItemId ?: Identifier.withDefaultNamespace("default")
             if (lastHoveredSlot != hoveredSlotIndex || lastHoveredItemType != hoveredItemType) {
                 wardrobe.slots.forEach { it.checkAndUpdateHover(item) }
                 lastHoveredSlot = hoveredSlotIndex
@@ -61,10 +61,18 @@ class CosmeticUI(private val wardrobe: Wardrobe) : ChestAnalyser {
         val screen = helper.getScreen()
 
         val size = ceil(helper.imageHeight / 2.5).toInt()
+        val bounds = helper.imageHeight
         var x = (screen.width - helper.imageWidth) / 3
         var y = (screen.height / 2)
 
-        wardrobe.doll.render(guiGraphics, x, y, size)
+        wardrobe.doll.render(
+            guiGraphics,
+            x - bounds,
+            y - bounds,
+            x + bounds,
+            y + bounds,
+            size
+        )
 
         x -= (size / 2) // offset by size/2 to be placed in the middle of the doll
         y += size // offset by size to be placed below the doll
@@ -82,7 +90,7 @@ class CosmeticUI(private val wardrobe: Wardrobe) : ChestAnalyser {
         wardrobe.doll.yRot -= deltaY.toFloat()
     }
 
-    override fun renderSlot(guiGraphics: GuiGraphics, helper: ContainerScreenHelper, slot: Slot) {
+    override fun renderSlotFront(guiGraphics: GuiGraphics, helper: ContainerScreenHelper, slot: Slot) {
         if (shouldRender()) return
         val item = slot.item
         val customItemId = item.customItemId ?: return
@@ -91,13 +99,13 @@ class CosmeticUI(private val wardrobe: Wardrobe) : ChestAnalyser {
         // check if this item is this types preview item
         if (type.preview.customItemId != customItemId) return
 
-        guiGraphics.pose {
-            translate(0f, 0f, 105f)
-            guiGraphics.blitSprite(RenderType::guiTextured, PREVIEW_SPRITE, slot.x - 3, slot.y - 4, 22, 24)
-        }
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, PREVIEW_SPRITE, slot.x - 3, slot.y - 4, 22, 24)
     }
 
-    fun shouldRender() = !CosmeticOptions.showInAllMenus.get() && !isCosmeticMenu
+    fun shouldRender(): Boolean {
+        if (!CosmeticOptions.showInGames.get() && inGame) return false
+        return !CosmeticOptions.showInAllMenus.get() && !isCosmeticMenu
+    }
 
     override fun keyPressed(helper: ContainerScreenHelper, keyCode: Int, scanCode: Int, modifiers: Int) = testPreviewClicked(helper, keyCode)
     override fun mouseReleased(helper: ContainerScreenHelper, mouseX: Double, mouseY: Double, keyCode: Int) = testPreviewClicked(helper, keyCode)
@@ -123,7 +131,7 @@ class CosmeticUI(private val wardrobe: Wardrobe) : ChestAnalyser {
     }
 
     object Factory : ChestAnalyserFactory {
-        override fun create(menuComponents: Collection<ResourceLocation>) = CosmeticUI(Wardrobe.get())
-        override fun shouldApply(menuComponents: Collection<ResourceLocation>) = CosmeticOptions.enabled.get()
+        override fun create(menuComponents: Collection<Identifier>) = CosmeticUI(Wardrobe.get())
+        override fun shouldApply(menuComponents: Collection<Identifier>) = CosmeticOptions.enabled.get()
     }
 }

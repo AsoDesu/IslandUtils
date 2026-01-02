@@ -1,12 +1,12 @@
 package dev.asodesu.islandutils.api.extentions
 
-import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.MouseHandler
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Style
 import net.minecraft.world.phys.Vec3
+import org.joml.Matrix3x2fStack
 
 /**
  * Draws a rectangle at the coordinates with the given width and height
@@ -21,10 +21,10 @@ inline fun GuiGraphics.scissor(x: Int, y: Int, width: Int, height: Int, apply: (
     this.disableScissor()
 }
 
-inline fun GuiGraphics.pose(apply: PoseStack.() -> Unit) {
-    pose().pushPose()
+inline fun GuiGraphics.pose(apply: Matrix3x2fStack.() -> Unit) {
+    pose().pushMatrix()
     apply(pose())
-    pose().popPose()
+    pose().popMatrix()
 }
 
 fun MouseHandler.isInsideBox(x: Int, y: Int, width: Int, height: Int): Boolean {

@@ -1,6 +1,6 @@
 package dev.asodesu.islandutils.games
 
-import com.noxcrew.noxesium.network.clientbound.ClientboundMccServerPacket
+import com.noxcrew.noxesium.core.mcc.ClientboundMccServerPacket
 import dev.asodesu.islandutils.api.game.Game
 import dev.asodesu.islandutils.api.game.context.GameContext
 
@@ -9,7 +9,7 @@ class Hub : Game("lobby") {
 
     companion object : GameContext {
         override fun check(packet: ClientboundMccServerPacket): Boolean {
-            return packet.serverType == "lobby"
+            return packet.types.contains("lobby")
         }
 
         override fun create(packet: ClientboundMccServerPacket): Game {

@@ -4,7 +4,7 @@ import dev.asodesu.islandutils.api.extentions.Resources
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.AbstractWidget
 import net.minecraft.client.gui.narration.NarrationElementOutput
-import net.minecraft.client.renderer.RenderType
+import net.minecraft.client.renderer.RenderPipelines
 import net.minecraft.network.chat.Component
 import net.minecraft.util.ARGB
 
@@ -21,8 +21,8 @@ class ProgressBarWidget(
 
     override fun renderWidget(guiGraphics: GuiGraphics, i: Int, j: Int, f: Float) {
         val progressWidth = this.width * progress
-        guiGraphics.blitSprite(RenderType::guiTextured, SPRITE, this.x, this.y, this.width, this.height, backgroundColor)
-        guiGraphics.blitSprite(RenderType::guiTextured, SPRITE, this.x, this.y, progressWidth.toInt(), this.height, foregroundColor)
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SPRITE, this.x, this.y, this.width, this.height, backgroundColor)
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SPRITE, this.x, this.y, progressWidth.toInt(), this.height, foregroundColor)
     }
 
     fun progress(double: Double) {

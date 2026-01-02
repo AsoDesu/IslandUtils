@@ -1,6 +1,5 @@
 package dev.asodesu.islandutils.cosmetics.types
 
-import dev.asodesu.islandutils.Font
 import dev.asodesu.islandutils.api.extentions.minecraft
 import dev.asodesu.islandutils.api.game.activeGame
 import dev.asodesu.islandutils.cosmetics.item.CosmeticItem
@@ -11,9 +10,9 @@ import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.ItemStack
 
-class RodCosmetic : CosmeticType() {
-    override val names = listOf("rods")
-    override val badge: Component = Font.ROD_BADGE
+class SkinCosmetic : CosmeticType() {
+    override val names = listOf("rods", "weapon_skins")
+    override val badge: Component get() = get().badge ?: Component.empty()
     override var base = if (activeGame is Fishing) getFromEntity(minecraft.player!!).toCosmetic() else CosmeticItem.empty()
 
     override fun getFromEntity(entity: LivingEntity): ItemStack = entity.getItemBySlot(EquipmentSlot.MAINHAND)

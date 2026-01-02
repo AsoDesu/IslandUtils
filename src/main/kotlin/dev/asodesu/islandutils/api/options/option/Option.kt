@@ -57,9 +57,9 @@ class Option<T>(
             append(descriptionComponent)
         })
         if (widget is AbstractWidget) {
-            widget.tooltip = tooltip
+            widget.setTooltip(tooltip)
         } else if (widget is Layout) {
-            widget.visitWidgets { it.tooltip = tooltip }
+            widget.visitWidgets { it.setTooltip(tooltip) }
         }
     }
 

@@ -2,15 +2,15 @@ package dev.asodesu.islandutils.api.chest.font
 
 import net.minecraft.client.gui.font.providers.BitmapProvider
 import net.minecraft.client.gui.font.providers.GlyphProviderDefinition
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 object FontCollection {
     val collections = mutableMapOf(
-        ChestBackgrounds.FONT_KEY to ChestBackgrounds,
-        Icons.FONT_KEY to Icons,
+        ChestBackgrounds.FONT_KEY.id to ChestBackgrounds,
+        Icons.FONT_KEY.id to Icons,
     )
 
-    fun add(font: ResourceLocation, definition: GlyphProviderDefinition) {
+    fun add(font: Identifier, definition: GlyphProviderDefinition) {
         val bitmap = definition as? BitmapProvider.Definition ?: return
         val collection = collections[font] ?: return
         val character = buildString {
@@ -20,7 +20,7 @@ object FontCollection {
     }
 
     interface Font {
-        fun add(file: ResourceLocation, character: String)
+        fun add(file: Identifier, character: String)
         fun clear()
     }
 }
