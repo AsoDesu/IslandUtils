@@ -16,10 +16,12 @@ import dev.asodesu.islandutils.api.modules.Module
 class GameManager(vararg contexts: GameContext) : Module("GameManager") {
     private val registeredGames = contexts.toMutableList()
     var active: Game = EmptyGame
+    private val activeGameEventHandler = ActiveGameEventHandler(this)
 
     override fun init() {
         logger.info("GameManager initialised with ${registeredGames.size} games.")
 
+        activeGameEventHandler.registerEventHandlers()
         MccPackets.CLIENTBOUND_MCC_SERVER.addListener(this, ClientboundMccServerPacket::class.java) { _, packet, _ ->
             this.onMccServer(packet)
         }
@@ -32,22 +34,20 @@ class GameManager(vararg contexts: GameContext) : Module("GameManager") {
         val context = registeredGames.firstOrNull { it.check(packet) }
         if (context == null) {
             resetGame()
-            logger.error("Couldn't create game with data $packet")
+            debug("Couldn't create game with data $packet")
             return
         }
 
         val newActiveGame = context.create(packet)
-        active.unregisterEvents()
         active.unregister()
         GameEvents.GAME_CHANGE.invoker().onGameChange(active, newActiveGame)
 
-        logger.info("Set active game to ${newActiveGame::class.simpleName}")
+        debug("Set active game to $newActiveGame")
         active = newActiveGame
     }
 
     private fun resetGame() {
-        logger.info("Reset active game")
-        active.unregisterEvents()
+        debug("Reset active game")
         active.unregister()
         GameEvents.GAME_CHANGE.invoker().onGameChange(active, EmptyGame)
 

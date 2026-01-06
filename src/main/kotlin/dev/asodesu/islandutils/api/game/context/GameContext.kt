@@ -23,4 +23,8 @@ interface GameContext {
      * @return A new instance of this game
      */
     fun create(packet: ClientboundMccServerPacket): Game
+
+    fun ClientboundMccServerPacket.checkTypes(vararg type: String) = this.types.containsAll(type.toList())
+    fun ClientboundMccServerPacket.checkGame(vararg type: String) = checkTypes("game", *type)
+    fun ClientboundMccServerPacket.checkLobby(vararg type: String) = checkTypes("lobby", *type)
 }

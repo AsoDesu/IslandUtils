@@ -4,16 +4,18 @@ import com.noxcrew.noxesium.core.mcc.ClientboundMccServerPacket
 import dev.asodesu.islandutils.api.game.Game
 import dev.asodesu.islandutils.api.game.context.GameContext
 
-class Hub : Game("lobby") {
+class Hub(types: List<String>) : Game("lobby", types) {
     override val hasTeamChat = false
+
+    override fun toString() = "Hub"
 
     companion object : GameContext {
         override fun check(packet: ClientboundMccServerPacket): Boolean {
-            return packet.types.contains("lobby")
+            return packet.checkLobby()
         }
 
         override fun create(packet: ClientboundMccServerPacket): Game {
-            return Hub()
+            return Hub(packet.types)
         }
     }
 }

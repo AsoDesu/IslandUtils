@@ -4,8 +4,12 @@ import com.noxcrew.noxesium.core.mcc.ClientboundMccServerPacket
 import dev.asodesu.islandutils.api.game.Game
 import dev.asodesu.islandutils.api.game.context.GameContext
 
-class Fishing(val island: String) : Game("fishing") {
+class Fishing(val island: String, types: List<String>) : Game("fishing", types) {
     override val hasTeamChat = false
+
+    override fun toString(): String {
+        return "Fishing(island=$island)"
+    }
 
     companion object : GameContext {
         private val temperatures = listOf("temperate", "tropical", "barren")
@@ -27,13 +31,13 @@ class Fishing(val island: String) : Game("fishing") {
         )
 
         override fun check(packet: ClientboundMccServerPacket): Boolean {
-            return packet.types.contains("fishing") && temperatures.any { packet.types.any { type -> type.startsWith(it) } }
+            return packet.checkLobby("fishing") && temperatures.any { packet.types.any { type -> type.startsWith(it) } }
         }
 
         override fun create(packet: ClientboundMccServerPacket): Game {
             // find the first type in the list of server types that matches a valid island
             //  we can guarantee we have one, since we checked for it in the check function
-            return Fishing(packet.types.first { islandNames.containsKey(it) })
+            return Fishing(packet.types.first { islandNames.containsKey(it) }, packet.types)
         }
     }
 }

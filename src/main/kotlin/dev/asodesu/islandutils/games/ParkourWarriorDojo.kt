@@ -1,21 +1,32 @@
 package dev.asodesu.islandutils.games
 
 import com.noxcrew.noxesium.core.mcc.ClientboundMccServerPacket
-import dev.asodesu.islandutils.api.events.sidebar.sidebar
+import dev.asodesu.islandutils.api.extentions.withValue
 import dev.asodesu.islandutils.api.game.Game
 import dev.asodesu.islandutils.api.game.context.GameContext
+import net.minecraft.network.chat.Component
 
-class ParkourWarriorDojo : Game("parkour_warrior_dojo") {
+class ParkourWarriorDojo(val courseType: String, types: List<String>) : Game("parkour_warrior_dojo", types) {
     override val hasTeamChat = false
-    val course by sidebar("COURSE: (.+)")
+
+    private val courseRegex = Regex("COURSE: (.+)")
+    var course: String? = null
+
+    override fun onSidebarLine(component: Component) {
+        courseRegex.withValue(component) { course = it }
+    }
+
+    override fun toString() = "ParkourWarriorDojo(course=$courseType)"
 
     companion object : GameContext {
         override fun check(packet: ClientboundMccServerPacket): Boolean {
-            return packet.types.contains("parkour_warrior")
+            return packet.checkGame("parkour_warrior", "dojo")
         }
 
         override fun create(packet: ClientboundMccServerPacket): Game {
-            return ParkourWarriorDojo()
+            val course = packet.types.firstOrNull { it.startsWith("main-") || it == "daily" }
+                ?: throw IllegalStateException("Couldn't find course from server types")
+            return ParkourWarriorDojo(course, packet.types)
         }
     }
 }
