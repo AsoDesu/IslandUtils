@@ -6,8 +6,6 @@ import dev.asodesu.islandutils.api.chest.analysis.ContainerScreenHelper
 import dev.asodesu.islandutils.api.chest.anyLineContains
 import dev.asodesu.islandutils.api.chest.loreOrNull
 import dev.asodesu.islandutils.api.extentions.Resources
-import dev.asodesu.islandutils.api.game.activeGame
-import dev.asodesu.islandutils.games.Fishing
 import dev.asodesu.islandutils.options.MiscOptions
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.renderer.RenderPipelines
@@ -27,7 +25,7 @@ class FishingUpgradeHighlight : ChestAnalyser {
 
     companion object : ChestAnalyserFactory {
         private val enabled by MiscOptions.fishingUpgrades
-        override fun shouldApply(menuComponents: Collection<Identifier>) = enabled && activeGame is Fishing
+        override fun shouldApply(menuComponents: Collection<Identifier>) = enabled
         override fun create(menuComponents: Collection<Identifier>) = FishingUpgradeHighlight()
     }
 }
