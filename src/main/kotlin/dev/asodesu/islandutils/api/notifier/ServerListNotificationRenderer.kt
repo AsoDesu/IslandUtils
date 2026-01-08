@@ -1,8 +1,8 @@
 package dev.asodesu.islandutils.api.notifier
 
 import dev.asodesu.islandutils.api.extentions.isInsideBox
-import dev.asodesu.islandutils.api.extentions.isMccIp
 import dev.asodesu.islandutils.api.extentions.minecraft
+import dev.asodesu.islandutils.api.server.ServerSessionHandler
 import dev.asodesu.islandutils.options.NotificationOptions
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screens.multiplayer.ServerSelectionList.OnlineServerEntry
@@ -18,7 +18,7 @@ object ServerListNotificationRenderer {
     private val ICON_PADDING_X = 5
 
     fun render(guiGraphics: GuiGraphics, entry: OnlineServerEntry, y: Int, x: Int, mouseX: Int, mouseY: Int) {
-        if (!enabled || !isMccIp(entry.serverData.ip)) return
+        if (!enabled || !ServerSessionHandler.isIslandServer(entry.serverData)) return
         if (Notifier.isEmpty()) return
 
         val iconX = x - ICON_SIZE - ICON_PADDING_X

@@ -9,6 +9,7 @@ import dev.asodesu.islandutils.api.extentions.send
 import dev.asodesu.islandutils.api.game.GameEvents
 import dev.asodesu.islandutils.api.game.inLobby
 import dev.asodesu.islandutils.api.modules.Module
+import dev.asodesu.islandutils.api.server.ServerEvents
 import dev.asodesu.islandutils.options.NotificationOptions
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
@@ -21,14 +22,21 @@ object FriendsInGame : Module("FriendsInGame") {
 
     private val enabledInGame by NotificationOptions.FriendsInGame.inGame
     private val enabledInLobby by NotificationOptions.FriendsInGame.inLobby
+    private var sentInInstance = false
 
     var friends = listOf<String>()
 
     override fun init() {
         GameEvents.SERVER_UPDATE.register {
-            if (!enabledInLobby && !enabledInGame) return@register
+            // don't bother if we have it disabled, or we've already sent for this instance
+            if (!enabledInLobby && !enabledInGame && !sentInInstance) return@register
             val commandSuggestion = ServerboundCommandSuggestionPacket(TRANSACTION_ID, "/friend remove ")
             minecraft.connection?.send(commandSuggestion)
+        }
+
+        // reset sendInInstance to false when we switch instances to avoid duplication
+        ServerEvents.INSTANCE_JOIN.register {
+            sentInInstance = false
         }
     }
 

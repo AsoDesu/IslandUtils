@@ -19,8 +19,8 @@ class MusicManager(knownTracks: List<Track>, val modifiers: List<MusicModifier>)
 
     override fun init() {
         ClientTickEvents.END_CLIENT_TICK.register(::tick)
-        SoundEvents.SOUND_PLAY.addListener(::handleSoundPlay)
-        SoundEvents.SOUND_STOP.addListener(::handleSoundStop)
+        SoundEvents.SOUND_PLAY.register(::handleSoundPlay)
+        SoundEvents.SOUND_STOP.register(::handleSoundStop)
 
         modifiers.forEach {
             val download = it.downloadJob() ?: return@forEach

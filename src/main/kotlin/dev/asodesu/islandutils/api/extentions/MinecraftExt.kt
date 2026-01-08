@@ -1,5 +1,6 @@
 package dev.asodesu.islandutils.api.extentions
 
+import dev.asodesu.islandutils.api.server.ServerSessionHandler
 import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientPacketListener
 import net.minecraft.client.multiplayer.chat.ChatListener
@@ -43,18 +44,7 @@ fun SoundManager.play(event: SoundEvent, volume: Float = 1f, pitch: Float = 1f) 
 val connection: ClientPacketListener?
     get() = minecraft.connection
 
-private val mcciDomains = listOf(
-    "mccisland.net",
-    "mccisland.com"
-)
-
-fun isMccIp(ip: String?): Boolean {
-    if (ip == null) return false
-    val lowercase = ip.lowercase()
-    return mcciDomains.any { lowercase.contains(it) }
-}
-
 /**
  * If the player is currently online on MCC Island
  */
-val isOnline: Boolean get() = isMccIp(minecraft.currentServer?.ip)
+val isOnline: Boolean get() = ServerSessionHandler.isOnline

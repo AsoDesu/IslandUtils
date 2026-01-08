@@ -1,6 +1,7 @@
 package dev.asodesu.islandutils
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import dev.asodesu.islandutils.api.game.gamesDebugCommand
 import dev.asodesu.islandutils.features.crafting.craftingCommand
 import dev.asodesu.islandutils.features.crafting.craftingDebugCommand
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal
@@ -16,3 +17,4 @@ fun islandUtilsCommand(): LiteralArgumentBuilder<FabricClientCommandSource>? {
 
 fun debugCommand() = literal("debug")
     .then(craftingDebugCommand())
+    .then(gamesDebugCommand())

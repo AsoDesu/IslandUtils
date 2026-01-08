@@ -3,6 +3,7 @@
     "package": "dev.asodesu.islandutils.mixin",
     "compatibilityLevel": "JAVA_21",
     "mixins": [
+        "BossbarInterceptorMixin",
         "HideBlankSlotsMixin",
         "ItemTooltipMixin"
     ],
@@ -21,6 +22,9 @@
         "chest.ChestMenuInterceptorMixin",
         "chest.ChestScreenInterceptorMixin",
         "features.CommandSuggestionHandlerMixin",
+        "server.InstanceJoinMixin",
+        "server.ServerJoinMixin",
+        "server.ServerDisconnectMixin",
         "serverlist.JoinMultiplayerTickMixin",
         "serverlist.ServerListEntryRenderMixin",
         "sound.ApplyInjectedSoundsMixin"

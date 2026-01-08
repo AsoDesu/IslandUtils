@@ -1,5 +1,6 @@
 package dev.asodesu.islandutils.api.game
 
+import dev.asodesu.islandutils.api.discord.ActivityContainerBuilderFunction
 import dev.asodesu.islandutils.api.events.EventConsumer
 import org.slf4j.LoggerFactory
 
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory
 abstract class Game(val id: String, val types: List<String>): EventConsumer {
     protected val logger = LoggerFactory.getLogger("IU-Game'$id'")
     abstract val hasTeamChat: Boolean
+    abstract val discord: ActivityContainerBuilderFunction
 
     /**
      * Called when the player changes servers away from this game.

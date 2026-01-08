@@ -13,3 +13,7 @@ fun Option<Boolean>.onDisabled(func: () -> Unit) = apply {
         if (last != new && !new) func()
     }
 }
+
+fun Option<Boolean>.onChange(func: () -> Unit) = apply {
+    this.onChange { last, new -> func() }
+}

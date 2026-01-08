@@ -25,8 +25,10 @@ dependencies {
 
     modImplementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin_version")}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}")
+    modImplementation("com.terraformersmc:modmenu:${property("modmenu_version")}")
     modApi("com.noxcrew.noxesium:fabric:${property("noxesium_version")}")
 
+    implementation("io.github.vyfor:kpresence:0.6.6")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
 }
 

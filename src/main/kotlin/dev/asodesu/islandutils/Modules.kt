@@ -1,6 +1,7 @@
 package dev.asodesu.islandutils
 
 import dev.asodesu.islandutils.api.chest.analysis.ChestAnalysisManager
+import dev.asodesu.islandutils.api.discord.DiscordManager
 import dev.asodesu.islandutils.api.game.GameManager
 import dev.asodesu.islandutils.api.game.state.StateManager
 import dev.asodesu.islandutils.api.music.MusicManager
@@ -14,10 +15,15 @@ import dev.asodesu.islandutils.features.RemnantHighlight
 import dev.asodesu.islandutils.features.crafting.CraftingChestAnalyser
 import dev.asodesu.islandutils.features.crafting.notif.CraftingNotifier
 import dev.asodesu.islandutils.features.scavenging.ScavengingTotals
+import dev.asodesu.islandutils.games.BattleBox
+import dev.asodesu.islandutils.games.Dynaball
 import dev.asodesu.islandutils.games.Fishing
 import dev.asodesu.islandutils.games.HoleInTheWall
 import dev.asodesu.islandutils.games.Hub
 import dev.asodesu.islandutils.games.ParkourWarriorDojo
+import dev.asodesu.islandutils.games.ParkourWarriorSurvivor
+import dev.asodesu.islandutils.games.RocketSpleefRush
+import dev.asodesu.islandutils.games.SkyBattle
 import dev.asodesu.islandutils.games.Tgttos
 import dev.asodesu.islandutils.music.ClassicHitwMusic
 import dev.asodesu.islandutils.music.HighQualityMusic
@@ -39,15 +45,20 @@ object Modules {
         CraftingNotifier,
         CommandKeybind("disguise", -1, "disguise"),
         CommandKeybind("plobbymenu", -1, "plobby"),
+        DiscordManager
     )
 
     // the game manager, the order here does matter.
     val gameManager = GameManager(
         Fishing,
-        Tgttos,
+        BattleBox,
+        Dynaball,
         HoleInTheWall,
-        // ParkourWarriorSurvivor
         ParkourWarriorDojo,
+        ParkourWarriorSurvivor,
+        RocketSpleefRush,
+        SkyBattle,
+        Tgttos,
         Hub
     )
 

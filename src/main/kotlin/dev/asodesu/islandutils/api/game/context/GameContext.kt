@@ -7,6 +7,10 @@ import dev.asodesu.islandutils.api.game.Game
  * The context for creating `Game` objects based on incoming MCC Server packets
  */
 interface GameContext {
+    /**
+     * A unique identifier for this game, used for debugging
+     */
+    val id: String
 
     /**
      * Checks if this game should be started by this packet.
@@ -25,6 +29,6 @@ interface GameContext {
     fun create(packet: ClientboundMccServerPacket): Game
 
     fun ClientboundMccServerPacket.checkTypes(vararg type: String) = this.types.containsAll(type.toList())
-    fun ClientboundMccServerPacket.checkGame(vararg type: String) = checkTypes("game", *type)
-    fun ClientboundMccServerPacket.checkLobby(vararg type: String) = checkTypes("lobby", *type)
+    fun ClientboundMccServerPacket.checkGame(vararg type: String) = this.server == "game" && checkTypes(*type)
+    fun ClientboundMccServerPacket.checkLobby(vararg type: String) = this.server == "lobby" && checkTypes(*type)
 }

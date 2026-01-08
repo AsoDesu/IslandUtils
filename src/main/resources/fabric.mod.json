@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "islandutils",
 	"version": "${version}",
-	"name": "islandutils",
+	"name": "IslandUtils",
 	"description": "This is an example description! Tell everyone what your mod is about!",
 	"authors": [
 		"AsoDesu_"

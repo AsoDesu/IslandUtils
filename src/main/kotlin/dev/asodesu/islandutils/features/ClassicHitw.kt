@@ -74,17 +74,15 @@ object ClassicHitw : Module("ClassicHitw") {
     )
     private val TRAP_SOUND_REGEX = "([ \\-!])".toRegex()
 
-    private val enableAnnoucer by ClassicHitwOptions.annoucer
-
     override fun init() {
-        SoundEvents.SOUND_PLAY.addListener(::handleSound)
+        SoundEvents.SOUND_PLAY.register(::handleSound)
 
         if (ClassicHitwOptions.annoucer.get()) ANNOUNCER_DOWNLOAD.start()
     }
 
     // called from mixin
     fun handleSubtitle(component: Component): Boolean {
-        if (!enableAnnoucer) return false
+        if (!ClassicHitwOptions.annoucer.get()) return false
         val isTrap = component.toFlatList().any {
             val style = it.style
             !style.isObfuscated && style.color == TRAP_COLOR

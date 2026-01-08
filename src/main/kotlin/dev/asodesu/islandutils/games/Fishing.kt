@@ -1,17 +1,28 @@
 package dev.asodesu.islandutils.games
 
 import com.noxcrew.noxesium.core.mcc.ClientboundMccServerPacket
+import dev.asodesu.islandutils.api.discord.Discord
+import dev.asodesu.islandutils.api.discord.layers.details
+import dev.asodesu.islandutils.api.discord.layers.images
+import dev.asodesu.islandutils.api.discord.layers.timeElapsed
 import dev.asodesu.islandutils.api.game.Game
 import dev.asodesu.islandutils.api.game.context.GameContext
+import dev.asodesu.islandutils.api.game.gameManager
 
 class Fishing(val island: String, types: List<String>) : Game("fishing", types) {
     override val hasTeamChat = false
+    override val discord = Discord {
+        images(island, "fishing")
+        details("Fishing in ${islandNames[island]}")
+        timeElapsed(gameManager.lastGameChange)
+    }
 
     override fun toString(): String {
         return "Fishing(island=$island)"
     }
 
     companion object : GameContext {
+        override val id: String = "fishing"
         private val temperatures = listOf("temperate", "tropical", "barren")
         val islandNames = mapOf(
             "temperate_1" to "Verdant Woods",
@@ -31,7 +42,7 @@ class Fishing(val island: String, types: List<String>) : Game("fishing", types) 
         )
 
         override fun check(packet: ClientboundMccServerPacket): Boolean {
-            return packet.checkLobby("fishing") && temperatures.any { packet.types.any { type -> type.startsWith(it) } }
+            return packet.server == "fishing" && temperatures.any { packet.types.any { type -> type.startsWith(it) } }
         }
 
         override fun create(packet: ClientboundMccServerPacket): Game {

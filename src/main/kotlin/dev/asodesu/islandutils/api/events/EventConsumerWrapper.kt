@@ -6,9 +6,10 @@ import dev.asodesu.islandutils.api.events.sound.SoundPlayCallback
 import dev.asodesu.islandutils.api.events.sound.SoundStopCallback
 import dev.asodesu.islandutils.api.events.sound.info.SoundInfo
 import dev.asodesu.islandutils.api.game.Game
+import java.util.*
 import net.minecraft.network.chat.Component
 
-interface SingleEventConsumerDelegate : EventConsumer {
+interface EventConsumerWrapper : EventConsumer {
     val consumer: EventConsumer
     override fun onGameChange(from: Game, to: Game) {
         consumer.onGameChange(from, to)
@@ -27,5 +28,17 @@ interface SingleEventConsumerDelegate : EventConsumer {
     }
     override fun onSoundStop(info: SoundStopCallback.StopInfo, ci: SoundStopCallback.Info) {
         consumer.onSoundStop(info, ci)
+    }
+    override fun onBossbarContents(uuid: UUID, contents: Component) {
+        consumer.onBossbarContents(uuid, contents)
+    }
+    override fun onServerConnect() {
+        consumer.onServerConnect()
+    }
+    override fun onInstanceSwitch() {
+        consumer.onInstanceSwitch()
+    }
+    override fun onServerDisconnect() {
+        consumer.onServerDisconnect()
     }
 }

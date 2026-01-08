@@ -2,6 +2,9 @@ package dev.asodesu.islandutils.api.game
 
 import com.noxcrew.noxesium.core.mcc.ClientboundMccServerPacket
 import com.noxcrew.noxesium.core.mcc.MccPackets
+import dev.asodesu.islandutils.api.discord.DiscordManager
+import dev.asodesu.islandutils.api.discord.build
+import dev.asodesu.islandutils.api.events.EventConsumerWrapper
 import dev.asodesu.islandutils.api.extentions.debug
 import dev.asodesu.islandutils.api.game.context.GameContext
 import dev.asodesu.islandutils.api.modules.Module
@@ -15,8 +18,11 @@ import dev.asodesu.islandutils.api.modules.Module
  */
 class GameManager(vararg contexts: GameContext) : Module("GameManager") {
     private val registeredGames = contexts.toMutableList()
+    val gamesById = registeredGames.associateBy { it.id }
+
     var active: Game = EmptyGame
-    private val activeGameEventHandler = ActiveGameEventHandler(this)
+    private val activeGameEventHandler = EventConsumerWrapper { active }
+    var lastGameChange: Long = System.currentTimeMillis()
 
     override fun init() {
         logger.info("GameManager initialised with ${registeredGames.size} games.")
@@ -37,13 +43,28 @@ class GameManager(vararg contexts: GameContext) : Module("GameManager") {
             debug("Couldn't create game with data $packet")
             return
         }
-
         val newActiveGame = context.create(packet)
+        setGame(newActiveGame)
+    }
+
+    fun setGame(newActiveGame: Game) {
         active.unregister()
         GameEvents.GAME_CHANGE.invoker().onGameChange(active, newActiveGame)
+        if (active::class != newActiveGame::class) {
+            lastGameChange = System.currentTimeMillis()
+        }
 
         debug("Set active game to $newActiveGame")
         active = newActiveGame
+        this.pushDiscord()
+    }
+
+    fun pushDiscord() {
+        try {
+            DiscordManager.pushContainer(active.discord.build())
+        } catch (e: Exception) {
+            DiscordManager.resetContainer()
+        }
     }
 
     private fun resetGame() {
@@ -52,5 +73,6 @@ class GameManager(vararg contexts: GameContext) : Module("GameManager") {
         GameEvents.GAME_CHANGE.invoker().onGameChange(active, EmptyGame)
 
         active = EmptyGame
+        this.pushDiscord()
     }
 }
