@@ -37,15 +37,6 @@ public class CosmeticUI {
         Quaternionf quaternionf2 = (new Quaternionf()).rotateX(xRot * 20.0F * ((float) Math.PI / 180.0F));
         quaternionf.mul(quaternionf2);
         Vector3f vector3f = new Vector3f(0.0F, livingEntity.getBbHeight() / 2.0F + f * livingEntityScale, 0.0F);
-//        InventoryScreen.renderEntityInInventoryFollowsMouse(
-//                guiGraphics,
-//                x0, y0, x1, y1,
-//                size / livingEntityScale,
-//                vector3f,
-//                quaternionf,
-//                quaternionf2,
-//                livingEntity
-//        );
         EntityRenderState renderState = InventoryScreen.extractRenderState(livingEntity);
         guiGraphics.submitEntityRenderState(renderState, (float) size, vector3f, quaternionf, quaternionf2, x0, y0, x1, y1);
 
