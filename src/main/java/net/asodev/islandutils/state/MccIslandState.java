@@ -8,12 +8,15 @@ import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class MccIslandState {
 
     private static Game game = Game.HUB;
     private static String modifier = "INACTIVE";
     private static String map = "UNKNOWN";
-    private static String subType = "";
+    private static List<String> types = List.of();
 
     public static String getModifier() {
         return modifier;
@@ -33,6 +36,11 @@ public class MccIslandState {
         }
         MccIslandState.game = game;
         IslandUtilsEvents.GAME_UPDATE.invoker().onGameUpdate(game);
+    }
+
+    public static @Nullable String getFishingIsland() {
+        if (game != Game.FISHING) return null;
+        return types.get(2);
     }
 
     public static void updateGame(Component displayName, String tablistTitle) {
@@ -79,11 +87,11 @@ public class MccIslandState {
         return map;
     }
 
-    public static String getSubType() {
-        return subType;
+    public static List<String> getTypes() {
+        return types;
     }
-    public static void setSubType(String subType) {
-        MccIslandState.subType = subType;
+    public static void setTypes(List<String> types) {
+        MccIslandState.types = types;
     }
 
     public static boolean isOnline() {

@@ -25,7 +25,7 @@ public class HologramMixin {
     @Final
     private static Logger LOGGER;
 
-    @Inject(method = "handleSetEntityData", at = @At("RETURN"))
+    @Inject(method = "handleSetEntityData", at = @At("TAIL"))
     private void handleEntityData(ClientboundSetEntityDataPacket clientboundSetEntityDataPacket, CallbackInfo ci, @Local Entity entity) {
         if (!(entity instanceof Display.TextDisplay hologram)) return;
         if (!MccIslandState.isOnline() || MccIslandState.getGame() != Game.PARKOUR_WARRIOR_DOJO) return;

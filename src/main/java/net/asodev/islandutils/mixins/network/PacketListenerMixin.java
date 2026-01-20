@@ -50,7 +50,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         super(minecraft, connection, commonListenerCookie);
     }
 
-    @Inject(method = "handleSoundEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/util/thread/BlockableEventLoop;)V", shift = At.Shift.AFTER), cancellable = true)
+    @Inject(method = "handleSoundEvent", at = @At("TAIL"), cancellable = true)
     public void handleCustomSoundEvent(ClientboundSoundPacket clientboundCustomSoundPacket, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
 
@@ -67,7 +67,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         }
     }
 
-    @Inject(method = "handleStopSoundEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/util/thread/BlockableEventLoop;)V", shift = At.Shift.AFTER), cancellable = true)
+    @Inject(method = "handleStopSoundEvent", at = @At("TAIL"), cancellable = true)
     public void handleStopSoundEvent(ClientboundStopSoundPacket clientboundStopSoundPacket, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
         Identifier soundLoc = clientboundStopSoundPacket.getName();
@@ -95,7 +95,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
 
     private static Pattern timerPattern = Pattern.compile("(\\d+:\\d+)");
 
-    @Inject(method = "handleBossUpdate", at = @At("HEAD")) // Discord presence, time left
+    @Inject(method = "handleBossUpdate", at = @At("TAIL")) // Discord presence, time left
     private void handleBossUpdate(ClientboundBossEventPacket clientboundBossEventPacket, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
         // Create a handler for the bossbar
@@ -136,7 +136,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
     TextColor textColor = ChatUtils.parseColor("#FFA800"); // Trap Title Text Color
     Style style = Style.EMPTY.withColor(textColor); // Style for the trap color
 
-    @Inject(method = "setSubtitleText", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "setSubtitleText", at = @At("TAIL"), cancellable = true)
     private void titleText(ClientboundSetSubtitleTextPacket clientboundSetSubtitleTextPacket, CallbackInfo ci) {
         if (MccIslandState.getGame() == Game.HITW) {
             ClassicAnnouncer.handleTrap(clientboundSetSubtitleTextPacket, ci);
@@ -147,7 +147,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         }
     }
 
-    @Inject(method = "setTitleText", at = @At("HEAD")) // Game Over Sound Effect
+    @Inject(method = "setTitleText", at = @At("TAIL")) // Game Over Sound Effect
     private void gameOver(ClientboundSetTitleTextPacket clientboundSetTitleTextPacket, CallbackInfo ci) {
         if (MccIslandState.getGame() != Game.HITW) return; // Make sure we're playing HITW
         if (!IslandOptions.getClassicHITW().isClassicHITW()) return; // Requires isClassicHITW
@@ -158,7 +158,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         }
     }
 
-    @Inject(method = "handleSystemChat", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "handleSystemChat", at = @At("TAIL"), cancellable = true)
     private void onChat(ClientboundSystemChatPacket clientboundSystemChatPacket, CallbackInfo ci) {
         if (clientboundSystemChatPacket.overlay() || !MccIslandState.isOnline()) return;
 

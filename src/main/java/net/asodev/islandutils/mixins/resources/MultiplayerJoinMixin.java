@@ -11,6 +11,7 @@ import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -35,6 +36,7 @@ public class MultiplayerJoinMixin extends Screen {
         }
     }
 
+    @Unique
     void confirm(boolean bool, ServerData serverData) {
         if (bool) {
             IslandUtils.packUpdater.accepted = true;

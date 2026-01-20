@@ -30,8 +30,8 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         super(abstractContainerMenu, inventory, component);
     }
 
-    @Inject(method = "renderBg", at = @At("TAIL"))
-    public void renderBg(GuiGraphics guiGraphics, float f, int i, int j, CallbackInfo ci) {
+    @Inject(method = "render", at = @At("TAIL"))
+    public void render(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
         if (!CosmeticState.shouldShowCosmeticPreview()) return;
 
         CosmeticsOptions options = IslandOptions.getCosmetics();
