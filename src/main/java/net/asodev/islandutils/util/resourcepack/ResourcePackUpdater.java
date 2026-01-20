@@ -3,7 +3,7 @@ package net.asodev.islandutils.util.resourcepack;
 import com.google.gson.Gson;
 import net.asodev.islandutils.IslandUtils;
 import net.asodev.islandutils.util.resourcepack.schema.ResourcePack;
-import net.minecraft.FileUtil;
+import net.minecraft.util.FileUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.FilePackResources;

@@ -4,21 +4,22 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class FontUtils {
 
-    public static final ResourceLocation MCC_HUD_FONT = ResourceLocation.fromNamespaceAndPath("mcc", "hud");
-    public static final ResourceLocation MCC_ICONS_FONT = ResourceLocation.fromNamespaceAndPath("island", "mcc_icons");
-    public static final ResourceLocation CUSTOM_ICONS_FONT = ResourceLocation.fromNamespaceAndPath("island", "custom_icons");
-    public static final ResourceLocation CUSTOM_SPLIT_FONT = ResourceLocation.fromNamespaceAndPath("island", "split");
+    public static final Identifier MCC_HUD_FONT = Identifier.fromNamespaceAndPath("mcc", "hud");
+    public static final Identifier MCC_ICONS_FONT = Identifier.fromNamespaceAndPath("island", "mcc_icons");
+    public static final Identifier CUSTOM_ICONS_FONT = Identifier.fromNamespaceAndPath("island", "custom_icons");
+    public static final Identifier CUSTOM_SPLIT_FONT = Identifier.fromNamespaceAndPath("island", "split");
 
-    public static final Style MCC_HUD_STYLE = Style.EMPTY.withFont(MCC_HUD_FONT);
-    public static final Style MCC_ICONS_STYLE = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(MCC_ICONS_FONT);
-    public static final Style CUSTOM_ICONS_STYLE = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(CUSTOM_ICONS_FONT);
-    public static final Style CUSTOM_SPLIT_STYLE = Style.EMPTY.withFont(CUSTOM_SPLIT_FONT);
+    public static final Style MCC_HUD_STYLE = Style.EMPTY.withFont(new FontDescription.Resource(MCC_HUD_FONT));
+    public static final Style MCC_ICONS_STYLE = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(new FontDescription.Resource(MCC_ICONS_FONT));
+    public static final Style CUSTOM_ICONS_STYLE = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(new FontDescription.Resource(CUSTOM_ICONS_FONT));
+    public static final Style CUSTOM_SPLIT_STYLE = Style.EMPTY.withFont(new FontDescription.Resource(CUSTOM_SPLIT_FONT));
 
     public static Component CRAFTING = Component.literal("\ue003").withStyle(MCC_ICONS_STYLE);
     public static Component FUSION_CRAFTING = Component.literal("\ue002").withStyle(MCC_ICONS_STYLE);

@@ -1,7 +1,7 @@
 package net.asodev.islandutils.state;
 
 import com.noxcrew.noxesium.network.clientbound.ClientboundMccServerPacket;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.NoSuchElementException;
 
@@ -22,19 +22,19 @@ public enum Game {
     final private String name;
     final private String islandId;
     final private String subType;
-    final private ResourceLocation musicLocation;
+    final private Identifier musicLocation;
     private boolean hasTeamChat = false;
-    Game(String name, String islandId, ResourceLocation location) {
+    Game(String name, String islandId, Identifier location) {
         this.name = name;
         this.islandId = islandId;
         this.subType = null;
         this.musicLocation = location;
     }
-    Game(String name, String islandId, ResourceLocation location, boolean hasTeamChat) {
+    Game(String name, String islandId, Identifier location, boolean hasTeamChat) {
         this(name, islandId, location);
         this.hasTeamChat = hasTeamChat;
     }
-    Game(String name, String islandId, String subType, ResourceLocation location) {
+    Game(String name, String islandId, String subType, Identifier location) {
         this.name = name;
         this.islandId = islandId;
         this.subType = subType;
@@ -44,7 +44,7 @@ public enum Game {
     public String getName() {
         return name;
     }
-    public ResourceLocation getMusicLocation() {
+    public Identifier getMusicLocation() {
         return musicLocation;
     }
     public boolean hasTeamChat() {
@@ -54,8 +54,8 @@ public enum Game {
         return this == FISHING || this == HUB;
     }
 
-    public static ResourceLocation getMusicLocation(String name) {
-        return ResourceLocation.fromNamespaceAndPath("island", "island.music." + name);
+    public static Identifier getMusicLocation(String name) {
+        return Identifier.fromNamespaceAndPath("island", "island.music." + name);
     }
 
     public static Game fromPacket(ClientboundMccServerPacket packet) throws NoSuchElementException {

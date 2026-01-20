@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.CommandSuggestions;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -69,18 +70,18 @@ public abstract class ChatScreenMixin extends Screen {
     @Inject(method = "render", at = @At("TAIL"))
     private void render(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
         CommandSuggestionsAccessor suggestionsAccessor = ((CommandSuggestionsAccessor) commandSuggestions);
-        if (suggestionsAccessor.suggestions() == null && suggestionsAccessor.commandUsage().size() == 0) {
+        if (suggestionsAccessor.suggestions() == null && suggestionsAccessor.commandUsage().isEmpty()) {
             buttons.forEach(btn -> btn.render(guiGraphics, i, j, f));
         }
     }
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
-    private void mouseClicked(double d, double e, int i, CallbackInfoReturnable<Boolean> cir) {
+    private void mouseClicked(MouseButtonEvent mouseButtonEvent, boolean bl, CallbackInfoReturnable<Boolean> cir) {
         long timeNow = System.currentTimeMillis();
         if ((timeNow - lastPress) < 1000) return;
         for (PlainTextButtonNoShadow button : buttons) {
             if (button.isHoveredOrFocused()) {
-                button.onPress();
+                button.onPress(mouseButtonEvent.buttonInfo());
                 lastPress = System.currentTimeMillis();
                 cir.setReturnValue(true);
                 return;

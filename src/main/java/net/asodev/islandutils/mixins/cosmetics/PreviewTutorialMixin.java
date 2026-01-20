@@ -8,6 +8,7 @@ import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.FontUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -26,11 +27,11 @@ import java.util.function.Consumer;
 @Mixin(ItemStack.class)
 public class PreviewTutorialMixin {
     @Unique
-    private static final Style style0 = Style.EMPTY.withColor(ChatFormatting.DARK_GRAY).withFont(Style.DEFAULT_FONT);
+    private static final Style style0 = Style.EMPTY.withColor(ChatFormatting.DARK_GRAY).withFont(FontDescription.DEFAULT);
     @Unique
-    private static final Style style1 = Style.EMPTY.withColor(ChatUtils.parseColor("#e9d282")).withFont(Style.DEFAULT_FONT);
+    private static final Style style1 = Style.EMPTY.withColor(ChatUtils.parseColor("#e9d282")).withFont(FontDescription.DEFAULT);
     @Unique
-    private static final Style style2 = Style.EMPTY.withColor(ChatUtils.parseColor("#fbe460")).withFont(Style.DEFAULT_FONT);
+    private static final Style style2 = Style.EMPTY.withColor(ChatUtils.parseColor("#fbe460")).withFont(FontDescription.DEFAULT);
 
     @Unique
     private static final Component previewComponent = Component.empty()

@@ -8,7 +8,7 @@ import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.IslandSoundEvents;
 import net.minecraft.ChatFormatting;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import static net.minecraft.network.chat.Component.literal;
 import static net.minecraft.network.chat.Component.translatable;
@@ -32,7 +32,7 @@ public class ClassicHitwMusic extends TrackMusicModifier {
     }
 
     @Override
-    public boolean shouldApply1(ResourceLocation soundLocation) {
+    public boolean shouldApply1(Identifier soundLocation) {
         return IslandOptions.getClassicHITW().isClassicHITWMusic();
     }
 }

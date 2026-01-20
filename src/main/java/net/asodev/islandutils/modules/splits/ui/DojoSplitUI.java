@@ -7,12 +7,12 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import static net.asodev.islandutils.util.FontUtils.*;
 
 public class DojoSplitUI implements SplitUI {
-    private static final ResourceLocation BAR_TEXTURE = ResourceLocation.fromNamespaceAndPath("island", "pkw_splits");
+    private static final Identifier BAR_TEXTURE = Identifier.fromNamespaceAndPath("island", "pkw_splits");
     private static final int MCC_BAR_WIDTH = 130;
 
     private final LevelTimer timer;

@@ -16,7 +16,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.regex.Matcher;
@@ -150,7 +150,7 @@ public class LevelTimer {
 
     public static void onSound(ClientboundSoundPacket clientboundSoundPacket) {
         if (!IslandOptions.getSplits().isEnablePkwSplits()) return;
-        ResourceLocation soundLoc = clientboundSoundPacket.getSound().value().location();
+        Identifier soundLoc = clientboundSoundPacket.getSound().value().location();
         String path = soundLoc.getPath();
         boolean isRoundEnd = path.equals("games.global.timer.round_end");
         if (path.contains("games.parkour_warrior.mode_swap") ||

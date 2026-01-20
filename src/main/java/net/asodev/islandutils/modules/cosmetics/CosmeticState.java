@@ -7,7 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.Slot;
@@ -60,7 +60,7 @@ public class CosmeticState {
 
     public static boolean isColoredItem(ItemStack item) {
         if (!item.is(Items.LEATHER_HORSE_ARMOR)) return false;
-        ResourceLocation customItemID = Utils.getCustomItemID(item);
+        Identifier customItemID = Utils.getCustomItemID(item);
         if (customItemID == null) return false;
         return customItemID.getPath().equals("island_interface.misc.color");
     }
@@ -78,7 +78,7 @@ public class CosmeticState {
     }
 
     public static CosmeticType getType(ItemStack item) {
-        ResourceLocation itemId = Utils.getCustomItemID(item);
+        Identifier itemId = Utils.getCustomItemID(item);
         if (itemId == null) return null;
         String path = itemId.getPath();
         if (path.endsWith(".icon_empty") || path.endsWith(".icon")) return null;
@@ -115,8 +115,8 @@ public class CosmeticState {
         ItemStack item1 = item != null ? item : ItemStack.EMPTY;
         ItemStack item2 = compare != null ? compare : ItemStack.EMPTY;
 
-        ResourceLocation item1ID = Utils.getCustomItemID(item1);
-        ResourceLocation item2ID = Utils.getCustomItemID(item2);
+        Identifier item1ID = Utils.getCustomItemID(item1);
+        Identifier item2ID = Utils.getCustomItemID(item2);
 
         return Objects.equals(item1ID, item2ID);
     }

@@ -20,7 +20,7 @@ import net.minecraft.client.sounds.SoundEngine;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,17 +96,17 @@ public class MusicManager {
 
         MCCSoundInstance instance = newSoundInfo.toSoundInstance();
         currentlyPlaying = instance;
-        ChatUtils.debug("Starting music: " + instance.getLocation());
+        ChatUtils.debug("Starting music: " + instance.getIdentifier());
         Minecraft.getInstance().getSoundManager().play(instance);
     }
 
     public static void onMusicStopPacket(ClientboundStopSoundPacket packet, Minecraft minecraft) {
-        ResourceLocation name = packet.getName();
-        ResourceLocation modifiedName = applyModifiers(SoundInfo.fromLocation(name)).path();
+        Identifier name = packet.getName();
+        Identifier modifiedName = applyModifiers(SoundInfo.fromLocation(name)).path();
 
         SoundManager soundManager = Minecraft.getInstance().getSoundManager();
         for (SoundInstance instance : getActiveSoundInstances()) {
-            if (instance.getLocation().equals(name) || instance.getLocation().equals(modifiedName)) {
+            if (instance.getIdentifier().equals(name) || instance.getIdentifier().equals(modifiedName)) {
                 if (instance instanceof MCCSoundInstance mccSound) {
                     mccSound.fade(FADE_DURATION);
                 } else {
@@ -114,7 +114,7 @@ public class MusicManager {
                 }
             }
         }
-        if (currentlyPlaying != null && currentlyPlaying.getLocation().equals(name)) {
+        if (currentlyPlaying != null && currentlyPlaying.getIdentifier().equals(name)) {
             currentlyPlaying = null;
         }
     }

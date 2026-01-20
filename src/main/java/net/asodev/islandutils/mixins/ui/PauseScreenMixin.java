@@ -12,12 +12,9 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-
-import static net.minecraft.client.gui.screens.PauseScreen.disconnectFromWorld;
 
 @Mixin(PauseScreen.class)
 public class PauseScreenMixin extends Screen {
@@ -49,13 +46,15 @@ public class PauseScreenMixin extends Screen {
         return Button.builder(component, onPress);
     }
 
-    void callback(boolean confirm, Button buttonx) {
-        if (confirm) disconnect(buttonx);
+    @Unique
+    void callback(boolean confirm, Button button) {
+        if (confirm) disconnect(button);
         else { Minecraft.getInstance().setScreen(new PauseScreen(true)); }
     }
 
+    @Unique
     void disconnect(Button button) {
         button.active = false;
-        this.minecraft.getReportingContext().draftReportHandled(this.minecraft, this, () -> disconnectFromWorld(this.minecraft, ClientLevel.DEFAULT_QUIT_MESSAGE), true);
+        this.minecraft.getReportingContext().draftReportHandled(this.minecraft, this, () -> minecraft.disconnectFromWorld(ClientLevel.DEFAULT_QUIT_MESSAGE), true);
     }
 }

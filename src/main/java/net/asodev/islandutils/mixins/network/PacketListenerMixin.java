@@ -25,7 +25,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.game.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
@@ -54,7 +54,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
     public void handleCustomSoundEvent(ClientboundSoundPacket clientboundCustomSoundPacket, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
 
-        ResourceLocation soundLoc = clientboundCustomSoundPacket.getSound().value().location();
+        Identifier soundLoc = clientboundCustomSoundPacket.getSound().value().location();
         if (!soundLoc.getNamespace().equals("mcc")) return;
 
         if (soundLoc.getPath().startsWith("music.")) {
@@ -70,7 +70,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
     @Inject(method = "handleStopSoundEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/util/thread/BlockableEventLoop;)V", shift = At.Shift.AFTER), cancellable = true)
     public void handleStopSoundEvent(ClientboundStopSoundPacket clientboundStopSoundPacket, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
-        ResourceLocation soundLoc = clientboundStopSoundPacket.getName();
+        Identifier soundLoc = clientboundStopSoundPacket.getName();
         if (soundLoc == null || !soundLoc.getNamespace().equals("mcc")) return;
 
         if (soundLoc.getPath().startsWith("music.")) {

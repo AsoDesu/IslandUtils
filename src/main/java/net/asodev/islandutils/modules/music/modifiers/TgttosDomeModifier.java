@@ -4,7 +4,7 @@ import net.asodev.islandutils.modules.music.SoundInfo;
 import net.asodev.islandutils.modules.music.TrackMusicModifier;
 import net.asodev.islandutils.state.MccIslandState;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class TgttosDomeModifier extends TrackMusicModifier {
     public TgttosDomeModifier(){
@@ -13,11 +13,11 @@ public class TgttosDomeModifier extends TrackMusicModifier {
 
     @Override
     public SoundInfo apply(SoundInfo info) {
-        return info.withPath(ResourceLocation.fromNamespaceAndPath("island", "island.music.to_the_dome"));
+        return info.withPath(Identifier.fromNamespaceAndPath("island", "island.music.to_the_dome"));
     }
 
     @Override
-    public boolean shouldApply1(ResourceLocation soundLocation) {
+    public boolean shouldApply1(Identifier soundLocation) {
         return MccIslandState.getModifier().equals("TO THE DOME");
     }
 }

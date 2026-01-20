@@ -18,7 +18,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -42,7 +42,7 @@ import static net.asodev.islandutils.util.Utils.getCustomItemID;
 
 @Mixin(AbstractContainerScreen.class)
 public abstract class ChestScreenMixin extends Screen {
-    @Unique private static final ResourceLocation PREVIEW = ResourceLocation.fromNamespaceAndPath("island", "preview");
+    @Unique private static final Identifier PREVIEW = Identifier.fromNamespaceAndPath("island", "preview");
 
     @Shadow protected Slot hoveredSlot;
 
@@ -161,14 +161,14 @@ public abstract class ChestScreenMixin extends Screen {
     @Unique
     private void setPreview(ItemStack item) {
         CosmeticType type = CosmeticState.getType(item);
-        ResourceLocation hoverCMD = getCustomItemID(item);
+        Identifier hoverCMD = getCustomItemID(item);
         if (type == CosmeticType.HAT) setOrNotSet(CosmeticState.hatSlot, hoverCMD);
         else if (type == CosmeticType.ACCESSORY) setOrNotSet(CosmeticState.accessorySlot, hoverCMD);
         else if (type == CosmeticType.MAIN_HAND) setOrNotSet(CosmeticState.mainHandSlot, hoverCMD);
     }
 
     @Unique
-    private void setOrNotSet(Cosmetic cosmetic, ResourceLocation itemCMD) {
+    private void setOrNotSet(Cosmetic cosmetic, Identifier itemCMD) {
         if (cosmetic.preview != null && Objects.equals(getCustomItemID(cosmetic.preview.item), itemCMD)) {
             cosmetic.preview = null;
         } else {
