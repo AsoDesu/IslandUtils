@@ -6,8 +6,7 @@
   "soundCategory.sound_effects":  "§aMCCI: Äänitehosteet",
 
   "key.islandutils.preview": "Esikatsele Kosmetiikka",
-  "category.islandutils.keys": "IslandUtils",
-  "category.islandutils": "Island Utils",
+  "key.category.islandutils.keys": "IslandUtils",
 
   "text.autoconfig.islandutils.title": "Island Utils- Asetukset",
   "text.autoconfig.islandutils.category.music": "Musiikki",
