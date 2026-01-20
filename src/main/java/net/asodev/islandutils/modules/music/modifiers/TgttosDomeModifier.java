@@ -3,7 +3,6 @@ package net.asodev.islandutils.modules.music.modifiers;
 import net.asodev.islandutils.modules.music.SoundInfo;
 import net.asodev.islandutils.modules.music.TrackMusicModifier;
 import net.asodev.islandutils.state.MccIslandState;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
 public class TgttosDomeModifier extends TrackMusicModifier {

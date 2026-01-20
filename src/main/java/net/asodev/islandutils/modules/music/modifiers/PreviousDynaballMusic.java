@@ -2,9 +2,7 @@ package net.asodev.islandutils.modules.music.modifiers;
 
 import net.asodev.islandutils.modules.music.SoundInfo;
 import net.asodev.islandutils.modules.music.TrackMusicModifier;
-import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.IslandSoundEvents;
-import net.minecraft.resources.Identifier;
 
 public class PreviousDynaballMusic extends TrackMusicModifier {
     public PreviousDynaballMusic(){

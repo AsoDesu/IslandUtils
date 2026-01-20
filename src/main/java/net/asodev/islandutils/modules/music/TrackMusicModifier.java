@@ -1,7 +1,5 @@
 package net.asodev.islandutils.modules.music;
 
-import net.minecraft.client.resources.sounds.SoundInstance;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
 public abstract class TrackMusicModifier extends MusicModifier {

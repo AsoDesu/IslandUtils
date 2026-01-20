@@ -6,7 +6,6 @@ import net.asodev.islandutils.modules.cosmetics.CosmeticSlot;
 import net.asodev.islandutils.modules.cosmetics.CosmeticState;
 import net.asodev.islandutils.modules.cosmetics.CosmeticType;
 import net.asodev.islandutils.options.IslandOptions;
-import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.IslandSoundEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;

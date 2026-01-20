@@ -1,10 +1,8 @@
 package net.asodev.islandutils.modules.music.modifiers;
 
-import net.asodev.islandutils.IslandUtils;
 import net.asodev.islandutils.modules.music.SoundInfo;
 import net.asodev.islandutils.modules.music.TrackMusicModifier;
 import net.asodev.islandutils.options.IslandOptions;
-import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.IslandSoundEvents;
 import net.minecraft.ChatFormatting;

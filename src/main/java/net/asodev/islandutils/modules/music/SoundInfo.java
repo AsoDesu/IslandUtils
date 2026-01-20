@@ -1,10 +1,8 @@
 package net.asodev.islandutils.modules.music;
 
 import net.asodev.islandutils.util.MCCSoundInstance;
-import net.minecraft.core.Holder;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.Identifier;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 
 public record SoundInfo(Identifier path, SoundSource category, double x, double y, double z, float volume, float pitch, long seed, boolean looping) {

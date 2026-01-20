@@ -10,7 +10,6 @@ import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
-import org.jspecify.annotations.NonNull;
 
 public class PlainTextButtonNoShadow extends Button {
     private final Font font;

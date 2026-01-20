@@ -1,9 +1,6 @@
 package net.asodev.islandutils.mixins.cosmetics;
 
 import net.asodev.islandutils.modules.cosmetics.CosmeticState;
-import net.asodev.islandutils.options.IslandOptions;
-import net.asodev.islandutils.state.Game;
-import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.FontUtils;
 import net.minecraft.ChatFormatting;

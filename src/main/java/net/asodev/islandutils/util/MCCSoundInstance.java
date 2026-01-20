@@ -2,13 +2,10 @@ package net.asodev.islandutils.util;
 
 import net.asodev.islandutils.modules.music.SoundInfo;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
-import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-
-import java.util.List;
 
 public class MCCSoundInstance extends AbstractTickableSoundInstance {
 
