@@ -13,6 +13,7 @@
   "icon": "assets/island/icon.png",
   "environment": "client",
   "entrypoints": {
+    "noxesium": ["net.asodev.islandutils.modules.NoxesiumEntrypoint"],
     "client": [ "net.asodev.islandutils.IslandUtilsClient" ],
     "main": [ "net.asodev.islandutils.IslandUtils" ],
     "modmenu": [ "net.asodev.islandutils.options.ModMenuIntegration" ]
@@ -28,10 +29,10 @@
     }
   },
   "depends": {
-    "noxesium": ">=2.7",
+    "noxesium": ">=3.0",
     "fabricloader": ">=0.16",
     "fabric": "*",
-    "minecraft": ">=1.21.7",
+    "minecraft": ">=1.21.11",
     "yet_another_config_lib_v3": "*"
   }
 }

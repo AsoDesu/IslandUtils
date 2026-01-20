@@ -27,7 +27,7 @@ import org.lwjgl.glfw.GLFW;
 public class IslandUtilsClient implements ClientModInitializer {
     public static KeyMapping openPlobbyKey;
     public static KeyMapping disguiseKeyBind;
-    public static KeyMapping.Category keyCategory = new KeyMapping.Category(Identifier.fromNamespaceAndPath("island", "category.islandutils.keys"));
+    public static KeyMapping.Category keyCategory = new KeyMapping.Category(Identifier.fromNamespaceAndPath("islandutils", "keys"));
 
     @Override
     public void onInitializeClient() {
@@ -53,7 +53,6 @@ public class IslandUtilsClient implements ClientModInitializer {
         if (Utils.isLunarClient()) {
             SplitUI.setupFallbackRenderer();
         }
-        new NoxesiumIntegration().init();
         MusicManager.init();
 
         IslandUtilsEvents.PACK_FINAL_RESULT.register((uuid, finalResult) -> FontLoaderManager.warnAboutUnfulfilledAssets());

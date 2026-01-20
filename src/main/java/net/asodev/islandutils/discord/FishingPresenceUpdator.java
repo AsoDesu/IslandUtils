@@ -36,10 +36,10 @@ public class FishingPresenceUpdator {
     public static void updateFishingPlace() {
         if (activity == null) return;
 
-        String place = islandNames.get(MccIslandState.getSubType());
+        String place = islandNames.get(MccIslandState.getFishingIsland());
         if (place != null) {
             activity.setDetails(I18n.get("islandutils.discordPresence.details.inThePlace",place));
-            activity.assets().setLargeImage(MccIslandState.getSubType().toLowerCase());
+            activity.assets().setLargeImage(MccIslandState.getFishingIsland());
             activity.assets().setLargeText(place);
 
             activity.assets().setSmallImage("fishing");
