@@ -1,5 +1,6 @@
 package net.asodev.islandutils.modules.music;
 
+import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.mixins.accessors.SoundEngineAccessor;
 import net.asodev.islandutils.mixins.accessors.SoundManagerAccessor;
 import net.asodev.islandutils.modules.music.modifiers.*;
@@ -50,6 +51,8 @@ public class MusicManager {
         addModifier(new ClassicHitwMusic());
         addModifier(new PreviousDynaballMusic());
         addModifier(new HighQualityMusic());
+
+        IslandUtilsEvents.GAME_CHANGE.register((game) -> currentlyPlaying = null);
 
         ClientTickEvents.START_CLIENT_TICK.register((client) -> {
             if (currentlyPlaying == null) return;
@@ -106,10 +109,8 @@ public class MusicManager {
                 } else {
                     soundManager.stop(instance);
                 }
+                currentlyPlaying = null;
             }
-        }
-        if (currentlyPlaying != null && currentlyPlaying.getIdentifier().equals(name)) {
-            currentlyPlaying = null;
         }
     }
 
