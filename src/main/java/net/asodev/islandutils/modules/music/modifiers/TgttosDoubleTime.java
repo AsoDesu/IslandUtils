@@ -1,13 +1,9 @@
 package net.asodev.islandutils.modules.music.modifiers;
 
-import net.asodev.islandutils.modules.music.MusicModifier;
 import net.asodev.islandutils.modules.music.SoundInfo;
 import net.asodev.islandutils.modules.music.TrackMusicModifier;
 import net.asodev.islandutils.state.MccIslandState;
-import net.asodev.islandutils.util.MCCSoundInstance;
-import net.minecraft.client.resources.sounds.SoundInstance;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class TgttosDoubleTime extends TrackMusicModifier {
     public TgttosDoubleTime(){
@@ -20,7 +16,7 @@ public class TgttosDoubleTime extends TrackMusicModifier {
     }
 
     @Override
-    public boolean shouldApply1(ResourceLocation soundLocation) {
+    public boolean shouldApply1(Identifier soundLocation) {
         return MccIslandState.getModifier().equals("DOUBLE TIME");
     }
 }

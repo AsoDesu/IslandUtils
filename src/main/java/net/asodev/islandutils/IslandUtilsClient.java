@@ -20,12 +20,14 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.resources.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
 public class IslandUtilsClient implements ClientModInitializer {
     public static KeyMapping openPlobbyKey;
     public static KeyMapping disguiseKeyBind;
+    public static KeyMapping.Category keyCategory = new KeyMapping.Category(Identifier.fromNamespaceAndPath("islandutils", "keys"));
 
     @Override
     public void onInitializeClient() {
@@ -33,13 +35,13 @@ public class IslandUtilsClient implements ClientModInitializer {
                 "key.islandutils.plobbymenu",
                 InputConstants.Type.KEYSYM,
                 GLFW.GLFW_KEY_K,
-                "category.islandutils.keys"
+                keyCategory
         ));
         disguiseKeyBind = KeyBindingHelper.registerKeyBinding(new KeyMapping(
                 "key.islandutils.disguise",
                 InputConstants.Type.KEYSYM,
                 GLFW.GLFW_KEY_N,
-                "category.islandutils.keys"
+                keyCategory
         ));
         SplitManager.init();
         DisguiseKeybind.registerDisguiseInput();
@@ -51,7 +53,6 @@ public class IslandUtilsClient implements ClientModInitializer {
         if (Utils.isLunarClient()) {
             SplitUI.setupFallbackRenderer();
         }
-        new NoxesiumIntegration().init();
         MusicManager.init();
 
         IslandUtilsEvents.PACK_FINAL_RESULT.register((uuid, finalResult) -> FontLoaderManager.warnAboutUnfulfilledAssets());

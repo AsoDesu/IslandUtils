@@ -18,6 +18,7 @@ import net.minecraft.client.gui.screens.LoadingOverlay;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -110,7 +111,7 @@ public class CraftingNotifier implements ClientTickEvents.EndTick {
                 timeColor = ChatFormatting.DARK_GREEN;
             }
 
-            Component itemComponent = Component.literal(" ").withStyle(Style.EMPTY.withFont(Style.DEFAULT_FONT))
+            Component itemComponent = Component.literal(" ").withStyle(Style.EMPTY.withFont(FontDescription.DEFAULT))
                     .append(item.getTypeIcon())
                     .append(" ")
                     .append(item.getTitle())

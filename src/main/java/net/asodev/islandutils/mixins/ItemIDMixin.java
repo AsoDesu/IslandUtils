@@ -14,7 +14,7 @@ import net.minecraft.core.component.DataComponentHolder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
@@ -42,7 +42,7 @@ public abstract class ItemIDMixin implements DataComponentHolder {
     )
     private void addTooltipLines(Item.TooltipContext tooltipContext, @Nullable Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir, @Local List<Component> list) {
         if (!MccIslandState.isOnline() || !IslandOptions.getMisc().isDebugMode()) return;
-        if (!InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), InputConstants.KEY_LCONTROL))
+        if (!InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), InputConstants.KEY_LCONTROL))
             return;
 
         MutableComponent toAppend = Component.empty();
@@ -56,7 +56,7 @@ public abstract class ItemIDMixin implements DataComponentHolder {
 
     @Unique
     private void tryAddCustomItemID(MutableComponent toAppend) {
-        ResourceLocation customItemID = Utils.getCustomItemID((ItemStack) (Object) this);
+        Identifier customItemID = Utils.getCustomItemID((ItemStack) (Object) this);
         if (customItemID == null) return;
         toAppend.append(Component.literal(customItemID.toString()).withStyle(ChatFormatting.AQUA));
     }

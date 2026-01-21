@@ -3,7 +3,6 @@ package net.asodev.islandutils.mixins.crafting;
 import net.asodev.islandutils.modules.crafting.CraftingMenuType;
 import net.asodev.islandutils.modules.crafting.CraftingUI;
 import net.asodev.islandutils.state.MccIslandState;
-import net.asodev.islandutils.util.ChatUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.network.chat.Component;

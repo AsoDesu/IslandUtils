@@ -7,8 +7,8 @@ import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.DiscordOptions;
 import net.asodev.islandutils.state.Game;
-import net.minecraft.client.resources.language.I18n;
 import net.asodev.islandutils.state.MccIslandState;
+import net.minecraft.client.resources.language.I18n;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;

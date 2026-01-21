@@ -1,6 +1,6 @@
 package net.asodev.islandutils.util;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 
 public class IslandSoundEvents {
@@ -9,14 +9,14 @@ public class IslandSoundEvents {
     public static final SoundEvent ANNOUNCER_GAME_OVER = islandUtilsEvent("announcer.gameover");
 
     private static SoundEvent soundEvent(String path) {
-        return SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath("mcc", path));
+        return SoundEvent.createVariableRangeEvent(Identifier.fromNamespaceAndPath("mcc", path));
     }
 
     private static SoundEvent islandUtilsEvent(String path) {
         return SoundEvent.createVariableRangeEvent(islandSound(path));
     }
 
-    public static ResourceLocation islandSound(String path) {
-        return ResourceLocation.fromNamespaceAndPath("island", path);
+    public static Identifier islandSound(String path) {
+        return Identifier.fromNamespaceAndPath("island", path);
     }
 }

@@ -19,7 +19,7 @@ import java.util.List;
 public class RemnantHighlightMixin {
 
     @Inject(method = "renderSlot", at = @At("HEAD"))
-    private void renderSlot(GuiGraphics guiGraphics, Slot slot, CallbackInfo ci) {
+    private void renderSlot(GuiGraphics guiGraphics, Slot slot, int i, int j, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
         if (!slot.hasItem()) return;
 

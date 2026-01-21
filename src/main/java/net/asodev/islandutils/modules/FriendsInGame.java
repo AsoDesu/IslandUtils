@@ -94,7 +94,7 @@ public class FriendsInGame {
         ClientPacketListener connection = client.getConnection();
         if (connection == null) return;
         for (PlayerInfo p : connection.getOnlinePlayers()) {
-            String name = p.getProfile().getName();
+            String name = p.getProfile().name();
             if (friends.contains(name)) {
                 hasFriends = true;
                 friendsInThisGame.append(", ").append(name);

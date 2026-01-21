@@ -1,14 +1,13 @@
 package net.asodev.islandutils.modules.music;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public abstract class MusicModifier {
     private boolean isEnabled = defaultOption();
     private final String identifier;
     private final Component name;
     private final Component desc;
-
     public MusicModifier(String identifier) {
         this.identifier = identifier;
         this.name = Component.translatable("islandutils.music_modifier." + identifier);
@@ -21,7 +20,7 @@ public abstract class MusicModifier {
     }
 
     public abstract SoundInfo apply(SoundInfo info);
-    public abstract boolean shouldApply(ResourceLocation soundLocation);
+    public abstract boolean shouldApply(Identifier soundLocation);
 
     public boolean hasOption() {
         return true;

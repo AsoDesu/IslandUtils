@@ -6,12 +6,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ import java.util.concurrent.Executors;
 public class Utils {
     private static final Logger logger = LoggerFactory.getLogger(Utils.class);
     public static final ExecutorService savingQueue = Executors.newFixedThreadPool(2);
-    public static final Style MCC_HUD_FONT = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mcc", "hud"));
+    public static final Style MCC_HUD_FONT = Style.EMPTY.withFont(new FontDescription.Resource(Identifier.fromNamespaceAndPath("mcc", "hud")));
     public static final String BLANK_ITEM_ID = "island_interface.generic.blank";
     private static final List<String> NON_PROD_IP_HASHES = List.of(
             "e927084bb931f83eece6780afd9046f121a798bf3ff3c78a9399b08c1dfb1aec", // bigrat.mccisland.net easteregg/test ip
@@ -68,9 +68,9 @@ public class Utils {
         if (!folder.exists()) folder.mkdir();
     }
 
-    public static ResourceLocation getCustomItemID(ItemStack item) {
+    public static Identifier getCustomItemID(ItemStack item) {
         var base = item.get(DataComponents.ITEM_MODEL);
-        return base == null ? null : ResourceLocation.fromNamespaceAndPath(base.getNamespace(), base.getPath().replace("/", "."));
+        return base == null ? null : Identifier.fromNamespaceAndPath(base.getNamespace(), base.getPath().replace("/", "."));
     }
 
     public static boolean isProdMCCI(String hostname) {

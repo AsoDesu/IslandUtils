@@ -10,7 +10,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -18,7 +18,7 @@ public class CraftingItem {
 
     private Component title;
     private Item type;
-    private ResourceLocation itemModel;
+    private Identifier itemModel;
 
     private long finishesCrafting;
     private CraftingMenuType craftingMenuType;
@@ -44,12 +44,12 @@ public class CraftingItem {
         JsonElement jsonTitle = object.get("title");
         item.setTitle(ComponentSerialization.CODEC.decode(JsonOps.INSTANCE, jsonTitle).getOrThrow().getFirst());
 
-        ResourceLocation typeKey = ResourceLocation.parse(object.get("type").getAsString());
+        Identifier typeKey = Identifier.parse(object.get("type").getAsString());
         Holder.Reference<Item> itemType = BuiltInRegistries.ITEM.get(typeKey)
                 .orElseThrow(() -> new IllegalStateException("Item with type " + typeKey + " does not exist."));
         item.setType(itemType.value());
 
-        item.setItemModel(ResourceLocation.parse(object.get("itemModel").getAsString()));
+        item.setItemModel(Identifier.parse(object.get("itemModel").getAsString()));
 
         String craftingTypeString = object.get("craftingMenuType").getAsString();
         item.setCraftingMenuType(CraftingMenuType.valueOf(craftingTypeString.toUpperCase()));
@@ -91,11 +91,11 @@ public class CraftingItem {
         this.type = type;
     }
 
-    public ResourceLocation getItemModel() {
+    public Identifier getItemModel() {
         return itemModel;
     }
 
-    public void setItemModel(ResourceLocation itemModel) {
+    public void setItemModel(Identifier itemModel) {
         this.itemModel = itemModel;
     }
 

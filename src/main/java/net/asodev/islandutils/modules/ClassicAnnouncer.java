@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -48,7 +48,7 @@ public class ClassicAnnouncer {
 
         try {
             ClassicAnnouncer.trap = trap; // Set the trap to the one we just found
-            ResourceLocation sound = ResourceLocation.fromNamespaceAndPath("island", "announcer." + trap); // island:announcer.(trap) -> The sound location
+            Identifier sound = Identifier.fromNamespaceAndPath("island", "announcer." + trap); // island:announcer.(trap) -> The sound location
             SoundInstance soundInstance = SimpleSoundInstance.forUI(SoundEvent.createVariableRangeEvent(sound), 1f, 1f);
             Minecraft.getInstance().getSoundManager().play(soundInstance); // Play the sound!!
         } catch (Exception e) {

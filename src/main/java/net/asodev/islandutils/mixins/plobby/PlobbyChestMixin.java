@@ -6,7 +6,7 @@ import net.asodev.islandutils.util.Utils;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -28,7 +28,7 @@ public class PlobbyChestMixin extends Screen {
         if (index != 8 && slot.hasItem()) return;
 
         ItemStack item = slot.getItem();
-        ResourceLocation customItemID = Utils.getCustomItemID(item);
+        Identifier customItemID = Utils.getCustomItemID(item);
         if (customItemID != null && !customItemID.getPath().equals(Utils.BLANK_ITEM_ID)) return;
 
         String code = PlobbyJoinCodeCopy.getJoinCodeFromItem(item);

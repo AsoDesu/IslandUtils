@@ -7,7 +7,7 @@ import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.FontUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,7 +47,7 @@ public class FontLoaderManager {
         });
     }
 
-    public static void tryFulfillAsset(ResourceLocation resourceLocation, String character) {
+    public static void tryFulfillAsset(Identifier resourceLocation, String character) {
         Component component = Component.literal(character).setStyle(FontUtils.MCC_ICONS_STYLE);
         String path = resourceLocation.getPath();
 

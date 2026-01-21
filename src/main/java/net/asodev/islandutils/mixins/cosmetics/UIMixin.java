@@ -6,8 +6,6 @@ import net.asodev.islandutils.modules.cosmetics.CosmeticType;
 import net.asodev.islandutils.modules.cosmetics.CosmeticUI;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.CosmeticsOptions;
-import net.asodev.islandutils.state.Game;
-import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.FontUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -32,8 +30,8 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         super(abstractContainerMenu, inventory, component);
     }
 
-    @Inject(method = "renderBg", at = @At("TAIL"))
-    public void renderBg(GuiGraphics guiGraphics, float f, int i, int j, CallbackInfo ci) {
+    @Inject(method = "render", at = @At("TAIL"))
+    public void render(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
         if (!CosmeticState.shouldShowCosmeticPreview()) return;
 
         CosmeticsOptions options = IslandOptions.getCosmetics();

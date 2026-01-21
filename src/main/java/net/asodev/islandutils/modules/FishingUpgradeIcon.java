@@ -4,13 +4,13 @@ import net.asodev.islandutils.util.Utils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.inventory.Slot;
 
 import java.util.List;
 
 public class FishingUpgradeIcon {
-    private static final ResourceLocation UPGRADE_ICON_LOCATION = ResourceLocation.fromNamespaceAndPath("island", "upgrade");
+    private static final Identifier UPGRADE_ICON_LOCATION = Identifier.fromNamespaceAndPath("island", "upgrade");
 
     public static void render(Slot slot, GuiGraphics guiGraphics) {
         List<Component> lore = Utils.getTooltipLines(slot.getItem());
