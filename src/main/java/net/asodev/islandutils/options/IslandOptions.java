@@ -31,7 +31,6 @@ public class IslandOptions {
     private static final ClassicOptions classicHITW = new ClassicOptions();
     private static final CraftingOptions crafting = new CraftingOptions();
     private static final SplitsCategory splits = new SplitsCategory();
-    private static final PlobbyOptions plobby = new PlobbyOptions();
     private static final MiscOptions misc = new MiscOptions();
 
     public static void init() {
@@ -41,7 +40,6 @@ public class IslandOptions {
         categories.add(classicHITW);
         categories.add(crafting);
         categories.add(splits);
-        categories.add(plobby);
         categories.add(misc);
         load();
     }
@@ -101,9 +99,6 @@ public class IslandOptions {
     }
     public static SplitsCategory getSplits() {
         return splits;
-    }
-    public static PlobbyOptions getPlobby() {
-        return plobby;
     }
     public static MiscOptions getMisc() {
         return misc;
