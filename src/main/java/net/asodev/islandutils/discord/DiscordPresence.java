@@ -2,45 +2,31 @@ package net.asodev.islandutils.discord;
 
 import de.jcm.discordgamesdk.Core;
 import de.jcm.discordgamesdk.CreateParams;
-
-import java.io.File;
+import de.jcm.discordgamesdk.LogLevel;
 
 public class DiscordPresence {
     
     static Core core;
-    static boolean initalised = false;
-
-    static String os = System.getProperty("os.name").toLowerCase();
+    static boolean initialised = false;
 
     public static boolean init() {
-        if (initalised) return true;
-
-        File discordLibrary;
-        try {
-            discordLibrary = NativeLibrary.grabDiscordNative();
-            File discordJNI = NativeLibrary.grabDiscordJNI();
-
-            if (os.contains("windows")) System.load(discordLibrary.getAbsolutePath());
-            System.load(discordJNI.getAbsolutePath());
-        } catch (Exception e) {
-            System.out.println("Failed to grab Natives: " + e.getMessage());
-            return false;
-        }
-
-        Core.initDiscordNative(discordLibrary.getAbsolutePath());
-
-        CreateParams params = new CreateParams();
-        params.setClientID(1027930697417101344L);
-        params.setFlags(CreateParams.Flags.NO_REQUIRE_DISCORD);
+        if (initialised) return true;
 
         try {
+            clear(); // just in case :)
+
+            CreateParams params = new CreateParams();
+            params.setClientID(1027930697417101344L);
+            params.setFlags(CreateParams.Flags.NO_REQUIRE_DISCORD);
             core = new Core(params);
-            initalised = true;
+            // By default, logging is set to verbose for some reason, causing a lot of spam in the logs
+            core.setLogHook(LogLevel.WARN, Core.DEFAULT_LOG_HOOK);
+            initialised = true;
         } catch (Exception e) {
             System.out.println("Failed to Initialise Discord Presence.");
+            e.printStackTrace();
             return false;
         }
-
         new Thread(() -> {
             while (core != null && core.isOpen()) {
                 core.runCallbacks();
@@ -59,7 +45,7 @@ public class DiscordPresence {
         try { core.close(); }
         catch (Exception e) { e.printStackTrace(); }
 
-        initalised = false;
+        initialised = false;
         core = null;
     }
 
