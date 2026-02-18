@@ -24,7 +24,7 @@ public class PlainTextButtonNoShadow extends Button {
     }
 
     @Override
-    public void renderWidget(GuiGraphics guiGraphics, int i, int j, float f) {
+    public void renderContents(GuiGraphics guiGraphics, int i, int j, float f) {
         Component component = this.isHoveredOrFocused() ? this.underlinedMessage : this.message;
         guiGraphics.drawString(this.font, component, getX(), getY(), 0xFFFFFF | Mth.ceil(this.alpha * 255.0f) << 24, false);
     }

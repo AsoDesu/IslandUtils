@@ -6,7 +6,6 @@ import net.asodev.islandutils.modules.cosmetics.CosmeticSlot;
 import net.asodev.islandutils.modules.cosmetics.CosmeticState;
 import net.asodev.islandutils.modules.cosmetics.CosmeticType;
 import net.asodev.islandutils.options.IslandOptions;
-import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.IslandSoundEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -14,11 +13,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -42,7 +43,7 @@ import static net.asodev.islandutils.util.Utils.getCustomItemID;
 
 @Mixin(AbstractContainerScreen.class)
 public abstract class ChestScreenMixin extends Screen {
-    @Unique private static final ResourceLocation PREVIEW = ResourceLocation.fromNamespaceAndPath("island", "preview");
+    @Unique private static final Identifier PREVIEW = Identifier.fromNamespaceAndPath("island", "preview");
 
     @Shadow protected Slot hoveredSlot;
 
@@ -60,7 +61,7 @@ public abstract class ChestScreenMixin extends Screen {
     }
 
     @Inject(method = "renderSlot", at = @At("TAIL"))
-    private void renderSlot(GuiGraphics guiGraphics, Slot slot, CallbackInfo ci) {
+    private void renderSlot(GuiGraphics guiGraphics, Slot slot, int i, int j, CallbackInfo ci) {
         if (!CosmeticState.shouldShowCosmeticPreview()) return;
         if (!slot.hasItem()) return;
 
@@ -112,20 +113,20 @@ public abstract class ChestScreenMixin extends Screen {
     }
 
     @Inject(method = "mouseDragged", at = @At("HEAD"))
-    private void mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY, CallbackInfoReturnable<Boolean> cir) {
+    private void mouseDragged(MouseButtonEvent mouseButtonEvent, double d, double e, CallbackInfoReturnable<Boolean> cir) {
         if (!CosmeticState.shouldShowCosmeticPreview()) return;
 
-        CosmeticState.yRot = CosmeticState.yRot - Double.valueOf(deltaX).floatValue();
-        CosmeticState.xRot = CosmeticState.xRot - Double.valueOf(deltaY).floatValue();
+        CosmeticState.yRot = CosmeticState.yRot - Double.valueOf(d).floatValue();
+        CosmeticState.xRot = CosmeticState.xRot - Double.valueOf(e).floatValue();
     }
 
     @Inject(method = "keyPressed", at = @At("HEAD"))
-    private void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        triggerPreviewClicked(keyCode);
+    private void keyPressed(KeyEvent keyEvent, CallbackInfoReturnable<Boolean> cir) {
+        triggerPreviewClicked(keyEvent.key());
     }
     @Inject(method = "mouseReleased", at = @At("HEAD"))
-    private void mouseReleased(double d, double e, int keyCode, CallbackInfoReturnable<Boolean> cir) {
-        triggerPreviewClicked(keyCode);
+    private void mouseReleased(MouseButtonEvent mouseButtonEvent, CallbackInfoReturnable<Boolean> cir) {
+        triggerPreviewClicked(mouseButtonEvent.button());
     }
 
     @Inject(method = "slotClicked", at = @At("HEAD"))
@@ -161,14 +162,14 @@ public abstract class ChestScreenMixin extends Screen {
     @Unique
     private void setPreview(ItemStack item) {
         CosmeticType type = CosmeticState.getType(item);
-        ResourceLocation hoverCMD = getCustomItemID(item);
+        Identifier hoverCMD = getCustomItemID(item);
         if (type == CosmeticType.HAT) setOrNotSet(CosmeticState.hatSlot, hoverCMD);
         else if (type == CosmeticType.ACCESSORY) setOrNotSet(CosmeticState.accessorySlot, hoverCMD);
         else if (type == CosmeticType.MAIN_HAND) setOrNotSet(CosmeticState.mainHandSlot, hoverCMD);
     }
 
     @Unique
-    private void setOrNotSet(Cosmetic cosmetic, ResourceLocation itemCMD) {
+    private void setOrNotSet(Cosmetic cosmetic, Identifier itemCMD) {
         if (cosmetic.preview != null && Objects.equals(getCustomItemID(cosmetic.preview.item), itemCMD)) {
             cosmetic.preview = null;
         } else {

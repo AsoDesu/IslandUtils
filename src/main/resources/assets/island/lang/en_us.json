@@ -7,8 +7,7 @@
 
   "key.islandutils.plobbymenu": "Open Plobby Menu",
   "key.islandutils.disguise": "Toggle Disguise",
-  "category.islandutils.keys": "IslandUtils",
-  "category.islandutils": "Island Utils",
+  "key.category.islandutils.keys": "IslandUtils",
 
   "text.autoconfig.islandutils.title": "Island Utils Options",
   "text.autoconfig.islandutils.category.music": "Music",

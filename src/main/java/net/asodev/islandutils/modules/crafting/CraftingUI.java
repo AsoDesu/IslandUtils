@@ -8,15 +8,16 @@ import net.asodev.islandutils.util.Utils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CraftingUI {
-    public static Style CHEST_BACKGROUND_STYLE = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(ResourceLocation.fromNamespaceAndPath("mcc", "chest_backgrounds"));
+    public static Style CHEST_BACKGROUND_STYLE = Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(new FontDescription.Resource(Identifier.fromNamespaceAndPath("mcc", "chest_backgrounds")));
 
     private static Component assemblerComponent;
     private static Component forgeComponent;
@@ -55,7 +56,7 @@ public class CraftingUI {
                 craftingItem.setSlot(slot);
                 craftingItem.setType(item.getItem());
                 craftingItem.setTitle(item.getHoverName());
-                craftingItem.setItemModel(item.getOrDefault(DataComponents.ITEM_MODEL, ResourceLocation.withDefaultNamespace("missingno")));
+                craftingItem.setItemModel(item.getOrDefault(DataComponents.ITEM_MODEL, Identifier.withDefaultNamespace("missingno")));
 
                 CraftingItems.addItem(craftingItem);
                 ChatUtils.debug("[#" + slot + " " + type.name() + "] Found active craft: " + item.getDisplayName().getString() + " (" + timeLeft + ")");

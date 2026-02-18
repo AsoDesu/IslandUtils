@@ -7,8 +7,7 @@
 
   "key.islandutils.plobbymenu": "Вікрити меню приватного лобі",
   "key.islandutils.disguise": "Перемкнути маскування",
-  "category.islandutils.keys": "IslandUtils",
-  "category.islandutils": "Island Utils",
+  "key.category.islandutils.keys": "IslandUtils",
 
   "text.autoconfig.islandutils.title": "Налаштування Island Utils",
   "text.autoconfig.islandutils.category.music": "Музика",

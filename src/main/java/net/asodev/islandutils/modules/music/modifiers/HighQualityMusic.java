@@ -5,13 +5,13 @@ import net.asodev.islandutils.modules.music.MusicModifier;
 import net.asodev.islandutils.modules.music.SoundInfo;
 import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.util.ChatUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class HighQualityMusic extends MusicModifier {
-    Map<String, ResourceLocation> replacements = new HashMap<>();
+    Map<String, Identifier> replacements = new HashMap<>();
 
     public HighQualityMusic() {
         super("global.hq");
@@ -35,7 +35,7 @@ public class HighQualityMusic extends MusicModifier {
 
     @Override
     public SoundInfo apply(SoundInfo info) {
-        ResourceLocation replacementPath = replacements.get(info.path().getPath());
+        Identifier replacementPath = replacements.get(info.path().getPath());
         ChatUtils.debug("High Quality music => " + replacementPath);
         return replacementPath != null ? info.withPath(replacementPath) : info;
     }
@@ -46,7 +46,7 @@ public class HighQualityMusic extends MusicModifier {
     }
 
     @Override
-    public boolean shouldApply(ResourceLocation soundLocation) {
+    public boolean shouldApply(Identifier soundLocation) {
         return true;
     }
 }

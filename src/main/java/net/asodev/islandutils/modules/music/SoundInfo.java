@@ -1,15 +1,13 @@
 package net.asodev.islandutils.modules.music;
 
 import net.asodev.islandutils.util.MCCSoundInstance;
-import net.minecraft.core.Holder;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundSource;
 
-public record SoundInfo(ResourceLocation path, SoundSource category, double x, double y, double z, float volume, float pitch, long seed, boolean looping) {
+public record SoundInfo(Identifier path, SoundSource category, double x, double y, double z, float volume, float pitch, long seed, boolean looping) {
 
-    public SoundInfo withPath(ResourceLocation path) {
+    public SoundInfo withPath(Identifier path) {
         return new SoundInfo(path, category, x, y, z, volume, pitch, seed, looping);
     }
 
@@ -25,7 +23,7 @@ public record SoundInfo(ResourceLocation path, SoundSource category, double x, d
         return new SoundInfo(path, category, x, y, z, volume, pitch, seed, looping);
     }
 
-    public static SoundInfo fromLocation(ResourceLocation location) {
+    public static SoundInfo fromLocation(Identifier location) {
         return new SoundInfo(location, SoundSource.MASTER, 0.0, 0.0, 0.0, 1f, 1f, 0L, false);
     }
     public static SoundInfo fromPacket(ClientboundSoundPacket soundPacket) {

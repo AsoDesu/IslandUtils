@@ -22,14 +22,13 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.game.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -50,11 +49,11 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         super(minecraft, connection, commonListenerCookie);
     }
 
-    @Inject(method = "handleSoundEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/util/thread/BlockableEventLoop;)V", shift = At.Shift.AFTER), cancellable = true)
+    @Inject(method = "handleSoundEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/network/PacketProcessor;)V", shift = At.Shift.AFTER), cancellable = true)
     public void handleCustomSoundEvent(ClientboundSoundPacket clientboundCustomSoundPacket, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
 
-        ResourceLocation soundLoc = clientboundCustomSoundPacket.getSound().value().location();
+        Identifier soundLoc = clientboundCustomSoundPacket.getSound().value().location();
         if (!soundLoc.getNamespace().equals("mcc")) return;
 
         if (soundLoc.getPath().startsWith("music.")) {
@@ -67,10 +66,10 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         }
     }
 
-    @Inject(method = "handleStopSoundEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/util/thread/BlockableEventLoop;)V", shift = At.Shift.AFTER), cancellable = true)
+    @Inject(method = "handleStopSoundEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/network/PacketProcessor;)V", shift = At.Shift.AFTER), cancellable = true)
     public void handleStopSoundEvent(ClientboundStopSoundPacket clientboundStopSoundPacket, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
-        ResourceLocation soundLoc = clientboundStopSoundPacket.getName();
+        Identifier soundLoc = clientboundStopSoundPacket.getName();
         if (soundLoc == null || !soundLoc.getNamespace().equals("mcc")) return;
 
         if (soundLoc.getPath().startsWith("music.")) {
@@ -80,7 +79,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         }
     }
 
-    @Inject(method = "handleContainerContent", at = @At("TAIL"))
+    @Inject(method = "handleContainerContent", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/network/PacketProcessor;)V", shift = At.Shift.AFTER))
     // Cosmetic previews, whenever we get our cosmetics back after closing menu
     private void containerContent(ClientboundContainerSetContentPacket clientboundContainerSetContentPacket, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
@@ -93,9 +92,10 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         CosmeticState.accessorySlot.setOriginal(new CosmeticSlot(CosmeticType.ACCESSORY.getItem(inventory)));
     }
 
+    @Unique
     private static Pattern timerPattern = Pattern.compile("(\\d+:\\d+)");
 
-    @Inject(method = "handleBossUpdate", at = @At("HEAD")) // Discord presence, time left
+    @Inject(method = "handleBossUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/network/PacketProcessor;)V", shift = At.Shift.AFTER)) // Discord presence, time left
     private void handleBossUpdate(ClientboundBossEventPacket clientboundBossEventPacket, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
         // Create a handler for the bossbar
@@ -133,10 +133,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         clientboundBossEventPacket.dispatch(bossbarHandler); // Execute the handler!
     }
 
-    TextColor textColor = ChatUtils.parseColor("#FFA800"); // Trap Title Text Color
-    Style style = Style.EMPTY.withColor(textColor); // Style for the trap color
-
-    @Inject(method = "setSubtitleText", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "setSubtitleText", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/network/PacketProcessor;)V", shift = At.Shift.AFTER), cancellable = true)
     private void titleText(ClientboundSetSubtitleTextPacket clientboundSetSubtitleTextPacket, CallbackInfo ci) {
         if (MccIslandState.getGame() == Game.HITW) {
             ClassicAnnouncer.handleTrap(clientboundSetSubtitleTextPacket, ci);
@@ -147,7 +144,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         }
     }
 
-    @Inject(method = "setTitleText", at = @At("HEAD")) // Game Over Sound Effect
+    @Inject(method = "setTitleText", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/network/PacketProcessor;)V", shift = At.Shift.AFTER)) // Game Over Sound Effect
     private void gameOver(ClientboundSetTitleTextPacket clientboundSetTitleTextPacket, CallbackInfo ci) {
         if (MccIslandState.getGame() != Game.HITW) return; // Make sure we're playing HITW
         if (!IslandOptions.getClassicHITW().isClassicHITW()) return; // Requires isClassicHITW
@@ -158,7 +155,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
         }
     }
 
-    @Inject(method = "handleSystemChat", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "handleSystemChat", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/network/PacketProcessor;)V", shift = At.Shift.AFTER), cancellable = true)
     private void onChat(ClientboundSystemChatPacket clientboundSystemChatPacket, CallbackInfo ci) {
         if (clientboundSystemChatPacket.overlay() || !MccIslandState.isOnline()) return;
 

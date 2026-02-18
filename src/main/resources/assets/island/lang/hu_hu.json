@@ -6,8 +6,7 @@
   "soundCategory.sound_effects":  "§aMCCI: Hangeffektek",
   
   "key.islandutils.preview": "Kozmetikai Előnézet",
-  "category.islandutils.keys": "IslandUtils",
-  "category.islandutils": "Island Utils",
+  "key.category.islandutils.keys": "IslandUtils",
 
   "text.autoconfig.islandutils.title": "Island Utils Beállítások",
   "text.autoconfig.islandutils.category.music": "Zene",

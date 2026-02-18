@@ -1,8 +1,6 @@
 package net.asodev.islandutils.modules.music;
 
-import net.minecraft.client.resources.sounds.SoundInstance;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public abstract class TrackMusicModifier extends MusicModifier {
     private String trackPath;
@@ -13,11 +11,11 @@ public abstract class TrackMusicModifier extends MusicModifier {
     }
 
     @Override
-    public boolean shouldApply(ResourceLocation soundLocation) {
+    public boolean shouldApply(Identifier soundLocation) {
         return soundLocation.getPath().equals(trackPath) && shouldApply1(soundLocation);
     }
 
-    public boolean shouldApply1(ResourceLocation soundLocation) {
+    public boolean shouldApply1(Identifier soundLocation) {
         return true;
     }
 }

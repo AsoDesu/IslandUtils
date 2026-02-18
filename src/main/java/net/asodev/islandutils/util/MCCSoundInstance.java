@@ -2,24 +2,21 @@ package net.asodev.islandutils.util;
 
 import net.asodev.islandutils.modules.music.SoundInfo;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
-import net.minecraft.client.resources.sounds.SoundInstance;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 
-import java.util.List;
-
 public class MCCSoundInstance extends AbstractTickableSoundInstance {
 
-    public ResourceLocation location;
+    public Identifier location;
 
     public float totalVolume;
     public float totalFadeTicks = 20f;
     public float fadeTicks = 0f;
     public boolean isFading = false;
 
-    public MCCSoundInstance(ResourceLocation location, SoundSource soundSource, float volume,float pitch, RandomSource randomSource, double x, double y, double z) {
+    public MCCSoundInstance(Identifier location, SoundSource soundSource, float volume,float pitch, RandomSource randomSource, double x, double y, double z) {
         super(SoundEvent.createVariableRangeEvent(location), soundSource, randomSource);
         this.location = location;
         this.volume = volume;

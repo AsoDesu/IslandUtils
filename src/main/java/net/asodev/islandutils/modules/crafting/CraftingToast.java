@@ -6,11 +6,11 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.toasts.Toast;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.client.gui.components.toasts.ToastManager;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +22,7 @@ import java.util.Objects;
 import static net.asodev.islandutils.util.Utils.MCC_HUD_FONT;
 
 public class CraftingToast implements Toast {
-    private static final ResourceLocation ISLAND_TOASTS_TEXTURE = ResourceLocation.fromNamespaceAndPath("island", "toasts");
+    private static final Identifier ISLAND_TOASTS_TEXTURE = Identifier.fromNamespaceAndPath("island", "toasts");
     private static final long DISPLAY_TIME = 5000; // 5s
 
     ItemStack itemStack;

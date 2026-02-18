@@ -1,15 +1,10 @@
 package net.asodev.islandutils.modules.music;
 
-import net.asodev.islandutils.IslandUtilsClient;
+import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.mixins.accessors.SoundEngineAccessor;
 import net.asodev.islandutils.mixins.accessors.SoundManagerAccessor;
-import net.asodev.islandutils.modules.music.modifiers.ClassicHitwMusic;
-import net.asodev.islandutils.modules.music.modifiers.HighQualityMusic;
-import net.asodev.islandutils.modules.music.modifiers.PreviousDynaballMusic;
-import net.asodev.islandutils.modules.music.modifiers.TgttosDomeModifier;
-import net.asodev.islandutils.modules.music.modifiers.TgttosDoubleTime;
+import net.asodev.islandutils.modules.music.modifiers.*;
 import net.asodev.islandutils.options.IslandOptions;
-import net.asodev.islandutils.options.saving.IslandUtilsSaveHandler;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.MCCSoundInstance;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -20,7 +15,7 @@ import net.minecraft.client.sounds.SoundEngine;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +51,8 @@ public class MusicManager {
         addModifier(new ClassicHitwMusic());
         addModifier(new PreviousDynaballMusic());
         addModifier(new HighQualityMusic());
+
+        IslandUtilsEvents.GAME_CHANGE.register((game) -> currentlyPlaying = null);
 
         ClientTickEvents.START_CLIENT_TICK.register((client) -> {
             if (currentlyPlaying == null) return;
@@ -96,26 +93,24 @@ public class MusicManager {
 
         MCCSoundInstance instance = newSoundInfo.toSoundInstance();
         currentlyPlaying = instance;
-        ChatUtils.debug("Starting music: " + instance.getLocation());
+        ChatUtils.debug("Starting music: " + instance.getIdentifier());
         Minecraft.getInstance().getSoundManager().play(instance);
     }
 
     public static void onMusicStopPacket(ClientboundStopSoundPacket packet, Minecraft minecraft) {
-        ResourceLocation name = packet.getName();
-        ResourceLocation modifiedName = applyModifiers(SoundInfo.fromLocation(name)).path();
+        Identifier name = packet.getName();
+        Identifier modifiedName = applyModifiers(SoundInfo.fromLocation(name)).path();
 
         SoundManager soundManager = Minecraft.getInstance().getSoundManager();
         for (SoundInstance instance : getActiveSoundInstances()) {
-            if (instance.getLocation().equals(name) || instance.getLocation().equals(modifiedName)) {
+            if (instance.getIdentifier().equals(name) || instance.getIdentifier().equals(modifiedName)) {
                 if (instance instanceof MCCSoundInstance mccSound) {
                     mccSound.fade(FADE_DURATION);
                 } else {
                     soundManager.stop(instance);
                 }
+                currentlyPlaying = null;
             }
-        }
-        if (currentlyPlaying != null && currentlyPlaying.getLocation().equals(name)) {
-            currentlyPlaying = null;
         }
     }
 

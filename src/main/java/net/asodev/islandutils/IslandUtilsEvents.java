@@ -1,6 +1,6 @@
 package net.asodev.islandutils;
 
-import com.noxcrew.noxesium.network.clientbound.ClientboundMccGameStatePacket;
+import com.noxcrew.noxesium.core.mcc.ClientboundMccServerPacket;
 import net.asodev.islandutils.state.Game;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
@@ -84,7 +84,7 @@ public class IslandUtilsEvents {
 
     @FunctionalInterface
     public interface GameStateChange {
-        void onGameUpdate(ClientboundMccGameStatePacket state);
+        void onGameUpdate(ClientboundMccServerPacket state);
     }
 
     @FunctionalInterface
