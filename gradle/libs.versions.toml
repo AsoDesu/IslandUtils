@@ -1,0 +1,14 @@
+[versions]
+fabric-api = "0.140.2+1.21.11"
+yacl = "3.8.1+1.21.11-fabric"
+modmenu = "17.0.0-beta.1"
+noxesium = "3.0.0"
+discord-game-sdk4j = "v1.0.0"
+
+[libraries]
+fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
+yacl = { module = "dev.isxander:yet-another-config-lib", version.ref = "yacl" }
+modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
+noxesium-fabric = { module = "com.noxcrew.noxesium:fabric", version.ref = "noxesium" }
+discord-game-sdk4j = { module = "com.github.JnCrMx:discord-game-sdk4j", version.ref = "discord-game-sdk4j" }
+

@@ -37,19 +37,17 @@ dependencies {
 
     // Fabric
     modImplementation("net.fabricmc:fabric-loader:${properties["loader_version"]!!}")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:${properties["fabric_version"]!!}")
+    modImplementation(libs.fabric.api)
 
-    // Other mods
-    modApi("dev.isxander:yet-another-config-lib:${properties["yacl_version"]!!}") {
+    // Libraries
+    modApi(libs.yacl) {
         exclude(group = "com.twelvemonkeys.common")
         exclude(group = "com.twelvemonkeys.imageio")
     }
-    modApi("com.terraformersmc:modmenu:${properties["mod_menu_version"]!!}")
-    modApi("com.noxcrew.noxesium:fabric:${properties["noxesium_version"]!!}")
-
-    // Other libraries
-    include("com.github.JnCrMx:discord-game-sdk4j:v1.0.0")
-    implementation("com.github.JnCrMx:discord-game-sdk4j:v1.0.0")
+    modApi(libs.modmenu)
+    modApi(libs.noxesium.fabric)
+    include(libs.discord.game.sdk4j)
+    implementation(libs.discord.game.sdk4j)
 }
 
 java {
