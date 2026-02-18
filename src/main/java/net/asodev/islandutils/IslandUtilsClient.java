@@ -4,7 +4,6 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
 import net.asodev.islandutils.fontloader.FontLoaderManager;
 import net.asodev.islandutils.modules.DisguiseKeybind;
-import net.asodev.islandutils.modules.NoxesiumIntegration;
 import net.asodev.islandutils.modules.music.MusicManager;
 import net.asodev.islandutils.modules.plobby.PlobbyFeatures;
 import net.asodev.islandutils.modules.plobby.PlobbyJoinCodeCopy;

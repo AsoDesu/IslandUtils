@@ -8,6 +8,7 @@ import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.DiscordOptions;
 import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
+import net.asodev.islandutils.util.ChatUtils;
 import net.minecraft.client.resources.language.I18n;
 import org.jetbrains.annotations.Nullable;
 
@@ -122,6 +123,8 @@ public class DiscordPresenceUpdator {
         if (game == Game.HUB) {
             activity.setState("");
         }
+
+        ChatUtils.debug("Discord presence updated to: " + activity.toString());
 
         updateActivity();
     }
