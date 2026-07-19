@@ -31,10 +31,10 @@
     }
   },
   "depends": {
-    "noxesium": ">=3.0",
-    "fabricloader": ">=0.16",
-    "fabric": "*",
-    "minecraft": ">=1.21.11",
+    "noxesium": ">=3.1",
+    "fabricloader": ">=0.19",
+    "fabric-api": "*",
+    "minecraft": ">=26.1",
     "yet_another_config_lib_v3": "*"
   }
 }

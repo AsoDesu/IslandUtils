@@ -1,18 +1,24 @@
 package net.asodev.islandutils.util;
 
+import java.net.URI;
+import java.util.Optional;
+import java.util.regex.Pattern;
+
 import net.asodev.islandutils.IslandUtils;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.util.updater.schema.AvailableUpdate;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.*;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URI;
-import java.util.Optional;
-import java.util.regex.Pattern;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 
 public class ChatUtils {
 
@@ -104,7 +110,7 @@ public class ChatUtils {
     public static void send(Component component) {
         Minecraft.getInstance().execute(() -> {
             try {
-                Minecraft.getInstance().gui.getChat().addMessage(component);
+                Minecraft.getInstance().gui.getChat().addClientSystemMessage(component);
             } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }

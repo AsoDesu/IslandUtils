@@ -1,15 +1,16 @@
 package net.asodev.islandutils.modules.cosmetics;
 
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.client.renderer.entity.state.EntityRenderState;
-import net.minecraft.world.entity.LivingEntity;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.world.entity.LivingEntity;
+
 public class CosmeticUI {
 
-    public static void renderPlayerInInventory(GuiGraphics guiGraphics, int x0, int y0, int x1, int y1, int size, LivingEntity livingEntity) {
+    public static void renderPlayerInInventory(GuiGraphicsExtractor guiGraphics, int x0, int y0, int x1, int y1, int size, LivingEntity livingEntity) {
         float yRot = CosmeticState.yRot;
         float xRot = (float) Math.atan(CosmeticState.xRot / 40.0f);
 
@@ -38,7 +39,7 @@ public class CosmeticUI {
         quaternionf.mul(quaternionf2);
         Vector3f vector3f = new Vector3f(0.0F, livingEntity.getBbHeight() / 2.0F + f * livingEntityScale, 0.0F);
         EntityRenderState renderState = InventoryScreen.extractRenderState(livingEntity);
-        guiGraphics.submitEntityRenderState(renderState, (float) size, vector3f, quaternionf, quaternionf2, x0, y0, x1, y1);
+        guiGraphics.entity(renderState, (float) size, vector3f, quaternionf, quaternionf2, x0, y0, x1, y1);
 
         // restore rotations
         livingEntity.yBodyRot = preYBodyRot;

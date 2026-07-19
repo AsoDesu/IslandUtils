@@ -1,14 +1,16 @@
 package net.asodev.islandutils.util;
 
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
+
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.asodev.islandutils.IslandUtils;
 import net.asodev.islandutils.modules.crafting.state.CraftingNotifier;
 import net.asodev.islandutils.util.debug.GameOverride;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+
 import net.minecraft.network.chat.Component;
 
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
 public class IslandUtilsCommand {
     public static final Component cantUseDebugError =

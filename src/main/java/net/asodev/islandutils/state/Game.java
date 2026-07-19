@@ -1,12 +1,13 @@
 package net.asodev.islandutils.state;
 
-import com.noxcrew.noxesium.core.mcc.ClientboundMccServerPacket;
-import net.minecraft.resources.Identifier;
-
-import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import com.noxcrew.noxesium.core.mcc.ClientboundMccServerPacket;
+import org.jspecify.annotations.Nullable;
+
+import net.minecraft.resources.Identifier;
 
 public enum Game {
 

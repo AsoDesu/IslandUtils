@@ -1,10 +1,14 @@
 package net.asodev.islandutils.modules.scavenging;
 
+import java.util.Collection;
+import java.util.List;
+
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.util.Utils;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -15,9 +19,6 @@ import net.minecraft.world.Container;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-
-import java.util.Collection;
-import java.util.List;
 
 public class Scavenging {
     // the total width of the island menu
@@ -37,7 +38,7 @@ public class Scavenging {
         if (titleComponent == null) return false;
         return screen.getTitle().contains(titleComponent);
     }
-    public static void renderSilverTotal(ScavengingTotalList silverTotal, GuiGraphics guiGraphics) {
+    public static void renderSilverTotal(ScavengingTotalList silverTotal, GuiGraphicsExtractor guiGraphics) {
         Minecraft minecraft = Minecraft.getInstance();
         if (!(minecraft.screen instanceof ContainerScreen screen)) return;
 

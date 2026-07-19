@@ -14,13 +14,15 @@ import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.IslandUtilsCommand;
 import net.asodev.islandutils.util.Utils;
+import org.lwjgl.glfw.GLFW;
+
+import net.minecraft.client.KeyMapping;
+import net.minecraft.resources.Identifier;
+
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.KeyMapping;
-import net.minecraft.resources.Identifier;
-import org.lwjgl.glfw.GLFW;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 
 @Environment(EnvType.CLIENT)
 public class IslandUtilsClient implements ClientModInitializer {
@@ -30,13 +32,13 @@ public class IslandUtilsClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        openPlobbyKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+        openPlobbyKey = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.islandutils.plobbymenu",
                 InputConstants.Type.KEYSYM,
                 GLFW.GLFW_KEY_K,
                 keyCategory
         ));
-        disguiseKeyBind = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+        disguiseKeyBind = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.islandutils.disguise",
                 InputConstants.Type.KEYSYM,
                 GLFW.GLFW_KEY_N,

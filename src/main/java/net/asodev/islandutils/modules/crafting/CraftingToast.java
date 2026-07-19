@@ -1,10 +1,17 @@
 package net.asodev.islandutils.modules.crafting;
 
+import static net.asodev.islandutils.util.Utils.MCC_HUD_FONT;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+
 import net.asodev.islandutils.modules.crafting.state.CraftingItem;
 import net.asodev.islandutils.util.ChatUtils;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.toasts.Toast;
 import net.minecraft.client.gui.components.toasts.ToastManager;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -14,12 +21,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-
-import static net.asodev.islandutils.util.Utils.MCC_HUD_FONT;
 
 public class CraftingToast implements Toast {
     private static final Identifier ISLAND_TOASTS_TEXTURE = Identifier.fromNamespaceAndPath("island", "toasts");
@@ -46,7 +47,7 @@ public class CraftingToast implements Toast {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, Font font, long l) {
+    public void extractRenderState(GuiGraphicsExtractor guiGraphics, Font font, long l) {
         // If mcc:hub font can't render all the symbols in the string
         // use the default font. Used for localization.
         Component description = ChatUtils.checkForHudUnsupportedSymbols(I18n.get("islandutils.message.crafting.toastNotif")) ?
@@ -59,13 +60,13 @@ public class CraftingToast implements Toast {
         List<FormattedCharSequence> sequences = font.split(displayName, 125);
         if (sequences.size() == 1) {
             int y = 7;
-            guiGraphics.drawString(font, description, 30, y, -16777216, false);
+            guiGraphics.text(font, description, 30, y, -16777216, false);
             y += 5 + 4;
-            guiGraphics.drawString(font, displayName, 30, y, -11534256, false);
+            guiGraphics.text(font, displayName, 30, y, -11534256, false);
         } else {
             float fadeDuration = 300.0f;
             if(l < 1500L){
-                guiGraphics.drawString(font, description, 30, 11, 1 | (Mth.floor(Mth.clamp((float) (1500L - l) / fadeDuration, 0.0f, 1.0f) * 255.0f) << 24 | 67108864), false);
+                guiGraphics.text(font, description, 30, 11, 1 | (Mth.floor(Mth.clamp((float) (1500L - l) / fadeDuration, 0.0f, 1.0f) * 255.0f) << 24 | 67108864), false);
             } else {
                 int rows = this.height() / 2;
                 int sequenceSize = sequences.size();
@@ -74,12 +75,12 @@ public class CraftingToast implements Toast {
 
                 for (Iterator<FormattedCharSequence> sequenceIterator = sequences.iterator(); sequenceIterator.hasNext(); row += 9){
                     FormattedCharSequence sequence = sequenceIterator.next();
-                    guiGraphics.drawString(font, sequence, 30, row, 16777215 | (Mth.floor(Mth.clamp((float)(l - 1500L) / fadeDuration, 0.0F, 1.0F) * 252.0F) << 24 | 67108864), false);
+                    guiGraphics.text(font, sequence, 30, row, 16777215 | (Mth.floor(Mth.clamp((float)(l - 1500L) / fadeDuration, 0.0F, 1.0F) * 252.0F) << 24 | 67108864), false);
                     Objects.requireNonNull(font);
                 }
             }
         }
         
-        guiGraphics.renderFakeItem(itemStack, 8, 8);
+        guiGraphics.fakeItem(itemStack, 8, 8);
     }
 }

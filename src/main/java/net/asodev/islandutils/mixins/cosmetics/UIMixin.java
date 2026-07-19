@@ -1,5 +1,7 @@
 package net.asodev.islandutils.mixins.cosmetics;
 
+import static net.asodev.islandutils.modules.cosmetics.CosmeticState.applyColor;
+
 import net.asodev.islandutils.mixins.accessors.WalkAnimStateAccessor;
 import net.asodev.islandutils.modules.cosmetics.CosmeticState;
 import net.asodev.islandutils.modules.cosmetics.CosmeticType;
@@ -7,8 +9,13 @@ import net.asodev.islandutils.modules.cosmetics.CosmeticUI;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.options.categories.CosmeticsOptions;
 import net.asodev.islandutils.util.FontUtils;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -17,12 +24,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import static net.asodev.islandutils.modules.cosmetics.CosmeticState.applyColor;
 
 @Mixin(ContainerScreen.class)
 public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
@@ -30,8 +31,8 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         super(abstractContainerMenu, inventory, component);
     }
 
-    @Inject(method = "render", at = @At("TAIL"))
-    public void render(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
+    @Inject(method = "extractBackground", at = @At("TAIL"))
+    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a, CallbackInfo ci) {
         if (!CosmeticState.shouldShowCosmeticPreview()) return;
 
         CosmeticsOptions options = IslandOptions.getCosmetics();
@@ -92,7 +93,7 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
         int y = (this.height / 2) + size;
 
         CosmeticUI.renderPlayerInInventory(
-                guiGraphics,
+            graphics,
                 x - bounds, // x0
                 (this.height / 2) - bounds, // y0
                 x + bounds, // x1
@@ -113,14 +114,14 @@ public abstract class UIMixin extends AbstractContainerScreen<ChestMenu> {
 
         y += 8;
         int backgroundColor = 0x60000000;
-        guiGraphics.fill(x-(size / 2) - 2, y, x+(size / 2)+2, y + 19, backgroundColor);
-        guiGraphics.drawString(this.font, FontUtils.TOOLTIP_HAT, x-(size / 2) + 4, y + 6, 16777215 | 255 << 24);
-        guiGraphics.renderItem(this.minecraft.player, hatSlot, itemPos, y+2, x + y * this.imageWidth);
+        graphics.fill(x-(size / 2) - 2, y, x+(size / 2)+2, y + 19, backgroundColor);
+        graphics.text(this.font, FontUtils.TOOLTIP_HAT, x-(size / 2) + 4, y + 6, 16777215 | 255 << 24);
+        graphics.item(this.minecraft.player, hatSlot, itemPos, y+2, x + y * this.imageWidth);
 
         y += 19 + 4;
-        guiGraphics.fill(x-(size / 2) - 2, y, x+(size / 2)+2, y + 19, backgroundColor);
-        guiGraphics.drawString(this.font, FontUtils.TOOLTIP_ACCESSORY, x-(size / 2) + 4, y + 6, 16777215 | 255 << 24);
-        guiGraphics.renderItem(this.minecraft.player, accSlot, itemPos, y+2, x + y * this.imageWidth);
+        graphics.fill(x-(size / 2) - 2, y, x+(size / 2)+2, y + 19, backgroundColor);
+        graphics.text(this.font, FontUtils.TOOLTIP_ACCESSORY, x-(size / 2) + 4, y + 6, 16777215 | 255 << 24);
+        graphics.item(this.minecraft.player, accSlot, itemPos, y+2, x + y * this.imageWidth);
     }
 
     private void checkInspect() {

@@ -2,8 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "net.asodev.islandutils.mixins",
-  "compatibilityLevel": "JAVA_17",
-  "refmap": "islandutils.refmap.json",
+  "compatibilityLevel": "JAVA_25",
   "mixins": [
     "ItemIDMixin",
     "accessors.WalkAnimStateAccessor",
