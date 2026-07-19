@@ -1,11 +1,11 @@
 plugins {
-    id("fabric-loom") version "1.14-SNAPSHOT"
+    id("net.fabricmc.fabric-loom") version "1.17-SNAPSHOT"
     id("maven-publish")
 }
 
 version = "${properties["mod_version"]!!}${extraVersion()}"
 group = properties["maven_group"]!!
-val targetJavaVersion = 21
+val targetJavaVersion = 25
 
 repositories {
     mavenCentral()
@@ -33,26 +33,25 @@ repositories {
 dependencies {
     // Minecraft
     minecraft("com.mojang:minecraft:${properties["minecraft_version"]!!}")
-    mappings(loom.officialMojangMappings())
 
     // Fabric
-    modImplementation("net.fabricmc:fabric-loader:${properties["loader_version"]!!}")
-    modImplementation(libs.fabric.api)
+    implementation("net.fabricmc:fabric-loader:${properties["loader_version"]!!}")
+    implementation(libs.fabric.api)
 
     // Libraries
-    modApi(libs.yacl) {
+    api(libs.yacl) {
         exclude(group = "com.twelvemonkeys.common")
         exclude(group = "com.twelvemonkeys.imageio")
     }
-    modApi(libs.modmenu)
-    modApi(libs.noxesium.fabric)
+    api(libs.modmenu)
+    api(libs.noxesium.fabric)
     include(libs.discord.game.sdk4j)
     implementation(libs.discord.game.sdk4j)
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 }
 
 tasks.jar {
@@ -72,10 +71,6 @@ tasks.processResources {
 
 loom {
     accessWidenerPath.set(file("src/main/resources/islandutils.accesswidener"))
-
-    mixin {
-        defaultRefmapName.set("islandutils.refmap.json")
-    }
 }
 
 fun extraVersion(): String {

@@ -1,15 +1,16 @@
 package net.asodev.islandutils.modules.scavenging;
 
-import net.asodev.islandutils.util.FontUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.ContainerScreen;
-import net.minecraft.network.chat.Component;
-
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.asodev.islandutils.util.FontUtils;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.inventory.ContainerScreen;
+import net.minecraft.network.chat.Component;
 
 public class ScavengingItemHandler {
     private static final int MENU_WIDTH = 176;
@@ -31,7 +32,7 @@ public class ScavengingItemHandler {
         this.name = item;
     }
 
-    public int renderTotal(GuiGraphics guiGraphics, Long total, int x) {
+    public int renderTotal(GuiGraphicsExtractor guiGraphics, Long total, int x) {
         Minecraft minecraft = Minecraft.getInstance();
         Font font = minecraft.font;
         if (!(minecraft.screen instanceof ContainerScreen screen)) return 0;
@@ -49,7 +50,7 @@ public class ScavengingItemHandler {
         // 20 = y pos from top of footer to top of button
         // 5 = bottom padding
         int y = topPos + 152 + 20 - 5;
-        guiGraphics.drawString(font, silverComponent, x, y, 16777215, false);
+        guiGraphics.text(font, silverComponent, x, y, -1, false);
 
         return width;
     }

@@ -1,12 +1,13 @@
 package net.asodev.islandutils.state;
 
+import java.util.List;
+
 import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.util.ChatUtils;
+import org.jspecify.annotations.Nullable;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class MccIslandState {
 

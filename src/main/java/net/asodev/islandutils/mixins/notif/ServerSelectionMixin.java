@@ -1,14 +1,10 @@
 package net.asodev.islandutils.mixins.notif;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import net.asodev.islandutils.state.MccIslandNotifs;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.multiplayer.ServerSelectionList.OnlineServerEntry;
-import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.resources.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -17,9 +13,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.multiplayer.ServerSelectionList.OnlineServerEntry;
+import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.resources.Identifier;
 
 @Mixin(OnlineServerEntry.class)
 public class ServerSelectionMixin {
@@ -33,14 +34,14 @@ public class ServerSelectionMixin {
     private static final Component NOTIF_TITLE = Component.translatable("islandutils.message.core.notifTitle").withStyle(Style.EMPTY.withUnderlined(true));
 
     @Inject(
-            method = "renderContent",
+            method = "extractContent",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/screens/multiplayer/ServerSelectionList$OnlineServerEntry;drawIcon(Lnet/minecraft/client/gui/GuiGraphics;IILnet/minecraft/resources/Identifier;)V",
+                    target = "Lnet/minecraft/client/gui/screens/multiplayer/ServerSelectionList$OnlineServerEntry;extractIcon(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IILnet/minecraft/resources/Identifier;)V",
                     shift = At.Shift.AFTER
             )
     )
-    private void render(GuiGraphics guiGraphics, int i, int j, boolean bl, float f, CallbackInfo ci) {
+    private void render(GuiGraphicsExtractor guiGraphics, int i, int j, boolean bl, float f, CallbackInfo ci) {
         if (!this.serverData.ip.toLowerCase().contains("mccisland.net")) return;
         List<Component> notifs = MccIslandNotifs.getNotifLines();
         if (notifs.isEmpty()) return;

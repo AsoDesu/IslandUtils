@@ -1,8 +1,8 @@
 [versions]
-fabric-api = "0.140.2+1.21.11"
-yacl = "3.8.1+1.21.11-fabric"
-modmenu = "17.0.0-beta.1"
-noxesium = "3.0.0"
+fabric-api = "0.155.2+26.1.2"
+yacl = "3.9.5+26.1-fabric"
+modmenu = "18.0.0"
+noxesium = "3.1.1"
 discord-game-sdk4j = "v1.0.0"
 
 [libraries]

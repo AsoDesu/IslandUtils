@@ -1,5 +1,9 @@
 package net.asodev.islandutils.mixins.network;
 
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.mojang.brigadier.CommandDispatcher;
 import net.asodev.islandutils.IslandUtilsEvents;
 import net.asodev.islandutils.discord.DiscordPresenceUpdator;
@@ -14,6 +18,13 @@ import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.IslandSoundEvents;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientCommonPacketListenerImpl;
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -22,20 +33,16 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.*;
+import net.minecraft.network.protocol.game.ClientboundBossEventPacket;
+import net.minecraft.network.protocol.game.ClientboundContainerSetContentPacket;
+import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
+import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
+import net.minecraft.network.protocol.game.ClientboundSoundPacket;
+import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
+import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Mixin(ClientPacketListener.class)
 public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl {
@@ -168,7 +175,7 @@ public abstract class PacketListenerMixin extends ClientCommonPacketListenerImpl
             ci.cancel();
             this.minecraft.execute(()->{
                 try {
-                    this.minecraft.gui.getChat().addMessage(replacement);
+                    this.minecraft.gui.getChat().addServerSystemMessage(replacement);
                 } catch (IndexOutOfBoundsException exception) {
                     exception.printStackTrace();
                 }

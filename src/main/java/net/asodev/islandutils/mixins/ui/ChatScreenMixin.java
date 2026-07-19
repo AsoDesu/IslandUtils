@@ -1,15 +1,13 @@
 package net.asodev.islandutils.mixins.ui;
 
+import static net.asodev.islandutils.state.MccIslandState.isOnline;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import net.asodev.islandutils.modules.ChatChannelButton;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.util.PlainTextButtonNoShadow;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.CommandSuggestions;
-import net.minecraft.client.gui.screens.ChatScreen;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -18,10 +16,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static net.asodev.islandutils.state.MccIslandState.isOnline;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.CommandSuggestions;
+import net.minecraft.client.gui.screens.ChatScreen;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.network.chat.Component;
 
 @Mixin(ChatScreen.class)
 public abstract class ChatScreenMixin extends Screen {
@@ -67,11 +68,11 @@ public abstract class ChatScreenMixin extends Screen {
         }
     }
 
-    @Inject(method = "render", at = @At("TAIL"))
-    private void render(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
+    @Inject(method = "extractRenderState", at = @At("TAIL"))
+    private void render(GuiGraphicsExtractor guiGraphics, int i, int j, float f, CallbackInfo ci) {
         CommandSuggestionsAccessor suggestionsAccessor = ((CommandSuggestionsAccessor) commandSuggestions);
         if (suggestionsAccessor.suggestions() == null && suggestionsAccessor.commandUsage().isEmpty()) {
-            buttons.forEach(btn -> btn.render(guiGraphics, i, j, f));
+            buttons.forEach(btn -> btn.extractRenderState(guiGraphics, i, j, f));
         }
     }
 

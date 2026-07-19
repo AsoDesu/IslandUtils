@@ -1,13 +1,14 @@
 package net.asodev.islandutils.util.debug;
 
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.argument;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
+
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.asodev.islandutils.state.Game;
 import net.asodev.islandutils.state.MccIslandState;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
 public class GameOverride {
 

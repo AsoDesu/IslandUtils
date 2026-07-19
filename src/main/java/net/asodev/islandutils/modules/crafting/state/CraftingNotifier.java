@@ -1,5 +1,12 @@
 package net.asodev.islandutils.modules.crafting.state;
 
+import static net.asodev.islandutils.util.IslandUtilsCommand.cantUseDebugError;
+import static net.asodev.islandutils.util.Utils.MCC_HUD_FONT;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.argument;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
+
+import java.util.List;
+
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -10,8 +17,8 @@ import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.ChatUtils;
 import net.asodev.islandutils.util.IslandSoundEvents;
 import net.asodev.islandutils.util.Scheduler;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import org.apache.commons.lang3.time.DurationFormatUtils;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.LoadingOverlay;
@@ -21,14 +28,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import org.apache.commons.lang3.time.DurationFormatUtils;
 
-import java.util.List;
-
-import static net.asodev.islandutils.util.IslandUtilsCommand.cantUseDebugError;
-import static net.asodev.islandutils.util.Utils.MCC_HUD_FONT;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 public class CraftingNotifier implements ClientTickEvents.EndTick {
     private int tick = 0;

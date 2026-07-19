@@ -1,5 +1,9 @@
 package net.asodev.islandutils.mixins.cosmetics;
 
+import static net.asodev.islandutils.util.Utils.getCustomItemID;
+
+import java.util.Objects;
+
 import com.mojang.blaze3d.platform.InputConstants;
 import net.asodev.islandutils.modules.cosmetics.Cosmetic;
 import net.asodev.islandutils.modules.cosmetics.CosmeticSlot;
@@ -8,9 +12,17 @@ import net.asodev.islandutils.modules.cosmetics.CosmeticType;
 import net.asodev.islandutils.options.IslandOptions;
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.IslandSoundEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.KeyEvent;
@@ -23,22 +35,12 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Objects;
-
-import static net.asodev.islandutils.util.Utils.getCustomItemID;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 
 
 @Mixin(AbstractContainerScreen.class)
@@ -60,8 +62,8 @@ public abstract class ChestScreenMixin extends Screen {
         CosmeticState.accessorySlot.setOriginal(new CosmeticSlot(player.getInventory().getItem(40)));
     }
 
-    @Inject(method = "renderSlot", at = @At("TAIL"))
-    private void renderSlot(GuiGraphics guiGraphics, Slot slot, int i, int j, CallbackInfo ci) {
+    @Inject(method = "extractSlot", at = @At("TAIL"))
+    private void renderSlot(GuiGraphicsExtractor guiGraphics, Slot slot, int i, int j, CallbackInfo ci) {
         if (!CosmeticState.shouldShowCosmeticPreview()) return;
         if (!slot.hasItem()) return;
 
@@ -76,8 +78,8 @@ public abstract class ChestScreenMixin extends Screen {
         }
     }
 
-    @Inject(method = "render", at = @At("TAIL"))
-    private void render(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
+    @Inject(method = "extractRenderState", at = @At("TAIL"))
+    private void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a, CallbackInfo ci) {
         if (hoveredSlot != null && hoveredSlot.hasItem()) {
             ItemStack hoveredItem = hoveredSlot.getItem();
             if (IslandOptions.getCosmetics().isShowOnHover()) {
@@ -130,7 +132,7 @@ public abstract class ChestScreenMixin extends Screen {
     }
 
     @Inject(method = "slotClicked", at = @At("HEAD"))
-    private void slotClicked(Slot slot, int i, int j, ClickType clickType, CallbackInfo ci) {
+    private void slotClicked(Slot slot, int slotId, int buttonNum, ContainerInput containerInput, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
         if (!MccIslandState.getGame().isHubGame()) return;
 
@@ -150,7 +152,7 @@ public abstract class ChestScreenMixin extends Screen {
     private void triggerPreviewClicked(int keyCode) {
         if (!CosmeticState.shouldShowCosmeticPreview()) return;
         if (hoveredSlot == null || !hoveredSlot.hasItem()) return;
-        InputConstants.Key previewBind = KeyBindingHelper.getBoundKeyOf(minecraft.options.keyPickItem);
+        InputConstants.Key previewBind = KeyMappingHelper.getBoundKeyOf(minecraft.options.keyPickItem);
         if (keyCode == previewBind.getValue()) {
             ItemStack item = hoveredSlot.getItem();
             if (item.is(Items.GHAST_TEAR) || item.is(Items.AIR)) return;

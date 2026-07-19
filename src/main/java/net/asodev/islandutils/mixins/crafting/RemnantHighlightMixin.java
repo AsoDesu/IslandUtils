@@ -1,25 +1,26 @@
 package net.asodev.islandutils.mixins.crafting;
 
+import java.util.List;
+
 import net.asodev.islandutils.state.MccIslandState;
 import net.asodev.islandutils.util.Utils;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.network.chat.Component;
-import net.minecraft.util.ARGB;
-import net.minecraft.world.inventory.Slot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.List;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.ARGB;
+import net.minecraft.world.inventory.Slot;
 
 @Mixin(AbstractContainerScreen.class)
 public class RemnantHighlightMixin {
 
-    @Inject(method = "renderSlot", at = @At("HEAD"))
-    private void renderSlot(GuiGraphics guiGraphics, Slot slot, int i, int j, CallbackInfo ci) {
+    @Inject(method = "extractSlot", at = @At("HEAD"))
+    private void renderSlot(GuiGraphicsExtractor guiGraphics, Slot slot, int i, int j, CallbackInfo ci) {
         if (!MccIslandState.isOnline()) return;
         if (!slot.hasItem()) return;
 
